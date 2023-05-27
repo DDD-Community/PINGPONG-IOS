@@ -7,23 +7,23 @@ About DDD 9기 IOS 3팀 IOS
 ### 1️⃣ Git branching Strategy
 
 - Origin(main branch)
-    - Origin(dev branch)
-        - Local(feature branch)
+- Origin(dev branch)
+- Local(feature branch)
 
 - Branch
-    - Main
-    - Dev
-    - Feature
-    - Fix
+- Main
+- Dev
+- Feature
+- Fix
 
 - 방법
-    - 1. Pull the **Dev** branch of the Origin
-    - 2. Make a **Feature** branch in the Local area
-    - 3. Developed by **Feature** branch
-    - 4. Push the **Feature** from Local to Origin
-    - 5. Send a pull request from the origin's **Feature** to the Origin's **Dev**
-    - 6. In Origin **Dev**, resolve conflict and merge
-    - 7. Fetch and rebase Origin **Dev** from Local **Dev**
+- 1. Pull the **Dev** branch of the Origin
+- 2. Make a **Feature** branch in the Local area
+- 3. Developed by **Feature** branch
+- 4. Push the **Feature** from Local to Origin
+- 5. Send a pull request from the origin's **Feature** to the Origin's **Dev**
+- 6. In Origin **Dev**, resolve conflict and merge
+- 7. Fetch and rebase Origin **Dev** from Local **Dev**
 
 
 
@@ -66,5 +66,4 @@ Commit 메세지 </br>
 - `main` 브랜 치는 앱 출시 
 - `Dev`는 테스트 및 각종 파일 merge
 - 각 스텝 뱔로 브런치 생성해서 관리 
-
 
