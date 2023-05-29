@@ -1,6 +1,11 @@
 # PINGPONG-IOS
 About DDD 9기 IOS 3팀 IOS
 
+## 🏓 Players
+| <a href="https://github.com/Hyesooo"><img height="130px" width="130px" src="https://github.com/DDD-Community/PINGPONG-IOS/assets/87685946/bc02ac38-c9fe-4122-bed8-e1fbfb588567"/></a>|<a href=""><img height="130px" width="130px" src="https://github.com/DDD-Community/PINGPONG-IOS/assets/87685946/41bc501c-a144-4886-95c8-2d9fcc5815f2"/></a>|<a href=""><img height="130px" width="130px" src="https://github.com/DDD-Community/PINGPONG-IOS/assets/87685946/f0bf90cf-5464-45db-9362-ec3f2fa3411b"/></a>|<a href="https://github.com/Byeonjinha"><img height="130" width="130px" src="https://github.com/DDD-Community/PINGPONG-IOS/assets/87685946/8874c20c-06d4-4ea2-b069-29a32bbd8e4b"/></a>|<a href="https://github.com/Roy-wonj"><img height="130" width="130px" src="https://github.com/DDD-Community/PINGPONG-IOS/assets/87685946/07d3fa91-c702-4204-b0e9-00b554870675"/></a>|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/Hyesooo">김혜수</a>|<a href="">남윤지</a>|<a href="">박주미</a>|<a href="https://github.com/Byeonjinha">변진하</a>|<a href="https://github.com/Roy-wonji">서원지</a>|
+
 
 ## 🐈‍⬛ Git
 
