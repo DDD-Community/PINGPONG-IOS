@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>CHAEVI</string>
+	<string>PingPong</string>
 	<key>Localizationnativedevelopmentregion</key>
 	<string>Korea</string>
 	<key>UISupportedInterfaceOrientations~iphone</key>
@@ -23,22 +23,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>충전기에 부착되어 있는 QRCode 스캔을 위해서만 사용됩니다.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>차량 이미지를 선택을 하기위해서만 사용됩니다</string>
 	<key>UIAppFonts</key>
-	<array>
-		<string>Pretendard-Black.ttf</string>
-		<string>Pretendard-Bold.ttf</string>
-		<string>Pretendard-ExtraBold.ttf</string>
-		<string>Pretendard-ExtraLight.ttf</string>
-		<string>Pretendard-Light.ttf</string>
-		<string>Pretendard-Medium.ttf</string>
-		<string>Pretendard-Regular.ttf</string>
-		<string>Pretendard-SemiBold.ttf</string>
-		<string>Pretendard-Thin.ttf</string>
-	</array>
+	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundlePackageType</key>
