@@ -1,6 +1,23 @@
 # PINGPONG-IOS
 About DDD 9기 IOS 3팀 IOS
 
+
+
+## Tuist Usage
+1. Install tuist
+ 
+```swift
+curl -Ls https://install.tuist.io | bash 
+```
+2. Generate project
+
+```swift
+tuist clean // optional
+tuist fetch // optional
+tuist generate
+```
+
+
 ## 🌟 Team
 |Developer|Designer|Designer|Developer|Developer|
 |:---:|:---:|:---:|:---:|:---:|
