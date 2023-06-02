@@ -38,6 +38,21 @@ Pods/
 
 ## User settings
 xcuserdata/
+.DS_Store/
+
+
+*.env
+*.cer
+*.swp
+*.json
+*.p12
+*.certSigningRequest
+*.DS_Store
+*.pbxproj
+*.resolved
+*.DS_Store/
+
+
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
@@ -100,11 +115,6 @@ iOSInjectionProject/
 ### Swift ###
 # Xcode
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-
-
-
-
-
 
 ## Playgrounds
 timeline.xctimeline
