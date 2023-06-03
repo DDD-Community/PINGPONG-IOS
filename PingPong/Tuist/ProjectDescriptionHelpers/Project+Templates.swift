@@ -1,7 +1,7 @@
 import ProjectDescription
 
 
-let bundleID = "com.pingpong"
+let bundleID = "com.pingpong.co"
 let buildVersion = "1.0.0"
 let buildNumbers = "10"
 

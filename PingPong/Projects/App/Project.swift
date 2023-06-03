@@ -26,6 +26,11 @@ let project = Project.makeModule(
     setting: .settings(base: ["PRODUCT_NAME": "PingPong",
                               "CFBundleDisplayName" : "PingPong",
                               "MARKETING_VERSION": .string(version),
+                              "AS_AUTHENTICATION_SERVICES_ENABLED": "YES",
+                              "PUSH_NOTIFICATIONS_ENABLED":"YES",
+                              "ENABLE_BACKGROUND_MODES" : "YES",
+                              "BACKGROUND_MODES" : "remote-notification",
+                              "ASSOCIATED_DOMAINS": "applinks:PingPong.page.link",
                               "CURRENT_PROJECT_VERSION": .string(buildNumber),
                               "CODE_SIGN_STYLE": "Automatic",
                               "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File", "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""] ,configurations: [
