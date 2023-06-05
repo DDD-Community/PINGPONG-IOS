@@ -32,6 +32,7 @@ let project = Project.makeModule(
                               "BACKGROUND_MODES" : "remote-notification",
                               "ASSOCIATED_DOMAINS": "applinks:PingPong.page.link",
                               "CURRENT_PROJECT_VERSION": .string(buildNumber),
+                              "CODE_SIGN_IDENTITY": "iPhone Developer",
                               "CODE_SIGN_STYLE": "Automatic",
                               "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File", "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""] ,configurations: [
                                 .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong"]),
