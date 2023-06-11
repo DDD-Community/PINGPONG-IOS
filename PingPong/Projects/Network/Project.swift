@@ -12,14 +12,7 @@ import ProjectDescriptionHelpers
 let project = Project.makeModule(
     name: "Network",
     product: .staticFramework,
-    setting:  .settings(base: ["PRODUCT_NAME": "PingPong",
-                               "MARKETING_VERSION": "1.0",
-                               "CURRENT_PROJECT_VERSION": "1",
-                               "CODE_SIGN_STYLE": "Automatic",
-                               "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"] ,configurations: [
-                                .debug(name: .debug),
-                                .release(name: .release)
-                               ],defaultSettings: .recommended),
+    setting:  .appBaseSetting,
     dependencies: [
         .SPM.Moya,
         .SPM.CombineMoya,

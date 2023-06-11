@@ -1,4 +1,5 @@
 import ProjectDescription
+import Foundation
 
 
 let bundleID = "com.pingpong.co"
@@ -111,3 +112,14 @@ extension Scheme {
 }
 
 
+extension String {
+  public static func appVersion() -> String {
+      let version: String = "1.0.0"
+      return version
+  }
+
+  public static func appBuildVersion() -> String {
+      let buildVersion: String = "10"
+      return buildVersion
+  }
+}
