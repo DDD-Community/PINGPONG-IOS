@@ -1,8 +1,8 @@
 import SwiftUI
-import ChaeviTuistUI
+import PingPongsUI
 
 @main
-struct ChaeviTuistApp: App {
+struct PingPongsApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -1,8 +1,8 @@
 //
 //  Workspace.swift
-//  ProjectDescriptionHelpers
+//  Config
 //
-//  Created by 서원지 on 2023/05/2.
+//  Created by 서원지 on 2023/06/11.
 //
 
 import ProjectDescription
@@ -11,5 +11,6 @@ import ProjectDescription
 
 let workspace = Workspace(
 name: "PingPong", projects: [
-    "Projects/App"
+    "Projects/**"
 ])
+

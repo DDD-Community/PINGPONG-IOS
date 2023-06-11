@@ -73,11 +73,7 @@ public extension Project {
             dependencies: [.target(name: name)]
         )
         
-        let realseScheme = Scheme.makeScheme(target: .release, name: "\(name) - Release")
         
-        let debugScheme = Scheme.makeScheme(target: .debug, name: "\(name) - Dev")
-        
-        let schemes: [Scheme] = [realseScheme, debugScheme ]
         
         let targets: [Target] = [appTarget, appDevTarget,testTarget]
         
@@ -87,7 +83,7 @@ public extension Project {
             packages: packages,
             settings: setting,
             targets: targets,
-            schemes: schemes
+            schemes: scheme
         )
     }
     
@@ -113,4 +109,5 @@ extension Scheme {
     }
     
 }
+
 

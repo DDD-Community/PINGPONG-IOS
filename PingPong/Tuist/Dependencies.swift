@@ -1,8 +1,8 @@
 //
 //  Dependencies.swift
-//  MyPlugin
+//  Config
 //
-//  Created by 서원지 on 2023/05/22.
+//  Created by 서원지 on 2023/06/11.
 //
 
 import ProjectDescription
@@ -17,3 +17,4 @@ let dependencie = Dependencies(
     ],
     platforms: [.iOS]
 )
+

@@ -1,20 +1,20 @@
 //
 //  Project+Settings.swift
-//  ProjectDescriptionHelpers
+//  Config
 //
-//  Created by 서원지 on 2023/05/22.
+//  Created by 서원지 on 2023/06/11.
 //
 
 import Foundation
 import ProjectDescription
-let version = "1.0.0"
+let buildVersions = "1.0.0"
 let buildNumber = "10"
 
 
-extension Settings {
-    static func appBaseSetting() -> Settings {
-        return settings(base: ["PRODUCT_NAME": "PingPong",
-                               "MARKETING_VERSION": .string(version),
+public extension Settings {
+    static public func appBaseSetting(name: String) -> Settings {
+        return settings(base: ["PRODUCT_NAME": "\(name)",
+                               "MARKETING_VERSION": .string(buildVersions),
                                "CURRENT_PROJECT_VERSION": .string(buildNumber),
                                "CODE_SIGN_STYLE": "Automatic",
                                "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],
@@ -24,5 +24,4 @@ extension Settings {
                         defaultSettings: .recommended)
     }
 }
-
 
