@@ -6,9 +6,11 @@
 //
 
 import ProjectDescription
-import ProjectDescriptionHelpers
+import MyPlugin
 
 
+
+let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
     name: "HomeApp",
     platform: .iOS,
@@ -16,7 +18,6 @@ let project = Project.makeModule(
     //MARK: - 풀 빌드 할때는 프레임 워크로 변경
 //    product: .staticFramework,
     packages: [ // packages를 추가하여 Amplify 라이브러리 추가
-        
               ],
     
     
@@ -26,8 +27,8 @@ let project = Project.makeModule(
         .SPM.CombineMoya,
         .SPM.Kingfisher,
         .SPM.PopupView,
-        .Projcet.Network,
-        .Projcet.Component
+
+        
         
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],

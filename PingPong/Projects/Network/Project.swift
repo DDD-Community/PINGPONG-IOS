@@ -6,9 +6,11 @@
 //
 
 import ProjectDescription
-import ProjectDescriptionHelpers
+import MyPlugin
 
 
+
+let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
     name: "Network",
     product: .staticFramework,
