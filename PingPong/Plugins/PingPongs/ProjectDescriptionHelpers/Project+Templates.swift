@@ -3,8 +3,6 @@ import Foundation
 
 
 let bundleID = "com.pingpong.co"
-let buildVersion = "1.0.0"
-let buildNumbers = "10"
 
 
 public extension Project {
@@ -24,12 +22,6 @@ public extension Project {
         scheme : [Scheme] = [ ]
         
     ) -> Project {
-        let settings: Settings = .settings(
-            base: projectSetting,
-            configurations: [
-                .debug(name: .debug),
-                .release(name: .release)
-            ], defaultSettings: .recommended)
         
         let appTarget = Target(
             name: name,
