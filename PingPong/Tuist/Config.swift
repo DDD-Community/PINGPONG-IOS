@@ -2,7 +2,6 @@ import ProjectDescription
 
 let config = Config(
     plugins: [
-        
-//        .local(path: .relativeToManifest("../../Plugins/Affinity")),
+        .local(path: .relativeToManifest("../../Plugins/PingPongs")),
     ]
 )

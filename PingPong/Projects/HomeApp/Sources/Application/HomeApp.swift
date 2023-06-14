@@ -1,5 +1,5 @@
 //
-//  PingPongProjectApp.swift
+//  HomeApp.swift
 //  PingPongProject
 //
 //  Created by Byeon jinha on 2023/06/01.
@@ -7,10 +7,10 @@
 import SwiftUI
 
 @main
-struct PingPongProjectApp: App {
+struct HomeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
     }
 }

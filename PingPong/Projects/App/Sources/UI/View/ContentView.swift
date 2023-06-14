@@ -10,12 +10,15 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            ZStack {
+                ForEach(1...10, id: \.self) { item in
+                    CardView()
+                }
+            }
+            
+            
         }
-        .padding()
+        
     }
 }
 
