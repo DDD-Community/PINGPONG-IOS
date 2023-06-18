@@ -17,6 +17,7 @@ public extension TargetDependency.SPM {
     static let CombineMoya = TargetDependency.external(name: "CombineMoya")
     static let PopupView = TargetDependency.external(name: "PopupView")
     static let Kingfisher = TargetDependency.external(name: "Kingfisher")
+    static let ACarousel = TargetDependency.external(name: "ACarousel")
     //MARK: - preview 관련
     
 

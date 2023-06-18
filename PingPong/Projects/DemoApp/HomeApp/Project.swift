@@ -27,6 +27,16 @@ let project = Project.makeModule(
         .SPM.CombineMoya,
         .SPM.Kingfisher,
         .SPM.PopupView,
+        .SPM.ACarousel,
+        .SPM.Inject,
+        .Projcet.Home,
+        .Projcet.Authentication,
+        .Projcet.Network
+            
+            
+            
+            
+            
 
         
         
