@@ -13,6 +13,7 @@ import MyPlugin
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
     name: "Network",
+    bundleId: .appBundleID(name: "Network"),
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [

@@ -2,12 +2,12 @@ import ProjectDescription
 import Foundation
 
 
-let bundleID = "com.pingpong.co"
 
 
 public extension Project {
     public static func makeModule(
         name: String,
+        bundleId: String,
         platform: Platform = .iOS,
         product: Product,
         organizationName: String = "Wonji Suh",
@@ -27,7 +27,7 @@ public extension Project {
             name: name,
             platform: platform,
             product: product,
-            bundleId: "\(bundleID)",
+            bundleId: bundleId,
             deploymentTarget: deploymentTarget,
             infoPlist: infoPlist,
             sources: sources,
@@ -43,7 +43,7 @@ public extension Project {
             name: "\(name)-Dev",
             platform: platform,
             product: product,
-            bundleId: "\(bundleID)Dev",
+            bundleId: "\(bundleId)Dev",
             deploymentTarget: deploymentTarget,
             infoPlist: infoPlist,
             sources: sources,
@@ -59,7 +59,7 @@ public extension Project {
             name: "\(name)Tests",
             platform: platform,
             product: .unitTests,
-            bundleId: "\(bundleID).\(name)Tests",
+            bundleId: "\(bundleId).\(name)Tests",
             deploymentTarget: deploymentTarget,
             infoPlist: .default,
             sources: ["\(name)Tests/Sources/**"],
@@ -114,4 +114,14 @@ extension String {
       let buildVersion: String = "10"
       return buildVersion
   }
+    
+    public static func mainBundleID() -> String {
+        let bundleID = "com.pingpong.co"
+        return bundleID
+    }
+    
+    public static func appBundleID(name: String) -> String {
+        let bundleID = "com.pingpong.co."
+        return bundleID+name
+    }
 }

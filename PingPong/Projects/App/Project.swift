@@ -14,6 +14,7 @@ import MyPlugin
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
     name: "PingPong",
+    bundleId: .mainBundleID(),
     platform: .iOS,
     product: .app,
     packages: [ // packages를 추가하여 Amplify 라이브러리 추가
@@ -27,9 +28,14 @@ let project = Project.makeModule(
         .SPM.CombineMoya,
         .SPM.Kingfisher,
         .SPM.PopupView,
+        .SPM.ACarousel,
         .Projcet.Network,
         .Projcet.Component,
-//        .Projcet.HomeApp
+        .SPM.Inject,
+        .Projcet.Home,
+        .Projcet.Authentication,
+        .Projcet.Profile,
+        .Projcet.Search
 
         
     ],

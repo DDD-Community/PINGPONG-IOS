@@ -13,6 +13,7 @@ import MyPlugin
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
     name: "HomeApp",
+    bundleId: .appBundleID(name: "Home"),
     platform: .iOS,
     product: .app,
     //MARK: - 풀 빌드 할때는 프레임 워크로 변경
@@ -33,13 +34,6 @@ let project = Project.makeModule(
         .Projcet.Authentication,
         .Projcet.Network
             
-            
-            
-            
-            
-
-        
-        
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],
     resources: ["Resources/**", "Sources/**"],

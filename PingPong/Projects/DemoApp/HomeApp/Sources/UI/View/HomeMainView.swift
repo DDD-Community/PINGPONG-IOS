@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  HomeMainView.swift
 //  PingPongProject
 //
 //  Created by Byeon jinha on 2023/06/01.
@@ -9,7 +9,7 @@ import SwiftUI
 import Inject
 
 
-public struct HomeView: View {
+public struct HomeMainView: View {
     @ObservedObject private var i0 = Inject.observer
     
     public init() {
@@ -32,8 +32,8 @@ public struct HomeView: View {
     }
 }
 
-public struct HomeView_Previews: PreviewProvider {
+public struct HomeMainView_Previews: PreviewProvider {
     public static var previews: some View {
-        HomeView()
+        HomeMainView()
     }
 }

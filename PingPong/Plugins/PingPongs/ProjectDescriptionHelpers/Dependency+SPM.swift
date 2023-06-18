@@ -18,6 +18,8 @@ public extension TargetDependency.SPM {
     static let PopupView = TargetDependency.external(name: "PopupView")
     static let Kingfisher = TargetDependency.external(name: "Kingfisher")
     static let ACarousel = TargetDependency.external(name: "ACarousel")
+    static let Inject = TargetDependency.external(name: "Inject")
+    static let ComposableArchitecture = TargetDependency.external(name: "ComposableArchitecture")
     //MARK: - preview 관련
     
 
