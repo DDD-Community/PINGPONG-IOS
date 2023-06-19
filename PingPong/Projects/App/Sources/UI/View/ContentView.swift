@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var selectedTab: Tab = .home
-    @StateObject var vm = MainTabViewModel()
+    @StateObject var viewModel = MainTabViewModel()
     var body: some View {
         VStack {
                Spacer()
@@ -29,7 +29,7 @@ struct ContentView: View {
     }
     @ViewBuilder
        private func findView(for tab: Tab) -> some View {
-           if let customTab = vm.customTabs.first(where: { $0.tab == tab }) {
+           if let customTab = viewModel.customTabs.first(where: { $0.tab == tab }) {
                customTab.view
            } else {
                EmptyView()
