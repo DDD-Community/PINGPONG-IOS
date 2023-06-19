@@ -8,14 +8,25 @@
 
 import SwiftUI
 
-struct MainTabViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+class MainTabViewModel: ObservableObject {
+    @Published var customTabs: [CustomTab] = [
+        CustomTab(name: "홈", image: "house.fill", tab: .home, view: AnyView(CardView())),
+        CustomTab(name: "탐색", image: "safari.fill", tab: .safari, view: AnyView(SafariView())),
+        CustomTab(name: "보관", image: "archivebox.fill", tab: .archivebox, view: AnyView(CardView())),
+        CustomTab(name: "설정", image: "person.fill", tab: .person, view: AnyView(CardView()))
+        ]
 }
 
-struct MainTabViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTabViewModel()
-    }
+enum Tab {
+    case home
+    case safari
+    case archivebox
+    case person
+}
+
+struct CustomTab {
+    var name: String
+    var image: String
+    var tab: Tab
+    var view: AnyView
 }

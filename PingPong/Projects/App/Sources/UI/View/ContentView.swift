@@ -8,18 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var selectedTab: Tab = .home
+    @StateObject var vm = MainTabViewModel()
     var body: some View {
         VStack {
-            ZStack {
-                ForEach(1...10, id: \.self) { item in
-                    CardView()
-                }
-            }
-            
-            
-        }
-        
+               Spacer()
+               switch selectedTab {
+               case .home:
+                   findView(for: .home)
+               case .safari:
+                   findView(for: .safari)
+               case .archivebox:
+                   findView(for: .archivebox)
+               case .person:
+                   findView(for: .person)
+               }
+               Spacer()
+               MainTabView(selectedTab: $selectedTab)
+           }
     }
+    @ViewBuilder
+       private func findView(for tab: Tab) -> some View {
+           if let customTab = vm.customTabs.first(where: { $0.tab == tab }) {
+               customTab.view
+           } else {
+               EmptyView()
+           }
+       }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -27,3 +42,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
