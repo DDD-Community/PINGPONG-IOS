@@ -24,15 +24,11 @@ let project = Project.makeModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .SPM.Moya,
-        .SPM.CombineMoya,
-        .SPM.Kingfisher,
-        .SPM.PopupView,
-        .SPM.ACarousel,
-        .Projcet.Network,
-        .Projcet.Component,
         .SPM.Inject,
+        .Projcet.OnBoarding,
         .Projcet.Home,
+        .Projcet.Network,
+        .Projcet.DesignSystem,
         .Projcet.Authentication,
         .Projcet.Profile,
         .Projcet.Search

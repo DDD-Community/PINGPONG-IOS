@@ -14,7 +14,8 @@ let dependencie = Dependencies(
         .remote(url: "https://github.com/exyte/PopupView.git", requirement: .upToNextMinor(from: "2.1.0")),
             .remote(url: "https://github.com/JWAutumn/ACarousel.git", requirement: .upToNextMinor(from: "0.2.0")),
         .remote(url: "https://github.com/krzysztofzablocki/Inject.git", requirement: .upToNextMajor(from: "1.0.5")),
-        .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .upToNextMajor(from: "0.54.1"))
+        .remote(url: "https://github.com/kean/NukeUI.git", requirement: .upToNextMajor(from: "0.8.3")),
+        .remote(url: "https://github.com/interactord/LinkNavigator.git", requirement: .upToNextMajor(from: "0.6.4"))
         
         
         

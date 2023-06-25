@@ -19,7 +19,9 @@ public extension TargetDependency.SPM {
     static let Kingfisher = TargetDependency.external(name: "Kingfisher")
     static let ACarousel = TargetDependency.external(name: "ACarousel")
     static let Inject = TargetDependency.external(name: "Inject")
-    static let ComposableArchitecture = TargetDependency.external(name: "ComposableArchitecture")
+    static let NukeUI = TargetDependency.external(name: "NukeUI")
+    static let LinkNavigator = TargetDependency.external(name: "LinkNavigator")
+    
     //MARK: - preview 관련
     
 
