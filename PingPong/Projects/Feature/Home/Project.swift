@@ -22,7 +22,8 @@ let project = Project.makeModule(
         .SPM.ACarousel,
         .SPM.Inject,
         .SPM.PopupView,
-        .Projcet.Component,
+        .SPM.LinkNavigator,
+        .Projcet.DesignSystem,
         .Projcet.Network
         
             
