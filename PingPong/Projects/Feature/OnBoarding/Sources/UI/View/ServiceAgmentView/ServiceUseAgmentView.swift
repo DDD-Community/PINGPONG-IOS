@@ -15,13 +15,8 @@ struct ServiceUseAgmentView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var allAgreeCheckButton: Bool = false
-    @State private var check14yearsAgreeButton: Bool = false
-    @State private var checkTermsService: Bool = false
-    @State private var checkPesonalInformation: Bool = false
-    @State private var checkReciveMarketingInformation: Bool = false
-    
-    @State private var allConfirmAgreeView: Bool = false
+    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+        
     
     var body: some View {
         NavigationStack {
@@ -41,7 +36,7 @@ struct ServiceUseAgmentView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $allConfirmAgreeView) {
+            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
                 ConfrimallAgmentView()
             }
         }
@@ -84,13 +79,9 @@ struct ServiceUseAgmentView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                AgreeMentListView(checkAgreeButton: $allAgreeCheckButton, showleft: false, title: "약관 전체동의", showBold: true)
+                AgreeMentListView(checkAgreeButton: $viewModel.allAgreeCheckButton, showleft: false, title: "약관 전체동의", showBold: true)
                     .onTapGesture {
-                        allAgreeCheckButton = true
-                        check14yearsAgreeButton = true
-                        checkTermsService = true
-                        checkPesonalInformation = true
-                        checkReciveMarketingInformation = true
+                        viewModel.updateAgreementStatus()
                     }
                 
                 Spacer()
@@ -104,14 +95,14 @@ struct ServiceUseAgmentView: View {
                 Spacer()
                     .frame(height: 20)
                 
-                AgreeMentListView(checkAgreeButton: $check14yearsAgreeButton, showleft: false, title: "만 14세 이상입니다", showBold: false)
+                AgreeMentListView(checkAgreeButton: $viewModel.check14yearsAgreeButton, showleft: false, title: "만 14세 이상입니다", showBold: false)
                 
                 
-                AgreeMentListView(checkAgreeButton: $checkTermsService, showleft: true, title: "(필수) 서비스 이용약관", showBold: false)
+                AgreeMentListView(checkAgreeButton: $viewModel.checkTermsService, showleft: true, title: "(필수) 서비스 이용약관", showBold: false)
                 
-                AgreeMentListView(checkAgreeButton: $checkPesonalInformation, showleft: true, title: "(필수) 개인정보 처리방침", showBold: false)
+                AgreeMentListView(checkAgreeButton: $viewModel.checkPesonalInformation, showleft: true, title: "(필수) 개인정보 처리방침", showBold: false)
                 
-                AgreeMentListView(checkAgreeButton: $checkReciveMarketingInformation, showleft: true, title: "(필수) 마켓팅 정보 수신동의", showBold: false)
+                AgreeMentListView(checkAgreeButton: $viewModel.checkReciveMarketingInformation, showleft: true, title: "(필수) 마켓팅 정보 수신동의", showBold: false)
                 
             }
         }
@@ -129,11 +120,11 @@ struct ServiceUseAgmentView: View {
                         .foregroundColor(.gray)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            allConfirmAgreeView.toggle()
+                            viewModel.allConfirmAgreeView.toggle()
                         }
                 }
-                .opacity((allAgreeCheckButton && check14yearsAgreeButton && checkTermsService && checkPesonalInformation && checkReciveMarketingInformation) ? 1 : 0.5) // 버튼 활성화 조건 추가
-                .disabled(!(allAgreeCheckButton && check14yearsAgreeButton && checkTermsService && checkPesonalInformation && checkReciveMarketingInformation)) // 버튼 비활성화 조건 추가
+                .opacity((viewModel.allAgreeCheckButton && viewModel.check14yearsAgreeButton && viewModel.checkTermsService && viewModel.checkPesonalInformation && viewModel.checkReciveMarketingInformation) ? 1 : 0.5) // 버튼 활성화 조건 추가
+                .disabled(!(viewModel.allAgreeCheckButton && viewModel.check14yearsAgreeButton && viewModel.checkTermsService && viewModel.checkPesonalInformation && viewModel.checkReciveMarketingInformation)) // 버튼 비활성화 조건 추가
         }
     }
 }

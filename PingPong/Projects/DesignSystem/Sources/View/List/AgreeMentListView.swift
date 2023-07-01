@@ -48,7 +48,7 @@ public struct AgreeMentListView: View {
                 
                 Spacer()
                 
-                if showleft == true {
+                if !showleft {
                     Image(systemName: "chevron.right")
                         .resizable()
                         .scaledToFit()
