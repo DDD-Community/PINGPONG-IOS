@@ -25,13 +25,7 @@ let project = Project.makeModule(
     setting: .appMainSetting,
     dependencies: [
         .SPM.Inject,
-        .Projcet.OnBoarding,
-        .Projcet.Home,
-        .Projcet.Network,
-        .Projcet.DesignSystem,
-        .Projcet.Authentication,
-        .Projcet.Profile,
-        .Projcet.Search
+        .Projcet.Core
 
         
     ],
