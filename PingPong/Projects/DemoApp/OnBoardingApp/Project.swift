@@ -24,9 +24,6 @@ let project = Project.makeModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .SPM.PopupView,
-        .SPM.Inject,
-        .Projcet.DesignSystem,
         .Projcet.OnBoarding
             
     ],

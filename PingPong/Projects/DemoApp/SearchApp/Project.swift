@@ -24,14 +24,7 @@ let project = Project.makeModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .SPM.Moya,
-        .SPM.CombineMoya,
-        .SPM.Kingfisher,
-        .SPM.PopupView,
-        .SPM.ACarousel,
-        .SPM.Inject,
-        .Projcet.Search,
-        .Projcet.Network
+        .Projcet.Search
             
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],

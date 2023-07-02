@@ -18,7 +18,7 @@ struct OnBoardingApp: App {
                 
                 ZStack {
                     if showLanch {
-                        LanchView(showLanchView: $showLanch)
+                        LaunchView(showLanchView: $showLanch)
                     }
                 }
             }

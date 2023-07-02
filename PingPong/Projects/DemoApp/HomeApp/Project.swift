@@ -13,7 +13,7 @@ import MyPlugin
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
     name: "HomeApp",
-    bundleId: .appBundleID(name: "Home"),
+    bundleId: .appBundleID(name: "HomeApp"),
     platform: .iOS,
     product: .app,
     //MARK: - 풀 빌드 할때는 프레임 워크로 변경
@@ -24,15 +24,7 @@ let project = Project.makeModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .SPM.Moya,
-        .SPM.CombineMoya,
-        .SPM.Kingfisher,
-        .SPM.PopupView,
-        .SPM.ACarousel,
-        .SPM.Inject,
-        .Projcet.Home,
-        .Projcet.Authentication,
-        .Projcet.Network
+        .Projcet.Home
             
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],
