@@ -12,14 +12,14 @@ import MyPlugin
 
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeModule(
-    name: "Network",
-    bundleId: .appBundleID(name: "Network"),
+    name: "Service",
+    bundleId: .appBundleID(name: "Service"),
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
         .SPM.Moya,
         .SPM.CombineMoya,
     ],
-    sources: ["Sources/**"],
-    resources: ["Resources/**"]
+    sources: ["Sources/**"]
+//    resources: ["Resources/**"]
 )
