@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LinkNavigator
 
 struct ContentView: View {
     @State var selectedTab: Tab = .home

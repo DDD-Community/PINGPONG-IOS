@@ -8,9 +8,11 @@ import SwiftUI
 
 @main
 struct PingPongProjectApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        
     }
 }

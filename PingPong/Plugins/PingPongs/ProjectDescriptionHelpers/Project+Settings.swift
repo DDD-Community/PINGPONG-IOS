@@ -24,9 +24,9 @@ extension Settings {
                 "CODE_SIGN_STYLE": "Automatic",
                 "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File", "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""]
                     ,configurations: [
-                    .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong"]),
-                    .debug(name: "Dev", settings: ["PRODUCT_NAME" : "PingPong-Dev","DISPLAY_NAME" : "PingPong"]),
-                    .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ])
+                    .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable",  "-all_load"]]),
+                    .debug(name: "Dev", settings: ["PRODUCT_NAME" : "PingPong-Dev","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]]),
+                    .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])
                 ], defaultSettings: .recommended)
     
     
@@ -37,8 +37,8 @@ extension Settings {
                "CODE_SIGN_STYLE": "Automatic",
                "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],
         configurations: [
-            .debug(name: .debug, settings: ["PRODUCT_NAME": "PingPong"]),
-            .release(name: .release, settings: ["PRODUCT_NAME": "PingPong"])],
+            .debug(name: .debug, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable","-all_load"]]),
+            .release(name: .release, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])],
         defaultSettings: .recommended)
     
 }
