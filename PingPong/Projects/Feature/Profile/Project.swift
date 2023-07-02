@@ -22,14 +22,10 @@ let project = Project.makeModule(
         .SPM.ACarousel,
         .SPM.Inject,
         .SPM.PopupView,
-        .SPM.LinkNavigator,
         .Projcet.DesignSystem,
-        .Projcet.Network,
-        .Projcet.Authentication
-            
-        
-            
+        .Projcet.Authentication,
+        .Projcet.Service,
+        .Projcet.Model
     ],
-    sources: ["Sources/**"],
-    resources: ["Resources/**"]
+    sources: ["Sources/**"]
 )
