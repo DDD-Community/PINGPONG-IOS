@@ -21,6 +21,6 @@ let project = Project.makeModule(
         .SPM.PopupView,
         .Projcet.DesignSystem,
     ],
-    sources: ["Sources/**"],
-    resources: ["Resources/**"]
+    sources: ["Sources/**"]
+    
 )

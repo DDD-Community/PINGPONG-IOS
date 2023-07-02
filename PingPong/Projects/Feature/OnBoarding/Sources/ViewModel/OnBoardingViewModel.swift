@@ -19,6 +19,7 @@ final class OnBoardingViewModel: ObservableObject {
     
     init() { }
     
+    //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {
         if !allAgreeCheckButton || !check14yearsAgreeButton || !checkTermsService || !checkPesonalInformation || !checkReciveMarketingInformation {
             allAgreeCheckButton = true

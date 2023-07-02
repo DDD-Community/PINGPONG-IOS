@@ -96,13 +96,28 @@ struct ServiceUseAgmentView: View {
                     .frame(height: 20)
                 
                 AgreeMentListView(checkAgreeButton: $viewModel.check14yearsAgreeButton, showleft: false, title: "만 14세 이상입니다", showBold: false)
-                
+                    .onTapGesture {
+                        viewModel.check14yearsAgreeButton.toggle()
+                        viewModel.allAgreeCheckButton = viewModel.check14yearsAgreeButton && viewModel.checkTermsService && viewModel.checkPesonalInformation && viewModel.checkReciveMarketingInformation
+                    }
                 
                 AgreeMentListView(checkAgreeButton: $viewModel.checkTermsService, showleft: true, title: "(필수) 서비스 이용약관", showBold: false)
+                    .onTapGesture {
+                        viewModel.checkTermsService.toggle()
+                        viewModel.allAgreeCheckButton = viewModel.check14yearsAgreeButton && viewModel.checkTermsService && viewModel.checkPesonalInformation && viewModel.checkReciveMarketingInformation
+                    }
                 
                 AgreeMentListView(checkAgreeButton: $viewModel.checkPesonalInformation, showleft: true, title: "(필수) 개인정보 처리방침", showBold: false)
+                    .onTapGesture {
+                        viewModel.checkPesonalInformation.toggle()
+                        viewModel.allAgreeCheckButton = viewModel.check14yearsAgreeButton && viewModel.checkTermsService && viewModel.checkPesonalInformation && viewModel.checkReciveMarketingInformation
+                    }
                 
                 AgreeMentListView(checkAgreeButton: $viewModel.checkReciveMarketingInformation, showleft: true, title: "(필수) 마켓팅 정보 수신동의", showBold: false)
+                    .onTapGesture {
+                        viewModel.checkReciveMarketingInformation.toggle()
+                        viewModel.allAgreeCheckButton = viewModel.check14yearsAgreeButton && viewModel.checkTermsService && viewModel.checkPesonalInformation && viewModel.checkReciveMarketingInformation
+                    }
                 
             }
         }

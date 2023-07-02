@@ -10,7 +10,7 @@ import SwiftUI
 import Inject
 import DesignSystem
 
-public struct LanchView: View {
+public struct LaunchView: View {
     @Binding var showLanchView: Bool
     
     
@@ -50,8 +50,8 @@ public struct LanchView: View {
     }
 }
 
-struct LanchView_Previews: PreviewProvider {
+struct LaunchView_Previews: PreviewProvider {
     static var previews: some View {
-        LanchView(showLanchView: .constant(true))
+        LaunchView(showLanchView: .constant(true))
     }
 }
