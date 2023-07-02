@@ -9,18 +9,12 @@ import OnBoarding
 
 @main
 struct OnBoardingApp: App {
-    @State private var showLanch: Bool = true
+    @StateObject private var viewModel = FavoriteChoiceViewModel()
     
     var body: some Scene {
         WindowGroup {
             ZStack {
-                OnBoardingView()
-                
-                ZStack {
-                    if showLanch {
-                        LaunchView(showLanchView: $showLanch)
-                    }
-                }
+                FavoriteChoiceView(viewModel: viewModel)
             }
         }
     }

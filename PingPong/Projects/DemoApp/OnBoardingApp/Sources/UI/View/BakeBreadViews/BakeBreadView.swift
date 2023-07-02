@@ -6,16 +6,41 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import DesignSystem
 import SwiftUI
 
 struct BakeBreadView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @State var favoriteCompleteView: Bool = false
 
-struct BakeBreadView_Previews: PreviewProvider {
-    static var previews: some View {
-        BakeBreadView()
+    public var body: some View {
+        NavigationStack{
+            ZStack {
+                Color.white
+                VStack {
+                    VStack{
+                        Spacer()
+                        Text("제빵사님을 위한 명언을 굽고 있어요")
+                            .font(.system(size: 22))
+                            .padding(.bottom, 50)
+                    }
+                    .frame(height: UIScreen.screenHeight * 0.3)
+                    
+                    Circle()
+                        .fill(.gray.opacity(0.5))
+                        .frame(width: 214, height: 214)
+                    Spacer()
+                    
+                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        favoriteCompleteView.toggle()
+                    }
+                }
+            }
+            .navigationBarBackButtonHidden()
+            .navigationDestination(isPresented: $favoriteCompleteView) {
+                FavoriteCompleteView()
+            }
+        }
     }
 }

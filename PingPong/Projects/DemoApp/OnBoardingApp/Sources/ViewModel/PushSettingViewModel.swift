@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+class PushSettingViewModel: ObservableObject {
+    @Published var bakeBreadView: Bool = false
+    @Published var isNoti: Bool = false
+    @Published var hour: Date = Date()
+}
