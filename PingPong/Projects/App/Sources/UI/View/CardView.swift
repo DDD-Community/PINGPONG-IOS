@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Component
+import DesignSystem
 
 struct CardView: View {
     

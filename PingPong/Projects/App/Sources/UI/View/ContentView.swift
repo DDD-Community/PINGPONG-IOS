@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import LinkNavigator
+//import LinkNavigator
 
 struct ContentView: View {
     var body: some View {
