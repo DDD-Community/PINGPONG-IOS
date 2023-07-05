@@ -12,7 +12,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeModule(
+let project = Project.makeAppWidgetModule(
     name: "PingPong",
     bundleId: .mainBundleID(),
     platform: .iOS,
@@ -25,7 +25,9 @@ let project = Project.makeModule(
     setting: .appMainSetting,
     dependencies: [
         .SPM.Inject,
-        .Projcet.Core
+        .Projcet.Core,
+        .sdk(name: "WidgetKit", type: .framework),
+        
 
         
     ],
@@ -35,6 +37,7 @@ let project = Project.makeModule(
     entitlements: .relativeToCurrentFile("Entitlements/PingPong.entitlements")
 //    scheme: [realseScheme, debugScheme]
 )
+
 
 
 
