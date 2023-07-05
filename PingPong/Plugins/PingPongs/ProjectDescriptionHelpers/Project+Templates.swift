@@ -5,7 +5,7 @@ import Foundation
 
 
 public extension Project {
-    public static func makeModule(
+    public static func makeAppModule(
         name: String,
         bundleId: String,
         platform: Platform = .iOS,
@@ -66,7 +66,20 @@ public extension Project {
             dependencies: [.target(name: name)]
         )
         
-        
+        let widgetTarget = Target(
+           name: "\(name)",
+           platform: .iOS,
+           product: .appExtension,
+           bundleId: bundleId,
+           deploymentTarget: deploymentTarget,
+           infoPlist: infoPlist,
+           sources: sources,
+           resources: resources,
+           entitlements: entitlements,
+           scripts: [],
+           dependencies: dependencies
+           
+       )
         
         let targets: [Target] = [appTarget, appDevTarget,testTarget]
         
@@ -78,8 +91,158 @@ public extension Project {
             targets: targets,
             schemes: scheme
         )
+        
     }
     
+    public static func makeAppWidgetModule(
+        name: String,
+        bundleId: String,
+        platform: Platform = .iOS,
+        product: Product,
+        organizationName: String = "Wonji Suh",
+        packages: [Package] = [],
+        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone]),
+        setting: Settings,
+        dependencies: [TargetDependency] = [],
+        sources: SourceFilesList = ["Sources/**"],
+        resources: ResourceFileElements? = nil,
+        infoPlist: InfoPlist = .default,
+        entitlements: Path? = nil,
+        scheme : [Scheme] = [ ]
+    ) -> Project {
+        let widgetTarget = Target(
+            name: "WidgetExtension",
+            platform: platform,
+            product: .appExtension,
+            bundleId: "\(bundleId).WidgetExtension",
+            deploymentTarget: deploymentTarget,
+            infoPlist: .extendingDefault(with: [
+                "CFBundleDisplayName": "$(PRODUCT_NAME)",
+                "NSExtension": [
+                    "NSExtensionPointIdentifier": "com.apple.widgetkit-extension",
+                ],
+            ]),
+            sources: ["WidgetExtension/Sources/**"],
+            resources: ["WidgetExtension/Resources/**"],
+            entitlements: entitlements,
+            scripts: [],
+            dependencies: dependencies
+        )
+        
+        let appTarget = Target(
+            name: name,
+            platform: platform,
+            product: product,
+            bundleId: bundleId,
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            entitlements: entitlements,
+            scripts: [],
+            dependencies: dependencies + [.target(name: "WidgetExtension")]
+        )
+        
+        let appDevTarget = Target(
+            name: "\(name)-Dev",
+            platform: platform,
+            product: product,
+            bundleId: "\(bundleId)Dev",
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            entitlements: entitlements,
+            scripts: [],
+            dependencies: dependencies + [.target(name: "WidgetExtension")]
+        )
+        
+        let testTarget = Target(
+            name: "\(name)Tests",
+            platform: platform,
+            product: .unitTests,
+            bundleId: "\(bundleId).\(name)Tests",
+            deploymentTarget: deploymentTarget,
+            infoPlist: .default,
+            sources: ["\(name)Tests/Sources/**"],
+            dependencies: [.target(name: name)]
+        )
+        
+        let targets: [Target] = [appTarget, appDevTarget, testTarget, widgetTarget]
+        
+        return Project(
+            name: name,
+            organizationName: organizationName,
+            packages: packages,
+            settings: setting,
+            targets: targets,
+            schemes: scheme
+        )
+    }
+
+    
+    public static func makeWidgetModule(
+        name: String,
+        bundleId: String,
+        platform: Platform = .iOS,
+        product: Product,
+        organizationName: String = "Wonji Suh",
+        packages: [Package] = [],
+        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone]),
+        setting: Settings,
+        dependencies: [TargetDependency] = [],
+        sources: SourceFilesList = ["Sources/**"],
+        resources: ResourceFileElements? = nil,
+        infoPlist: InfoPlist = .default,
+        entitlements: Path? = nil,
+        scheme : [Scheme] = [ ]
+        
+    ) -> Project {
+        
+        let appTarget = Target(
+            name: name,
+            platform: platform,
+            product: product,
+            bundleId: bundleId,
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            entitlements: entitlements,
+            scripts: [],
+            dependencies: dependencies
+            
+        )
+        
+        
+        let appDevTarget = Target(
+            name: "\(name)-Dev",
+            platform: platform,
+            product: product,
+            bundleId: "\(bundleId)Dev",
+            deploymentTarget: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            entitlements: entitlements,
+            scripts: [],
+            dependencies: dependencies
+            
+        )
+        
+        
+        let targets: [Target] = [appTarget, appDevTarget]
+        
+        return Project(
+            name: name,
+            organizationName: organizationName,
+            packages: packages,
+            settings: setting,
+            targets: targets,
+            schemes: scheme
+        )
+        
+    }
 }
 
 

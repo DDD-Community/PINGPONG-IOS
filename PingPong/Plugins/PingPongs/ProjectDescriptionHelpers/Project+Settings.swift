@@ -22,25 +22,37 @@ extension Settings {
                 "CURRENT_PROJECT_VERSION": .string(.appBuildVersion()),
                 "CODE_SIGN_IDENTITY": "iPhone Developer",
                 "CODE_SIGN_STYLE": "Automatic",
-                "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File", "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""]
-                    ,configurations: [
+                "DEVELOPMENT_TEAM": "N94CS4N6VR",
+                "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File",
+                "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""]
+        ,configurations: [
+            .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable",  "-all_load"],  ]),
+            .debug(name: "Dev", settings: ["PRODUCT_NAME" : "PingPong-Dev","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"], "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: "$(APP_PROVISIONING_PROFILE)")]),
+            .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])], defaultSettings: .recommended)
+                                                                           
+                                                                           
+   public static let appBaseSetting: Settings = .settings(
+        base: ["PRODUCT_NAME": "PingPong",
+                "MARKETING_VERSION": .string(.appVersion()),
+                "CURRENT_PROJECT_VERSION": .string(.appBuildVersion()),
+                "CODE_SIGN_STYLE": "Automatic",
+                "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],configurations: [
+                .debug(name: .debug, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable","-all_load"]]),
+                .release(name: .release, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])], defaultSettings: .recommended)
+                                                                           
+    public static let appWidgetSetting: Settings = .settings(
+        base: [ "PRODUCT_NAME": "PingPong",
+                "CFBundleDisplayName" : "PingPong",
+                "MARKETING_VERSION": .string(.appVersion()),
+                "CURRENT_PROJECT_VERSION": .string(.appBuildVersion()),
+                "CODE_SIGN_IDENTITY": "iPhone Developer",
+                "CODE_SIGN_STYLE": "Automatic",
+                "DEVELOPMENT_TEAM": "N94CS4N6VR",
+                "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File",
+                "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""] ,configurations: [
                     .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable",  "-all_load"]]),
                     .debug(name: "Dev", settings: ["PRODUCT_NAME" : "PingPong-Dev","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]]),
-                    .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])
-                ], defaultSettings: .recommended)
-    
-    
-    public static let appBaseSetting: Settings = .settings(
-        base: ["PRODUCT_NAME": "PingPong",
-               "MARKETING_VERSION": .string(.appVersion()),
-               "CURRENT_PROJECT_VERSION": .string(.appBuildVersion()),
-               "CODE_SIGN_STYLE": "Automatic",
-               "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],
-        configurations: [
-            .debug(name: .debug, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable","-all_load"]]),
-            .release(name: .release, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])],
-        defaultSettings: .recommended)
-    
-}
-
-
+                    .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])],
+        defaultSettings: .recommended)}
+                                                                           
+                                                                           
