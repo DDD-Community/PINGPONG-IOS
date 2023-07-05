@@ -11,7 +11,6 @@ import Inject
 import DesignSystem
 
 struct ServiceUseAgmentView: View {
-    @ObservedObject private var i0 = Inject.observer
     
     @Environment(\.presentationMode) var presentationMode
     

@@ -16,8 +16,7 @@ final class OnBoardingViewModel: ObservableObject {
     @Published var checkPesonalInformation: Bool = false
     @Published var checkReciveMarketingInformation: Bool = false
     @Published var allConfirmAgreeView: Bool = false
-    
-    init() { }
+    @Published var goToFavoriteViseView: Bool = false
     
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {

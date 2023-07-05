@@ -11,7 +11,8 @@ import Inject
 import DesignSystem
 
 struct ConfrimallAgmentView: View {
-    @ObservedObject private var i0 = Inject.observer
+    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    
     var body: some View {
         VStack {
             
@@ -31,7 +32,9 @@ struct ConfrimallAgmentView: View {
             
         }
         .navigationBarHidden(true)
-        .enableInjection()
+        .navigationDestination(isPresented: $viewModel.goToFavoriteViseView) {
+            FavoriteWiseChoseView()
+        }
         
     }
     
@@ -69,6 +72,9 @@ struct ConfrimallAgmentView: View {
                     Text("확인")
                         .font(.system(size: 22))
                 }
+        }
+        .onTapGesture {
+            viewModel.goToFavoriteViseView.toggle()
         }
     }
       
