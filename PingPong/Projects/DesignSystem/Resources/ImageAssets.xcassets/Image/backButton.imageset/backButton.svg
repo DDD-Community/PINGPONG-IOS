@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.809" height="17.121" viewBox="0 0 22.809 17.121">
+  <g id="back_button" transform="translate(0.311 0.311)">
+    <g id="Group_503" data-name="Group 503" transform="translate(0.75 0.75)">
+      <line id="Line_194" data-name="Line 194" x2="20.999" transform="translate(0 7.501)" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_195" data-name="Line 195" x1="7.501" y2="7.501" transform="translate(0)" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_196" data-name="Line 196" x1="7.501" y1="7.501" transform="translate(0 7.499)" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>
