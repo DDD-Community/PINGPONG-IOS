@@ -2,30 +2,30 @@
 //  Project.swift
 //  Manifests
 //
-//  Created by 서원지 on 2023/06/18.
+//  Created by 서원지 on 2023/07/26.
 //
 
 import ProjectDescription
 import MyPlugin
 
 
-
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeAppModule(
-    name: "Profile",
-    bundleId: .appBundleID(name: "Profile"),
+    name: "Authorization",
+    bundleId: .appBundleID(name: ".Authorization"),
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
+        .Projcet.DesignSystem,
+        .SPM.CombineMoya,
+        .SPM.Moya,
         .SPM.Kingfisher,
         .SPM.PopupView,
-        .SPM.ACarousel,
-        .SPM.Inject,
-        .SPM.PopupView,
-        .Projcet.DesignSystem,
-        .Projcet.Auth,
+        .Projcet.Model,
         .Projcet.Service,
-        .Projcet.Model
     ],
     sources: ["Sources/**"]
+//    resources: ["Resources/**"]
 )
+
+

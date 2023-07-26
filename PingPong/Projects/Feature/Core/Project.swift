@@ -2,9 +2,10 @@
 //  Project.swift
 //  Manifests
 //
-//  Created by 서원지 on 2023/06/18.
+//  Created by 서원지 on 2023/07/26.
 //
 
+import Foundation
 import ProjectDescription
 import MyPlugin
 
@@ -12,20 +13,20 @@ import MyPlugin
 
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeAppModule(
-    name: "Profile",
-    bundleId: .appBundleID(name: "Profile"),
+    name: "Core",
+    bundleId: .appBundleID(name: "Core"),
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
-        .SPM.Kingfisher,
-        .SPM.PopupView,
-        .SPM.ACarousel,
         .SPM.Inject,
-        .SPM.PopupView,
-        .Projcet.DesignSystem,
+        .Projcet.OnBoarding,
+        .Projcet.Home,
+        .Projcet.Profile,
         .Projcet.Auth,
-        .Projcet.Service,
-        .Projcet.Model
+        .Projcet.Search
+            
+        
     ],
     sources: ["Sources/**"]
+//    resources: ["Resources/**"]
 )

@@ -12,8 +12,8 @@ import MyPlugin
 
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeAppModule(
-    name: "Profile",
-    bundleId: .appBundleID(name: "Profile"),
+    name: "Auth",
+    bundleId: .appBundleID(name: "Auth"),
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
@@ -23,9 +23,12 @@ let project = Project.makeAppModule(
         .SPM.Inject,
         .SPM.PopupView,
         .Projcet.DesignSystem,
-        .Projcet.Auth,
         .Projcet.Service,
-        .Projcet.Model
+        .Projcet.Authorization
+        
+        
+            
     ],
     sources: ["Sources/**"]
 )
+
