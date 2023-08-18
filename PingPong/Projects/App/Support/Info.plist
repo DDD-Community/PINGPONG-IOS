@@ -30,11 +30,7 @@
 		<true/>
 	</dict>
 	<key>UIAppFonts</key>
-	<array>
-		<string>나눔손글씨 배은혜체.ttf</string>
-		<string>PretendardVariable.ttf</string>
-		<string>DNFBitBitTTF.ttf</string>
-	</array>
+	<array/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>Application requires iPhone environment</key>

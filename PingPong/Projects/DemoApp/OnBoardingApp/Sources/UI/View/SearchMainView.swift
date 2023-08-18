@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Inject
-import DesignSystem
+
 
 public struct SearchMainView: View {
     @ObservedObject private var i0 = Inject.observer
@@ -18,7 +18,6 @@ public struct SearchMainView: View {
     
     public var body: some View {
         VStack {
-            
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
