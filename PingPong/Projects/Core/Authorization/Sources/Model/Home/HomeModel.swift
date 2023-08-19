@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseCore
+import FirebaseAuth
+import FirebaseMessaging
+import GoogleSignIn

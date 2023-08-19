@@ -47,14 +47,6 @@ Install Profiles and Build My App
 
 Description of what the lane does
 
-### ios upload_firebase
-
-```sh
-[bundle exec] fastlane ios upload_firebase
-```
-
-upload Firebase App Distribution
-
 ### ios get_dev_certs
 
 ```sh

@@ -38,6 +38,8 @@ public struct LaunchView: View {
                     .font(.system(size: 22))
                     .bold()
                 
+                
+                
                 Spacer()
                 
             }

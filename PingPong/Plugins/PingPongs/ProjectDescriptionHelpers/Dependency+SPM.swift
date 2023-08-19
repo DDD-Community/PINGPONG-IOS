@@ -20,6 +20,10 @@ public extension TargetDependency.SPM {
     static let ACarousel = TargetDependency.external(name: "ACarousel")
     static let Inject = TargetDependency.external(name: "Inject")
     static let NukeUI = TargetDependency.external(name: "NukeUI")
+    static let FirebaseFirestore = TargetDependency.external(name: "FirebaseFirestore")
+    static let FirebaseAuth = TargetDependency.external(name: "FirebaseAuth")
+    static let FirebaseMessaging = TargetDependency.external(name: "FirebaseMessaging")
+    static let GoogleSignIn = TargetDependency.external(name: "GoogleSignIn")
   
     
     //MARK: - preview 관련
