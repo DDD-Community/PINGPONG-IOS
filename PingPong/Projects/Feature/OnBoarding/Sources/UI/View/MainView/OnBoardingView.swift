@@ -8,7 +8,7 @@
 import SwiftUI
 import Inject
 import DesignSystem
-import Authorization
+
 
 public struct OnBoardingView: View {
     @State private var serviceUseAgmentView: Bool = false
