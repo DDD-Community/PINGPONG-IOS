@@ -10,10 +10,19 @@ import OnBoarding
 
 @main
 struct PingPongProjectApp: App {
+    @State var showlanch: Bool = true
     
     var body: some Scene {
         WindowGroup {
-            OnBoardingView()
+            ZStack {
+                OnBoardingView()
+                
+                ZStack {
+                    if showlanch {
+                        LaunchView(showLanchView: $showlanch)
+                    }
+                }
+            }
         }
         
     }

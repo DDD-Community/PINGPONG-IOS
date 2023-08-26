@@ -9,25 +9,14 @@
 import Foundation
 
 public enum Colors: String {
-    case authorFontColor
-    case buttonOrange
-    case contentsFontColor
-    case nutty
-    case nuttyBackground
-    case nuttyContents
-    case plain
-    case plainBackground
-    case plainContents
-    case salty
-    case saltyBackground
-    case saltyContents
-    case spicy
-    case spicyBackground
-    case spicyContents
-    case statusBarColor
-    case sweety
-    case sweetyBackground
-    case sweetyContents
-    case tabbarColor
-    case tabbarSelectedColor
+    case primaryOrange
+    case Navy
+    case Gray
+    case Gray2
+    case Gray3
+    case LanchColor
 }
+
+
+
+
