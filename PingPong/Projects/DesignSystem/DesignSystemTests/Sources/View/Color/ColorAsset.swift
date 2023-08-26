@@ -11,7 +11,7 @@ import SwiftUI
 
 
 public enum Colors: String {
-    case  primaryOrange = "primaryOrange"
+    case Mint
     case Navy
     case Gray
     case Gray2
@@ -21,7 +21,7 @@ public enum Colors: String {
 
 
 public extension Color {
-    static let primaryOrange = pingColor(.primaryOrange)
+    static let mints = pingColor(.Mint)
     static let navy = pingColor(.Navy)
     static let grays = pingColor(.Gray)
     static let gray2 = pingColor(.Gray2)

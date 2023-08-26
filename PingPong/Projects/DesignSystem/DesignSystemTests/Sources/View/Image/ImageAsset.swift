@@ -12,15 +12,7 @@ public enum ImageAsset: String {
     
     //MARK: -  홈 화면 아이콘
     
-   case appleLogo
-    case breadNutty
-    case breadPlain
-    case breadSalty
-    case breadSpicy
-    case breadSweety
-    case googleLogo
-    case pingpongLogo
-    case pingpongLogoOrange
+    
     //MARK: -  탭바 아이콘
 
     

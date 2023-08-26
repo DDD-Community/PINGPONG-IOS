@@ -21,23 +21,22 @@ public struct LaunchView: View {
     
     public var body: some View {
         ZStack {
-            Color.white
+            Color.primaryOrange
             
             VStack {
                 Spacer()
                 
-                Circle()
-                    .fill(.gray.opacity(0.5))
-                    .frame(width: 214, height: 214)
-                
-                Spacer()
-                    .frame(height: UIScreen.screenWidth/6)
-                
-                
-                Text("명언제과점에 오신걸 환영합니다")
-                    .font(.system(size: 22))
-                    .bold()
-                
+                Image(asset: .pingpongLogo)
+                    .padding(.bottom, 16)
+                Text("명언제과점")
+                    .font(.custom("PretendardVariable-SemiBold", size: 24))
+                    .foregroundColor(.white)
+                    .padding(.bottom, 162)
+                Text("있으면 좀 더 행복한\n500g 더 나은 삶을 위한 서비스")
+                    .font(.custom("PretendardVariable-SemiBold", size: 18))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    
                 Spacer()
                 
             }
@@ -47,6 +46,7 @@ public struct LaunchView: View {
                 }
             }
         }
+        .ignoresSafeArea()
     }
 }
 
