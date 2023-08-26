@@ -20,6 +20,10 @@ let project = Project.makeAppModule(
         .SPM.Inject,
         .SPM.PopupView,
         .Projcet.DesignSystem,
+        .Projcet.Model,
+        .Projcet.Service,
+        .SPM.Moya,
+        .SPM.CombineMoya
     ],
     sources: ["Sources/**"]
     

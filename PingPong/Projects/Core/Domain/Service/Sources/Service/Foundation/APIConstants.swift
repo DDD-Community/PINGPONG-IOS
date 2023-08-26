@@ -20,9 +20,6 @@ struct APIConstants{
 
 extension APIConstants {
     static var baseHeader: Dictionary<String, String> {
-        [apikey: APIHeaderManger.shared.apiKey,
-        appPackageName : APIHeaderManger.shared.appPackageName,
-            contentType : APIHeaderManger.shared.contentType
-        ]
+        [:]
     }
 }

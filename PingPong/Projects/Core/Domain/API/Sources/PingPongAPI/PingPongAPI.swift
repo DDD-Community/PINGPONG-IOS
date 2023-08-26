@@ -10,6 +10,7 @@ import Foundation
 
 public enum PingPongAPI {
     
-    public static let baseURL = String("")
+    public static let baseURL = String("http://3.39.40.128:9090")
+    
     
 }

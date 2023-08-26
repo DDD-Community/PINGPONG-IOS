@@ -11,7 +11,6 @@ import DesignSystem
 
 
 public struct OnBoardingView: View {
-    @ObservedObject private var i0 = Inject.observer
     
     @State private var serviceUseAgmentView: Bool = false
     
@@ -47,8 +46,11 @@ public struct OnBoardingView: View {
             .navigationDestination(isPresented: $serviceUseAgmentView) {
                 ServiceUseAgmentView()
             }
+            
+            .task {
+            
+            }
         }
-        .enableInjection()
         
     }
     

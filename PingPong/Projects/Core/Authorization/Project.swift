@@ -14,6 +14,9 @@ let project = Project.makeAppModule(
     name: "Authorization",
     bundleId: .appBundleID(name: ".Authorization"),
     product: .staticFramework,
+    packages: [
+
+    ],
     setting:  .appBaseSetting,
     dependencies: [
         .Projcet.DesignSystem,
@@ -25,8 +28,7 @@ let project = Project.makeAppModule(
         .Projcet.Service,
         .SPM.FirebaseAuth,
         .SPM.FirebaseFirestore,
-        .SPM.FirebaseMessaging,
-        .SPM.GoogleSignIn
+        .SPM.FirebaseMessaging
     ],
     sources: ["Sources/**"]
 //    resources: ["Resources/**"]
