@@ -22,9 +22,11 @@ public extension TargetDependency.SPM {
     static let NukeUI = TargetDependency.external(name: "NukeUI")
     static let FirebaseFirestore = TargetDependency.external(name: "FirebaseFirestore")
     static let FirebaseAuth = TargetDependency.external(name: "FirebaseAuth")
+    static let FirebaseDatabase = TargetDependency.external(name: "FirebaseDatabase")
     static let FirebaseMessaging = TargetDependency.external(name: "FirebaseMessaging")
     static let GoogleSignIn = TargetDependency.external(name: "GoogleSignIn")
-  
+    static let GoogleSignInSwift = TargetDependency.external(name: "GoogleSignInSwift")
+    static let SDWebImageSwiftUI = TargetDependency.external(name: "SDWebImageSwiftUI")
     
     //MARK: - preview 관련
     

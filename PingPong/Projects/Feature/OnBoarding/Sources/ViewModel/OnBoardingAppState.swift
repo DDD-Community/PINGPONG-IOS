@@ -9,8 +9,9 @@
 import Foundation
 import SwiftUI
 
-struct OnBoardingAppState {
+class OnBoardingAppState: ObservableObject {
     @State var netWorkErrorPOP: Bool = false
     @State var errorMessage: String = ""
+    @Published var serviceUseAgmentView: Bool = false
     
 }

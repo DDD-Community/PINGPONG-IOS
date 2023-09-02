@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-import Inject
 import DesignSystem
-
+import Authorization
+import AuthenticationServices
+//import GoogleSignIn
+//import GoogleSignInSwift
 
 public struct OnBoardingView: View {
-    @State private var serviceUseAgmentView: Bool = false
-    @ObservedObject private var i0 = Inject.observer
+    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     public init() {
         //        self.i0 = i0
@@ -41,7 +43,7 @@ public struct OnBoardingView: View {
             }
             .bounce(false)
             
-            .navigationDestination(isPresented: $serviceUseAgmentView) {
+            .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
                 ServiceUseAgmentView()
             }
         }
@@ -86,65 +88,50 @@ public struct OnBoardingView: View {
         }
     }
     
-    //    @ViewBuilder
-    //        private func loginWithGoogle() -> some View {
-    //            Spacer()
-    //                .frame(height: 20)
-    //
-    //            Button{
-    ////                viewModel.googleLogin()
-    //            } label: {
-    //                HStack(spacing: 10) {
-    //
-    //                    Spacer()
-    //
-    //                    Image(asset: .googleLogo)
-    //                        .resizable()
-    //                        .frame(width: 20, height: 20)
-    //                        .foregroundColor(Color.black)
-    //
-    //                    Text("구글 계정으로 계속하기")
-    //
-    //                    Spacer()
-    //                }
-    //            }
-    //
-    //            .frame(height: 50)
-    //            .cornerRadius(10)
-    //            .overlay(
-    //                RoundedRectangle(cornerRadius: 10)
-    //                    .stroke(Color.black, lineWidth: 1)
-    //
-    //            )
-    //            .padding(.horizontal, 40)
-    //        }
+//    @ViewBuilder
+//    private func loginWithGoogle() -> some View {xzzzzz
+//        Spacer()
+//            .frame(height: 20)
+//        
+//        GoogleSignInButton(scheme: .light, style: .wide) {
+//            authViewModel.googleLogin()
+//        }
+//        
+//        
+//    }
     @ViewBuilder
     private func loginWithApple() -> some View {
         Spacer()
             .frame(height: 20)
-        RoundedRectangle(cornerRadius: 10)
-            .frame(height: 50)
-            .foregroundColor(Color.black)
-            .overlay(
-                ZStack {
-                    HStack(spacing: 10) {
-                        Image(asset: .appleLogo)
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .padding()
-                        
-                        Spacer()
-                    }
-                    
-                    Text("Apple로 계속하기")
-                        .foregroundColor(.white)
-                        .bold()
+       
+        SignInWithAppleButton(.signIn) { request in
+            authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
+            request.requestedScopes = [.fullName, .email]
+            request.nonce =  AppleLoginManger.shared.sha256(authViewModel.nonce)
+        } onCompletion: { result in
+            switch result {
+            case .success(let authResult):
+                guard let credential =  authResult.credential as?
+                        ASAuthorizationAppleIDCredential  else  {
+                    debugPrint("파이어 베이스 로그인 에러 ")
+                    return
                 }
-            )
-            .padding(.horizontal, 30)
-            .onTapGesture {
+                authViewModel.appleLogin(credential: credential)
                 
+            case .failure(let error):
+                break
             }
+            
+            
+        }
+        .signInWithAppleButtonStyle(.black)
+        .frame(height: 50)
+        .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.black, lineWidth: 1)
+        )
+        .padding(.horizontal, 40)
     }
 }
 

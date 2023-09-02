@@ -28,7 +28,12 @@ let project = Project.makeAppModule(
         .Projcet.Service,
         .SPM.FirebaseAuth,
         .SPM.FirebaseFirestore,
-        .SPM.FirebaseMessaging
+        .SPM.FirebaseMessaging,
+        .SPM.FirebaseDatabase
+//        .SPM.GoogleSignIn,
+//        .SPM.GoogleSignInSwift
+//        .SPM.FirebaseFirestore
+        
     ],
     sources: ["Sources/**"]
 //    resources: ["Resources/**"]

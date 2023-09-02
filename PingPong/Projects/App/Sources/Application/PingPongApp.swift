@@ -10,6 +10,7 @@ import OnBoarding
 
 @main
 struct PingPongProjectApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @State var showlanch: Bool = true
     
     var body: some Scene {

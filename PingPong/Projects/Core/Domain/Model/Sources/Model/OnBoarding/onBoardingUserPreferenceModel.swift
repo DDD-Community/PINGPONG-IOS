@@ -6,6 +6,7 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Foundation
 
 
 public struct onBoardingUserPreferenceModel: Codable {
@@ -21,10 +22,11 @@ public struct onBoardingUserPreferenceModel: Codable {
 }
 
 // MARK: - WelcomeElement
-public struct onBoardingUserPreferenceResponse: Codable {
+public struct onBoardingUserPreferenceResponse: Codable , Identifiable {
+    public let id = UUID().uuidString
     public let commCDTpID: Int?
     public let commCDTpCD, commCDTpNm: String?
-    public let commCds: [CommCD]
+    public let commCds: [CommCD]?
 
     enum CodingKeys: String, CodingKey {
         case commCDTpID = "commCdTpId"
@@ -33,7 +35,7 @@ public struct onBoardingUserPreferenceResponse: Codable {
         case commCds
     }
     
-    public init(commCDTpID: Int?, commCDTpCD: String?, commCDTpNm: String?, commCds: [CommCD]) {
+    public init(commCDTpID: Int?, commCDTpCD: String?, commCDTpNm: String?, commCds: [CommCD]?) {
         self.commCDTpID = commCDTpID
         self.commCDTpCD = commCDTpCD
         self.commCDTpNm = commCDTpNm
