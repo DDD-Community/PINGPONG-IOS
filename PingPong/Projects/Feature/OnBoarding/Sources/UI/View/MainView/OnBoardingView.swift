@@ -20,19 +20,16 @@ public struct OnBoardingView: View {
     }
     public var body: some View {
         NavigationStack {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: .zero) {
-                   
-                    loadingAnimationView()
-                    
-                    cookeWiseSayingView()
-                    
-                    socialLoginButtonView()
-                    
-                    
-                }
+            VStack(spacing: .zero) {
+               
+                loadingAnimationView()
+                
+                cookeWiseSayingView()
+                
+                socialLoginButtonView()
+                
+                
             }
-            .bounce(false)
             
             .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
                 ServiceUseAgreementView()
@@ -62,10 +59,11 @@ public struct OnBoardingView: View {
             .frame(height: UIScreen.screenWidth*0.2)
         
         HStack(spacing: .zero) {
-            Image(asset: .backery)
+            Image(asset: .house)
                 .resizable()
                 .scaledToFill()
-                .frame(width: UIScreen.screenWidth/2, height: 400)
+                .frame(width: UIScreen.screenWidth/2, height: UIScreen.main.bounds.height == 667 ? 300
+                       : 400)
             
             Spacer()
         }
@@ -76,41 +74,45 @@ public struct OnBoardingView: View {
     private func cookeWiseSayingView() -> some View {
         VStack(alignment: .leading, spacing: .zero) {
             
-            HStack {
-                Spacer()
-                    .frame(width: UIScreen.screenWidth*0.1 + 10)
-                
-                Text("명언제과점")
-                    .gmarketSans(family: .Bold, size: 44)
-                    .foregroundColor(.primaryOrange)
-                Spacer()
-            }
+//            HStack {
+//                Spacer()
+//                    .frame(width: UIScreen.screenWidth*0.1 + 10)
+//
+//                Text("명언제과점")
+//                    .gmarketSans(family: .Bold, size: 44)
+//                    .foregroundColor(.primaryOrange)
+//                Spacer()
+//            }
             
             Spacer()
                 .frame(height: 12)
             
             HStack {
                 Spacer()
-                    .frame(width: UIScreen.screenWidth*0.1 + 10)
+                    .frame(width: UIScreen.screenWidth*0.08 + 10)
                 
                 
                 Text("어제 보다 오늘 더 ")
                     .pretendardFont(family: .SemiBold, size: 18)
+                    .foregroundColor(.basicGray7)
                 
                 Spacer()
             }
+            .offset(x: -10)
             
             Spacer()
-                .frame(height: 12)
+                .frame(height: 8)
             
             HStack {
                 Spacer()
-                    .frame(width: UIScreen.screenWidth*0.1 + 10)
+                    .frame(width: UIScreen.screenWidth*0.08 + 10)
                 Text("맛있는 명언을 굽고 있어요")
                     .pretendardFont(family: .SemiBold, size: 18)
+                    .foregroundColor(.basicGray7)
                 
                 Spacer()
             }
+            .offset(x: -10)
             
            
         }

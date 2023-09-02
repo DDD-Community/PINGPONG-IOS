@@ -26,6 +26,8 @@ public enum ImageAsset: String {
     case errorCircle_rounded
     case cloudOff
     case refresh
+    case house
+    case splash
     //MARK: -  탭바 아이콘
 
     

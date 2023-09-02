@@ -37,9 +37,6 @@ public struct AgreeMentListView: View {
                             .scaledToFit()
                             .frame(width: 20, height: 20)
                             .foregroundColor(checkAgreeButton ? .primaryOrange : .basicGray5)
-                            .onTapGesture {
-                                checkAgreeButton.toggle()
-                            }
                     } else {
                         Image(systemName: checkAgreeButton ? "checkmark.circle.fill" : "checkmark.circle")
                             .resizable()

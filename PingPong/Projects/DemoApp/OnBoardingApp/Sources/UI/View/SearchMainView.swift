@@ -61,6 +61,7 @@ public struct Loading2View_Previews: PreviewProvider {
 
 public struct Loading3View_Previews: PreviewProvider {
     public static var previews: some View {
-        NetworkingErrorView(refreshAction: {})
+//        NetworkingErrorView(refreshAction: {})
+        LaunchView(showLanchView: .constant(true))
     }
 }
