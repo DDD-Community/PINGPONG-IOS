@@ -13,64 +13,86 @@ public struct AgreeMentListView: View {
     @Binding var checkAgreeButton: Bool
     var showleft: Bool
     var title: String
-    var showBold: Bool
+    var agreeAllService: Bool
+    var essential: TermsEssential
     
-    public init(checkAgreeButton: Binding<Bool>, showleft: Bool, title: String, showBold: Bool) {
+    public init(checkAgreeButton: Binding<Bool>, showleft: Bool, title: String, agreeAllService: Bool, essential: TermsEssential) {
         self._checkAgreeButton = checkAgreeButton
         self.showleft = showleft
         self.title = title
-        self.showBold = showBold
+        self.agreeAllService = agreeAllService
+        self.essential = essential
     }
     
     
     public var body: some View {
-        VStack{
-            HStack {
-                Image(systemName: checkAgreeButton ? "checkmark.circle.fill" : "checkmark.circle")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(checkAgreeButton ? .green : .gray)
-                    .onTapGesture {
-                        checkAgreeButton.toggle()
+        ZStack{
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(agreeAllService ? .basicGray3 : .clear)
+            VStack{
+                HStack {
+                    if agreeAllService {
+                        Image(systemName: checkAgreeButton ? "checkmark.circle.fill" : "checkmark.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(checkAgreeButton ? .primaryOrange : .basicGray5)
+                            .onTapGesture {
+                                checkAgreeButton.toggle()
+                            }
+                    } else {
+                        Image(systemName: checkAgreeButton ? "checkmark.circle.fill" : "checkmark.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(checkAgreeButton ? .primaryOrange : .basicGray5)
+                            .onTapGesture {
+                                checkAgreeButton.toggle()
+                            }
                     }
                     
-                if showBold == true {
+                    
                     Text(title)
                         .font(.system(size: 16))
-                        .bold()
-                } else {
-                    Text(title)
-                        .font(.system(size: 16))
-                        .foregroundColor(.gray)
-                }
+                        .foregroundColor(.basicGray9)
+                    if !agreeAllService {
+                        Text(essential.rawValue)
+                            .font(.system(size: 16))
+                            .foregroundColor(essential == .essential ? .primaryOrange : .basicGray5)
+                    }
                     
-                
-                Spacer()
-                
-                if !showleft {
-                    Image(systemName: "chevron.right")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15, height: 15)
-                        .foregroundColor(.gray)
                     
-                } else {
                     Spacer()
                     
+                    if showleft {
+                        Image(systemName: "chevron.right")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.gray)
+                        
+                    } else {
+                        Spacer()
+                        
+                    }
+                    
                 }
-                
             }
-            Spacer()
-                .frame(height: 20)
+            .padding(.vertical, 5)
+            .padding(.horizontal, 20)
         }
-        .padding(.vertical, 5)
+        .frame(height: agreeAllService ? 56 : 35)
         .padding(.horizontal, 20)
     }
 }
 
 struct AgreeMentListView_Previews: PreviewProvider {
     static var previews: some View {
-        AgreeMentListView(checkAgreeButton: .constant(true), showleft: false, title: "", showBold: true)
+        AgreeMentListView(checkAgreeButton: .constant(true), showleft: false, title: "", agreeAllService: true, essential: .essential)
     }
+}
+
+public enum TermsEssential: String {
+    case essential = "(필수)"
+    case choice = "(선택)"
 }

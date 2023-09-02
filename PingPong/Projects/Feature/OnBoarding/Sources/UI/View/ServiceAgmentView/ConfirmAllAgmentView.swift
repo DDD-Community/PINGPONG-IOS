@@ -10,7 +10,7 @@ import SwiftUI
 import Inject
 import DesignSystem
 
-struct ConfrimallAgmentView: View {
+struct ConfirmAllAgmentView: View {
     @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     
     var body: some View {
@@ -85,6 +85,6 @@ struct ConfrimallAgmentView: View {
 
 struct ConfrimallAgmentView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfrimallAgmentView()
+        ConfirmAllAgmentView()
     }
 }

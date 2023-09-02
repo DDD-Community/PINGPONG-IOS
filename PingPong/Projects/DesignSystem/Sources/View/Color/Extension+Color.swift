@@ -16,12 +16,12 @@ public extension Color {
     static let basicGray1BG = Color(hex: "#FFFDFA")
     static let basicGray2 = Color(hex: "#F9F9F9")
     static let basicGray3 = Color(hex: "#F2F2F1")
-    static let gray4 = Color(hex: "#CCCAC8")
-    static let gray5 = Color(hex: "#BEBCB9")
-    static let gray6 = Color(hex: "#999896")
-    static let gray7 = Color(hex: "#666564")
-    static let gray8 = Color(hex: "#333332")
-    static let gray9 = Color(hex: "#232320")
+    static let basicGray4 = Color(hex: "#CCCAC8")
+    static let basicGray5 = Color(hex: "#BEBCB9")
+    static let basicGray6 = Color(hex: "#999896")
+    static let basicGray7 = Color(hex: "#666564")
+    static let basicGray8 = Color(hex: "#333332")
+    static let basicGray9 = Color(hex: "#232320")
 
     // 상태 색상
     static let statusWarning = Color(hex: "#FF717D")

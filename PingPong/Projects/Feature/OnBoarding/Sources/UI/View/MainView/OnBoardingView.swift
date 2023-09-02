@@ -44,7 +44,7 @@ public struct OnBoardingView: View {
             .bounce(false)
             
             .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
-                ServiceUseAgmentView()
+                ServiceUseAgreementView()
             }
         }
         
