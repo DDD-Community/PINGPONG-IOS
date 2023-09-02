@@ -31,16 +31,16 @@ public struct LaunchView: View {
             
             VStack(spacing: 8) {
                 Spacer()
-                    .frame(height: UIScreen.screenHeight/2 + (UIScreen.screenWidth*0.5))
+                    .frame(height: UIScreen.screenHeight/2 + (UIScreen.screenWidth*0.4) + 10)
                 
                 Text("있으면 좀 더 행복한")
                     .foregroundColor(.basicWhite)
-                    .gmarketSans(family: .Medium, size: 22)
+                    .gmarketSans(family: .Medium, size: 18)
                 
                 
                 Text("500g 더 나은 삶을 위한 서비스")
                     .foregroundColor(.basicWhite)
-                    .gmarketSans(family: .Medium, size: 22)
+                    .gmarketSans(family: .Medium, size: 18)
             }
             
         }

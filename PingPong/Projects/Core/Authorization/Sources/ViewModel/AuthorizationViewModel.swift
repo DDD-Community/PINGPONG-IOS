@@ -13,6 +13,13 @@ import FirebaseAuth
 import AuthenticationServices
 import FirebaseDatabase
 import FirebaseFirestore
+import Combine
+import Model
+import CombineMoya
+import API
+import Moya
+import Service
+
 //import GoogleSignIn
 
 public class AuthorizationViewModel: ObservableObject {
@@ -22,17 +29,25 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var nonce: String  = ""
     @AppStorage("log_status") var log_Status = false
     @AppStorage("Uid") public var uid: String = ""
+    @AppStorage("userEmail") public var userEmail: String = ""
+    
     @AppStorage("isLogin") public var isLogin: Bool = false
     @AppStorage("isFirstUser") public var isFirstUser: Bool = false
+    @AppStorage("completdSignUP") public var completdSignUP: Bool = false
     @Published public var loginStatus: Bool = false
     @Published var deleteUser: Bool = false
     
+    
+    var userNickNameCheckCancellable: AnyCancellable?
+    @Published var userNickNameModel: NickNameValidateModel?
+    @Published public var nickNameInvalid: Bool = false
     
     public init() {
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         isFirstUser = UserDefaults.standard.bool(forKey: "isFirstUser")
+        completdSignUP = UserDefaults.standard.bool(forKey: "completdSignUP")
     }
     
     //MARK: - 로그아웃
@@ -103,5 +118,40 @@ public class AuthorizationViewModel: ObservableObject {
                 print("로그인 uid", self.uid)
             }
         }
+    }
+    
+    //MARK: -  유저 이름 검증
+    public func userNickNameValidateToViewModel(_ list: NickNameValidateModel) {
+        self.userNickNameModel = list
+    }
+    
+    public func userNickNameValidateRequest(nickname: String) {
+        if let cancellable = userNickNameCheckCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
+        userNickNameCheckCancellable = provider.requestWithProgressPublisher(.validateName(nickname: nickname))
+            .compactMap{ $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: NickNameValidateModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크 에러 ", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.sucess.status {
+                    self?.userNickNameValidateToViewModel(model)
+                    self?.nickNameInvalid = model.data ?? false
+                    print("nickname 검증 ", model)
+                } else {
+                    self?.userNickNameValidateToViewModel(model)
+                    self?.nickNameInvalid = model.data ?? false
+                    print("nickname 검증 ", model)
+                }
+            })
     }
 }

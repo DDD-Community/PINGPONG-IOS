@@ -24,6 +24,9 @@ final class OnBoardingViewModel: ObservableObject {
     var onBoardingSearchUserCancellable: AnyCancellable?
     @Published var onBoardingSearchUserModel: onBoardingUserPreferenceModel?
     
+    var userNickNameCheckCancellable: AnyCancellable?
+    @Published var userNickNameModel: NickNameValidateModel?
+    @Published var nickNameInvalid: Bool = false
     
     @Published var allAgreeCheckButton: Bool = false
     @Published var checkTermsService: Bool = false
@@ -31,6 +34,7 @@ final class OnBoardingViewModel: ObservableObject {
     @Published var checkReciveMarketingInformation: Bool = false
     @Published var allConfirmAgreeView: Bool = false
     @Published var goToFavoriteViseView: Bool = false
+    
     
     @Published var nickname: String = ""
     
@@ -138,6 +142,7 @@ final class OnBoardingViewModel: ObservableObject {
                 }
             })
     }
+    
 }
 
 

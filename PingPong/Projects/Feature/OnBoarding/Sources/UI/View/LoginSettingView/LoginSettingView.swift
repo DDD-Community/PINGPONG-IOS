@@ -7,12 +7,14 @@
 //
 
 import SwiftUI
+import Authorization
 
 public struct LoginSettingView: View {
     public init() { }
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject private var authviewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     public var body: some View {
         NavigationStack {
@@ -87,9 +89,9 @@ public struct LoginSettingView: View {
                                     .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 34))
                                     .onChange(of: viewModel.nickname, perform: { value in
                                         let nicknamdValidaion = viewModel.validateNickname(nickname: value)
-                                        
+                                        authviewModel.userNickNameValidateRequest(nickname: value)
                                         // 이부분에 중복 확인 코드 넣어주시면 됩니다. :)
-                                        viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: true)
+                                        viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: authviewModel.nickNameInvalid)
                                     })
                                 HStack {
                                     Spacer()
@@ -129,9 +131,10 @@ public struct LoginSettingView: View {
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.allConfirmAgreeView.toggle()
+
                         }
                 }
-                .disabled(viewModel.nicknameValidation == .valid)
+                .disabled(viewModel.nicknameValidation != .valid)
         }
     }
     
@@ -148,6 +151,7 @@ public struct LoginSettingView: View {
         }
     }
 }
+
 
 
 

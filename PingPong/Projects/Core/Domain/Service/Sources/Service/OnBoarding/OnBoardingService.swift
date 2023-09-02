@@ -13,7 +13,6 @@ import Moya
 public enum OnBoardingService {
     case userPreferenceRegister
     case searchUserPreferenceRegister
-    case validateName(nickname: String)
 }
 
 
@@ -24,8 +23,6 @@ extension OnBoardingService: BaseTargetType {
             return PingPongAPIOnBoarding.userPrefURL
         case .searchUserPreferenceRegister:
             return PingPongAPIOnBoarding.searchUserPrefURL
-        case .validateName:
-            return PingPongAPIOnBoarding.validateNickNameURL
         }
     }
     
@@ -34,8 +31,6 @@ extension OnBoardingService: BaseTargetType {
         case .userPreferenceRegister:
             return .post
         case .searchUserPreferenceRegister:
-            return .get
-        case .validateName:
             return .get
         }
     }
@@ -47,11 +42,6 @@ extension OnBoardingService: BaseTargetType {
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         case .searchUserPreferenceRegister:
             let parameters : [String : Any] = [:]
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .validateName(let nickname):
-            let parameters : [String : Any] = [
-                "nickname": nickname
-            ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         }
     }
