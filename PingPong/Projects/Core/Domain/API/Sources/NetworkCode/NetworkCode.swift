@@ -13,6 +13,17 @@ public enum NetworkCode: String , CustomStringConvertible{
     case netWorkError
     case serverError
     
+    public var status: Int {
+        switch self {
+        case .sucess:
+            return 200
+        case .netWorkError:
+            return 400
+        case .serverError:
+            return 500
+        }
+    }
+    
     public var description: String {
         switch self {
         case .sucess:

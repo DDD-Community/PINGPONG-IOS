@@ -35,6 +35,9 @@ struct ConfrimallAgmentView: View {
         .navigationDestination(isPresented: $viewModel.goToFavoriteViseView) {
             FavoriteWiseChoseView()
         }
+        .task {
+            viewModel.onBoardingSearchUserRequest()
+        }
         
     }
     

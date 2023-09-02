@@ -6,49 +6,47 @@
 //
 
 import SwiftUI
-import Inject
 import DesignSystem
-
+import Authorization
+import AuthenticationServices
+//import GoogleSignIn
+//import GoogleSignInSwift
 
 public struct OnBoardingView: View {
-    @ObservedObject private var i0 = Inject.observer
-    
-    @State private var serviceUseAgmentView: Bool = false
+    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     public init() {
         //        self.i0 = i0
     }
-    
     public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
                     Spacer()
-                        .frame(height: UIScreen.screenHeight/8)
-                    
-                    Text("명언제과점에 오신걸 환영합니다")
-                        .bold()
-                        .font(.system(size: 22))
-                    
+                        .frame(height: UIScreen.screenHeight / 8)
                     
                     loadingAnimationView()
+                    Text("명언제과점")
+                        .bold()
+                        .font(.custom("DNF Bit Bit TTF", size: 44))
+                        .foregroundColor(.orange)
                     
                     cookeWiseSayingView()
+                    //                    loginWithGoogle()
                     
                     socialLoginButtonView()
                     
-                    lookAroundService()
                     
                     Spacer(minLength: .zero)
                 }
             }
             .bounce(false)
             
-            .navigationDestination(isPresented: $serviceUseAgmentView) {
+            .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
                 ServiceUseAgmentView()
             }
         }
-        .enableInjection()
         
     }
     
@@ -58,9 +56,8 @@ public struct OnBoardingView: View {
         Spacer()
             .frame(height: UIScreen.screenWidth/7)
         
-        Circle()
-            .fill(.gray.opacity(0.4))
-            .frame(width: 214, height: 214)
+        Image(asset: .pingpongLogoOrange)
+            .padding(.bottom, 16)
     }
     
     
@@ -82,47 +79,60 @@ public struct OnBoardingView: View {
             .frame(height: UIScreen.screenWidth/7)
         
         VStack(spacing: .zero)  {
-            RoundedRectangle(cornerRadius: 25)
-                .fill(.gray.opacity(0.7))
-                .frame(width: UIScreen.screenWidth - 80, height: UIScreen.screenHeight*0.06)
-                .overlay {
-                    Text("카카오톡으로 로그인")
-                        .font(.system(size: 18))
-                }
-            
+            //            GoogleSignInButton(action: handleSignInButton)
             Spacer()
                 .frame(height: 12)
             
-            RoundedRectangle(cornerRadius: 25)
-                .fill(.gray.opacity(0.7))
-                .frame(width: UIScreen.screenWidth - 80, height: UIScreen.screenHeight*0.06)
-                .overlay {
-                    Text("애플로 로그인")
-                        .font(.system(size: 18))
-                }
-            
-            
+            loginWithApple()
             
         }
     }
     
+//    @ViewBuilder
+//    private func loginWithGoogle() -> some View {xzzzzz
+//        Spacer()
+//            .frame(height: 20)
+//        
+//        GoogleSignInButton(scheme: .light, style: .wide) {
+//            authViewModel.googleLogin()
+//        }
+//        
+//        
+//    }
     @ViewBuilder
-    private func lookAroundService() -> some View {
+    private func loginWithApple() -> some View {
         Spacer()
-            .frame(height: 22)
-        VStack(alignment: .center) {
-            Text("서비스 둘러보기")
-                .font(.system(size: 18))
-                .onTapGesture {
-                    serviceUseAgmentView.toggle()
+            .frame(height: 20)
+       
+        SignInWithAppleButton(.signIn) { request in
+            authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
+            request.requestedScopes = [.fullName, .email]
+            request.nonce =  AppleLoginManger.shared.sha256(authViewModel.nonce)
+        } onCompletion: { result in
+            switch result {
+            case .success(let authResult):
+                guard let credential =  authResult.credential as?
+                        ASAuthorizationAppleIDCredential  else  {
+                    debugPrint("파이어 베이스 로그인 에러 ")
+                    return
                 }
+                authViewModel.appleLogin(credential: credential)
+                
+            case .failure(let error):
+                break
+            }
+            
+            
         }
+        .signInWithAppleButtonStyle(.black)
+        .frame(height: 50)
+        .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.black, lineWidth: 1)
+        )
+        .padding(.horizontal, 40)
     }
-    
 }
 
-public struct OnBoardingView_Previews: PreviewProvider {
-    public static var previews: some View {
-        OnBoardingView()
-    }
-}
+
