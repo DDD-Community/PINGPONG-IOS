@@ -36,7 +36,7 @@ public struct ServiceUseAgreementView: View {
             .navigationBarHidden(true)
             
             .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                LoginSettingView()
+                ConfirmAllAgmentView()
             }
         }
     }
@@ -47,10 +47,10 @@ public struct ServiceUseAgreementView: View {
             .frame(height: 20)
         
         HStack {
-            Image(systemName: "chevron.left")
+            Image(systemName: "arrow.left")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 24, height: 24)
+                .frame(width: 30, height: 30)
                 .foregroundColor(.gray)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
@@ -71,7 +71,7 @@ public struct ServiceUseAgreementView: View {
                 VStack {
                     HStack(spacing: 0) {
                         Text("서비스 이용 약관")
-                            .foregroundColor(.primaryOrangeText)
+                            .foregroundColor(.primaryOrange)
                         Text("에")
                         Spacer()
                     }

@@ -25,7 +25,7 @@ public extension Color {
 
     // 상태 색상
     static let statusWarning = Color(hex: "#FF717D")
-    static let statusSuccess = Color(hex: "#3CC882")
+    static let statusSuccess = Color(hex: "#FF772B")
 
     // 주요 색상
     static let primaryOrange = Color(hex: "#FF9960")
