@@ -13,14 +13,16 @@ import SDWebImageSwiftUI
 public struct CustomPOPUP: View {
     var image: ImageAsset
     var title: String
+    var title1: String
     var subTitle: String
     var useGif: Bool
     
     var confirmAction: () -> Void
     
-    public init(image: ImageAsset, title: String, subTitle: String, useGif: Bool, confirmAction: @escaping () -> Void) {
+    public init(image: ImageAsset, title: String, title1: String ,subTitle: String, useGif: Bool, confirmAction: @escaping () -> Void) {
         self.image = image
         self.title = title
+        self.title1 = title1
         self.subTitle = subTitle
         self.useGif = useGif
         self.confirmAction = confirmAction
@@ -30,7 +32,7 @@ public struct CustomPOPUP: View {
         VStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.basicWhite)
-                .frame(width: UIScreen.screenWidth - 40, height: useGif ? 320: 300)
+                .frame(width: UIScreen.screenWidth - 40, height: useGif ? 320: 278)
                 .overlay {
                     VStack {
                         popupImage()
@@ -73,50 +75,65 @@ public struct CustomPOPUP: View {
         Spacer()
             .frame(height: 8)
         
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             if useGif {
                 Text(title)
+                    .pretendardFont(family: .SemiBold, size: 18)
+                    .foregroundColor(.black)
+                
+                Text(title1)
                     .pretendardFont(family: .Bold, size: 18)
                     .foregroundColor(.black)
             } else {
                 Text(title)
-                    .pretendardFont(family: .SemiBold, size: 14)
+                    .pretendardFont(family: .SemiBold, size: 18)
                     .foregroundColor(.black)
+                
+                Text(title1)
+                    .pretendardFont(family: .Bold, size: 18)
+                    .foregroundColor(.black)
+
+                Spacer()
+                    .frame(height: 4)
                 
                 Text(subTitle)
                     .pretendardFont(family: .SemiBold, size: 14)
                     .foregroundColor(.basicGray6)
             }
         }
+        
+        Spacer()
+            .frame(height: 16)
     }
     
     @ViewBuilder
     private func popupButton() -> some View {
         Spacer()
-            .frame(height: 28)
+            .frame(height: 8)
         
-        VStack {
+        VStack(spacing: .zero) {
             if useGif {
                 HStack {
-//                    Spacer()
                     
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 24)
                         .fill(Color.primaryOrange)
-                        .frame(width: 140, height: 38)
+                        .frame(width: UIScreen.screenWidth/3, height: 48)
                         .overlay {
                             Text("네 알겠습니다")
-                                .pretendardFont(family: .SemiBold, size: 18)
+                                .pretendardFont(family: .SemiBold, size: 16)
                         }
                         .onTapGesture {
                             confirmAction()
                         }
                     
-                    
-//                    Spacer()
                 }
+                
+                Spacer()
+                    .frame(height: 16)
+                
             } else {
                 HStack {
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 24)
                         .fill(Color.primaryOrange)
                         .frame(width: UIScreen.screenWidth/3, height: 48)
                         .overlay {
@@ -128,9 +145,11 @@ public struct CustomPOPUP: View {
                         }
                     
                 }
+                
+                Spacer()
+                    .frame(height: 16)
             }
         }
     }
 }
-
 

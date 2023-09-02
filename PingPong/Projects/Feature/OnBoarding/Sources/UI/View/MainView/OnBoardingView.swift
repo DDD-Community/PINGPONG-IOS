@@ -21,18 +21,15 @@ public struct OnBoardingView: View {
     public var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                VStack {
+                VStack(spacing: .zero) {
                    
-                    
                     loadingAnimationView()
                     
                     cookeWiseSayingView()
-                    //                    loginWithGoogle()
                     
                     socialLoginButtonView()
                     
                     
-                    Spacer(minLength: .zero)
                 }
             }
             .bounce(false)
@@ -138,7 +135,9 @@ public struct OnBoardingView: View {
     private func loginWithApple() -> some View {
         Spacer()
             .frame(height: 20)
-       
+       //mark:
+        
+        
         SignInWithAppleButton(.signIn) { request in
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
             request.requestedScopes = [.fullName, .email]
@@ -153,10 +152,13 @@ public struct OnBoardingView: View {
                 }
                 authViewModel.appleLogin(credential: credential)
                 
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    appState.serviceUseAgmentView.toggle()
+                }
+                
             case .failure(let error):
                 appState.signUPFaillPOPUP.toggle()
             }
-            
             
         }
         .signInWithAppleButtonStyle(.black)
@@ -167,6 +169,9 @@ public struct OnBoardingView: View {
                 .stroke(Color.black, lineWidth: 1)
         )
         .padding(.horizontal, 40)
+        
+        Spacer()
+            .frame(height: 48)
     }
 }
 

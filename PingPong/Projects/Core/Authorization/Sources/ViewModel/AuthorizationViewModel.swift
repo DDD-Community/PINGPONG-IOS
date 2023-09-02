@@ -22,6 +22,8 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var nonce: String  = ""
     @AppStorage("log_status") var log_Status = false
     @AppStorage("Uid") public var uid: String = ""
+    @AppStorage("isLogin") public var isLogin: Bool = false
+    @AppStorage("isFirstUser") public var isFirstUser: Bool = false
     @Published public var loginStatus: Bool = false
     @Published var deleteUser: Bool = false
     
@@ -29,6 +31,8 @@ public class AuthorizationViewModel: ObservableObject {
     public init() {
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
+        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
+        isFirstUser = UserDefaults.standard.bool(forKey: "isFirstUser")
     }
     
     //MARK: - 로그아웃

@@ -49,10 +49,18 @@ public struct LoadingView_Previews: PreviewProvider {
 public struct Loading2View_Previews: PreviewProvider {
     public static var previews: some View {
         CustomPOPUP(image: .cloudOff,
-                    title: "인터넷 연결이\n 불안정해요",
+                    title: "인터넷 연결이",
+                    title1: "불안정해요",
                     subTitle: "잠시후 다시 시도해보세요",
                     useGif: false,
                     confirmAction: {})
             .colorScheme(.dark)
+
+    }
+}
+
+public struct Loading3View_Previews: PreviewProvider {
+    public static var previews: some View {
+        NetworkingErrorView(refreshAction: {})
     }
 }
