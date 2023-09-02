@@ -87,7 +87,9 @@ public struct LoginSettingView: View {
                                     .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 34))
                                     .onChange(of: viewModel.nickname, perform: { value in
                                         let nicknamdValidaion = viewModel.validateNickname(nickname: value)
-                                        viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion)
+                                        
+                                        // 이부분에 중복 확인 코드 넣어주시면 됩니다. :)
+                                        viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: true)
                                     })
                                 HStack {
                                     Spacer()

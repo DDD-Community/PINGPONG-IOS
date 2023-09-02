@@ -62,9 +62,11 @@ final class OnBoardingViewModel: ObservableObject {
         }
     };
     //MARK: - 닉네임 유효성 검증
-    public func allValidateNikname(nicknameValidate: Bool){
+    public func allValidateNikname(nicknameValidate: Bool, duplicateValidate: Bool){
         if !nicknameValidate {
             self.nicknameValidation = .invalid
+        } else if !duplicateValidate {
+            self.nicknameValidation = .duplicate
         } else {
             self.nicknameValidation = .valid
         }
