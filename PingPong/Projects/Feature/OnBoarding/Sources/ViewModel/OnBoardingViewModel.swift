@@ -24,7 +24,6 @@ final class OnBoardingViewModel: ObservableObject {
     @Published var appState: OnBoardingAppState = OnBoardingAppState()
     
     @Published var allAgreeCheckButton: Bool = false
-    @Published var check14yearsAgreeButton: Bool = false
     @Published var checkTermsService: Bool = false
     @Published var checkPesonalInformation: Bool = false
     @Published var checkReciveMarketingInformation: Bool = false
@@ -33,21 +32,26 @@ final class OnBoardingViewModel: ObservableObject {
     
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {
-        if !allAgreeCheckButton || !check14yearsAgreeButton || !checkTermsService || !checkPesonalInformation || !checkReciveMarketingInformation {
+        if !allAgreeCheckButton || !checkTermsService || !checkPesonalInformation || !checkReciveMarketingInformation {
             allAgreeCheckButton = true
-            check14yearsAgreeButton = true
             checkTermsService = true
             checkPesonalInformation = true
             checkReciveMarketingInformation = true
         } else {
             allAgreeCheckButton = false
-            check14yearsAgreeButton = false
             checkTermsService = false
             checkPesonalInformation = false
             checkReciveMarketingInformation = false
         }
     }
     
+    var checkAgreementStatus: Bool {
+        return checkTermsService && checkPesonalInformation
+    }
+    
+    var checkAllAgreeStatus: Bool {
+        return checkTermsService && checkPesonalInformation && checkReciveMarketingInformation
+    }
     
     //MARK: -  사용자 취향 관련한 명언 공통코드 맛/출처 조회
     public func onBoardingSearchUserToViewModel(_ list: onBoardingUserPreferenceModel) {
