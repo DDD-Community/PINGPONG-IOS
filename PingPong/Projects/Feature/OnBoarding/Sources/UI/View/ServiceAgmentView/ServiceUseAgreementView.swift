@@ -36,7 +36,7 @@ public struct ServiceUseAgreementView: View {
             .navigationBarHidden(true)
             
             .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                ConfrimallAgmentView()
+                ConfirmAllAgmentView()
             }
         }
     }
