@@ -10,7 +10,7 @@ import SwiftUI
 import Inject
 import DesignSystem
 
-struct ServiceUseAgmentView: View {
+struct ServiceUseAgreementView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -36,7 +36,7 @@ struct ServiceUseAgmentView: View {
             .navigationBarHidden(true)
             
             .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                ConfrimallAgmentView()
+                ConfirmAllAgmentView()
             }
         }
     }
@@ -145,6 +145,6 @@ struct ServiceUseAgmentView: View {
 
 struct ServiceUseAgmentView_Previews: PreviewProvider {
     static var previews: some View {
-        ServiceUseAgmentView()
+        ServiceUseAgreementView()
     }
 }

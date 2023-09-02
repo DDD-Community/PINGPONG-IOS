@@ -10,7 +10,60 @@ import Foundation
 import SwiftUI
 
 public extension Color {
-    static let primaryOrange = Color(hex: "FF9960")
+    static let basicWhite = Color(hex: "#FFFFFF")
+    static let basicBlack = Color(hex: "#000000")
+    static let basicBlackDimmed = Color(hex: "#333332").opacity(0.7)
+    static let basicGray1BG = Color(hex: "#FFFDFA")
+    static let basicGray2 = Color(hex: "#F9F9F9")
+    static let basicGray3 = Color(hex: "#F2F2F1")
+    static let gray4 = Color(hex: "#CCCAC8")
+    static let gray5 = Color(hex: "#BEBCB9")
+    static let gray6 = Color(hex: "#999896")
+    static let gray7 = Color(hex: "#666564")
+    static let gray8 = Color(hex: "#333332")
+    static let gray9 = Color(hex: "#232320")
+
+    // 상태 색상
+    static let statusWarning = Color(hex: "#FF717D")
+    static let statusSuccess = Color(hex: "#FF772B")
+
+    // 주요 색상
+    static let primaryOrange = Color(hex: "#FF9960")
+    static let primaryOrangeText = Color(hex: "#FF772B")
+    static let primaryOrangeOpacity30 = Color(hex: "#FF9960").opacity(0.3)
+    static let primaryOrangeOpacity40 = Color(hex: "#FF9960").opacity(0.4)
+    static let primaryOrangeLight = Color(hex: "#FDC9AD")
+    static let primaryOrangeMedium = Color(hex: "#C59F83")
+    static let primaryOrangeDark = Color(hex: "#522F16")
+    static let primaryOrangeBright = Color(hex: "#FCF7F2")
+
+    // 카드 배경 색상
+    static let sweetBG = Color(hex: "#F7E9E9")
+    static let sweetIconBG = Color(hex: "#EFDEDE")
+    static let sweetIconText = Color(hex: "#D89191")
+    static let sweetFilter = Color(hex: "#EFD3D3")
+
+    static let saltyBG = Color(hex: "#E6F5FA")
+    static let saltyIconBG = Color(hex: "#D6EAF1")
+    static let saltyIconText = Color(hex: "#61A0B6")
+
+    static let hotBG = Color(hex: "#F1E8E3")
+    static let hotIconBG = Color(hex: "#EFDED2")
+    static let hotIconText = Color(hex: "#BB8C72")
+
+    static let nuttyBG = Color(hex: "#F7F3E2")
+    static let nuttyIconBG = Color(hex: "#EBE5CC")
+    static let nuttyIconText = Color(hex: "#AE9769")
+    static let nuttyFilter = Color(hex: "#CEC0A5")
+
+    static let mildBG = Color(hex: "#EAF3E8")
+    static let mildIconBG = Color(hex: "#DAE7D7")
+    static let mildIconText = Color(hex: "#869E81")
+
+    // 카드 텍스트 색상
+    static let cardTextMain = Color(hex: "#F2F2F1")
+
+
     
 }
 
