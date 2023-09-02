@@ -111,11 +111,12 @@ public struct CompleteLoginView: View {
                         .onTapGesture {
                             authViewModel.signupPost(uid: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
                                 authViewModel.isLogin = true
+//                                authViewModel.completdSignUP = true
                                 viewModel.allConfirmAgreeView.toggle()
                             }
                         }
                 }
-                .disabled(viewModel.selectedJob == nil)
+                .disabled(viewModel.selectedJob != nil)
         }
     }
     

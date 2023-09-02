@@ -140,6 +140,7 @@ public struct OnBoardingView: View {
        //mark:
         
         
+        
         SignInWithAppleButton(.signIn) { request in
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
             request.requestedScopes = [.fullName, .email]

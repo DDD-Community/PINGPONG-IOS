@@ -133,10 +133,10 @@ final class OnBoardingViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.sucess.status {
                     self?.onBoardingSearchUserToViewModel(model)
-                    print("용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
+                    print("사용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
                 } else {
                     self?.onBoardingSearchUserToViewModel(model)
-                    print("용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
+                    print("사용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
                     self?.appState.netWorkErrorPOP = true
                 }
             })
