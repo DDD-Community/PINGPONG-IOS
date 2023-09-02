@@ -42,7 +42,7 @@ public struct PretendardFont: ViewModifier {
     public var size: CGFloat
     
     public func body(content: Content) -> some View {
-        return content.font(.custom("Pretendard-\(family)", fixedSize: size))
+        return content.font(.custom("PretendardVariable-\(family)", fixedSize: size))
     }
 }
 
@@ -55,14 +55,14 @@ public extension View {
 
 public extension UIFont {
     public static func pretendardFontFamily(family: PretendardFontFamily, size: CGFloat) -> Font{
-        let font = Font.custom("Pretendard-\(family)", size: size)
+        let font = Font.custom("PretendardVariable-\(family)", size: size)
         return font
     }
 }
 
 public extension Font {
     public static func pretendardFontFamily(family: PretendardFontFamily, size: CGFloat) -> Font{
-        let font = Font.custom("Pretendard-\(family)", size: size)
+        let font = Font.custom("PretendardVariable-\(family)", size: size)
         return font
     }
 }

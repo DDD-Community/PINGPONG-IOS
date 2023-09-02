@@ -110,6 +110,7 @@ public struct OnBoardingView: View {
                 Spacer()
                     .frame(width: UIScreen.screenWidth*0.1 + 10)
                 Text("맛있는 명언을 굽고 있어요")
+                    .pretendardFont(family: .SemiBold, size: 18)
                 
                 Spacer()
             }

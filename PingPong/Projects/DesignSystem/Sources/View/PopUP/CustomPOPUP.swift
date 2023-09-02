@@ -67,7 +67,7 @@ public struct CustomPOPUP: View {
                 .foregroundColor(.black)
             
             Text(subTitle)
-                .pretendardFont(family: .SemiBold, size: 14)
+                .pretendardFont(family: .Bold, size: 16)
         }
     }
 }
