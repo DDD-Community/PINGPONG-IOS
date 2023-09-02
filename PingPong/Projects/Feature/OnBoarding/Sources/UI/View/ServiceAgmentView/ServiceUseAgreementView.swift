@@ -28,10 +28,8 @@ public struct ServiceUseAgreementView: View {
                     
                     Spacer()
                 }
-                
                 confirmButtonView()
-                    .padding()
-                
+                    .padding(.bottom, 30)
                 
             }
             .navigationBarHidden(true)
@@ -51,7 +49,7 @@ public struct ServiceUseAgreementView: View {
             Image(systemName: "chevron.left")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 24, height: 24)
+                .frame(width: 10, height: 18)
                 .foregroundColor(.gray)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()

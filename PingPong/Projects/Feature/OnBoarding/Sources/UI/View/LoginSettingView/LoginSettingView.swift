@@ -15,12 +15,11 @@ public struct LoginSettingView: View {
     @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     
     public var body: some View {
-        NavigationStack {
             ZStack (alignment: .bottom) {
                 VStack {
                     topHeaderBackButton()
                     
-                    serviceUseAgreeTextView()
+                    loginSettingContentView()
                     
                     confirmButtonView()
                         .padding(.top, 62)
@@ -31,10 +30,9 @@ public struct LoginSettingView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                ConfirmAllAgmentView()
+            .navigationDestination(isPresented: $viewModel.LoginSettingView) {
+                LoginJobSettingView()
             }
-        }
     }
     
     @ViewBuilder
@@ -46,7 +44,7 @@ public struct LoginSettingView: View {
             Image(systemName: "chevron.left")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 24, height: 24)
+                .frame(width: 10, height: 18)
                 .foregroundColor(.gray)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
@@ -57,7 +55,7 @@ public struct LoginSettingView: View {
     }
     
     @ViewBuilder
-    private func serviceUseAgreeTextView() -> some View {
+    private func loginSettingContentView() -> some View {
         Group {
             VStack{
                 Spacer()
@@ -128,10 +126,10 @@ public struct LoginSettingView: View {
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.allConfirmAgreeView.toggle()
+                            viewModel.LoginSettingView.toggle()
                         }
                 }
-                .disabled(viewModel.nicknameValidation == .valid)
+                .disabled(viewModel.nicknameValidation != .valid)
         }
     }
     

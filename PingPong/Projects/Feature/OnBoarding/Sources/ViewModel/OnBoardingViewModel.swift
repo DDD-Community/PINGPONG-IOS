@@ -30,6 +30,8 @@ final class OnBoardingViewModel: ObservableObject {
     @Published var checkPesonalInformation: Bool = false
     @Published var checkReciveMarketingInformation: Bool = false
     @Published var allConfirmAgreeView: Bool = false
+    @Published var LoginSettingView: Bool = false
+    
     @Published var goToFavoriteViseView: Bool = false
     
     @Published var nickname: String = ""
@@ -38,6 +40,7 @@ final class OnBoardingViewModel: ObservableObject {
     @Published var validationText: String = " "
     @Published var validationColor: Color = .basicGray4
     @Published var validationImageName: String?
+    @Published var selectedJob: String? = nil
     
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
     
