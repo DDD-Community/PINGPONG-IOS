@@ -44,22 +44,40 @@ public struct onBoardingUserPreferenceResponse: Codable , Identifiable {
 }
 
 // MARK: - CommCD
-public struct CommCD: Codable {
+public struct CommCD: Codable, Identifiable, Hashable {
+    public let id = UUID().uuidString
+    public let regDttm, modDttm, regrID, regrNm: String?
+    public let modrID, modrNm, rmk, rowStatus: String?
     public let commCDID: Int
     public let commCD, commNm: String
 
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
+        case regDttm, modDttm
+        case regrID = "regrId"
+        case regrNm
+        case modrID = "modrId"
+        case modrNm, rmk, rowStatus
         case commCDID = "commCdId"
         case commCD = "commCd"
         case commNm
     }
     
-    public init(commCDID: Int, commCD: String, commNm: String) {
+    
+    public init(regDttm: String?, modDttm: String?, regrID: String?, regrNm: String?, modrID: String?, modrNm: String?, rmk: String?, rowStatus: String?, commCDID: Int, commCD: String, commNm: String) {
+        self.regDttm = regDttm
+        self.modDttm = modDttm
+        self.regrID = regrID
+        self.regrNm = regrNm
+        self.modrID = modrID
+        self.modrNm = modrNm
+        self.rmk = rmk
+        self.rowStatus = rowStatus
         self.commCDID = commCDID
         self.commCD = commCD
         self.commNm = commNm
     }
 }
+
 
 
 

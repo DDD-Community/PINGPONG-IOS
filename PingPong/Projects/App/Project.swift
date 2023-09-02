@@ -25,6 +25,7 @@ let project = Project.makeAppWidgetModule(
     setting: .appMainSetting,
     dependencies: [
         .SPM.Inject,
+        .SPM.FirebaseMessaging,
         .Projcet.Core,
         .sdk(name: "WidgetKit", type: .framework),
         

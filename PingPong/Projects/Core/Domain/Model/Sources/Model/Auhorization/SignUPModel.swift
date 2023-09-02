@@ -22,9 +22,9 @@ public struct SignUPModel: Codable {
 
 // MARK: - DataClass
 public struct SignUPResponseModel: Codable {
-    public let id: Int
-    public let uid, fcm, email, nickname: String
-    public let jobCD, rmk: String
+    public let id: Int?
+    public let uid, fcm, email, nickname: String?
+    public let jobCD, rmk: String?
 
     public enum CodingKeys: String, CodingKey {
         case id, uid, fcm, email, nickname
@@ -32,7 +32,7 @@ public struct SignUPResponseModel: Codable {
         case rmk
     }
     
-    public init(id: Int, uid: String, fcm: String, email: String, nickname: String, jobCD: String, rmk: String) {
+    public init(id: Int?, uid: String?, fcm: String?, email: String?, nickname: String?, jobCD: String?, rmk: String?) {
         self.id = id
         self.uid = uid
         self.fcm = fcm

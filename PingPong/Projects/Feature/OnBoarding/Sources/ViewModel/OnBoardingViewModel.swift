@@ -23,11 +23,6 @@ final class OnBoardingViewModel: ObservableObject {
     //MARK: -  사용자 취향 코드 모델
     var onBoardingSearchUserCancellable: AnyCancellable?
     @Published var onBoardingSearchUserModel: onBoardingUserPreferenceModel?
-    
-    var userNickNameCheckCancellable: AnyCancellable?
-    @Published var userNickNameModel: NickNameValidateModel?
-    @Published var nickNameInvalid: Bool = false
-    
     @Published var allAgreeCheckButton: Bool = false
     @Published var checkTermsService: Bool = false
     @Published var checkPesonalInformation: Bool = false
@@ -41,10 +36,11 @@ final class OnBoardingViewModel: ObservableObject {
     @Published var nickname: String = ""
     
     @Published var nicknameValidation: NicknameValidationType = .notValidated    
-    @Published var validationText: String = " "
+    @Published var validationText: String = ""
     @Published var validationColor: Color = .basicGray4
     @Published var validationImageName: String?
     @Published var selectedJob: String? = nil
+    @Published var selectJobCode: Int = .zero
     
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
     

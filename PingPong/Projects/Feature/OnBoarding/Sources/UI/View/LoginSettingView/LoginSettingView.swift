@@ -32,7 +32,7 @@ public struct LoginSettingView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.LoginSettingView) {
+            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
                 LoginJobSettingView()
             }
     }
@@ -133,6 +133,7 @@ public struct LoginSettingView: View {
                         }
                 }
                 .disabled(viewModel.nicknameValidation != .valid)
+            
         }
     }
     
