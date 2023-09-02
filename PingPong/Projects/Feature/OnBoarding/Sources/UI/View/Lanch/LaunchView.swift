@@ -21,32 +21,19 @@ public struct LaunchView: View {
     
     public var body: some View {
         ZStack {
-            Color.primaryOrange
             
-            VStack {
-                Spacer()
-                
-                Image(asset: .pingpongLogo)
-                    .padding(.bottom, 16)
-                Text("명언제과점")
-                    .font(.custom("PretendardVariable-SemiBold", size: 24))
-                    .foregroundColor(.white)
-                    .padding(.bottom, 162)
-                Text("있으면 좀 더 행복한\n500g 더 나은 삶을 위한 서비스")
-                    .font(.custom("PretendardVariable-SemiBold", size: 18))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    
-                Spacer()
-                
-            }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                    showLanchView.toggle()
-                }
+            Image(asset: .splashView)
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+            
+            
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                showLanchView.toggle()
             }
         }
-        .ignoresSafeArea()
     }
 }
 

@@ -17,6 +17,7 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
+        .SPM.SDWebImageSwiftUI
     ],
     sources: ["Sources/**"],
     resources: ["Resources/**"]

@@ -9,8 +9,7 @@ import SwiftUI
 import DesignSystem
 import Authorization
 import AuthenticationServices
-//import GoogleSignIn
-//import GoogleSignInSwift
+import PopupView
 
 public struct OnBoardingView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
@@ -21,16 +20,11 @@ public struct OnBoardingView: View {
     }
     public var body: some View {
         NavigationStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack {
-                    Spacer()
-                        .frame(height: UIScreen.screenHeight / 8)
+                   
                     
                     loadingAnimationView()
-                    Text("명언제과점")
-                        .bold()
-                        .font(.custom("DNF Bit Bit TTF", size: 44))
-                        .foregroundColor(.orange)
                     
                     cookeWiseSayingView()
                     //                    loginWithGoogle()
@@ -44,9 +38,23 @@ public struct OnBoardingView: View {
             .bounce(false)
             
             .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
-                ServiceUseAgmentView()
+                ServiceUseAgreementView()
+//                ServiceUseAgmentView()
             }
         }
+        
+        .popup(isPresented: $appState.signUPFaillPOPUP) {
+            FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "회원가입에 오류가 생겼습니다. 다시 시도해주세요")
+        } customize: { popup in
+            popup
+                .type(.floater(verticalPadding: 10))
+                .position(.top)
+                .animation(.easeIn)
+                .closeOnTap(true)
+                .closeOnTapOutside(true)
+            
+        }
+
         
     }
     
@@ -54,23 +62,61 @@ public struct OnBoardingView: View {
     private func loadingAnimationView() -> some View {
         
         Spacer()
-            .frame(height: UIScreen.screenWidth/7)
+            .frame(height: UIScreen.screenWidth*0.2)
         
-        Image(asset: .pingpongLogoOrange)
-            .padding(.bottom, 16)
+        HStack(spacing: .zero) {
+            Image(asset: .backery)
+                .resizable()
+                .scaledToFill()
+                .frame(width: UIScreen.screenWidth/2, height: 400)
+            
+            Spacer()
+        }
     }
     
     
     @ViewBuilder
     private func cookeWiseSayingView() -> some View {
-        Spacer()
-            .frame(height: UIScreen.screenWidth/7)
-        
-        VStack(alignment: .center) {
-            Text("어제 보다 오늘 더 ")
-            Text("맛있는 명언을 굽고 있어요")
+        VStack(alignment: .leading, spacing: .zero) {
+            
+            HStack {
+                Spacer()
+                    .frame(width: UIScreen.screenWidth*0.1 + 10)
+                
+                Text("명언제과점")
+                    .gmarketSans(family: .Bold, size: 44)
+                    .foregroundColor(.primaryOrange)
+                Spacer()
+            }
+            
+            Spacer()
+                .frame(height: 12)
+            
+            HStack {
+                Spacer()
+                    .frame(width: UIScreen.screenWidth*0.1 + 10)
+                
+                
+                Text("어제 보다 오늘 더 ")
+                    .pretendardFont(family: .SemiBold, size: 18)
+                
+                Spacer()
+            }
+            
+            Spacer()
+                .frame(height: 12)
+            
+            HStack {
+                Spacer()
+                    .frame(width: UIScreen.screenWidth*0.1 + 10)
+                Text("맛있는 명언을 굽고 있어요")
+                
+                Spacer()
+            }
+            
+           
         }
-        .font(.system(size: 22))
+        .padding(.horizontal, 20)
     }
     
     @ViewBuilder
@@ -79,7 +125,6 @@ public struct OnBoardingView: View {
             .frame(height: UIScreen.screenWidth/7)
         
         VStack(spacing: .zero)  {
-            //            GoogleSignInButton(action: handleSignInButton)
             Spacer()
                 .frame(height: 12)
             
@@ -87,18 +132,7 @@ public struct OnBoardingView: View {
             
         }
     }
-    
-//    @ViewBuilder
-//    private func loginWithGoogle() -> some View {xzzzzz
-//        Spacer()
-//            .frame(height: 20)
-//        
-//        GoogleSignInButton(scheme: .light, style: .wide) {
-//            authViewModel.googleLogin()
-//        }
-//        
-//        
-//    }
+
     @ViewBuilder
     private func loginWithApple() -> some View {
         Spacer()
@@ -119,16 +153,16 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
             case .failure(let error):
-                break
+                appState.signUPFaillPOPUP.toggle()
             }
             
             
         }
         .signInWithAppleButtonStyle(.black)
         .frame(height: 50)
-        .cornerRadius(10)
+        .cornerRadius(20)
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.black, lineWidth: 1)
         )
         .padding(.horizontal, 40)

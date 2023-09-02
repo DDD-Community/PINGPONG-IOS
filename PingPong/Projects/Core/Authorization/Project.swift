@@ -30,6 +30,7 @@ let project = Project.makeAppModule(
         .SPM.FirebaseFirestore,
         .SPM.FirebaseMessaging,
         .SPM.FirebaseDatabase
+        
 //        .SPM.GoogleSignIn,
 //        .SPM.GoogleSignInSwift
 //        .SPM.FirebaseFirestore

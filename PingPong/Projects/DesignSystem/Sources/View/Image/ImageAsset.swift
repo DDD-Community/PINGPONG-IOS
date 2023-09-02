@@ -21,6 +21,10 @@ public enum ImageAsset: String {
     case googleLogo
     case pingpongLogo
     case pingpongLogoOrange
+    case splashView
+    case backery
+    case errorCircle_rounded
+    case cloudOff
     //MARK: -  탭바 아이콘
 
     
