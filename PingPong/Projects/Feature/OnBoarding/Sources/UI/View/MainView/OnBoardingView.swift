@@ -33,12 +33,11 @@ public struct OnBoardingView: View {
             
             .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
                 ServiceUseAgreementView()
-//                ServiceUseAgmentView()
             }
         }
         
         .popup(isPresented: $appState.signUPFaillPOPUP) {
-            FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "회원가입에 오류가 생겼습니다. 다시 시도해주세요")
+            FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "애플로그인에 오류가 생겼습니다. 다시 시도해주세요")
         } customize: { popup in
             popup
                 .type(.floater(verticalPadding: 10))
@@ -73,17 +72,6 @@ public struct OnBoardingView: View {
     @ViewBuilder
     private func cookeWiseSayingView() -> some View {
         VStack(alignment: .leading, spacing: .zero) {
-            
-//            HStack {
-//                Spacer()
-//                    .frame(width: UIScreen.screenWidth*0.1 + 10)
-//
-//                Text("명언제과점")
-//                    .gmarketSans(family: .Bold, size: 44)
-//                    .foregroundColor(.primaryOrange)
-//                Spacer()
-//            }
-            
             Spacer()
                 .frame(height: 12)
             

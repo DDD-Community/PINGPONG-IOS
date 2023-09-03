@@ -23,6 +23,10 @@ public class OnBoardingViewModel: ObservableObject {
     //MARK: -  사용자 취향 코드 모델
     var onBoardingSearchUserCancellable: AnyCancellable?
     @Published var onBoardingSearchUserModel: onBoardingUserPreferenceModel?
+    
+    var onBoardingRegisterFlavorCancellable: AnyCancellable?
+    @Published var onBoardingRegisterFlavor: onBoardingRegisterFlavorModel?
+    
     @Published var allAgreeCheckButton: Bool = false
     @Published var checkTermsService: Bool = false
     @Published var checkPesonalInformation: Bool = false
@@ -36,6 +40,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var isStartChoiceFavoritedView: Bool = false
     @Published var isSelectedCategory: Bool = false
     @Published var isSelectedCharacter: Bool = false
+    
     
     
     @Published var goToFavoriteViseView: Bool = false
@@ -177,6 +182,8 @@ public class OnBoardingViewModel: ObservableObject {
             })
     }
     
+    
+    
     //MARK: favorite 관련
     func appendAndPopFavorite(favorite: Favorite) {
         guard self.selectedFavorite.count < 2 || self.selectedFavorite.contains(favorite) else { return }
@@ -222,5 +229,9 @@ public class OnBoardingViewModel: ObservableObject {
             self.flavorArray.options[index].isCheck = true
         }
     }
+    
+    
+    //MARK: -  취향  등록
+    
     
 }

@@ -23,14 +23,14 @@ extension AuthorizationService: BaseTargetType {
         switch self {
         case .signup:
             return PingPongAPIAuthorization.signupURL
-        case .validateUid:
-            return PingPongAPIAuthorization.validatUidURL
+        case .validateUid(let uid):
+            return "\(PingPongAPIAuthorization.validatUidURL)/\(uid)"
         case .validateName:
             return PingPongAPIAuthorization.validateNickNameURL
-        case .searchUserByUid:
-            return PingPongAPIAuthorization.searchUserByUidURL
-        case .searchUserByid:
-            return PingPongAPIAuthorization.searchUserByidURL
+        case .searchUserByUid(let uid):
+            return "\(PingPongAPIAuthorization.searchUserByUidURL)/\(uid)"
+        case .searchUserByid(let id):
+            return "\(PingPongAPIAuthorization.searchUserByidURL)/\(id)"
         }
     }
     

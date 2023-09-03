@@ -11,7 +11,7 @@ import API
 import Moya
 
 public enum OnBoardingService {
-    case userPreferenceRegister
+    case userPreferenceRegister(userId: String, flavors: [String], sources: [String])
     case searchUserPreferenceRegister
 }
 
@@ -37,12 +37,16 @@ extension OnBoardingService: BaseTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .userPreferenceRegister:
-            let parameters : [String : Any] = [:]
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+        case .userPreferenceRegister(let userId, let flavors, let sources):
+            let parameters : [String : Any] = [
+                "userId": userId,
+                "flavors": flavors,
+                "sources": sources
+            ]
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         case .searchUserPreferenceRegister:
             let parameters : [String : Any] = [:]
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         }
     }
 }

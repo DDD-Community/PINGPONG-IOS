@@ -13,5 +13,5 @@ public enum PingPongAPIAuthorization {
     public static let validatUidURL = String("validate-uid")
     public static let validateNickNameURL = String("validate-nickname")
     public static let searchUserByUidURL = String("search-user-by-uid")
-    public static let searchUserByidURL = String("search-user-by-id/103")
+    public static let searchUserByidURL = String("search-user-by-id")
 }
