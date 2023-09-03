@@ -15,7 +15,7 @@ import PopupView
 public struct CompleteLoginView: View {
     @StateObject private var viewModel: OnBoardingViewModel
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     
        public init(viewModel: OnBoardingViewModel) {

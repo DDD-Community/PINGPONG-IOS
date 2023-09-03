@@ -9,13 +9,12 @@
 import Foundation
 import DesignSystem
 import SwiftUI
-import Authorization
 
 public struct OnBoardingPushViiew: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appState : OnBoardingAppState = OnBoardingAppState()
     @StateObject var viewModel: OnBoardingViewModel
-    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -50,7 +49,6 @@ public struct OnBoardingPushViiew: View {
             
             .navigationDestination(isPresented: $appState.completOnBoardingView) {
                 CompletOnBoardingView(viewModel: viewModel)
-                    .environmentObject(authViewModel)
                     .navigationBarHidden(true)
             }
             

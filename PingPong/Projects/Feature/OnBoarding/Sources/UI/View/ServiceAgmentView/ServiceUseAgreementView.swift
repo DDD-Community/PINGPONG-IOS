@@ -9,14 +9,12 @@
 import SwiftUI
 import Inject
 import DesignSystem
-import Authorization
 
 public struct ServiceUseAgreementView: View {
     public init() { }
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
-    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     public var body: some View {
         ZStack (alignment: .bottom) {

@@ -14,7 +14,7 @@ import Inject
 
 public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
-    @EnvironmentObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var io = Inject.observer
     @StateObject var viewModel: OnBoardingViewModel
     

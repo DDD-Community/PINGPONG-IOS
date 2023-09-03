@@ -14,7 +14,6 @@ class OnBoardingAppState: ObservableObject {
     @State var netWorkErrorPOP: Bool = false
     @State var errorMessage: String = ""
     @Published var serviceUseAgmentView: Bool = false
-    @Published var goToMainView: Bool = false
     @Published var signUPFaillPOPUP: Bool = false
     
     @Published public var selectedTime = Date()
