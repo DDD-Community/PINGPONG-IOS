@@ -14,6 +14,7 @@ struct PingPongProjectApp: App {
     @StateObject var sheetManager = SheetManager()
     @State var showlanch: Bool = true
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var sheetManger = SheetManager()
     
     var body: some Scene {
         WindowGroup {
