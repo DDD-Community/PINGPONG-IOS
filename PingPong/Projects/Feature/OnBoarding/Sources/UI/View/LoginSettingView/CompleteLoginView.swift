@@ -12,10 +12,12 @@ import SwiftUI
 import Authorization
 
 public struct CompleteLoginView: View {
+    @StateObject private var viewModel: OnBoardingViewModel
+       
+       public init(viewModel: OnBoardingViewModel) {
+           self._viewModel = StateObject(wrappedValue: viewModel)
+       }
     @Environment(\.presentationMode) var presentationMode
-    
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
-    @StateObject private var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     
@@ -35,8 +37,8 @@ public struct CompleteLoginView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                //회원가입 완료 후 보낼 뷰를 넣어주세요 :)
+            .navigationDestination(isPresented: $viewModel.isCompleteSignupView) {
+//                FavoriteWiseChoseView(viewModel: self.viewModel)
             }
     }
     
@@ -109,10 +111,11 @@ public struct CompleteLoginView: View {
                         .foregroundColor(.basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
+                            viewModel.isCompleteSignupView.toggle()
                             authViewModel.signupPost(uid: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
                                 authViewModel.isLogin = true
-//                                authViewModel.completdSignUP = true
                                 viewModel.allConfirmAgreeView.toggle()
+//                                authViewModel.completdSignUP = true
                             }
                         }
                 }

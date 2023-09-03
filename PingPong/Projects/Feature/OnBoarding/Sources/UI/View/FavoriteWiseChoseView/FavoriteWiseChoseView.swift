@@ -7,25 +7,33 @@
 //
 
 import SwiftUI
-import Inject
 import DesignSystem
 
-struct FavoriteWiseChoseView: View {
-    @ObservedObject private var i0 = Inject.observer
+public struct FavoriteWiseChoseView: View {
+    public init() { }
     
-    var body: some View {
-        VStack {
-            ScrollView {
-                
+//    @StateObject private var viewModel: OnBoardingViewModel
+//       
+//       public init(viewModel: OnBoardingViewModel) {
+//           self._viewModel = StateObject(wrappedValue: viewModel)
+//       }
+    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    public var body: some View {
+        NavigationStack {
+            VStack {
                 favoriteWiseChooseHeaderTitle()
-                
+                Spacer()
+                Image(assetName: "selectFavoriteImage")
                 
                 Spacer()
+                startButtonView()
+                    .padding(.bottom, 30)
             }
-            .bounce(false)
+            .navigationBarHidden(true)
+            .navigationDestination(isPresented: $viewModel.isStartChoiceFavoritedView) {
+                SelectCategoryView(viewModel: self.viewModel)
+            }
         }
-        .navigationBarHidden(true)
-        .enableInjection()
     }
     
     @ViewBuilder
@@ -36,40 +44,35 @@ struct FavoriteWiseChoseView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center) {
                 Text("더 맛있는 명언을 위해")
-                    .font(.system(size: 22, weight: .bold))
                 Spacer()
             }
                 
-            HStack(alignment: .center) {
-                Text("당신에 대해 알려주세요!")
-                    .font(.system(size: 22, weight: .bold))
+            HStack(alignment: .center, spacing: 0) {
+                Text("\(self.viewModel.nickname)")
+                    .foregroundStyle(Color.primaryOrange)
+                Text("님에 대해 알려주세요.")
+                    
                 Spacer()
             }
-            
-            Spacer()
-                .frame(height: 5)
-            
-            HStack(alignment: .center) {
-                Text("(최대 2개)")
-                    .font(.system(size: 18))
-                Spacer()
-            }
-            
-            HStack(alignment: .center) {
-                Text("나는")
-                    .font(.system(size: 18))
-                Spacer()
-            }
-            
-            
-            
         }
+        .pretendardFont(family: .SemiBold, size: 24)
         .padding(.horizontal, 20)
     }
-}
-
-struct FavoriteWiseChoseView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoriteWiseChoseView()
+    
+    @ViewBuilder
+    private func startButtonView() -> some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(.primaryOrange)
+                .frame(width: UIScreen.screenWidth - 40 , height: 50)
+                .overlay {
+                    Text("시작하기")
+                        .foregroundColor(.basicWhite)
+                        .font(.system(size: 16))
+                        .onTapGesture {
+                            viewModel.isStartChoiceFavoritedView.toggle()
+                        }
+                }
+        }
     }
 }

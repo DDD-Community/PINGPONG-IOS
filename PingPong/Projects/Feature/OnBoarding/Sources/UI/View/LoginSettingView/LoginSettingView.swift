@@ -10,7 +10,13 @@ import SwiftUI
 import Authorization
 
 public struct LoginSettingView: View {
-    public init() { }
+    
+    @StateObject private var viewModel: OnBoardingViewModel
+       
+       public init(viewModel: OnBoardingViewModel) {
+           self._viewModel = StateObject(wrappedValue: viewModel)
+       }
+    
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
