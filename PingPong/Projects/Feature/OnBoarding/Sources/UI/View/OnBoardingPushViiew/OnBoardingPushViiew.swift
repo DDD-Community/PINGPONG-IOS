@@ -45,7 +45,12 @@ public struct OnBoardingPushViiew: View {
                 .bounce(false)
             }
             .navigationDestination(isPresented: $appState.completPushNotificationView) {
-                CompletedPushNotificationView(isActivePushNotifcation: $appState.isOnOFFToggle, viewModel: self.viewModel)
+                CompletedPushNotificationView(viewModel: self.viewModel)
+                    .navigationBarHidden(true)
+            }
+            
+            .navigationDestination(isPresented: $appState.completOnBoardingView) {
+                CompletOnBoardingView(viewModel: viewModel)
                     .navigationBarHidden(true)
             }
             
@@ -77,7 +82,7 @@ public struct OnBoardingPushViiew: View {
                     .pretendardFont(family: .Regular, size: 14)
                     .foregroundColor(.basicGray6)
                     .onTapGesture {
-                        appState.completPushNotificationView.toggle()
+                        appState.completOnBoardingView.toggle()
                     }
                 
                 Spacer()
@@ -238,7 +243,7 @@ public struct OnBoardingPushViiew: View {
     @ViewBuilder
     private func selectOnBoardingPushButton() -> some View {
         Spacer()
-            .frame(height: 80)
+            .frame(height: UIScreen.main.bounds.height.native >= 926 ? UIScreen.screenHeight*0.2 : UIScreen.main.bounds.height == 667 ? UIScreen.screenHeight*0.05 : UIScreen.screenHeight*0.1 + (UIScreen.screenHeight*0.05))
         
         VStack(spacing: 8) {
             RoundedRectangle(cornerRadius: 12)
@@ -266,18 +271,20 @@ public struct OnBoardingPushViiew: View {
                                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                                         
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            appState.completPushNotificationView.toggle()
+                                            appState.completOnBoardingView.toggle()
                                         }
                                         
                                     }
-                                }
-                                else {
+                                } else {
                                     DispatchQueue.main.async {
                                         if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
                                             if UIApplication.shared.canOpenURL(settingsURL) {
                                                 UIApplication.shared.open(settingsURL)
                                             }
                                         }
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+                                        appState.completPushNotificationView.toggle()
                                     }
                                 }
                             }
@@ -295,6 +302,10 @@ public struct OnBoardingPushViiew: View {
                 .onTapGesture {
                     appState.completPushNotificationView.toggle()
                 }
+            
+            if UIScreen.main.bounds.height == 667 {
+                Spacer()
+            }
             
         }
     }

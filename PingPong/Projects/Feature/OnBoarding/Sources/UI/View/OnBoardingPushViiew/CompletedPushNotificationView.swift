@@ -16,10 +16,7 @@ public struct CompletedPushNotificationView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     
     
-    @Binding var isActivePushNotifcation: Bool
-    
-    public init(isActivePushNotifcation: Binding<Bool>, viewModel: OnBoardingViewModel) {
-        self._isActivePushNotifcation = isActivePushNotifcation
+    public init( viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -83,7 +80,7 @@ public struct CompletedPushNotificationView: View {
                 Spacer()
             }
             
-            Text("알림과 함계 할때 더욱 맛있어요!")
+            Text("알림과 함께할 때 더욱 맛있어요!")
                 .pretendardFont(family: .SemiBold, size: 24)
                 .foregroundColor(Color.basicGray9)
             
@@ -120,20 +117,22 @@ public struct CompletedPushNotificationView: View {
     @ViewBuilder
     private func completdPushNotificationButton() -> some View {
         Spacer()
-            .frame(height: UIScreen.main.bounds.height.native == 667 ? UIScreen.screenHeight*0.1 - (UIScreen.screenWidth*0.1) : UIScreen.screenHeight*0.1)
+            .frame(height: UIScreen.main.bounds.height.native == 667 ? UIScreen.screenHeight*0.1 - (UIScreen.screenWidth*0.1) : UIScreen.main.bounds.height.native >= 926 ? UIScreen.screenHeight*0.3 : UIScreen.screenHeight*0.1)
         
         VStack(spacing: 8) {
             RoundedRectangle(cornerRadius: 12)
-                .fill(isActivePushNotifcation ? Color.primaryOrange : Color.basicGray3)
+                .fill(appState.isActivePushNotifcation ? Color.primaryOrange : Color.basicGray3)
                 .frame(width: UIScreen.screenWidth - 40 , height: 56)
                 .overlay {
                     Text("활성화할께요")
                         .pretendardFont(family: .SemiBold, size: 16)
-                        .foregroundColor(isActivePushNotifcation ? Color.basicWhite : Color.basicGray5)
+                        .foregroundColor(appState.isActivePushNotifcation ? Color.basicWhite : Color.basicGray5)
                 }
-                .disabled(isActivePushNotifcation)
+                .disabled(appState.isActivePushNotifcation)
                 .onTapGesture {
-                    if isActivePushNotifcation {
+                    appState.isActivePushNotifcation.toggle()
+                    
+                    if appState.isActivePushNotifcation {
                         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
                         UNUserNotificationCenter.current().requestAuthorization(
                             options: authOptions,

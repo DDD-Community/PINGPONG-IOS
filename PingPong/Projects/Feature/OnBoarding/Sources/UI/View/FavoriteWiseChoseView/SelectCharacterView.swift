@@ -11,6 +11,7 @@ import SwiftUI
 
 struct SelectCharacterView: View {
     @StateObject private var viewModel: OnBoardingViewModel
+    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -37,9 +38,9 @@ struct SelectCharacterView: View {
             .frame(height: UIScreen.screenHeight * 0.9)
         }
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.isSelectedCharacter) {
-            // 이동할 뷰를 넣어주세요.
-            CompleteLoginView(viewModel: self.viewModel)
+        .navigationDestination(isPresented: $appState.goToSettingPushNotifcationView) {
+            OnBoardingPushViiew(viewModel: self.viewModel)
+            .navigationBarHidden(true)
         }
     }
     
@@ -55,11 +56,13 @@ struct SelectCharacterView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            NavigationLink(destination: SelectAlamView()) {
-                Text("건너뛰기")
-                    .pretendardFont(family: .Regular, size: 14)
-                    .foregroundColor(.basicGray6)
-            }
+            Text("건너뛰기")
+                .pretendardFont(family: .Regular, size: 14)
+                .foregroundColor(.basicGray6)
+                .onTapGesture {
+                    appState.goToSettingPushNotifcationView.toggle()
+                }
+            
         }
         .padding(.horizontal, 20)
     }
@@ -67,6 +70,9 @@ struct SelectCharacterView: View {
     @ViewBuilder
     private func jobSettingContentView() -> some View {
         Group {
+            Spacer()
+                .frame(height: 25)
+            
             VStack{
                 HStack(spacing: 0) {
                     Text("STEP 2/3")
@@ -116,7 +122,7 @@ struct SelectCharacterView: View {
                         .foregroundColor(viewModel.selectedCharacter.count > 0 ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isLoginJobSettingView.toggle()
+                            appState.goToSettingPushNotifcationView.toggle()
                         }
                 }
                 .disabled(viewModel.selectedCharacter.count < 1)

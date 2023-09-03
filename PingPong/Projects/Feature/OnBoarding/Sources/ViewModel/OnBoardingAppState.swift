@@ -24,4 +24,6 @@ class OnBoardingAppState: ObservableObject {
     @Published public var completOnBoardingView: Bool = false
     @Published public var allConfirmAgreeView: Bool = false
     @Published public var goToCompleteLoginView: Bool = false
+    @Published public var isActivePushNotifcation: Bool = false
+    @Published public var goToSettingPushNotifcationView: Bool = false
 }

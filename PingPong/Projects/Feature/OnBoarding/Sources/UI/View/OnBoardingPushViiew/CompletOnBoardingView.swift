@@ -60,7 +60,7 @@ public struct CompletOnBoardingView: View {
                 .foregroundColor(Color.black)
             
             HStack(spacing: .zero) {
-                Text("성향(\(authViewModel.userRmk))")
+                Text("\(authViewModel.userRmk)")
                     .pretendardFont(family: .SemiBold, size: 25)
                     .foregroundColor(Color.primaryOrange)
                 
@@ -86,7 +86,7 @@ public struct CompletOnBoardingView: View {
     @ViewBuilder
     private func favoriteRegistrationImage() -> some View {
         Spacer()
-            .frame(height: 53)
+            .frame(height: UIScreen.main.bounds.height.native == 667 ? 20 : 53)
         VStack {
             Image(asset: .completOnboarding)
                 .resizable()
