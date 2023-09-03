@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+public enum SearchType: String {
+    case situation = "상황"
+    case flavor = "맛"
+    case source = "출처"
+}

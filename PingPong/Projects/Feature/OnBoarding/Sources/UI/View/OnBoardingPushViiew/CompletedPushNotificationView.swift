@@ -21,24 +21,22 @@ public struct CompletedPushNotificationView: View {
     }
     
     public var body: some View {
-        NavigationStack {
-            VStack {
-                completedPushBackButton()
-                
-                completedPushTitleComponetnt()
-                
-                completedPushImage()
-                
-                completdPushNotificationButton()
-                
-                Spacer()
-            }
+        VStack {
+            completedPushBackButton()
+            
+            completedPushTitleComponetnt()
+            
+            completedPushImage()
+            
+            completdPushNotificationButton()
+            
+            Spacer()
+        }
             
             .navigationDestination(isPresented: $appState.completOnBoardingView) {
                 CompletOnBoardingView(viewModel: self.viewModel)
                     .navigationBarHidden(true)
             }
-        }
 
     }
  

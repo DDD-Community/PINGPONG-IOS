@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+public enum Favorite: String {
+    case anime
+    case book
+    case celeb
+    case film
+    case greatman
+    case OTHER
+}

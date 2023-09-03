@@ -55,7 +55,7 @@ public struct CompletOnBoardingView: View {
                 
             }
             
-            Text("(\(authViewModel.userNickName))님에게")
+            Text("\(authViewModel.userNickName)님에게")
                 .pretendardFont(family: .SemiBold, size: 24)
                 .foregroundColor(Color.black)
             
@@ -98,7 +98,7 @@ public struct CompletOnBoardingView: View {
     @ViewBuilder
     private func completedOnBoardingButton() -> some View {
         Spacer()
-            .frame(height: 51.7)
+            .frame(height: UIScreen.main.bounds.height.native >= 927 ? UIScreen.screenWidth*0.4 : UIScreen.main.bounds.height == 667 ? 41.3 : UIScreen.screenWidth*0.3)
         VStack {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.primaryOrange)

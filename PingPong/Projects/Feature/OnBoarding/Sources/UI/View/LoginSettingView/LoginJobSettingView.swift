@@ -93,7 +93,7 @@ public struct LoginJobSettingView: View {
                                                 .frame(width: 96, height: 96)
                                                 .foregroundColor(.primaryOrangeOpacity40)
                                                 .overlay(
-                                                    Image(assetName: commCDItem.commCD)
+                                                    Image(assetName:  commCDItem.commCD == "OTHER" ? "\(commCDItem.commCD)S" : commCDItem.commCD)
                                                 )
                                         )
                                 } else {
@@ -101,7 +101,7 @@ public struct LoginJobSettingView: View {
                                         .frame(width: 96, height: 96)
                                         .foregroundColor(.basicGray3)
                                         .overlay(
-                                            Image(assetName: commCDItem.commCD)
+                                            Image(assetName:  commCDItem.commCD == "OTHER" ? "\(commCDItem.commCD)S" : commCDItem.commCD )
                                         )
                                 }
                                 Text(commCDItem.commNm)

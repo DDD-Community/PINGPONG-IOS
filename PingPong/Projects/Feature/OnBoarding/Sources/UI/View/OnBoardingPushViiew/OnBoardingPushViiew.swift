@@ -14,7 +14,7 @@ public struct OnBoardingPushViiew: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appState : OnBoardingAppState = OnBoardingAppState()
     @StateObject var viewModel: OnBoardingViewModel
-   
+    
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -22,28 +22,26 @@ public struct OnBoardingPushViiew: View {
     }
     
     public var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.basicWhite
-                    .edgesIgnoringSafeArea(.all)
-                
-                ScrollView(showsIndicators: false) {
-                    VStack {
-                        onboardingBackButton()
-                        
-                        exampleWiseSayingView()
-                        
-                        stepContentTitleView()
-                        
-                        selectTimeContent()
-                        
-                        Spacer()
-                        
-                        selectOnBoardingPushButton()
-                    }
+        ZStack {
+            Color.basicWhite
+                .edgesIgnoringSafeArea(.all)
+            
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    onboardingBackButton()
+                    
+                    exampleWiseSayingView()
+                    
+                    stepContentTitleView()
+                    
+                    selectTimeContent()
+                    
+                    Spacer()
+                    
+                    selectOnBoardingPushButton()
                 }
-                .bounce(false)
             }
+            .bounce(false)
             .navigationDestination(isPresented: $appState.completPushNotificationView) {
                 CompletedPushNotificationView(viewModel: self.viewModel)
                     .navigationBarHidden(true)
@@ -118,13 +116,13 @@ public struct OnBoardingPushViiew: View {
                                     .pretendardFont(family: .Regular, size: 14)
                                     .foregroundColor(Color.basicGray8)
                                 
-                               Spacer()
+                                Spacer()
                             }
                             HStack {
                                 Text("가로막더라도 나는 가리라")
                                     .pretendardFont(family: .Regular, size: 14)
                                     .foregroundColor(Color.basicGray8)
-                            Spacer()
+                                Spacer()
                             }
                             
                             Text("-맹자-")
@@ -168,7 +166,7 @@ public struct OnBoardingPushViiew: View {
             Text("제빵사님을 위한 명언을 보내드려요")
                 .pretendardFont(family: .Regular, size: 18)
                 .foregroundColor(Color.basicGray6)
-        
+            
             
         }
         .padding(.horizontal, 20)
@@ -177,68 +175,68 @@ public struct OnBoardingPushViiew: View {
     
     @ViewBuilder
     private func selectTimeContent()  -> some View {
+        Spacer()
+            .frame(height: 81)
+        
+        HStack {
             Spacer()
-                .frame(height: 81)
             
-            HStack {
-                Spacer()
-                
-                VStack {
-                    if !appState.ishiddenRectangle {
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color.basicGray3)
-                            .frame(width: 176, height: 76)
-                            .overlay(
-                                HStack {
-                                    Text(String.formattedTime(appState.selectedTime))
-                                        .foregroundColor(appState.isOnOFFToggle ? Color.basicGray9 : Color.basicGray6)
-                                        .pretendardFont(family: .Bold, size: 18)
-                                    
-                                    Spacer()
-                                    
-                                    Text(String.formattedTimeWithoutAmPm(appState.selectedTime))
-                                        .foregroundColor(appState.isOnOFFToggle ? Color.basicGray9 : Color.basicGray6)
-                                        .pretendardFont(family: .Bold, size: 18)
-                                }
-                                    .padding(.horizontal)
-                            )
-                            .onTapGesture {
-                                appState.ishiddenRectangle.toggle()
-                                    appState.isPickerPresented.toggle()
+            VStack {
+                if !appState.ishiddenRectangle {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.basicGray3)
+                        .frame(width: 176, height: 76)
+                        .overlay(
+                            HStack {
+                                Text(String.formattedTime(appState.selectedTime))
+                                    .foregroundColor(appState.isOnOFFToggle ? Color.basicGray9 : Color.basicGray6)
+                                    .pretendardFont(family: .Bold, size: 18)
                                 
+                                Spacer()
+                                
+                                Text(String.formattedTimeWithoutAmPm(appState.selectedTime))
+                                    .foregroundColor(appState.isOnOFFToggle ? Color.basicGray9 : Color.basicGray6)
+                                    .pretendardFont(family: .Bold, size: 18)
                             }
-                    }
-                    if appState.isPickerPresented {
-                        DatePicker("", selection: $appState.selectedTime, displayedComponents: .hourAndMinute)
-                            .datePickerStyle(.wheel)
-                            .labelsHidden()
-                            .frame(width: 200, height: 212)
-                            .foregroundColor(Color.basicGray9)
-                            .pretendardFont(family: .SemiBold, size: 18)
-                    }
+                                .padding(.horizontal)
+                        )
+                        .onTapGesture {
+                            appState.ishiddenRectangle.toggle()
+                            appState.isPickerPresented.toggle()
+                            
+                        }
                 }
-                .onTapGesture {
-                    appState.ishiddenRectangle.toggle()
-                        appState.isPickerPresented.toggle()
+                if appState.isPickerPresented {
+                    DatePicker("", selection: $appState.selectedTime, displayedComponents: .hourAndMinute)
+                        .datePickerStyle(.wheel)
+                        .labelsHidden()
+                        .frame(width: 200, height: 212)
+                        .foregroundColor(Color.basicGray9)
+                        .pretendardFont(family: .SemiBold, size: 18)
                 }
-                .padding(.leading, 20)
-                
-                Spacer()
-                    .frame(width: 24)
-                
-                Toggle("", isOn: $appState.isOnOFFToggle)
-                    .toggleStyle(CustomToggle(activeColor: Color.primaryOrange, activeCircle: appState.isOnOFFToggle, height: 31, width: 51, noActiveColor: Color.basicGray4))
-                    .padding(.trailing, 20)
-    //                .offset(x: -50)
-                
-                Spacer()
             }
-            .padding(.horizontal, 20)
+            .onTapGesture {
+                appState.ishiddenRectangle.toggle()
+                appState.isPickerPresented.toggle()
+            }
+            .padding(.leading, 20)
             
-           
+            Spacer()
+                .frame(width: 24)
+            
+            Toggle("", isOn: $appState.isOnOFFToggle)
+                .toggleStyle(CustomToggle(activeColor: Color.primaryOrange, activeCircle: appState.isOnOFFToggle, height: 31, width: 51, noActiveColor: Color.basicGray4))
+                .padding(.trailing, 20)
+            //                .offset(x: -50)
+            
+            Spacer()
         }
-
-
+        .padding(.horizontal, 20)
+        
+        
+    }
+    
+    
     
     @ViewBuilder
     private func selectOnBoardingPushButton() -> some View {
@@ -291,12 +289,12 @@ public struct OnBoardingPushViiew: View {
                         )
                     }
                 }
-
+            
             
             Spacer()
                 .frame(height: 8)
             
-           Text("다음에 할께요")
+            Text("다음에 할께요")
                 .pretendardFont(family: .SemiBold, size: 16)
                 .foregroundColor(Color.basicGray5)
                 .onTapGesture {

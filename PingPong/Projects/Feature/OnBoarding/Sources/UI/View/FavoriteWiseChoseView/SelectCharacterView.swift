@@ -8,8 +8,9 @@
 
 import DesignSystem
 import SwiftUI
+import Model
 
-struct SelectCharacterView: View {
+public struct SelectCharacterView: View {
     @StateObject private var viewModel: OnBoardingViewModel
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     
@@ -37,10 +38,14 @@ struct SelectCharacterView: View {
             .padding(.top, 40)
             .frame(height: UIScreen.screenHeight * 0.9)
         }
+        .task {
+            viewModel.onBoardingSearchUserRequest()
+        }
+        
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $appState.goToSettingPushNotifcationView) {
             OnBoardingPushViiew(viewModel: self.viewModel)
-            .navigationBarHidden(true)
+                .navigationBarHidden(true)
         }
     }
     
@@ -144,45 +149,57 @@ struct SelectCharacterView: View {
     
     @ViewBuilder
     private func falvorArrayView() -> some View {
-        ForEach(self.viewModel.flavorArray.options.indices, id: \.self) { index in
-            let flavor: Flavor = Flavor(rawValue: viewModel.flavorArray.options[index].val)!
-            let colorSet = viewModel.searchCharacterColor(flavor: flavor)
+        let searchUserWiseCelebration = viewModel.onBoardingSearchUserModel?.data?.filter { $0.commCDTpID == 1 }
+        if let firstSearchUserCelebration = searchUserWiseCelebration?.first {
+            let sortedCommCds = firstSearchUserCelebration.commCds?.sorted(by: { $0.commCDID < $1.commCDID }) ?? []
             
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(viewModel.flavorArray.options[index].isCheck ? colorSet.icon : .gray, style: .init(lineWidth: 1))
-                .frame(width: 336, height: UIScreen.screenHeight * 0.072)
-                .background(self.viewModel.flavorArray.options[index].isCheck ? colorSet.background : .basicGray2)
-                .overlay(
-                    HStack {
-                        Circle()
-                            .foregroundColor(colorSet.iconBackground)
-                            .frame(width: 32, height: 32)
-                            .overlay(Text(self.viewModel.flavorArray.options[index].iconImageName))
-                            .padding()
-                        VStack {
-                            HStack {
-                                Text(self.viewModel.flavorArray.options[index].val)
-                                    .foregroundStyle(Color.basicGray8)
-                                    .pretendardFont(family: .Medium, size: 16)
-                                Spacer()
+            ForEach(sortedCommCds, id: \.self) { commCDItem in
+                let flavorIndex = viewModel.searchFlavorIndex(commNm: String(commCDItem.commNm.prefix(3)) + " " + String(commCDItem.commNm.dropFirst(3)))
+
+                let flavor: Flavor = Flavor(rawValue: viewModel.flavorArray.options[flavorIndex].val) ?? .light
+                let colorSet = viewModel.searchCharacterColor(flavor: flavor)
+
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(viewModel.flavorArray.options[flavorIndex].isCheck ? colorSet.icon : .gray, style: .init(lineWidth: 1))
+                    .frame(width: UIScreen.screenWidth - 40, height: UIScreen.screenHeight * 0.072)
+                    .background(self.viewModel.flavorArray.options[flavorIndex].isCheck ? colorSet.background : .basicGray2)
+                    .overlay(
+                        HStack {
+                            Circle()
+                                .foregroundColor(colorSet.iconBackground)
+                                .frame(width: 32, height: 32)
+                                .overlay(Text(self.viewModel.flavorArray.options[flavorIndex].iconImageName))
+                                .padding()
+                            VStack {
+                                HStack {
+                                    Text(self.viewModel.flavorArray.options[flavorIndex].val)
+                                        .foregroundColor(Color.basicGray8)
+                                        .pretendardFont(family: .Medium, size: 16)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text(self.viewModel.flavorArray.options[flavorIndex].detail)
+                                        .foregroundColor(Color.basicGray6)
+                                        .pretendardFont(family: .Medium, size: 12)
+                                    Spacer()
+                                }
                             }
-                            HStack {
-                                Text(self.viewModel.flavorArray.options[index].detail)
-                                    .foregroundStyle(Color.basicGray6)
-                                    .pretendardFont(family: .Medium, size: 12)
-                                Spacer()
-                            }
+                            Spacer()
+                            Image(systemName: self.viewModel.flavorArray.options[flavorIndex].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
+                                .foregroundColor(self.viewModel.flavorArray.options[flavorIndex].isCheck ? colorSet.icon : .gray)
+                                .padding()
                         }
-                        Spacer()
-                        Image(systemName: self.viewModel.flavorArray.options[index].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
-                            .foregroundColor(self.viewModel.flavorArray.options[index].isCheck ? colorSet.icon : .gray)
-                            .padding()
+                    )
+                    .onTapGesture {
+                        self.viewModel.appendAndPopCharacter(character: viewModel.flavorArray.options[flavorIndex].val, index: flavorIndex)
+                        self.viewModel.selectedFavoriteFlavor = commCDItem.commCD ?? ""
                     }
-                )
-                .onTapGesture {
-                    self.viewModel.appendAndPopCharacter(character: viewModel.flavorArray.options[index].val, index: index)
-                }
+            }
         }
+
+
+
+        
     }
     
 }

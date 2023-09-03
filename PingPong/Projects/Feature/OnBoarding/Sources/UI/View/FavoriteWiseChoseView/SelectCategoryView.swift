@@ -7,8 +7,10 @@
 //
 
 import SwiftUI
+import DesignSystem
+import Model
 
-struct SelectCategoryView: View {
+public struct SelectCategoryView: View {
     @StateObject private var viewModel: OnBoardingViewModel
     
     public init(viewModel: OnBoardingViewModel) {
@@ -17,14 +19,6 @@ struct SelectCategoryView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    //더미데이터에요. 나중에 코드변경 필요합니다.
-    let JobDictionary: [String:String] =
-    ["anime" : "애니메이션",
-     "book" : "책",
-     "celeb" : "유명인",
-     "film" : "드라마 / 영화",
-     "greatman" : "위인",
-     "proverb" : "기타" ]
     
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
@@ -45,6 +39,11 @@ struct SelectCategoryView: View {
             .frame(height: UIScreen.screenHeight * 0.9)
             
         }
+        .task {
+            viewModel.onBoardingSearchUserRequest()
+        }
+        
+        
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isSelectedCategory) {
             SelectCharacterView(viewModel: self.viewModel)
@@ -75,10 +74,10 @@ struct SelectCategoryView: View {
     
     @ViewBuilder
     private func selectCatetoryContentView() -> some View {
+        Spacer()
+            .frame(height: 25)
+        
         Group {
-            Spacer()
-                .frame(height: 25)
-            
             VStack{
                 HStack(spacing: 0) {
                     Text("STEP 1/3")
@@ -114,29 +113,44 @@ struct SelectCategoryView: View {
                 .padding(.bottom, 8)
                 
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(["greatman", "celeb", "film", "anime", "book", "proverb"], id:\.self) { imageName in
-                        VStack {
-                            if viewModel.selectedFavorite.contains(Favorite(rawValue: imageName)!) {
-                                Circle()
-                                    .frame(width: 96, height: 96)
-                                    .foregroundColor(.basicGray3)
-                                    .overlay(
-                                        Image(assetName: imageName)
-                                    )
-                            } else {
-                                Circle()
-                                    .frame(width: 96, height: 96)
-                                    .foregroundColor(.primaryOrangeOpacity40)
-                                    .overlay(
-                                        Image(assetName: "\(imageName)Gray")
-                                    )
+                    let searchUserCategory = viewModel.onBoardingSearchUserModel?.data?.filter{$0.commCDTpID == 2}
+                    if let firstSearchUserCategory = searchUserCategory?.first {
+                        let sortedCommCds = firstSearchUserCategory.commCds ?? []
+                        
+                        ForEach(sortedCommCds, id: \.self) { item in
+                            VStack {
+                                let favoirte = Favorite(rawValue: item.commCD)
+                                
+                                if viewModel.selectedFavorite.contains(Favorite(rawValue: (favoirte ?? .anime).rawValue) ?? .anime){
+                                    Circle()
+                                        .frame(width: 96, height: 96)
+                                        .foregroundColor(.basicGray3)
+                                        .overlay(
+                                            Image(assetName: item.commCD)
+                                        )
+                                } else {
+                                    Circle()
+                                        .frame(width: 96, height: 96)
+                                        .foregroundColor(.primaryOrangeOpacity40)
+                                        .overlay(
+                                            Image(assetName: "\(item.commCD)Gray")
+                                        )
+                                }
+
+                                Text(item.commNm)
+                                    .pretendardFont(family: .SemiBold, size: 14)
                             }
-                            
-                            Text(JobDictionary[imageName]!)
-                                .pretendardFont(family: .SemiBold, size: 14)
-                        }
-                        .onTapGesture {
-                            self.viewModel.appendAndPopFavorite(favorite: Favorite(rawValue: imageName)!)
+                            .onTapGesture {
+                                
+                                let favoirte = Favorite(rawValue: item.commCD)
+                                if let favorite = favoirte {
+                                    self.viewModel.appendAndPopFavorite(favorite: favorite)
+
+                                }
+                                self.viewModel.selectedFavoriteCategory = item.commCD
+                                
+                                
+                            }
                         }
                     }
                 }

@@ -14,7 +14,10 @@ struct OnBoardingApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                CompletOnBoardingView(viewModel: viewModel)
+                NavigationStack {
+                    SelectCategoryView(viewModel: viewModel)
+                }
+//                CompletOnBoardingView(viewModel: viewModel)
 //                OnBoardingPushViiew()
                 
 //                ZStack {
