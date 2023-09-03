@@ -19,7 +19,7 @@ let project = Project.makeAppModule(
     setting:  .appBaseSetting,
     dependencies: [
         .SPM.Inject,
-//        .Projcet.OnBoarding,
+        .Projcet.OnBoarding,
         .Projcet.Home,
         .Projcet.Profile,
         .Projcet.Auth,

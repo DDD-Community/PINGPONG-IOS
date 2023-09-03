@@ -25,9 +25,7 @@ let project = Project.makeAppModule(
         .SPM.Moya,
         .SPM.CombineMoya,
         .SPM.FirebaseAuth,
-        .Projcet.Authorization,
-        .Projcet.Core
-            
+        .Projcet.Authorization
         
     ],
     sources: ["Sources/**"]

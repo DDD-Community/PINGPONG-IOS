@@ -32,6 +32,7 @@ struct HomeView: View {
                         
                         let shareView =
                         VStack {
+//                            Spacer()
                             RoundedRectangle(cornerRadius: 12)
                                 .foregroundColor(colorSet.background)
                                 .frame(width: size.width, height: size.height * 0.6)
@@ -62,12 +63,13 @@ struct HomeView: View {
                                                         .foregroundColor(.cardTextMain)
                                                         .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
                                                 }
+                                                .frame(width: UIScreen.screenWidth * 0.6)
                                                 Spacer()
                                             }
                                         }
                                     }
                                 )
-                        }
+                        } .frame(width: size.width, height: size.height * 0.8)
                             
                         
                         RoundedRectangle(cornerRadius: 12)
