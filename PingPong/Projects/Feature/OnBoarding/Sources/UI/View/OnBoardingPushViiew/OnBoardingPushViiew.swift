@@ -268,7 +268,7 @@ public struct OnBoardingPushViiew: View {
                                         let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
                                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                                         
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                             appState.completOnBoardingView.toggle()
                                         }
                                         

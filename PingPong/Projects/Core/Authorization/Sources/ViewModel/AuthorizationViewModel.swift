@@ -41,6 +41,7 @@ public class AuthorizationViewModel: ObservableObject {
     var userNickNameCheckCancellable: AnyCancellable?
     @Published var userNickNameModel: NickNameValidateModel?
     @Published public var nickNameInvalid: Bool = false
+    @Published public var isSignupFail: Bool = false
     
     var signupCancellable: AnyCancellable?
     @Published var signupModel: SignUPModel?
@@ -179,7 +180,7 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     //MARK: -  회원가입
-    public func signupPost(uid: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping () -> Void) {
+    public func signupPost(uid: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping () -> Void, failSignUPAction: @escaping () -> Void) {
         if let cancellable = signupCancellable {
             cancellable.cancel()
         }
@@ -206,6 +207,7 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.signupToViewModel(model)
                     self?.userid = model.data?.id ?? .zero
                     print("회원가입 실패", model)
+                    failSignUPAction()
                 }
             })
     }

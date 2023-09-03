@@ -10,6 +10,7 @@
 import DesignSystem
 import SwiftUI
 import Authorization
+import PopupView
 
 public struct CompleteLoginView: View {
     @StateObject private var viewModel: OnBoardingViewModel
@@ -41,6 +42,18 @@ public struct CompleteLoginView: View {
             .navigationDestination(isPresented: $viewModel.isCompleteSignupView) {
                 FavoriteWiseChoseView(viewModel: self.viewModel)
             }
+        
+            .popup(isPresented: $authViewModel.isSignupFail) {
+                FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "회원가입에 실패하였습니다. 다시 시도해주세요")
+            } customize: { popup in
+                popup
+                    .type(.floater(verticalPadding: 10))
+                    .position(.top)
+                    .animation(.easeIn)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+            }
+
     }
     
     @ViewBuilder
@@ -116,6 +129,8 @@ public struct CompleteLoginView: View {
                             authViewModel.signupPost(uid: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
                                 authViewModel.isLogin = true
                                 authViewModel.completdSignUP = true
+                            } failSignUPAction: {
+//                                authViewModel.isSignupFail.toggle()
                             }
                         }
                 }

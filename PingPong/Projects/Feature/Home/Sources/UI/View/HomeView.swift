@@ -6,11 +6,9 @@
 //
 
 import SwiftUI
-import Inject
 
 
 public struct HomeView: View {
-    @ObservedObject private var i0 = Inject.observer
     
     public init() {
 //        self.i0 = i0
@@ -28,7 +26,6 @@ public struct HomeView: View {
             
         }
         .padding()
-        .enableInjection()
     }
 }
 
