@@ -1,3 +1,4 @@
+
 //
 //  HomeView.swift
 //  HomeApp
@@ -80,13 +81,13 @@ struct HomeView: View {
                                                 Spacer()
                                                 HStack{
                                                     Text(post.title)
-                                                        .font(.custom("나눔손글씨 배은혜체", size: 28))
+                                                        .backEun(size: 28)
                                                         .foregroundColor(.cardTextMain)
                                                         .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                                     Spacer()
                                                 }
                                                 Text(post.sources)
-                                                    .font(.custom("나눔손글씨 배은혜체", size: 24))
+                                                    .backEun(size: 24)
                                                     .foregroundColor(.cardTextMain)
                                                     .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
                                             }
@@ -102,6 +103,9 @@ struct HomeView: View {
                                                     )
                                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 16))
                                                     .foregroundColor(colorSet.iconBackground)
+                                                    .onTapGesture {
+                                                        shareContent(content: self.asImage())
+                                                    }
                                                 Circle()
                                                     .frame(width: 44)
                                                     .overlay(
@@ -184,3 +188,21 @@ struct CharacterColor {
 }
 
 
+
+func shareContent(content: UIImage) {
+    let avc = UIActivityViewController(activityItems: [content], applicationActivities: nil)
+    UIApplication.shared.windows.first?.rootViewController?.present(avc, animated: true, completion: nil)
+}
+
+extension View {
+    func asImage() -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        let view = controller.view
+        let size = controller.sizeThatFits(in: UIScreen.main.bounds.size)
+        view?.bounds = CGRect(origin: .zero, size: size)
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { _ in
+            view?.drawHierarchy(in: view!.bounds, afterScreenUpdates: true)
+        }
+    }
+}
