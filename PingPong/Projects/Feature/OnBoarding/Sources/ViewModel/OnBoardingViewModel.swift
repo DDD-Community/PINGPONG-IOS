@@ -48,6 +48,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var validationColor: Color = .basicGray4
     @Published var validationImageName: String?
     @Published var selectedJob: String? = nil
+    @Published var selectJobCode: Int = .zero
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
     

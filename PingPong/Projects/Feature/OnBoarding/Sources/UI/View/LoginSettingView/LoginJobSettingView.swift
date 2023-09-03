@@ -10,16 +10,16 @@ import DesignSystem
 import SwiftUI
 
 public struct LoginJobSettingView: View {
-    @StateObject private var viewModel: OnBoardingViewModel
-       
+    @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    @Environment(\.presentationMode) var presentationMode
+    
        public init(viewModel: OnBoardingViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
        }
     
-    @Environment(\.presentationMode) var presentationMode
     
-    
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+
     
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     
@@ -38,8 +38,8 @@ public struct LoginJobSettingView: View {
         }
         .navigationBarHidden(true)
         
-        .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-            CompleteLoginView()
+        .navigationDestination(isPresented: $appState.goToCompleteLoginView) {
+            CompleteLoginView(viewModel: self.viewModel)
         }
         .task {
             viewModel.onBoardingSearchUserRequest()
@@ -149,7 +149,7 @@ public struct LoginJobSettingView: View {
                         .foregroundColor(viewModel.selectedJob != nil ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isLoginJobSettingView.toggle()
+                            appState.goToCompleteLoginView.toggle()
                         }
                 }
                 .disabled(viewModel.selectedJob == nil)

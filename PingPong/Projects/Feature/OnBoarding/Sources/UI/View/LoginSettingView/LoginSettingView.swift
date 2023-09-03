@@ -12,15 +12,16 @@ import Authorization
 public struct LoginSettingView: View {
     
     @StateObject private var viewModel: OnBoardingViewModel
-       
+    @StateObject private var authviewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    
        public init(viewModel: OnBoardingViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
        }
     
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
-    @StateObject private var authviewModel: AuthorizationViewModel = AuthorizationViewModel()
+    
     
     public var body: some View {
             ZStack (alignment: .bottom) {
@@ -38,8 +39,8 @@ public struct LoginSettingView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                LoginJobSettingView()
+            .navigationDestination(isPresented: $appState.allConfirmAgreeView) {
+                LoginJobSettingView(viewModel: self.viewModel)
             }
     }
     
@@ -134,7 +135,7 @@ public struct LoginSettingView: View {
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.allConfirmAgreeView.toggle()
+                            appState.allConfirmAgreeView.toggle()
 
                         }
                 }

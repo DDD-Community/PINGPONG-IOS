@@ -17,7 +17,7 @@ struct PingPongProjectApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                OnBoardingPushViiew(viewModel: viewModel)
+                OnBoardingView()
                 
                 ZStack {
                     if showlanch {
@@ -29,3 +29,5 @@ struct PingPongProjectApp: App {
         
     }
 }
+
+
