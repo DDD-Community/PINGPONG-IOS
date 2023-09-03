@@ -17,7 +17,7 @@ struct PingPongProjectApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                OnBoardingView()
+                CompletOnBoardingView(viewModel: viewModel)
                 
                 ZStack {
                     if showlanch {

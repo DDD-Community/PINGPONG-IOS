@@ -80,8 +80,6 @@ public struct Loading4View_Previews: PreviewProvider {
 
 public struct Loading5View_Previews: PreviewProvider {
     public static var previews: some View {
-        @StateObject var viewModel = OnBoardingViewModel()
-//        NetworkingErrorView(refreshAction: {})
-        CompletOnBoardingView(viewModel: viewModel)
+        SelectCategoryView(viewModel: OnBoardingViewModel())
     }
 }

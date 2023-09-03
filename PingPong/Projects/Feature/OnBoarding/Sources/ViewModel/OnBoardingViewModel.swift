@@ -49,31 +49,31 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var validationImageName: String?
     @Published var selectedJob: String? = nil
     @Published var selectJobCode: Int = .zero
+    @Published var selectedFavoriteCategory: String = ""
+    @Published var selectedFavoriteFlavor: String = ""
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
     
     
-//    @Published var situationArray: SearchViewButtonInfo =   SearchViewButtonInfo(title: .situation, options:  [SearchOption(val: "우울", detail: "우울해서 빵댕이를 흔들고 싶을 때"),
-//                                                                                                               SearchOption(val: "기쁨", detail: "기뻐서 빵댕이를 흔들고 싶을 때"),
-//                                                                                                               SearchOption(val: "슬픔", detail: "슬퍼서 빵댕이를 흔들고 싶을 때")])
+
     
     @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
         SearchOption(val: "달콤한 맛", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
-        SearchOption(val: "짭짤한 맛", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
+        SearchOption(val: "짭잘한 맛", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
         SearchOption(val: "매콤한 맛", iconImageName: "🔥", detail: "따끔한 조언의 자극적인 명언"),
         SearchOption(val: "고소한 맛", iconImageName: "🥜", detail: "재채있고 유희적인 명언"),
         SearchOption(val: "담백한 맛", iconImageName: "🥖", detail: "언제봐도 좋은 명언")
     ])
     
-//    @Published var saurceArray: SearchViewButtonInfo = SearchViewButtonInfo(title: .situation, options:  [
-//        SearchOption(val: "위인", detail: "위인의 명언"),
-//        SearchOption(val: "애니메이션", detail: "김인호 나마에와 레오"),
-//        SearchOption(val: "드라마", detail: "조화? 조흐냐구 웨딩드레스 입으니까 조화?")])
+    func searchFlavorIndex(commNm: String) -> Int {
+        for index in flavorArray.options.indices {
+            if flavorArray.options[index].val == commNm {
+                return index
+            }
+        }
+        return .zero
+    }
     
-    @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
-        //        self.situationArray,
-        //        flavorArray,
-    ]
     
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
     
@@ -223,66 +223,4 @@ public class OnBoardingViewModel: ObservableObject {
         }
     }
     
-}
-
-enum Favorite: String {
-    case anime
-    case book
-    case celeb
-    case film
-    case greatman
-    case proverb
-}
-
-struct SearchViewButtonInfo: Identifiable, SearchViewButtonInfoProtocol {
-    var title: SearchType
-    
-    var shouldShowDropdown = false
-    let id: UUID = UUID()
-    
-    var options: [SearchOption]
-    var onSelect: ((_ key: String) -> Void)?
-}
-
-protocol SearchViewButtonInfoProtocol {
-    var title: SearchType { get }
-}
-
-enum SearchType: String {
-    case situation = "상황"
-    case flavor = "맛"
-    case source = "출처"
-}
-
-
-struct SearchOption: Hashable, Identifiable {
-    let id: UUID = UUID()
-    var val: String
-    var iconImageName: String
-    var detail: String
-    var isCheck: Bool = false
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(detail)
-        hasher.combine(val)
-    }
-    
-    static func == (lhs: SearchOption, rhs: SearchOption) -> Bool {
-        return lhs.detail == rhs.detail && lhs.val == rhs.val
-    }
-}
-
-struct CharacterColor {
-    let icon: Color
-    let iconBackground: Color
-    //    let filter: Color
-    let background: Color
-}
-
-enum Flavor: String {
-    case sweet = "달콤한 맛"
-    case salty = "짭짤한 맛"
-    case spicy = "매콤한 맛"
-    case nutty = "고소한 맛"
-    case light = "담백한 맛"
 }
