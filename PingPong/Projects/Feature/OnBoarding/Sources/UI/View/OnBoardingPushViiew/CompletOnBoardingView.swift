@@ -10,13 +10,13 @@ import Foundation
 import SwiftUI
 import DesignSystem
 import Authorization
-import Inject
+import Home
 
 public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
     @EnvironmentObject var authViewModel: AuthorizationViewModel
-    @StateObject var io = Inject.observer
     @StateObject var viewModel: OnBoardingViewModel
+    @StateObject var sheetManger: SheetManager = SheetManager()
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -32,11 +32,15 @@ public struct CompletOnBoardingView: View {
             
             Spacer()
         }
+        
+        .navigationDestination(isPresented: $viewModel.inviteMainView, destination: {
+            HomeMainView()
+        })
+        
         .task {
             //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "423")
         }
-        .enableInjection()
     }
     
     @ViewBuilder
@@ -111,6 +115,7 @@ public struct CompletOnBoardingView: View {
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
                     authViewModel.isFirstUser = true
+                    
                 }
         }
     }

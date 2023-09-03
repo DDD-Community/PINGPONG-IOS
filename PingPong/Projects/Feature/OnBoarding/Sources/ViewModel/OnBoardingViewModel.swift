@@ -40,6 +40,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var isStartChoiceFavoritedView: Bool = false
     @Published var isSelectedCategory: Bool = false
     @Published var isSelectedCharacter: Bool = false
+    @Published var inviteMainView: Bool = false
     
     
     
