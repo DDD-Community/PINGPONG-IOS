@@ -77,8 +77,8 @@ extension AuthorizationService: BaseTargetType {
             ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         case .searchUserByid(let id):
-            let parameters : [String : Any] = [
-                "id": id
+            let parameters : [String : Any] = [:
+//                "id": id
             ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         }

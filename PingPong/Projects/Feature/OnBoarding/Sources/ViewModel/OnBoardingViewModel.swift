@@ -16,7 +16,7 @@ import Moya
 import API
 import DesignSystem
 
-final class OnBoardingViewModel: ObservableObject {
+public class OnBoardingViewModel: ObservableObject {
     
     @Published var appState: OnBoardingAppState = OnBoardingAppState()
     
@@ -51,6 +51,8 @@ final class OnBoardingViewModel: ObservableObject {
     var checkAllAgreeStatus: Bool {
         return checkTermsService && checkPesonalInformation && checkReciveMarketingInformation
     }
+    
+    public init() {}
     
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {

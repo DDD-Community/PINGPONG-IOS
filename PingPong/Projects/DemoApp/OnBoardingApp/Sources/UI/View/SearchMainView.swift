@@ -61,7 +61,27 @@ public struct Loading2View_Previews: PreviewProvider {
 
 public struct Loading3View_Previews: PreviewProvider {
     public static var previews: some View {
+        @StateObject var viewModel = OnBoardingViewModel()
 //        NetworkingErrorView(refreshAction: {})
-        OnBoardingPushViiew()
+        NavigationStack {
+            OnBoardingPushViiew(viewModel: viewModel)
+        }
+    }
+}
+
+public struct Loading4View_Previews: PreviewProvider {
+    public static var previews: some View {
+        @StateObject var viewModel = OnBoardingViewModel()
+//        NetworkingErrorView(refreshAction: {})
+//        CompletedPushNotificationView(isActivePushNotifcation: .constant(false), viewModel: viewModel)
+        CompletOnBoardingView(viewModel: viewModel)
+    }
+}
+
+public struct Loading5View_Previews: PreviewProvider {
+    public static var previews: some View {
+        @StateObject var viewModel = OnBoardingViewModel()
+//        NetworkingErrorView(refreshAction: {})
+        CompletOnBoardingView(viewModel: viewModel)
     }
 }

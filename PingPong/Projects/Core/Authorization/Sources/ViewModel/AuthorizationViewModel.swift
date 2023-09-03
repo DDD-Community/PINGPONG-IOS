@@ -48,6 +48,7 @@ public class AuthorizationViewModel: ObservableObject {
     var searchUserIdCancellable: AnyCancellable?
     @AppStorage("userId") public var userid: Int = .zero
     @Published public var userNickName: String = ""
+    @Published public var userRmk: String = ""
     
     public init() {
         self.userSession = Auth.auth().currentUser
@@ -220,7 +221,7 @@ public class AuthorizationViewModel: ObservableObject {
         }
         
         let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
-        searchUserIdCancellable = provider.requestWithProgressPublisher(.searchUserByUid(uid: uid))
+        searchUserIdCancellable = provider.requestWithProgressPublisher(.searchUserByid(id: uid))
             .compactMap{$0.response?.data}
             .decode(type: SignUPModel.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
@@ -236,6 +237,7 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.searchUserIdToViewModel(model)
                     print("아이디 조회 성공", model)
                     self?.userNickName = model.data?.nickname ?? ""
+                    self?.userRmk = model.data?.rmk ?? ""
                 } else {
                     self?.searchUserIdToViewModel(model)
                     print("아이디 조회 성공", model)

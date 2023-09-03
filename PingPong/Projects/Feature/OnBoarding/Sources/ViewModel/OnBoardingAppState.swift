@@ -15,18 +15,12 @@ class OnBoardingAppState: ObservableObject {
     @State var errorMessage: String = ""
     @Published var serviceUseAgmentView: Bool = false
     @Published var signUPFaillPOPUP: Bool = false
-    @Published var allAgreeCheckButton: Bool = false
-    @Published var checkTermsService: Bool = false
-    @Published var checkPesonalInformation: Bool = false
-    @Published var checkReciveMarketingInformation: Bool = false
-    @Published var allConfirmAgreeView: Bool = false
-    @Published var goToFavoriteViseView: Bool = false
     
-    @Published var nickname: String = ""
-    
-    @Published var nicknameValidation: NicknameValidationType = .notValidated
-    @Published var validationText: String = " "
-    @Published var validationColor: Color = .basicGray4
-    @Published var validationImageName: String?
+    @Published public var selectedTime = Date()
+    @Published public var isPickerPresented = false
+    @Published public var ishiddenRectangle: Bool = false
+    @Published public var isOnOFFToggle: Bool = false
+    @Published public var completPushNotificationView: Bool = false
+    @Published public var completOnBoardingView: Bool = false
     
 }

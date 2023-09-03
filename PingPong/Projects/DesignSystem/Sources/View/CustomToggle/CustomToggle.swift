@@ -34,16 +34,15 @@ public struct CustomToggle: ToggleStyle {
 
             RoundedRectangle(cornerRadius: 30)
                 .stroke(Color.basicWhite, style: .init(lineWidth: 2))
-    //                .fill(configuration.isOn ? activeColor : Color.gray4)
                 .frame(width: width, height: height)
                 .background(configuration.isOn ? activeColor : noActiveColor)
                 .cornerRadius(30)
                 .overlay {
                     Circle()
-                        .fill(activeCircle ? .white : .mint)
-                        .frame(width: 25, height: 25)
+                        .fill(activeCircle ? .white : .white)
+                        .frame(width: 27, height: 27)
                         .padding(3)
-                        .offset(x: configuration.isOn ? 15 : -15)
+                        .offset(x: configuration.isOn ? 10 : -10)
 
                 }
                

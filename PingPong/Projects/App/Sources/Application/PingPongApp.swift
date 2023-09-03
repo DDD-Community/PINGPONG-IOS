@@ -12,11 +12,12 @@ import OnBoarding
 struct PingPongProjectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @State var showlanch: Bool = true
+    @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     
     var body: some Scene {
         WindowGroup {
             ZStack {
-                OnBoardingView()
+                OnBoardingPushViiew(viewModel: viewModel)
                 
                 ZStack {
                     if showlanch {

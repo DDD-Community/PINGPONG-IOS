@@ -28,6 +28,8 @@ public enum ImageAsset: String {
     case refresh
     case house
     case splash
+    case pushivew
+    case completOnboarding
     //MARK: -  탭바 아이콘
 
     
