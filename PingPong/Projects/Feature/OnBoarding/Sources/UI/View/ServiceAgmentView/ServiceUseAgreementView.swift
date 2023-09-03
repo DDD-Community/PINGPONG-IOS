@@ -16,27 +16,23 @@ public struct ServiceUseAgreementView: View {
     
     @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     
-    
     public var body: some View {
-        NavigationStack {
-            ZStack (alignment: .bottom) {
-                VStack {
-                    topHeaderBackButton()
-                    
-                    serviceUseAgreeTextView()
-                    
-                    
-                    Spacer()
-                }
-                confirmButtonView()
-                    .padding(.bottom, 30)
+        ZStack (alignment: .bottom) {
+            VStack {
+                topHeaderBackButton()
                 
+                serviceUseAgreeTextView()
+                
+                
+                Spacer()
             }
-            .navigationBarHidden(true)
+            confirmButtonView()
+                .padding(.bottom, 30)
             
-            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                LoginSettingView()
-            }
+        }
+        .navigationBarHidden(true)
+        .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
+            LoginSettingView(viewModel: self.viewModel)
         }
     }
     
@@ -82,7 +78,7 @@ public struct ServiceUseAgreementView: View {
                 .pretendardFont(family: .SemiBold, size: 24)
                 .padding(.horizontal, 20)
                 
-               
+                
                 AgreeMentListView(checkAgreeButton: $viewModel.allAgreeCheckButton,
                                   showleft: false,
                                   title: "전체 약관에 동의합니다",
@@ -124,10 +120,10 @@ public struct ServiceUseAgreementView: View {
                                   title: "마케팅 정보 수신동의",
                                   agreeAllService: false,
                                   essential: .choice)
-                    .onTapGesture {
-                        viewModel.checkReciveMarketingInformation.toggle()
-                        viewModel.allAgreeCheckButton = viewModel.checkAllAgreeStatus
-                    }
+                .onTapGesture {
+                    viewModel.checkReciveMarketingInformation.toggle()
+                    viewModel.allAgreeCheckButton = viewModel.checkAllAgreeStatus
+                }
             }
         }
     }

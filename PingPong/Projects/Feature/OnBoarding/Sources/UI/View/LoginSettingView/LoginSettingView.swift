@@ -9,10 +9,15 @@
 import SwiftUI
 
 public struct LoginSettingView: View {
-    public init() { }
+    
+    @StateObject private var viewModel: OnBoardingViewModel
+       
+       public init(viewModel: OnBoardingViewModel) {
+           self._viewModel = StateObject(wrappedValue: viewModel)
+       }
+    
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     
     public var body: some View {
             ZStack (alignment: .bottom) {
@@ -30,8 +35,8 @@ public struct LoginSettingView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.LoginSettingView) {
-                LoginJobSettingView()
+            .navigationDestination(isPresented: $viewModel.isLoginSettingView) {
+                LoginJobSettingView(viewModel: self.viewModel)
             }
     }
     
@@ -126,7 +131,7 @@ public struct LoginSettingView: View {
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.LoginSettingView.toggle()
+                            viewModel.isLoginSettingView.toggle()
                         }
                 }
                 .disabled(viewModel.nicknameValidation != .valid)

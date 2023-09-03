@@ -11,10 +11,13 @@ import DesignSystem
 import SwiftUI
 
 public struct CompleteLoginView: View {
-    public init() { }
+    @StateObject private var viewModel: OnBoardingViewModel
+       
+       public init(viewModel: OnBoardingViewModel) {
+           self._viewModel = StateObject(wrappedValue: viewModel)
+       }
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
             ZStack (alignment: .bottom) {
@@ -31,8 +34,8 @@ public struct CompleteLoginView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                //로그인 완료 후 보낼 뷰를 넣어주세요 :)
+            .navigationDestination(isPresented: $viewModel.isCompleteSignupView) {
+//                FavoriteWiseChoseView(viewModel: self.viewModel)
             }
     }
     
@@ -105,7 +108,7 @@ public struct CompleteLoginView: View {
                         .foregroundColor(.basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.allConfirmAgreeView.toggle()
+                            viewModel.isCompleteSignupView.toggle()
                         }
                 }
                 .disabled(viewModel.selectedJob == nil)

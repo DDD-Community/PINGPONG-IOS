@@ -10,7 +10,12 @@ import DesignSystem
 import SwiftUI
 
 public struct LoginJobSettingView: View {
-    public init() { }
+    @StateObject private var viewModel: OnBoardingViewModel
+       
+       public init(viewModel: OnBoardingViewModel) {
+           self._viewModel = StateObject(wrappedValue: viewModel)
+       }
+    
     @Environment(\.presentationMode) var presentationMode
     
     //더미데이터에요. 나중에 코드변경 필요합니다.
@@ -22,7 +27,6 @@ public struct LoginJobSettingView: View {
      "RESTING" : "휴식중",
      "OTHER" : "기타" ]
     
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
             ZStack (alignment: .bottom) {
@@ -39,8 +43,8 @@ public struct LoginJobSettingView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-                CompleteLoginView()
+            .navigationDestination(isPresented: $viewModel.isLoginJobSettingView) {
+                CompleteLoginView(viewModel: self.viewModel)
             }
     }
     
@@ -131,7 +135,7 @@ public struct LoginJobSettingView: View {
                         .foregroundColor(viewModel.selectedJob != nil ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.allConfirmAgreeView.toggle()
+                            viewModel.isLoginJobSettingView.toggle()
                         }
                 }
                 .disabled(viewModel.selectedJob == nil)
