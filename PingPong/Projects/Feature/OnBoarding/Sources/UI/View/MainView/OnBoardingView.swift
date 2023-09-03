@@ -140,6 +140,7 @@ public struct OnBoardingView: View {
        //mark:
         
         
+        
         SignInWithAppleButton(.signIn) { request in
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
             request.requestedScopes = [.fullName, .email]
@@ -155,7 +156,11 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    appState.serviceUseAgmentView.toggle()
+                    if authViewModel.completdSignUP {
+                        
+                    } else {
+                        appState.serviceUseAgmentView.toggle()
+                    }
                 }
                 
             case .failure(let error):

@@ -10,17 +10,18 @@ import OnBoarding
 @main
 struct OnBoardingApp: App {
     @State private var showLanch: Bool = true
-    
+    @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     var body: some Scene {
         WindowGroup {
             ZStack {
-                OnBoardingView()
+                CompletOnBoardingView(viewModel: viewModel)
+//                OnBoardingPushViiew()
                 
-                ZStack {
-                    if showLanch {
-                        LaunchView(showLanchView: $showLanch)
-                    }
-                }
+//                ZStack {
+//                    if showLanch {
+//                        LaunchView(showLanchView: $showLanch)
+//                    }
+//                }
             }
         }
     }

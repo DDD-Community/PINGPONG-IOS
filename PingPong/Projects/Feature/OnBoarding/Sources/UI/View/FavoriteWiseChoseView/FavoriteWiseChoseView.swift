@@ -10,16 +10,13 @@ import SwiftUI
 import DesignSystem
 
 public struct FavoriteWiseChoseView: View {
-    public init() { }
+    @StateObject private var viewModel: OnBoardingViewModel
+       
+       public init(viewModel: OnBoardingViewModel) {
+           self._viewModel = StateObject(wrappedValue: viewModel)
+       }
     
-//    @StateObject private var viewModel: OnBoardingViewModel
-//       
-//       public init(viewModel: OnBoardingViewModel) {
-//           self._viewModel = StateObject(wrappedValue: viewModel)
-//       }
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     public var body: some View {
-        NavigationStack {
             VStack {
                 favoriteWiseChooseHeaderTitle()
                 Spacer()
@@ -33,7 +30,6 @@ public struct FavoriteWiseChoseView: View {
             .navigationDestination(isPresented: $viewModel.isStartChoiceFavoritedView) {
                 SelectCategoryView(viewModel: self.viewModel)
             }
-        }
     }
     
     @ViewBuilder

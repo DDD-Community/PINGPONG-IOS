@@ -7,16 +7,20 @@
 //
 
 import SwiftUI
+import Authorization
 
 public struct LoginSettingView: View {
     
     @StateObject private var viewModel: OnBoardingViewModel
-       
+    @StateObject private var authviewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    
        public init(viewModel: OnBoardingViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
        }
     
     @Environment(\.presentationMode) var presentationMode
+    
     
     
     public var body: some View {
@@ -35,7 +39,7 @@ public struct LoginSettingView: View {
             }
             .navigationBarHidden(true)
             
-            .navigationDestination(isPresented: $viewModel.isLoginSettingView) {
+            .navigationDestination(isPresented: $appState.allConfirmAgreeView) {
                 LoginJobSettingView(viewModel: self.viewModel)
             }
     }
@@ -90,9 +94,9 @@ public struct LoginSettingView: View {
                                     .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 34))
                                     .onChange(of: viewModel.nickname, perform: { value in
                                         let nicknamdValidaion = viewModel.validateNickname(nickname: value)
-                                        
+                                        authviewModel.userNickNameValidateRequest(nickname: value)
                                         // 이부분에 중복 확인 코드 넣어주시면 됩니다. :)
-                                        viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: true)
+                                        viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: authviewModel.nickNameInvalid)
                                     })
                                 HStack {
                                     Spacer()
@@ -131,10 +135,12 @@ public struct LoginSettingView: View {
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isLoginSettingView.toggle()
+                            appState.allConfirmAgreeView.toggle()
+
                         }
                 }
                 .disabled(viewModel.nicknameValidation != .valid)
+            
         }
     }
     
@@ -151,6 +157,7 @@ public struct LoginSettingView: View {
         }
     }
 }
+
 
 
 

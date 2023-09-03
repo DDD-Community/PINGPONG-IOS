@@ -9,16 +9,20 @@
 
 import DesignSystem
 import SwiftUI
+import Authorization
 
 public struct CompleteLoginView: View {
     @StateObject private var viewModel: OnBoardingViewModel
-       
+    @Environment(\.presentationMode) var presentationMode
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    let columns = Array(repeating: GridItem(.flexible()), count: 3)
+    
        public init(viewModel: OnBoardingViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
        }
-    @Environment(\.presentationMode) var presentationMode
     
-    let columns = Array(repeating: GridItem(.flexible()), count: 3)
+    
+    
     public var body: some View {
             ZStack (alignment: .bottom) {
                 VStack {
@@ -35,7 +39,7 @@ public struct CompleteLoginView: View {
             .navigationBarHidden(true)
             
             .navigationDestination(isPresented: $viewModel.isCompleteSignupView) {
-//                FavoriteWiseChoseView(viewModel: self.viewModel)
+                FavoriteWiseChoseView(viewModel: self.viewModel)
             }
     }
     
@@ -109,12 +113,16 @@ public struct CompleteLoginView: View {
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.isCompleteSignupView.toggle()
+                            authViewModel.signupPost(uid: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
+                                authViewModel.isLogin = true
+                                authViewModel.completdSignUP = true
+                            }
                         }
                 }
                 .disabled(viewModel.selectedJob == nil)
         }
     }
-    
+
     @ViewBuilder
     private func validateImageView(imageName: String?) -> some View {
         HStack {

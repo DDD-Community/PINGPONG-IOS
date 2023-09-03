@@ -23,8 +23,6 @@ public class OnBoardingViewModel: ObservableObject {
     //MARK: -  사용자 취향 코드 모델
     var onBoardingSearchUserCancellable: AnyCancellable?
     @Published var onBoardingSearchUserModel: onBoardingUserPreferenceModel?
-    
-    
     @Published var allAgreeCheckButton: Bool = false
     @Published var checkTermsService: Bool = false
     @Published var checkPesonalInformation: Bool = false
@@ -42,6 +40,7 @@ public class OnBoardingViewModel: ObservableObject {
     
     @Published var goToFavoriteViseView: Bool = false
     
+    
     @Published var nickname: String = ""
     
     @Published var nicknameValidation: NicknameValidationType = .notValidated
@@ -49,6 +48,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var validationColor: Color = .basicGray4
     @Published var validationImageName: String?
     @Published var selectedJob: String? = nil
+    @Published var selectJobCode: Int = .zero
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
     
@@ -85,6 +85,8 @@ public class OnBoardingViewModel: ObservableObject {
         return checkTermsService && checkPesonalInformation && checkReciveMarketingInformation
     }
     
+    
+    public init() {}
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {
         if !allAgreeCheckButton || !checkTermsService || !checkPesonalInformation || !checkReciveMarketingInformation {
@@ -166,10 +168,10 @@ public class OnBoardingViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.sucess.status {
                     self?.onBoardingSearchUserToViewModel(model)
-                    print("용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
+                    print("사용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
                 } else {
                     self?.onBoardingSearchUserToViewModel(model)
-                    print("용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
+                    print("사용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
                     self?.appState.netWorkErrorPOP = true
                 }
             })

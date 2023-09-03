@@ -9,11 +9,11 @@
 import Foundation
 
 public struct NickNameValidateModel: Codable {
-    public let status: Int
-    public let data: Bool
+    public let status: Int?
+    public let data: Bool?
     public let message: String?
     
-    public init(status: Int, data: Bool, message: String?) {
+    public init(status: Int?, data: Bool?, message: String?) {
         self.status = status
         self.data = data
         self.message = message

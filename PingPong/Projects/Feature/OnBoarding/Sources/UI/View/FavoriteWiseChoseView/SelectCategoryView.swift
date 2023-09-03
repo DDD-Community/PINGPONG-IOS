@@ -63,11 +63,12 @@ struct SelectCategoryView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            NavigationLink(destination: SelectAlamView()) {
-                Text("건너뛰기")
-                    .pretendardFont(family: .Regular, size: 14)
-                    .foregroundColor(.basicGray6)
-            }
+            Text("건너뛰기")
+                .pretendardFont(family: .Regular, size: 14)
+                .foregroundColor(.basicGray6)
+                .onTapGesture {
+                    viewModel.isSelectedCategory.toggle()
+                }
         }
         .padding(.horizontal, 20)
     }
@@ -75,6 +76,9 @@ struct SelectCategoryView: View {
     @ViewBuilder
     private func selectCatetoryContentView() -> some View {
         Group {
+            Spacer()
+                .frame(height: 25)
+            
             VStack{
                 HStack(spacing: 0) {
                     Text("STEP 1/3")
@@ -93,6 +97,7 @@ struct SelectCategoryView: View {
                         Spacer()
                     }
                 }
+                
                 .pretendardFont(family: .SemiBold, size: 24)
                 .padding(.bottom, 8)
                 
