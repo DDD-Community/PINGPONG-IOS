@@ -61,7 +61,7 @@ public extension Color {
     static let mildIconText = Color(hex: "#869E81")
 
     // 카드 텍스트 색상
-    static let cardTextMain = Color(hex: "#F2F2F1")
+    static let cardTextMain = Color(hex: "#6B511F")
 
 
     

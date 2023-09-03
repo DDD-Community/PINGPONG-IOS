@@ -10,7 +10,7 @@ import SwiftUI
 struct CoreApp: App {
     var body: some Scene {
         WindowGroup {
-            
+            Text("dd")
         }
     }
 }

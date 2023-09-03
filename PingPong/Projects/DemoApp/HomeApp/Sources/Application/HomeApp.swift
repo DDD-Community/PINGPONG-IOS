@@ -8,9 +8,12 @@ import SwiftUI
 
 @main
 struct HomeApp: App {
+    @StateObject var sheetManager = SheetManager()
+        
     var body: some Scene {
         WindowGroup {
             HomeMainView()
+                .environmentObject(sheetManager)
         }
     }
 }
