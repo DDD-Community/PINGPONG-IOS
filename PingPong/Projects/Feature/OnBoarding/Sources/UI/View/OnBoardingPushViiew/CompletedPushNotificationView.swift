@@ -9,10 +9,12 @@
 import Foundation
 import DesignSystem
 import SwiftUI
+import Authorization
 
 public struct CompletedPushNotificationView: View {
     @Environment(\.presentationMode)  var presentationMode
     @StateObject var viewModel: OnBoardingViewModel
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     
     
@@ -35,6 +37,7 @@ public struct CompletedPushNotificationView: View {
             
             .navigationDestination(isPresented: $appState.completOnBoardingView) {
                 CompletOnBoardingView(viewModel: self.viewModel)
+                    .environmentObject(authViewModel)
                     .navigationBarHidden(true)
             }
 

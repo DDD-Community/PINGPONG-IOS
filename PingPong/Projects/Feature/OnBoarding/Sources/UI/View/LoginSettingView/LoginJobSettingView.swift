@@ -8,9 +8,11 @@
 
 import DesignSystem
 import SwiftUI
+import Authorization
 
 public struct LoginJobSettingView: View {
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @Environment(\.presentationMode) var presentationMode
     
@@ -40,6 +42,7 @@ public struct LoginJobSettingView: View {
         
         .navigationDestination(isPresented: $appState.goToCompleteLoginView) {
             CompleteLoginView(viewModel: self.viewModel)
+                .environmentObject(authViewModel)
         }
         .task {
             viewModel.onBoardingSearchUserRequest()
