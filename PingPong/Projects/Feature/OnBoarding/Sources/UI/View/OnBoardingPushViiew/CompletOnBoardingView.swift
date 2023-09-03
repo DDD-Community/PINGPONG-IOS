@@ -17,6 +17,7 @@ public struct CompletOnBoardingView: View {
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var sheetManger: SheetManager = SheetManager()
+//    @StateObject var homeViewModel: HomeViewViewModel =  HomeViewViewModel()
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -28,19 +29,24 @@ public struct CompletOnBoardingView: View {
             
             favoriteRegistrationImage()
             
+            
             completedOnBoardingButton()
             
             Spacer()
         }
         
-        .navigationDestination(isPresented: $viewModel.inviteMainView, destination: {
-            HomeMainView()
-        })
+        
         
         .task {
             //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "423")
         }
+        
+        .navigationDestination(isPresented: $viewModel.inviteMainView, destination: {
+            HomeMainView()
+                .navigationBarHidden(true)
+                .environmentObject(sheetManger)
+        })
     }
     
     @ViewBuilder
@@ -115,6 +121,7 @@ public struct CompletOnBoardingView: View {
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
                     authViewModel.isFirstUser = true
+                    viewModel.inviteMainView.toggle()
                     
                 }
         }

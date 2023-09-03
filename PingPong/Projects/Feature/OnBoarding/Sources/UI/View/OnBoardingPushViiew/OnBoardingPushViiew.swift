@@ -9,11 +9,13 @@
 import Foundation
 import DesignSystem
 import SwiftUI
+import Authorization
 
 public struct OnBoardingPushViiew: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appState : OnBoardingAppState = OnBoardingAppState()
     @StateObject var viewModel: OnBoardingViewModel
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     
     public init(viewModel: OnBoardingViewModel) {
@@ -49,6 +51,7 @@ public struct OnBoardingPushViiew: View {
             
             .navigationDestination(isPresented: $appState.completOnBoardingView) {
                 CompletOnBoardingView(viewModel: viewModel)
+                    .environmentObject(authViewModel)
                     .navigationBarHidden(true)
             }
             
@@ -268,10 +271,9 @@ public struct OnBoardingPushViiew: View {
                                         let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
                                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                                         
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                             appState.completOnBoardingView.toggle()
                                         }
-                                        
                                     }
                                 } else {
                                     DispatchQueue.main.async {

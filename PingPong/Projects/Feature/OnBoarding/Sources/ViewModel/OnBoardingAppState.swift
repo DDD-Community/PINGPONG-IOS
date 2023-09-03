@@ -26,4 +26,5 @@ class OnBoardingAppState: ObservableObject {
     @Published public var goToCompleteLoginView: Bool = false
     @Published public var isActivePushNotifcation: Bool = false
     @Published public var goToSettingPushNotifcationView: Bool = false
+    @Published public var failRegisterFlavorPOPUP: Bool = false
 }

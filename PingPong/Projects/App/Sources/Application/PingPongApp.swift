@@ -8,26 +8,33 @@ import SwiftUI
 import Core
 import OnBoarding
 import Home
+import Authorization
+
 @main
 struct PingPongProjectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var sheetManager = SheetManager()
     @State var showlanch: Bool = true
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     var body: some Scene {
         WindowGroup {
-            HomeMainView()
-                .environmentObject(sheetManager)
-//            ZStack {
-//                CompletOnBoardingView(viewModel: viewModel)
+           
+            ZStack {
+                OnBoardingView()
+//                HomeMainView()
+//                    .environmentObject(sheetManager)
+                
 //
-//                ZStack {
-//                    if showlanch {
-//                        LaunchView(showLanchView: $showlanch)
-//                    }
-//                }
-//            }
+                
+
+                ZStack {
+                    if showlanch {
+                        LaunchView(showLanchView: $showlanch)
+                    }
+                }
+            }
         }
         
     }

@@ -66,6 +66,7 @@ public struct SelectCategoryView: View {
                 .pretendardFont(family: .Regular, size: 14)
                 .foregroundColor(.basicGray6)
                 .onTapGesture {
+                    viewModel.isSkipSelectedCategory.toggle()
                     viewModel.isSelectedCategory.toggle()
                 }
         }
@@ -173,6 +174,7 @@ public struct SelectCategoryView: View {
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.isSelectedCategory.toggle()
+                            
                         }
                 }
                 .disabled(viewModel.selectedFavorite.count < 1)

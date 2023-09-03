@@ -9,6 +9,7 @@
 import DesignSystem
 import SwiftUI
 import Model
+import PopupView
 
 public struct SelectCharacterView: View {
     @StateObject private var viewModel: OnBoardingViewModel
@@ -47,6 +48,18 @@ public struct SelectCharacterView: View {
             OnBoardingPushViiew(viewModel: self.viewModel)
                 .navigationBarHidden(true)
         }
+        
+        .popup(isPresented: $appState.failRegisterFlavorPOPUP) {
+            FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "취향 등록에 실패하였습니다. 다시 시도해주세요")
+        } customize: { popup in
+            popup
+                .type(.floater(verticalPadding: 10))
+                .position(.top)
+                .animation(.easeIn)
+                .closeOnTap(true)
+                .closeOnTapOutside(true)
+        }
+
     }
     
     @ViewBuilder
@@ -65,6 +78,14 @@ public struct SelectCharacterView: View {
                 .pretendardFont(family: .Regular, size: 14)
                 .foregroundColor(.basicGray6)
                 .onTapGesture {
+                    viewModel.isSkipSelectedFlavor.toggle()
+                    
+                    if !viewModel.isSkipSelectedCategory &&  !viewModel.isSkipSelectedFlavor {
+                        viewModel.onBoardingRegisterPost(userId: "403", flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "OTHER", "anime", "film" , "celeb"]) {
+                            appState.failRegisterFlavorPOPUP.toggle()
+                        }
+                    }
+                    
                     appState.goToSettingPushNotifcationView.toggle()
                 }
             
@@ -128,6 +149,10 @@ public struct SelectCharacterView: View {
                         .font(.system(size: 16))
                         .onTapGesture {
                             appState.goToSettingPushNotifcationView.toggle()
+                            
+                            viewModel.onBoardingRegisterPost(userId: "403", flavors: [viewModel.selectedFavoriteFlavor], sources: [viewModel.selectedFavoriteCategory], failOnBoardingRegsiterAction: {
+                                appState.failRegisterFlavorPOPUP.toggle()
+                            })
                         }
                 }
                 .disabled(viewModel.selectedCharacter.count < 1)
@@ -192,7 +217,7 @@ public struct SelectCharacterView: View {
                     )
                     .onTapGesture {
                         self.viewModel.appendAndPopCharacter(character: viewModel.flavorArray.options[flavorIndex].val, index: flavorIndex)
-                        self.viewModel.selectedFavoriteFlavor = commCDItem.commCD ?? ""
+                        self.viewModel.selectedFavoriteFlavor = commCDItem.commCD
                     }
             }
         }

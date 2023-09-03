@@ -25,7 +25,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var onBoardingSearchUserModel: onBoardingUserPreferenceModel?
     
     var onBoardingRegisterFlavorCancellable: AnyCancellable?
-    @Published var onBoardingRegisterFlavor: onBoardingRegisterFlavorModel?
+    @Published var onBoardingRegisterFlavor: OnBoardingRegisterFlavorModel?
     
     @Published var allAgreeCheckButton: Bool = false
     @Published var checkTermsService: Bool = false
@@ -39,8 +39,10 @@ public class OnBoardingViewModel: ObservableObject {
     
     @Published var isStartChoiceFavoritedView: Bool = false
     @Published var isSelectedCategory: Bool = false
+    @Published var isSkipSelectedCategory: Bool = false
+    @Published var isSkipSelectedFlavor: Bool = false
     @Published var isSelectedCharacter: Bool = false
-    @Published var inviteMainView: Bool = false
+    @Published public var inviteMainView: Bool = false
     
     
     
@@ -60,7 +62,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
     
-    
+    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
     
     @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
@@ -92,7 +94,9 @@ public class OnBoardingViewModel: ObservableObject {
     }
     
     
-    public init() {}
+    public init() {
+        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
+    }
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {
         if !allAgreeCheckButton || !checkTermsService || !checkPesonalInformation || !checkReciveMarketingInformation {
@@ -233,6 +237,35 @@ public class OnBoardingViewModel: ObservableObject {
     
     
     //MARK: -  취향  등록
+    public func onBoardingRegisterToViewModel(_ list: OnBoardingRegisterFlavorModel) {
+        self.onBoardingRegisterFlavor = list
+    }
     
     
+    public func onBoardingRegisterPost(userId: String, flavors: [String], sources: [String], failOnBoardingRegsiterAction: @escaping () -> Void) {
+        if let cancellable = onBoardingRegisterFlavorCancellable {
+            cancellable.cancel()
+        }
+        let provider = MoyaProvider<OnBoardingService>(plugins: [MoyaLoggingPlugin()])
+        onBoardingRegisterFlavorCancellable = provider.requestWithProgressPublisher(.userPreferenceRegister(userId: userId, flavors: flavors, sources: sources))
+            .compactMap {$0.response?.data}
+            .decode(type: OnBoardingRegisterFlavorModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크 에러 ",error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.sucess.status {
+                    self?.onBoardingRegisterToViewModel(model)
+                    print("사용자 취향 등록 성공", model)
+                } else {
+                    self?.onBoardingRegisterToViewModel(model)
+                    print("사용자 취향 등록 실패", model)
+                    failOnBoardingRegsiterAction()
+                }
+            })
+    }
 }

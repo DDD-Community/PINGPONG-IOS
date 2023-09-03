@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct onBoardingRegisterFlavorModel: Codable {
+public struct OnBoardingRegisterFlavorModel: Codable {
     public let status, data: Int
     public let message: String?
     

@@ -8,7 +8,9 @@
 
 import SwiftUI
 
-class HomeViewViewModel: ObservableObject {
+public class HomeViewViewModel: ObservableObject {
+    
+    
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
   
@@ -25,8 +27,9 @@ class HomeViewViewModel: ObservableObject {
     ]
     
     
-    init() {
+    public init() {
          setupCustomTabs(homePosts: homePosts)
+        
     }
 
     private func setupCustomTabs(homePosts: [Post]) {
