@@ -7,24 +7,27 @@
 import SwiftUI
 import Core
 import OnBoarding
-
+import Home
 @main
 struct PingPongProjectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var sheetManager = SheetManager()
     @State var showlanch: Bool = true
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                CompletOnBoardingView(viewModel: viewModel)
-                
-                ZStack {
-                    if showlanch {
-                        LaunchView(showLanchView: $showlanch)
-                    }
-                }
-            }
+            HomeMainView()
+                .environmentObject(sheetManager)
+//            ZStack {
+//                CompletOnBoardingView(viewModel: viewModel)
+//
+//                ZStack {
+//                    if showlanch {
+//                        LaunchView(showLanchView: $showlanch)
+//                    }
+//                }
+//            }
         }
         
     }
