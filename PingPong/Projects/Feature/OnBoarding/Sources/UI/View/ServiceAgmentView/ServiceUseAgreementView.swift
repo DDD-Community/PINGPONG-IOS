@@ -14,7 +14,7 @@ public struct ServiceUseAgreementView: View {
     public init() { }
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @EnvironmentObject var viewModel: OnBoardingViewModel
     
     public var body: some View {
         ZStack (alignment: .bottom) {

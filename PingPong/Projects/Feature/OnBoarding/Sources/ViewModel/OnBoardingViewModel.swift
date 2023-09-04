@@ -62,9 +62,12 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
     
+    @AppStorage("isLogin") public var isLogin: Bool = false
+    @AppStorage("isFirstUser") public var isFirstUser: Bool = false
+    @AppStorage("completdSignUP") public var completdSignUP: Bool = false
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
-    
+    let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
     @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
         SearchOption(val: "달콤한 맛", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
         SearchOption(val: "짭잘한 맛", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
@@ -73,7 +76,8 @@ public class OnBoardingViewModel: ObservableObject {
         SearchOption(val: "담백한 맛", iconImageName: "🥖", detail: "언제봐도 좋은 명언")
     ])
     
-    func searchFlavorIndex(commNm: String) -> Int {
+
+    public func searchFlavorIndex(commNm: String) -> Int {
         for index in flavorArray.options.indices {
             if flavorArray.options[index].val == commNm {
                 return index
@@ -83,7 +87,6 @@ public class OnBoardingViewModel: ObservableObject {
     }
     
     
-    let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
     
     var checkAgreementStatus: Bool {
         return checkTermsService && checkPesonalInformation
@@ -96,6 +99,9 @@ public class OnBoardingViewModel: ObservableObject {
     
     public init() {
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
+        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
+        isFirstUser = UserDefaults.standard.bool(forKey: "isFirstUser")
+        completdSignUP = UserDefaults.standard.bool(forKey: "completdSignUP")
     }
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {

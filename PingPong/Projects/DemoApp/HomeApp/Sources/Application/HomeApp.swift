@@ -14,7 +14,7 @@ struct HomeApp: App {
         
     var body: some Scene {
         WindowGroup {
-            HomeMainView()
+            HomeMainView(isFistUserPOPUP: .constant(false))
                 .environmentObject(sheetManager)
         }
     }

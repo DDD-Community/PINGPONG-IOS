@@ -5,13 +5,14 @@
 //  Created by Byeon jinha on 2023/06/01.
 //
 import SwiftUI
-import Home
+import Profile
+//import Home
 
 @main
 struct ProfileApp: App {
     var body: some Scene {
         WindowGroup {
-            ProfileMainView()
+            ProfileView(backProfileViewAction: {})
         }
     }
 }

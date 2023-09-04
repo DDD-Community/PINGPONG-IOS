@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Inject
-
+import Profile
 
 public struct ProfileMainView: View {
     @ObservedObject private var i0 = Inject.observer
@@ -35,6 +35,6 @@ public struct ProfileMainView: View {
 
 public struct ProfileMainView_Previews: PreviewProvider {
     public static var previews: some View {
-        ProfileMainView()
+        ProfileView(backProfileViewAction: {})
     }
 }

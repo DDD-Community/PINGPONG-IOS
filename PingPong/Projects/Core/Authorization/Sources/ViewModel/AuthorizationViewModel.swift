@@ -31,9 +31,7 @@ public class AuthorizationViewModel: ObservableObject {
     @AppStorage("Uid") public var uid: String = ""
     @AppStorage("userEmail") public var userEmail: String = ""
     
-    @AppStorage("isLogin") public var isLogin: Bool = false
-    @AppStorage("isFirstUser") public var isFirstUser: Bool = false
-    @AppStorage("completdSignUP") public var completdSignUP: Bool = false
+   
     @Published public var loginStatus: Bool = false
     @Published var deleteUser: Bool = false
     
@@ -44,7 +42,7 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var isSignupFail: Bool = false
     
     var signupCancellable: AnyCancellable?
-    @Published var signupModel: SignUPModel?
+    @Published public var signupModel: SignUPModel?
     
     var searchUserIdCancellable: AnyCancellable?
     @AppStorage("userId") public var userid: Int = .zero
@@ -55,9 +53,7 @@ public class AuthorizationViewModel: ObservableObject {
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         userid = UserDefaults.standard.integer(forKey: "userId")
-        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
-        isFirstUser = UserDefaults.standard.bool(forKey: "isFirstUser")
-        completdSignUP = UserDefaults.standard.bool(forKey: "completdSignUP")
+       
     }
     
     //MARK: - 로그아웃

@@ -30,6 +30,7 @@ public enum ImageAsset: String {
     case splash
     case pushivew
     case completOnboarding
+    case profileEdit
     //MARK: -  탭바 아이콘
 
     

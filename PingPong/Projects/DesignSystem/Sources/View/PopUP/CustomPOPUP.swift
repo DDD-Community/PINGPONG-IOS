@@ -121,6 +121,7 @@ public struct CustomPOPUP: View {
                         .overlay {
                             Text("네 알겠습니다")
                                 .pretendardFont(family: .SemiBold, size: 16)
+                                .foregroundColor(.basicWhite)
                         }
                         .onTapGesture {
                             confirmAction()
@@ -139,6 +140,7 @@ public struct CustomPOPUP: View {
                         .overlay {
                             Text("확인")
                                 .pretendardFont(family: .SemiBold, size: 16)
+                                .foregroundColor(.basicWhite)
                         }
                         .onTapGesture {
                             confirmAction()

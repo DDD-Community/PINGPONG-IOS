@@ -126,9 +126,12 @@ public struct CompleteLoginView: View {
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.isCompleteSignupView.toggle()
+                            
+                            //MARK: - 임시로  하드 코딩 나중에 로그인 성공하면  successaction에  추가 
+                            viewModel.isLogin = true
+                            viewModel.completdSignUP = true
                             authViewModel.signupPost(uid: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
-                                authViewModel.isLogin = true
-                                authViewModel.completdSignUP = true
+                                
                             } failSignUPAction: {
 //                                authViewModel.isSignupFail.toggle()
                             }

@@ -18,8 +18,6 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
-        .SPM.Inject,
-        .Projcet.OnBoarding,
         .Projcet.Home,
         .Projcet.Profile,
         .Projcet.Auth,

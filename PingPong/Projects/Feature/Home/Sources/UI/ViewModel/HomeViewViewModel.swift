@@ -10,6 +10,8 @@ import SwiftUI
 
 public class HomeViewViewModel: ObservableObject {
     
+    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
+    
     
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
@@ -29,6 +31,7 @@ public class HomeViewViewModel: ObservableObject {
     
     public init() {
          setupCustomTabs(homePosts: homePosts)
+        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
         
     }
 

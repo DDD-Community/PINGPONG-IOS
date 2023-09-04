@@ -10,10 +10,13 @@ import DesignSystem
 import Authorization
 import AuthenticationServices
 import PopupView
+import Home
 
 public struct OnBoardingView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var sheetManager: SheetManager  = SheetManager()
     
     public init() {
         //        self.i0 = i0
@@ -33,6 +36,13 @@ public struct OnBoardingView: View {
             
             .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
                 ServiceUseAgreementView()
+                    .environmentObject(viewModel)
+            }
+            
+            .navigationDestination(isPresented: $appState.goToMainHomeView) {
+                HomeMainView(isFistUserPOPUP: $viewModel.isFirstUserPOPUP)
+                    .environmentObject(sheetManager)
+                    .navigationBarHidden(true)
             }
         }
         
@@ -144,10 +154,12 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if authViewModel.completdSignUP {
-                        
+                    if viewModel.completdSignUP {
+                        appState.goToMainHomeView.toggle()
                     } else {
-                        appState.serviceUseAgmentView.toggle()
+                        if viewModel.isFirstUser {
+                            appState.serviceUseAgmentView.toggle()
+                        }
                     }
                 }
                 

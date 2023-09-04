@@ -24,7 +24,8 @@ let project = Project.makeAppModule(
         .SPM.PopupView,
         .Projcet.DesignSystem,
         .Projcet.Service,
-        .Projcet.Model
+        .Projcet.Model,
+        .Projcet.Profile
         
             
     ],

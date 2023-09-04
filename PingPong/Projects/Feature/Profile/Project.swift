@@ -20,12 +20,13 @@ let project = Project.makeAppModule(
         .SPM.Kingfisher,
         .SPM.PopupView,
         .SPM.ACarousel,
-        .SPM.Inject,
         .SPM.PopupView,
         .Projcet.DesignSystem,
+        .SPM.Inject,
         .Projcet.Auth,
         .Projcet.Service,
-        .Projcet.Model
+        .Projcet.Model,
+        .Projcet.Authorization
     ],
     sources: ["Sources/**"]
 )

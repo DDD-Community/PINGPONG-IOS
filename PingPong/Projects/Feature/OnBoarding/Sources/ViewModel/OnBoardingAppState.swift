@@ -27,4 +27,5 @@ class OnBoardingAppState: ObservableObject {
     @Published public var isActivePushNotifcation: Bool = false
     @Published public var goToSettingPushNotifcationView: Bool = false
     @Published public var failRegisterFlavorPOPUP: Bool = false
+    @Published public var goToMainHomeView: Bool = false
 }
