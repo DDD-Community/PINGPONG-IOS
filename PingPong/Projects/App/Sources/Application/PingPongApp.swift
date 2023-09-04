@@ -13,12 +13,13 @@ struct PingPongProjectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var sheetManager = SheetManager()
     @State var showlanch: Bool = true
-    @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var viewModel: HomeViewViewModel = HomeViewViewModel()
     
     var body: some Scene {
         WindowGroup {
-            HomeMainView()
-                .environmentObject(sheetManager)
+//            HomeMainView()
+//                .environmentObject(sheetManager)
+            HomeBakeingView(viewModel: viewModel)
 //            ZStack {
 //                CompletOnBoardingView(viewModel: viewModel)
 //

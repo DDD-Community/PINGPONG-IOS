@@ -8,10 +8,20 @@
 
 import SwiftUI
 
-class HomeViewViewModel: ObservableObject {
+public class HomeViewViewModel: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
   
+    //MARK: HomeBakeing 관련
+    @Published var isStartBake: Bool = false
+    @Published var isChoicedBread: Bool = false
+    @Published var isChoicedIngredent: Bool = false
+    @Published var isChoicedTopping: Bool = false
+    
+    @Published var choicedBread: Bread?
+    @Published var choicedIngredent: Ingredent?
+    @Published var choicedTopping: Topping?
+    
     @Published var homePosts = [
         Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
         Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
@@ -25,7 +35,7 @@ class HomeViewViewModel: ObservableObject {
     ]
     
     
-    init() {
+    public init() {
          setupCustomTabs(homePosts: homePosts)
     }
 
@@ -129,4 +139,27 @@ struct Post: Identifiable, Equatable {
 struct Hashtags {
     let flavor: Flavor
     let genre: Genre
+}
+
+
+enum Bread: String {
+    case breadViewBread = "breadViewBread"
+    case croissant = "croissant"
+    case pancake = "pancake"
+    case cookie = "cookie"
+    case ciabatta = "ciabatta"
+}
+
+enum Ingredent: String {
+    case chocolate = "chocolate"
+    case cheese = "cheese"
+    case jalapeno = "jalapeno"
+    case cream = "cream"
+    case corn = "corn"
+}
+
+enum Topping: String {
+    case appleJam = "appleJam"
+    case caramelSyrup = "caramelSyrup"
+    case chestnut = "chestnut"
 }
