@@ -12,9 +12,11 @@ import Model
 
 public struct ChoiceBreadView: View {
     @StateObject private var viewModel: HomeViewViewModel
+    var backAction: () -> Void = {}
     
-    public init(viewModel: HomeViewViewModel) {
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.backAction = backAction
     }
     
     let breadArray: [String] = ["breadViewBread", "croissant", "pancake", "cookie", "ciabatta"]
@@ -51,7 +53,7 @@ public struct ChoiceBreadView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedBread) {
-            ChoiceIngredentView(viewModel: self.viewModel)
+            ChoiceIngredentView(viewModel: self.viewModel, backAction: backAction)
         }
     }
     

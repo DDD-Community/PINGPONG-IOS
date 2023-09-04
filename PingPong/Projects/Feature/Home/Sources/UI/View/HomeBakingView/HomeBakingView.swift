@@ -11,13 +11,16 @@ import DesignSystem
 
 public struct HomeBakeingView: View {
     @StateObject private var viewModel: HomeViewViewModel
-       
-       public init(viewModel: HomeViewViewModel) {
-           self._viewModel = StateObject(wrappedValue: viewModel)
-       }
+    @Environment(\.presentationMode) var presentationMode
+    
+    var backAction: () -> Void
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.backAction = backAction
+    }
     
     public var body: some View {
-        NavigationStack {
+//        NavigationStack {
             VStack {
                 HomeBakingViewHeaderTitle()
                 Spacer()
@@ -29,9 +32,12 @@ public struct HomeBakeingView: View {
             }
             .navigationBarHidden(true)
             .navigationDestination(isPresented: $viewModel.isStartBake) {
-                ChoiceBreadView(viewModel: self.viewModel)
+                ChoiceBreadView(viewModel: self.viewModel, backAction: {
+                backAction()
+                    
+                })
             }
-        } //임시네비게이션스택
+//        } //임시네비게이션스택
     }
     
     @ViewBuilder

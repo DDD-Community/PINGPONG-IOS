@@ -157,7 +157,7 @@ public struct OnBoardingView: View {
                     if viewModel.completdSignUP {
                         appState.goToMainHomeView.toggle()
                     } else {
-                        if viewModel.isFirstUser {
+                        if !viewModel.isFirstUser {
                             appState.serviceUseAgmentView.toggle()
                         }
                     }

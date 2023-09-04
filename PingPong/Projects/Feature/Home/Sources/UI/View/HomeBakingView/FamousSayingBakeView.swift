@@ -11,9 +11,11 @@ import SwiftUI
 struct FamousSayingBakeView: View {
     
     @StateObject private var viewModel: HomeViewViewModel
+    var backAction: () -> Void = {}
     
-    public init(viewModel: HomeViewViewModel) {
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.backAction = backAction
     }
     
     var body: some View {
@@ -27,7 +29,7 @@ struct FamousSayingBakeView: View {
         }
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isCompleteBake) {
-            FamousSayingBakeCardView(viewModel: self.viewModel)
+            FamousSayingBakeCardView(viewModel: self.viewModel, backAction: backAction)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {

@@ -9,10 +9,12 @@
 
 import DesignSystem
 import SwiftUI
+import Model
 
 struct HomeView: View {
     @State var currentIndex: Int = 0
     @StateObject private var viewModel: HomeViewViewModel
+    @StateObject var appState: HomeAppState = HomeAppState()
 
     @State var isOn: [Bool] = []
     init(viewModel: HomeViewViewModel) {
@@ -180,6 +182,7 @@ struct HomeView: View {
                         }
                     }
                     .onTapGesture {
+                        appState.goToBackingView.toggle()
                     }
                     .padding(.top, UIScreen.screenHeight * 0.05)
             }
@@ -188,6 +191,12 @@ struct HomeView: View {
                 if !isOn.isEmpty { //빈배열일 경우 방어문
                     self.isOn[0] = true
                 }
+            }
+            
+            .navigationDestination(isPresented: $appState.goToBackingView) {
+                HomeBakeingView(viewModel: viewModel, backAction: {
+                    appState.goToBackingView = false
+                })
             }
         }
     }
@@ -221,12 +230,6 @@ func searchCharacterColor(flavor: Flavor) -> CharacterColor {
     }
 }
 
-struct CharacterColor {
-    let icon: Color
-    let iconBackground: Color
-    //    let filter: Color
-    let background: Color
-}
 
 
 

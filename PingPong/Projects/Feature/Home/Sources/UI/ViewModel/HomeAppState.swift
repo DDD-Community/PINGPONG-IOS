@@ -12,4 +12,6 @@ import SwiftUI
 
 public class HomeAppState: ObservableObject {
     @Published var goToProfileSettingView: Bool = false
+    @Published var goToBackingView: Bool = false
+    @Published var goToMainView: Bool = false
 }

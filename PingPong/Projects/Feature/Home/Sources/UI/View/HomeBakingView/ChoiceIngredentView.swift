@@ -13,8 +13,10 @@ import Model
 public struct ChoiceIngredentView: View {
     @StateObject private var viewModel: HomeViewViewModel
     
-    public init(viewModel: HomeViewViewModel) {
+    var backAction: () -> Void
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.backAction = backAction
     }
     
     let IngredentArray: [String] = ["chocolate", "cheese", "jalapeno", "cream", "corn"]
@@ -51,7 +53,7 @@ public struct ChoiceIngredentView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedIngredent) {
-            ChoiceToppingView(viewModel: self.viewModel)
+            ChoiceToppingView(viewModel: self.viewModel, backAction: backAction)
         }
     }
     

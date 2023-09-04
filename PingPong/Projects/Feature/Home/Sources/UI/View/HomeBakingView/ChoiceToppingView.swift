@@ -13,8 +13,10 @@ import Model
 public struct ChoiceToppingView: View {
     @StateObject private var viewModel: HomeViewViewModel
     
-    public init(viewModel: HomeViewViewModel) {
+    var backAction: () -> Void
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.backAction = backAction
     }
     
     let toppingArray: [String] = ["appleJam", "caramelSyrup", "chestnut"]
@@ -49,7 +51,7 @@ public struct ChoiceToppingView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedTopping) {
-            FamousSayingBakeView(viewModel: self.viewModel)
+            FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction)
         }
     }
     
