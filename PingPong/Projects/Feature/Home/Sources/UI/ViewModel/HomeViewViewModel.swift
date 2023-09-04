@@ -42,6 +42,8 @@ public class HomeViewViewModel: ObservableObject {
     
     public init() {
          setupCustomTabs(homePosts: homePosts)
+        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
+                
         
     }
 
