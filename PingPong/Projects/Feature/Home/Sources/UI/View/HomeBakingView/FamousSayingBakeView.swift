@@ -9,6 +9,13 @@
 import SwiftUI
 
 struct FamousSayingBakeView: View {
+    
+    @StateObject private var viewModel: HomeViewViewModel
+    
+    public init(viewModel: HomeViewViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     var body: some View {
         VStack {
             Image(assetName: "famousSayingBakeImage")
@@ -19,11 +26,13 @@ struct FamousSayingBakeView: View {
                 .foregroundColor(.basicGray8)
         }
         .navigationBarHidden(true)
-    }
-}
-
-struct FamousSayingBakeView_Previews: PreviewProvider {
-    static var previews: some View {
-        FamousSayingBakeView()
+        .navigationDestination(isPresented: $viewModel.isCompleteBake) {
+            FamousSayingBakeCardView(viewModel: self.viewModel)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+                self.viewModel.isCompleteBake.toggle()
+            }
+        }
     }
 }

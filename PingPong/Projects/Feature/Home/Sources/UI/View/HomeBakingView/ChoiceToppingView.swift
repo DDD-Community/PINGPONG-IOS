@@ -49,7 +49,7 @@ public struct ChoiceToppingView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedTopping) {
-            FamousSayingBakeView()
+            FamousSayingBakeView(viewModel: self.viewModel)
         }
     }
     

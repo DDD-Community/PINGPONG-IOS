@@ -32,7 +32,6 @@ struct HomeView: View {
                         
                         let shareView =
                         VStack {
-//                            Spacer()
                             RoundedRectangle(cornerRadius: 12)
                                 .foregroundColor(colorSet.background)
                                 .frame(width: size.width, height: size.height * 0.6)

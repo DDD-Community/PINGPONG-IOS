@@ -17,6 +17,7 @@ public class HomeViewViewModel: ObservableObject {
     @Published var isChoicedBread: Bool = false
     @Published var isChoicedIngredent: Bool = false
     @Published var isChoicedTopping: Bool = false
+    @Published var isCompleteBake: Bool = false
     
     @Published var choicedBread: Bread?
     @Published var choicedIngredent: Ingredent?
