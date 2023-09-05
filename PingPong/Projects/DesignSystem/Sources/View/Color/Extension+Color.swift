@@ -63,7 +63,10 @@ public extension Color {
     // 카드 텍스트 색상
     static let cardTextMain = Color(hex: "#6B511F")
 
-
+    // 추가 아이콘 색상
+    static let motivateIcon = Color(hex: "#FFC3A1")
+    static let consolationIcon = Color(hex: "#D1F1ED")
+    static let wisdomIcon = Color(hex: "#FFF3B6")
     
 }
 

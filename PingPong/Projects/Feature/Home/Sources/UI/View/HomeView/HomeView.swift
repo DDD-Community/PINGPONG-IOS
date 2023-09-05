@@ -11,18 +11,19 @@ import DesignSystem
 import SwiftUI
 import Model
 
-struct HomeView: View {
+public struct HomeView: View {
+    
     @State var currentIndex: Int = 0
     @StateObject private var viewModel: HomeViewViewModel
     @StateObject var appState: HomeAppState = HomeAppState()
 
     @State var isOn: [Bool] = []
-    init(viewModel: HomeViewViewModel) {
+    public init(viewModel: HomeViewViewModel) {
         self._isOn = State(initialValue: Array(repeating: false, count: viewModel.homePosts.count))
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
-    var body: some View {
+    public var body: some View {
         
         ZStack{
             VStack{
@@ -74,7 +75,7 @@ struct HomeView: View {
                             
                         
                         RoundedRectangle(cornerRadius: 12)
-                            .frame(width: size.width, height: size.height * 0.6)
+                            .frame(width: size.width, height: size.height * 0.62)
                             .foregroundColor(colorSet.background)
                             .opacity(isOn[post.stageNum] ? 1 : 0.3)
                             .overlay(
@@ -167,11 +168,11 @@ struct HomeView: View {
                                 }
                             )
                     }
-                }.frame(height: UIScreen.screenHeight * 0.56)
+                }.frame(height: UIScreen.screenHeight * 0.64)
                 
                 RoundedRectangle(cornerRadius: UIScreen.screenWidth * 0.12)
                     .fill(Color.primaryOrange)
-                    .frame(width: UIScreen.screenWidth * 0.6, height: UIScreen.screenHeight * 0.08, alignment: .center)
+                    .frame(width: UIScreen.screenWidth * 0.6, height: 60, alignment: .center)
                     .overlay {
                         HStack{
                             Image(assetName: "bread")
@@ -184,15 +185,12 @@ struct HomeView: View {
                     .onTapGesture {
                         appState.goToBackingView.toggle()
                     }
-                    .padding(.top, UIScreen.screenHeight * 0.05)
             }
-            .frame(height: UIScreen.screenHeight * 0.8)
             .onAppear {
                 if !isOn.isEmpty { //빈배열일 경우 방어문
                     self.isOn[0] = true
                 }
             }
-            
             .navigationDestination(isPresented: $appState.goToBackingView) {
                 HomeBakeingView(viewModel: viewModel, backAction: {
                     appState.goToBackingView = false
@@ -229,9 +227,6 @@ func searchCharacterColor(flavor: Flavor) -> CharacterColor {
                                        background: .hotBG)
     }
 }
-
-
-
 
 func shareContent(content: UIImage) {
     let avc = UIActivityViewController(activityItems: [content], applicationActivities: nil)

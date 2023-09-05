@@ -72,7 +72,7 @@ public class OnBoardingViewModel: ObservableObject {
         SearchOption(val: "달콤한 맛", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
         SearchOption(val: "짭잘한 맛", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
         SearchOption(val: "매콤한 맛", iconImageName: "🔥", detail: "따끔한 조언의 자극적인 명언"),
-        SearchOption(val: "고소한 맛", iconImageName: "🥜", detail: "재채있고 유희적인 명언"),
+        SearchOption(val: "고소한 맛", iconImageName: "🥜", detail: "재치있고 유희적인 명언"),
         SearchOption(val: "담백한 맛", iconImageName: "🥖", detail: "언제봐도 좋은 명언")
     ])
     

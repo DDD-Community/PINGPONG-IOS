@@ -11,10 +11,10 @@ import SwiftUI
 @main
 struct HomeApp: App {
     @StateObject var sheetManager = SheetManager()
-        
+    @StateObject var viewModel: HomeViewViewModel = HomeViewViewModel()
     var body: some Scene {
         WindowGroup {
-            HomeMainView(isFistUserPOPUP: .constant(false))
+            HomeMainView(viewModel: viewModel, isFistUserPOPUP: .constant(false))
                 .environmentObject(sheetManager)
         }
     }

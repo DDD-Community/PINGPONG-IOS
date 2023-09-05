@@ -13,9 +13,6 @@ struct StatusBarView: View {
     var goProfileSettingView: () -> Void = {}
     
     var body: some View {
-//        Spacer()
-//            .frame(height: 13)
-        
         HStack{
             Text("명언제과점")
                 .dNFBitBit(size: 26)

@@ -12,30 +12,33 @@ import Profile
 
 public struct HomeMainView: View {
     @EnvironmentObject var sheetManager: SheetManager
-    @StateObject var viewModel: HomeViewViewModel = HomeViewViewModel()
+    
     @StateObject var appState: HomeAppState = HomeAppState()
     @Environment(\.presentationMode) var  presentationMode
     @Binding var isFistUserPOPUP: Bool
     
-    public init(isFistUserPOPUP: Binding<Bool>) {
+    @StateObject private var viewModel: HomeViewViewModel
+    
+    public init(viewModel: HomeViewViewModel, isFistUserPOPUP: Binding<Bool>) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
         self._isFistUserPOPUP = isFistUserPOPUP
     }
-    
-    
     
     public var body: some View {
         NavigationStack(root: {
             ZStack{
                 Color.basicGray1BG
                 ZStack {
-                    
-                    navigationTopHeaderView()
-                    
-                    selectTabView()
-                    
+                    VStack {
+                        if self.viewModel.selectedTab == .home {
+                            navigationTopHeaderView()
+                                .frame(height: UIScreen.screenHeight * 0.06)
+                        }
+                        selectTabView()
+                    }
                     mainTabBar()
-                    
                 }
+                .modal(with: sheetManager, searchViewButtonInfoArray: $viewModel.searchViewButtonInfoArray)
                 .onAppear {
                     if viewModel.isFirstUserPOPUP {
                         isFistUserPOPUP = false
@@ -43,8 +46,6 @@ public struct HomeMainView: View {
                         isFistUserPOPUP = true
                     }
                 }
-                
-                
                 .popup(isPresented: $isFistUserPOPUP) {
                     CustomPOPUP(image: .empty, title: "좌우를 넘기며", title1: "명언을 확인해보세요", subTitle: "", useGif: true, confirmAction: {
                         isFistUserPOPUP = false
@@ -66,9 +67,6 @@ public struct HomeMainView: View {
                     }
                     .transition(.slide)
                 }
-                
-
-                
             }
         })
         .ignoresSafeArea()
@@ -88,7 +86,7 @@ public struct HomeMainView: View {
                 appState.goToProfileSettingView.toggle()
             })
             .findNavigator(isPresented: $appState.goToProfileSettingView)
-                .padding(EdgeInsets(top: 70, leading: 20, bottom: 0, trailing:20))
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing:20))
             
             Spacer()
         }
@@ -102,25 +100,30 @@ public struct HomeMainView: View {
             switch viewModel.selectedTab {
             case .home:
                 findView(for: .home)
-            case .safari:
-                findView(for: .safari)
-            case .archivebox:
-                findView(for: .archivebox)
+            case .explore:
+                findView(for: .explore)
+            case .archive:
+                findView(for: .archive)
             }
             Spacer()
         }
-        
-        .padding(.top, UIScreen.screenHeight * 0.1)
     }
     
     @ViewBuilder
     private func mainTabBar() -> some View {
         VStack {
             Spacer()
-            MainTabView(selectedTab: $viewModel.selectedTab)
-                .frame(height: UIScreen.main.bounds.height * 0.12)
+            MainTabView(viewModel: self.viewModel, selectedTab: $viewModel.selectedTab)
+                .frame(height: UIScreen.main.bounds.height * 0.15)
+                .padding(.bottom, -UIScreen.main.bounds.height * 0.05)
         }
         Rectangle()
             .foregroundColor(sheetManager.isPopup ? Color.black.opacity(0.6) : .clear)
+    }
+}
+
+extension View {
+    func modal(with sheetManager: SheetManager, searchViewButtonInfoArray: Binding<[SearchViewButtonInfo]>, selectedIdx: Binding<Int>) -> some View {
+        self.modifier(ModalViewModifier(sheetManager: sheetManager, searchViewButtonInfoArray: searchViewButtonInfoArray))
     }
 }

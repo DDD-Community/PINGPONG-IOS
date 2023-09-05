@@ -10,9 +10,9 @@ import SwiftUI
 struct MainTabView: View {
     @StateObject var viewModel: HomeViewViewModel
     
-    init(selectedTab: Binding<Tab>) {
+    init(viewModel: HomeViewViewModel, selectedTab: Binding<Tab>) {
         @State var selectedIdx: Int = 0
-        _viewModel = StateObject(wrappedValue: HomeViewViewModel())
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {

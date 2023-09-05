@@ -7,11 +7,11 @@
 //
 
 import SwiftUI
+import Model
 
 public class HomeViewViewModel: ObservableObject {
     
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
-    
     
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
@@ -38,7 +38,43 @@ public class HomeViewViewModel: ObservableObject {
         Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
         Post(stageNum: 3, hashtags: Hashtags(flavor: .light, genre: .greatMan), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
     ]
-    
+    enum SituationFlavorSource: String {
+        case motivation = "동기부여"
+        case consolation = "위로"
+        case wisdom = "지혜"
+        case sweet = "달콤한 맛"
+        case salty = "짭짤한 맛"
+        case spicy = "매콤한 맛"
+        case nutty = "고소한 맛"
+        case light = "담백한 맛"
+        case historicalFigures = "위인"
+        case celebrities = "유명인"
+        case dramaMovies = "드라마/영화"
+        case animation = "애니메이션"
+        case books = "책"
+    }
+    @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
+        SearchViewButtonInfo(title: "상황", options:  [
+            SearchOption(val: "동기부여", detail: "도전정신과 의지를 북돋아줄 명언"),
+            SearchOption(val: "위로", detail: "지친 일상을 따스하게 응원해줄 명언"),
+            SearchOption(val: "지혜", detail: "현명한 인생을 위한 교훈을 주는 명언")]),
+        
+        SearchViewButtonInfo(title: "맛", options:  [
+            SearchOption(val: "달콤한 맛", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
+            SearchOption(val: "짭짤한 맛", detail: "울컥하게 만드는 감동적인 명언"),
+            SearchOption(val: "매콤한 맛", detail: "따끔한 조언의 자극적인 명언"),
+            SearchOption(val: "고소한 맛", detail: "재치있고 유희적인 명언"),
+            SearchOption(val: "담백한 맛", detail: "지친 삶의 위로, 기쁨을 주는 명언")
+        ]),
+        
+        SearchViewButtonInfo(title: "출처", options:  [
+            SearchOption(val: "위인", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
+            SearchOption(val: "유명인", detail: "영향력있는 인물들의 인상적인 명언"),
+            SearchOption(val: "드라마/영화", detail: "감성을 자극하는 감수성 풍부한 명언"),
+            SearchOption(val: "애니메이션", detail: "순수함과 동심을 살려주는 따스한 명언"),
+            SearchOption(val: "책", detail: "정신적 성장을 도와주는 현명한 명언")
+        ]),
+    ]
     
     public init() {
          setupCustomTabs(homePosts: homePosts)
@@ -48,14 +84,12 @@ public class HomeViewViewModel: ObservableObject {
     }
 
     private func setupCustomTabs(homePosts: [Post]) {
-        
-
         let homeView = HomeView(viewModel: self)
         let exploreView = ExploreView(viewModel: self)
         let arhiveView = ArchiveView()
         let customTabHome = CustomTab(name: "홈", image: "house.fill", tab: .home, view: AnyView(homeView), isOn: false)
-        let customTabSafari = CustomTab(name: "탐색", image: "plus.magnifyingglass", tab: .safari, view: AnyView(exploreView), isOn: false)
-        let customTabArchive = CustomTab(name: "보관함", image: "archivebox", tab: .archivebox, view: AnyView(arhiveView), isOn: false)
+        let customTabSafari = CustomTab(name: "탐색", image: "plus.magnifyingglass", tab: .explore, view: AnyView(exploreView), isOn: false)
+        let customTabArchive = CustomTab(name: "보관함", image: "archivebox", tab: .archive, view: AnyView(arhiveView), isOn: false)
 
         customTabs = [customTabHome, customTabSafari, customTabArchive]
     }
@@ -101,8 +135,8 @@ public class HomeViewViewModel: ObservableObject {
 
 enum Tab {
     case home
-    case safari
-    case archivebox
+    case explore
+    case archive
 }
 
 struct CustomTab {
