@@ -189,6 +189,7 @@ public struct HomeView: View {
             .onAppear {
                 if !isOn.isEmpty { //빈배열일 경우 방어문
                     self.isOn[0] = true
+                    viewModel.randomQuoteRequest(userID: "423")
                 }
             }
             .navigationDestination(isPresented: $appState.goToBackingView) {
@@ -196,6 +197,11 @@ public struct HomeView: View {
                     appState.goToBackingView = false
                 })
             }
+        }
+        
+        .onAppear{
+            viewModel.randomQuoteRequest(userID: "423")
+            viewModel.userPrefRequest(userID: "423")
         }
     }
     func searchPostIndex(post: Post) -> Int {

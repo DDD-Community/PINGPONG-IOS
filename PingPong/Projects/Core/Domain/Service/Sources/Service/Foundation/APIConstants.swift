@@ -12,14 +12,16 @@ import API
 
 struct APIConstants{
     
-    static let contentType = "Content-Type"
+    static let contentType = "content-type"
     static let appPackageName = "App-Package-Name"
-    static let apikey =  "apikey"
+    static let authorization =  "Authorization"
     
 }
 
 extension APIConstants {
     static var baseHeader: Dictionary<String, String> {
-        [:]
+        [ contentType : APIHeaderManger.shared.contentType,
+            authorization : " Bearer \(APIHeaderManger.shared.firebaseUid)"
+        ]
     }
 }

@@ -8,6 +8,7 @@
 
 import DesignSystem
 import SwiftUI
+import Model
 
 public struct ExploreView: View {
     // 셀에 표시할 데이터 배열

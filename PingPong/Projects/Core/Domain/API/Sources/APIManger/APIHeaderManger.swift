@@ -7,15 +7,17 @@
 //
 
 import Foundation
+import SwiftUI
 
 public class APIHeaderManger {
     public static let shared = APIHeaderManger()
     
-    public init() {}
     
-    
-    
-   public let apiKey: String = "F6E5D7EF-9A8C-4DAE-9BF5-C9962146F4C8"
-    public let appPackageName: String = "com.dym.chaevi.main"
+    @AppStorage("firebaseUid") public var firebaseUid = ""
     public let contentType: String = "application/json"
+    
+    public init() {
+        firebaseUid = UserDefaults.standard.string(forKey: "firebaseUid") ?? ""
+        
+    }
 }

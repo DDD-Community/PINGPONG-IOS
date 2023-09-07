@@ -17,12 +17,19 @@ struct PingPongProjectApp: App {
     @State var showlanch: Bool = true
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
     
     var body: some Scene {
         WindowGroup {
            
             ZStack {
-                OnBoardingView()
+                if viewModel.isLogin {
+                    HomeMainView(viewModel: self.homeViewModel, isFistUserPOPUP: $viewModel.isFirstUserPOPUP)
+                        .environmentObject(sheetManager)
+                } else {
+                    OnBoardingView()
+                }
+                
 //                HomeMainView()
 //                    .environmentObject(sheetManager)
                 

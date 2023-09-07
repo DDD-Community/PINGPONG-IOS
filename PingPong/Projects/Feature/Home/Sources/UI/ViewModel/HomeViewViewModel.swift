@@ -8,6 +8,11 @@
 
 import SwiftUI
 import Model
+import Combine
+import Moya
+import CombineMoya
+import API
+import Service
 
 public class HomeViewViewModel: ObservableObject {
     
@@ -16,6 +21,18 @@ public class HomeViewViewModel: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
   
+    //MARK: -  랜덤  명언 조회 api
+    @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
+    var homeRandomQuoteCancellable: AnyCancellable?
+    
+    @Published public var homeUserPrefModel: UserPrefModel?
+    var homeUserPrefCancellable: AnyCancellable?
+    
+    @Published public var homeLikeScrapModel: BaseModel?
+    var homeLikeCancellable: AnyCancellable?
+    var homeScrapCancellable: AnyCancellable?
+    
+    
     //MARK: HomeBakeing 관련
     @Published var isStartBake: Bool = false
     @Published var isChoicedBread: Bool = false
@@ -26,6 +43,7 @@ public class HomeViewViewModel: ObservableObject {
     @Published var choicedBread: Bread?
     @Published var choicedIngredent: Ingredent?
     @Published var choicedTopping: Topping?
+    
     
     @Published var homePosts = [
         Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
@@ -38,6 +56,7 @@ public class HomeViewViewModel: ObservableObject {
         Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
         Post(stageNum: 3, hashtags: Hashtags(flavor: .light, genre: .greatMan), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
     ]
+    
     enum SituationFlavorSource: String {
         case motivation = "동기부여"
         case consolation = "위로"
@@ -53,6 +72,7 @@ public class HomeViewViewModel: ObservableObject {
         case animation = "애니메이션"
         case books = "책"
     }
+    
     @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
         SearchViewButtonInfo(title: "상황", options:  [
             SearchOption(val: "동기부여", detail: "도전정신과 의지를 북돋아줄 명언"),
@@ -131,6 +151,143 @@ public class HomeViewViewModel: ObservableObject {
 
         return flavorAndGenre
     }
+    
+    
+    //MARK: - api 통신
+    
+    public func randomQuoteToViewModel(_ list: HomeRandomQuoteModel){
+        self.homeRandomQuoteModel = list
+    }
+    
+    public func randomQuoteRequest(userID: String) {
+        if let cancellable = homeRandomQuoteCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: 1, sizePerPage: 50, userId: userID))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.sucess.status {
+                    self?.randomQuoteToViewModel(model)
+                    print("홈 핸덤 명언 조회", model)
+                } else {
+                    self?.randomQuoteToViewModel(model)
+                    print("홈 핸덤 명언 조회 실패", model)
+                }
+            })
+        
+    }
+    
+    public func userPrefToViewModel(_ list: UserPrefModel) {
+        self.homeUserPrefModel = list
+    }
+    
+    public func homeLikeScrapToViewModel(_ list: BaseModel) {
+        self.homeLikeScrapModel = list
+    }
+    
+  
+    
+    public func userPrefRequest(userID: String, quoteId: Int, isScarp: Bool) {
+        if isScarp {
+            if let cancellable = homeLikeCancellable {
+                cancellable.cancel()
+            }
+            
+            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+            homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
+                .compactMap { $0.response?.data }
+                .receive(on: DispatchQueue.main)
+                .decode(type: BaseModel.self, decoder: JSONDecoder())
+                .sink(receiveCompletion: { [weak self] result in
+                    switch result {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("네트워크에러", error.localizedDescription)
+                    }
+                }, receiveValue: { [weak self] model in
+                    if model.status == NetworkCode.sucess.status {
+                        self?.homeLikeScrapToViewModel(model)
+                        print("홈 취향", model)
+                    } else {
+                        self?.homeLikeScrapToViewModel(model)
+                        print("홈 취향", model)
+                    }
+                })
+        } else {
+            if let cancellable = homeScrapCancellable {
+                cancellable.cancel()
+            }
+            
+            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+            homeScrapCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
+                .compactMap { $0.response?.data }
+                .receive(on: DispatchQueue.main)
+                .decode(type: BaseModel.self, decoder: JSONDecoder())
+                .sink(receiveCompletion: { [weak self] result in
+                    switch result {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("네트워크에러", error.localizedDescription)
+                    }
+                }, receiveValue: { [weak self] model in
+                    if model.status == NetworkCode.sucess.status {
+                        self?.homeLikeScrapToViewModel(model)
+                        print("홈 좋아요", model)
+                    } else {
+                        self?.homeLikeScrapToViewModel(model)
+                        print("홈 좋아요", model)
+                    }
+                })
+        }
+        
+    }
+    
+   
+    
+    public func userPrefRequest(userID: String) {
+        if let cancellable = homeUserPrefCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+        homeUserPrefCancellable = provider.requestWithProgressPublisher(.userPref(userId: userID))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: UserPrefModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.sucess.status {
+                    self?.userPrefToViewModel(model)
+                    print("유저 취향 조회", model)
+                } else {
+                    self?.userPrefToViewModel(model)
+                    print("유저 취향 조회", model)
+                }
+            })
+        
+    }
+    
+    
+    
 }
 
 enum Tab {
@@ -147,13 +304,7 @@ struct CustomTab {
     var isOn: Bool
 }
 
-enum Flavor: String {
-    case sweet = "달콤한 맛"
-    case salty = "짭짤한 맛"
-    case spicy = "매콤한 맛"
-    case nutty = "고소한 맛"
-    case light = "담백한 맛"
-}
+
 
 enum Genre: String {
     case animation = "애니메이션"

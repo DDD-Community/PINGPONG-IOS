@@ -68,6 +68,7 @@ public class OnBoardingViewModel: ObservableObject {
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
+    
     @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
         SearchOption(val: "달콤한 맛", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
         SearchOption(val: "짭잘한 맛", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),

@@ -17,7 +17,7 @@ public struct HomeMainView: View {
     @Environment(\.presentationMode) var  presentationMode
     @Binding var isFistUserPOPUP: Bool
     
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject var viewModel: HomeViewViewModel
     
     public init(viewModel: HomeViewViewModel, isFistUserPOPUP: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: viewModel)
