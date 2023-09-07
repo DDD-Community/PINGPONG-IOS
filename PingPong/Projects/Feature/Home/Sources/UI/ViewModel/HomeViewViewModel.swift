@@ -33,6 +33,9 @@ public class HomeViewViewModel: ObservableObject {
     var homeScrapCancellable: AnyCancellable?
     
     
+    @Published public var seachUserFlavorCodeModel: SearchUserPrefCodeModel?
+    var seachUserFlavopCancellable: AnyCancellable?
+    
     //MARK: HomeBakeing 관련
     @Published var isStartBake: Bool = false
     @Published var isChoicedBread: Bool = false
@@ -188,9 +191,7 @@ public class HomeViewViewModel: ObservableObject {
         
     }
     
-    public func userPrefToViewModel(_ list: UserPrefModel) {
-        self.homeUserPrefModel = list
-    }
+    
     
     public func homeLikeScrapToViewModel(_ list: BaseModel) {
         self.homeLikeScrapModel = list
@@ -255,6 +256,9 @@ public class HomeViewViewModel: ObservableObject {
         
     }
     
+    public func userPrefToViewModel(_ list: UserPrefModel) {
+        self.homeUserPrefModel = list
+    }
    
     
     public func userPrefRequest(userID: String) {
@@ -286,6 +290,38 @@ public class HomeViewViewModel: ObservableObject {
         
     }
     
+    public func userSearchUserCommCodeToViewModel(_ list: SearchUserPrefCodeModel) {
+        self.seachUserFlavorCodeModel = list
+    }
+    
+    public func  userSearchUserCommCodeRequest(userID: String) {
+        if let cancellable = seachUserFlavopCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
+        seachUserFlavopCancellable = provider.requestWithProgressPublisher(.searchUserByUid(uid: userID))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: SearchUserPrefCodeModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.userSearchUserCommCodeRequest == NetworkCode.sucess.status {
+                    self?.userSearchUserCommCodeToViewModel(model)
+                    print("유저 코드", model)
+                } else {
+                    self?.userSearchUserCommCodeToViewModel(model)
+                    print("유저 코드", model)
+                }
+            })
+        
+    }
     
     
 }

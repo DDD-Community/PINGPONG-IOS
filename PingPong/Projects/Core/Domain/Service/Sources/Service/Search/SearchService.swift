@@ -12,6 +12,7 @@ import API
 
 public enum SearchService {
     case searchQuote(page: Int, sizePerPage: Int, keyword: String, flavors: [String], sources: [String], moods: [String], orderBy: String)
+    case searchCommCode(commCdTpCd: String)
 }
 
 extension SearchService: BaseTargetType {
@@ -19,12 +20,16 @@ extension SearchService: BaseTargetType {
         switch self {
         case .searchQuote:
             return PingPongAPISearch.searchQuote
+        case .searchCommCode(let commCdTpCd)
+            return "\(PingPongAPISearch.searchCommonCode)"
         }
     }
     
     public var method: Moya.Method {
         switch self {
         case .searchQuote:
+            return .get
+        case .searchCommCode
             return .get
         }
     }
@@ -43,6 +48,14 @@ extension SearchService: BaseTargetType {
             ]
             
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+        case .searchCommCode(let commCdTpCd)
+            let parameters : [String : Any] = [
+                "commCdTpCd": commCdTpCd
+               
+            ]
+            
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         }
     }
 }

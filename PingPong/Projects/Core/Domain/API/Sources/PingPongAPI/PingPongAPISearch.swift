@@ -10,5 +10,6 @@ import Foundation
 
 public enum PingPongAPISearch {
     public static let searchQuote = String("/search/quote")
+    public static let searchCommonCode = String("code/saerch-comm-cd/")
     
 }
