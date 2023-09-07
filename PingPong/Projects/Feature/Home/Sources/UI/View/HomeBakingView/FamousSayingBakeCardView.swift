@@ -11,22 +11,23 @@ import SwiftUI
 struct FamousSayingBakeCardView: View {
     
     @StateObject private var viewModel: HomeViewViewModel
-    @StateObject var appState: HomeAppState = HomeAppState()
     @Environment(\.presentationMode) var presentationMode
     @StateObject var sheetManager: SheetManager = SheetManager()
     
-    var backAction: () -> Void = {}
+    var backAction: () -> Void
+    var rebakeAction: () -> Void
     
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
+        self.rebakeAction = rebakeAction
     }
     
     var body: some View {
         ZStack {
             VStack {
                 topHeaderBackButton()
-                    .padding(.top, 20)
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
             }
             VStack {
@@ -45,8 +46,30 @@ struct FamousSayingBakeCardView: View {
                             ZStack {
                                 VStack {
                                     HStack {
-                                        Image(assetName: imageNameAndText.2)
-                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        ZStack {
+                                            Image(assetName: imageNameAndText.2)
+                                                .resizable()
+                                                .frame(width: 335, height: 236)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            ZStack {
+                                                if let choicedBread = viewModel.choicedBread  {
+                                                    Image(assetName: "\(choicedBread.rawValue)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                                if let choicedIngredent = viewModel.choicedIngredent  {
+                                                    Image(assetName: "\(choicedIngredent.rawValue)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                                if let choicedTopping = viewModel.choicedTopping  {
+                                                    Image(assetName: "\(choicedTopping.rawValue)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                            }
+                                            .offset(x: -50, y: 22)
+                                        }
                                         Spacer()
                                     }
                                     Spacer()
@@ -84,8 +107,30 @@ struct FamousSayingBakeCardView: View {
                         ZStack {
                             VStack {
                                 HStack {
-                                    Image(assetName: imageNameAndText.2)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    ZStack {
+                                        Image(assetName: imageNameAndText.2)
+                                            .resizable()
+                                            .frame(width: 335, height: 236)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        ZStack {
+                                            if let choicedBread = viewModel.choicedBread  {
+                                                Image(assetName: "\(choicedBread.rawValue)")
+                                                    .resizable()
+                                                    .frame(width: 120, height: 120)
+                                            }
+                                            if let choicedIngredent = viewModel.choicedIngredent  {
+                                                Image(assetName: "\(choicedIngredent.rawValue)")
+                                                    .resizable()
+                                                    .frame(width: 120, height: 120)
+                                            }
+                                            if let choicedTopping = viewModel.choicedTopping  {
+                                                Image(assetName: "\(choicedTopping.rawValue)")
+                                                    .resizable()
+                                                    .frame(width: 120, height: 120)
+                                            }
+                                        }
+                                        .offset(x: -50, y: 22)
+                                    }
                                     Spacer()
                                 }
                                 Spacer()
@@ -180,11 +225,18 @@ struct FamousSayingBakeCardView: View {
                             .foregroundColor(.primaryOrange)
                     )
                     .padding(.top, 10)
-                
+                    .onTapGesture {
+                        rebakeAction()
+                    }
             }
             
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            self.viewModel.tmpChoicedBread = nil
+            self.viewModel.tmpChoicedIngredent = nil
+            self.viewModel.tmpChoicedTopping = nil
+        }
         
         
     }
@@ -199,6 +251,5 @@ struct FamousSayingBakeCardView: View {
                     backAction()
                 }
         }
-        .padding(.horizontal, 20)
     }
 }

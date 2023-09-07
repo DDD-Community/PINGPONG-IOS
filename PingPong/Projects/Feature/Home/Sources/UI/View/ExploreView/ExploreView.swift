@@ -44,7 +44,7 @@ public struct ExploreView: View {
                                         RoundedRectangle(cornerRadius: 10)
                                             .stroke(Color.hotIconBG, lineWidth: 1)
                                             .overlay(
-                                                Text(viewModel.searchViewButtonInfoArray[idx].title)
+                                                Text("\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)")
                                                     .foregroundColor(.cardTextMain)
                                                     .pretendardFont(family: .SemiBold, size: 14)
                                             )
@@ -52,26 +52,45 @@ public struct ExploreView: View {
                             }
                         }
                     }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-
+                    
                     Spacer()
-                    Image(systemName: "exclamationmark.circle")
-                        .frame(width: 20,height: 20)
-                        .foregroundColor(.basicGray5)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 13))
                 }
             }
             .frame(height: UIScreen.main.bounds.height * 0.25)
             ScrollView(.vertical) {
                 let group = filterHomePostContents()
                 if group.count != 0 {
-                LazyVGrid(columns: columns) {
+                    LazyVGrid(columns: columns) {
                         ForEach(group) { item in
                             let colorSet = searchCharacterColor(flavor: Flavor(rawValue: item.hashtags.flavor.rawValue) ?? .light)
                             VStack {
                                 HStack {
+                                    let imageSet = viewModel.generateImageNameAndText(hashtags: item.hashtags)
+                                    Circle()
+                                        .foregroundColor(colorSet.iconBackground)
+                                        .frame(width: 20, height: 20)
+                                        .overlay(
+                                            Image(assetName: imageSet.0)
+                                                .resizable()
+                                                .frame(width: 14, height: 14)
+                                        )
+                                    Circle()
+                                        .foregroundColor(colorSet.iconBackground)
+                                        .frame(width: 20, height: 20)
+                                        .overlay(
+                                            Image(assetName: imageSet.1)
+                                                .resizable()
+                                                .frame(width: 14, height: 14)
+                                        )
+                                    Spacer()
+                                }
+                                .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
+                                Spacer()
+                                HStack {
                                     Text(item.title)
                                         .baeEun(size: 18)
                                         .foregroundColor(.cardTextMain)
+                                        .allowsTightening(true)
                                         .padding()
                                     Spacer()
                                 }
@@ -84,6 +103,7 @@ public struct ExploreView: View {
                                 }
                             }.frame(width: 165, height: 240, alignment: .leading)
                                 .background(colorSet.background)
+                                .allowsTightening(true)
                                 .cornerRadius(10)
                                 .onTapGesture {
                                     withAnimation {
@@ -120,11 +140,6 @@ public struct ExploreView: View {
         }
         return filterContent
     }
-    func toggleSearchViewPullDown(touchIdx: Int) {
-        for idx in viewModel.searchViewButtonInfoArray.indices where idx != touchIdx{
-            viewModel.searchViewButtonInfoArray[idx].shouldShowDropdown = false
-        }
-    }
 }
 
 
@@ -133,12 +148,12 @@ struct SearchOption: Hashable, Identifiable {
     var val: String
     var detail: String
     var isCheck: Bool = false
-
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(detail)
         hasher.combine(val)
     }
-
+    
     static func == (lhs: SearchOption, rhs: SearchOption) -> Bool {
         return lhs.detail == rhs.detail && lhs.val == rhs.val
     }
@@ -148,7 +163,9 @@ struct SearchOption: Hashable, Identifiable {
 struct SearchViewButtonInfo: Identifiable {
     var shouldShowDropdown = false
     let id: UUID = UUID()
-    let title: String
+    let title: SituationFlavorSourceTitle
     var options: [SearchOption]
     var onSelect: ((_ key: String) -> Void)?
 }
+
+

@@ -17,6 +17,7 @@ public struct OnBoardingView: View {
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
+    @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
     
     public init() {
         //        self.i0 = i0
@@ -40,7 +41,7 @@ public struct OnBoardingView: View {
             }
             
             .navigationDestination(isPresented: $appState.goToMainHomeView) {
-                HomeMainView(isFistUserPOPUP: $viewModel.isFirstUserPOPUP)
+                HomeMainView(viewModel: self.homeViewModel, isFistUserPOPUP: $viewModel.isFirstUserPOPUP)
                     .environmentObject(sheetManager)
                     .navigationBarHidden(true)
             }

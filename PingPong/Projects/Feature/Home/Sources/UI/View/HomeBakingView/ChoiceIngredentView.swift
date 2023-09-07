@@ -14,18 +14,21 @@ public struct ChoiceIngredentView: View {
     @StateObject private var viewModel: HomeViewViewModel
     
     var backAction: () -> Void
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+    var rebakeAction: () -> Void
+    
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
+        self.rebakeAction = rebakeAction
     }
     
-    let IngredentArray: [String] = ["chocolate", "cheese", "jalapeno", "cream", "corn"]
+    let IngredentArray: [String] = ["carouselsweetImage", "carouselsaltyImage", "carouselspicyImage", "carouselnuttyImage", "carousellightImage"]
     let IngredentDictionary = [
-        "chocolate": "초콜릿",
-        "cheese": "치즈",
-        "jalapeno": "할라피뇨",
-        "cream": "생크림",
-        "corn": "옥수수"
+        "carouselsweetImage": "초콜릿",
+        "carouselsaltyImage": "치즈",
+        "carouselspicyImage": "할라피뇨",
+        "carouselnuttyImage": "생크림",
+        "carousellightImage": "옥수수"
     ]
     
     @Environment(\.presentationMode) var presentationMode
@@ -53,7 +56,7 @@ public struct ChoiceIngredentView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedIngredent) {
-            ChoiceToppingView(viewModel: self.viewModel, backAction: backAction)
+            ChoiceToppingView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
         }
     }
     
@@ -69,12 +72,11 @@ public struct ChoiceIngredentView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            Text("건너뛰기")
-                .pretendardFont(family: .Regular, size: 14)
-                .foregroundColor(.basicGray6)
-                .onTapGesture {
-                    //                    viewModel.isSelectedCategory.toggle()
-                }
+            NavigationLink(destination: FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)) {
+                Text("건너뛰기")
+                    .pretendardFont(family: .Regular, size: 14)
+                    .foregroundColor(.basicGray6)
+            }
         }
         .padding(.horizontal, 20)
     }
@@ -108,16 +110,18 @@ public struct ChoiceIngredentView: View {
                         VStack {
                             Circle()
                                 .frame(width: 96, height: 96)
-                                .foregroundColor(self.viewModel.choicedIngredent ==  Ingredent(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
+                                .foregroundColor(self.viewModel.tmpChoicedIngredent ==  Ingredent(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
                                 .overlay(
                                     Image(assetName: item)
+                                        .resizable()
+                                        .frame(width:56, height: 56)
                                 )
                             
                             Text(IngredentDictionary[item]!)
                                 .pretendardFont(family: .SemiBold, size: 14)
                         }
                         .onTapGesture {
-                            self.viewModel.choicedIngredent = Ingredent(rawValue: item)!
+                            self.viewModel.tmpChoicedIngredent = Ingredent(rawValue: item)!
                         }
                     }
                 }
@@ -132,17 +136,18 @@ public struct ChoiceIngredentView: View {
     private func confirmButtonView() -> some View {
         HStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(viewModel.choicedIngredent == nil ? .basicGray3 : .primaryOrange)
+                .foregroundColor(viewModel.tmpChoicedIngredent == nil ? .basicGray3 : .primaryOrange)
                 .frame(width: UIScreen.screenWidth - 40 , height: 50)
                 .overlay {
                     Text("다음")
-                        .foregroundColor(viewModel.choicedIngredent == nil ? .basicGray5 : .basicWhite)
+                        .foregroundColor(viewModel.tmpChoicedIngredent == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.isChoicedIngredent.toggle()
+                            viewModel.choicedIngredent = viewModel.tmpChoicedIngredent
                         }
                 }
-                .disabled(viewModel.choicedIngredent == nil)
+                .disabled(viewModel.tmpChoicedIngredent == nil)
         }
     }
 

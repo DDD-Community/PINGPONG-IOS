@@ -11,22 +11,28 @@ import Foundation
 import Model
 import SwiftUI
 
-struct ModalView: View {
+public struct ModalView: View {
     let config: SheetManager.Config
     let isPopup: Bool
-    @Binding var searchViewButtonInfoArray: [SearchViewButtonInfo]
     
-    @Binding var offsetY: CGFloat
+    @StateObject private var viewModel: HomeViewViewModel
+    
     let didClose: () -> Void
     
     let height:CGFloat = 500
     
+    public init(viewModel: HomeViewViewModel, config: SheetManager.Config, isPopup: Bool, didClose: @escaping () -> Void) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.config = config
+        self.isPopup = isPopup
+        self.didClose = didClose
+    }
     
-    var body: some View {
+    public var body: some View {
         VStack(spacing: .zero) {
             headLine
             contents
-            filterBox(isButtonAble: false)
+            filterBox(isButtonAble: viewModel.generateIsButtonAble(situationFlavorSourceTitle: viewModel.searchViewButtonInfoArray[config.idx].title))
         }
         .frame(maxWidth: .infinity, maxHeight: height)
         .padding(.horizontal, 24)
@@ -34,23 +40,23 @@ struct ModalView: View {
         .multilineTextAlignment(.leading)
         .background(background)
         .drawingGroup()
-        .offset(y: offsetY)
+        .offset(y: viewModel.offsetY)
         .transition(.move(edge: .bottom))
         .gesture(
             DragGesture()
                 .onChanged { value in
-                    if self.offsetY == 0 && value.translation.height > 0 {
-                        self.offsetY += value.translation.height / 30
+                    if viewModel.offsetY == 0 && value.translation.height > 0 {
+                        viewModel.offsetY += value.translation.height / 30
                     }
-                    if self.offsetY > 0 {
-                        self.offsetY += value.translation.height / 30
+                    if viewModel.offsetY > 0 {
+                        viewModel.offsetY += value.translation.height / 30
                     }
                 }
                 .onEnded { value in
-                    if self.offsetY > 300 {
+                    if viewModel.offsetY > 300 {
                         didClose()
                     } else {
-                        offsetY = 0
+                        viewModel.offsetY = 0
                     }
                 }
         )
@@ -71,13 +77,13 @@ private extension ModalView {
 private extension ModalView {
     var headLine: some View {
         HStack {
-            Text("\(searchViewButtonInfoArray[config.idx].title)")
+            Text("\(viewModel.searchViewButtonInfoArray[config.idx].title.rawValue)")
                 .pretendardFont(family: .SemiBold, size: 18)
                 .foregroundColor(.cardTextMain)
             Spacer()
             Button(action: {
-                for idx in searchViewButtonInfoArray[config.idx].options.indices {
-                    searchViewButtonInfoArray[config.idx].options[idx].isCheck = false
+                for idx in viewModel.searchViewButtonInfoArray[config.idx].options.indices {
+                    viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck = false
                 }
                 
             }) {
@@ -90,14 +96,14 @@ private extension ModalView {
     
     var contents: some View {
         VStack {
-            ForEach(searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
-                let option = searchViewButtonInfoArray[config.idx].options[idx]
+            ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
+                let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
                 let situationFlavorSource = SituationFlavorSource(rawValue: option.val)!
                 let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
+                    .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
                     .frame(width: 336, height: 68)
-                    .background(searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
+                    .background(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
                     .overlay(
                         HStack {
                             Circle()
@@ -109,20 +115,20 @@ private extension ModalView {
                                 )
                             VStack {
                                 HStack {
-                                    Text(searchViewButtonInfoArray[config.idx].options[idx].val)
+                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(searchViewButtonInfoArray[config.idx].options[idx].detail)
+                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
                                     Spacer()
                                 }
                             }
                             Spacer()
                             Button(action: {
-                                searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                                viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
                             }) {
-                                Image(systemName: searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
+                                Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
+                                    .foregroundColor(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
                                     .padding()
                             }
                         }
@@ -148,10 +154,10 @@ private extension ModalView {
     private func filterBox(isButtonAble: Bool) -> some View  {
         RoundedRectangle(cornerRadius: 10)
             .frame(width: 336, height: 68)
-            .foregroundColor(isButtonAble ? .black : .basicGray3)
+            .foregroundColor(.primaryOrange)
             .overlay(
                 Text("필터 적용")
-                    .foregroundColor(.white)
+                    .foregroundColor(.basicWhite)
             )
             .onTapGesture {
                 didClose()

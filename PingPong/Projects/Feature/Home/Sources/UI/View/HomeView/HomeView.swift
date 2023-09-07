@@ -42,8 +42,24 @@ public struct HomeView: View {
                                     ZStack {
                                         VStack {
                                             HStack {
-                                                Image(assetName: imageNameAndText.2)
-                                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                ZStack {
+                                                    Image(assetName: imageNameAndText.2)
+                                                        .resizable()
+                                                        .frame(width: 335, height: 236)
+                                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                    ZStack {
+                                                        Image(assetName: "carousel\(imageNameAndText.1)")
+                                                            .resizable()
+                                                            .frame(width: 120, height: 120)
+                                                        Image(assetName: "carousel\(imageNameAndText.0)")
+                                                            .resizable()
+                                                            .frame(width: 120, height: 120)
+                                                        Image(assetName: "carousel\(imageNameAndText.3)")
+                                                            .resizable()
+                                                            .frame(width: 120, height: 120)
+                                                    }
+                                                    .offset(x: -50, y: 22)
+                                                }
                                                 Spacer()
                                             }
                                             Spacer()
@@ -82,8 +98,26 @@ public struct HomeView: View {
                                 ZStack {
                                     VStack {
                                         HStack {
-                                            Image(assetName: imageNameAndText.2)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            ZStack {
+                                                Image(assetName: imageNameAndText.2)
+                                                    .resizable()
+                                                    .frame(width: 335, height: 236)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                    
+                                                ZStack {
+                                                    Image(assetName: "carousel\(imageNameAndText.1)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                    Image(assetName: "carousel\(imageNameAndText.0)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                    Image(assetName: "carousel\(imageNameAndText.3)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                                .offset(x: -50, y: 22)
+                                                
+                                            }
                                             Spacer()
                                         }
                                         Spacer()
@@ -192,7 +226,7 @@ public struct HomeView: View {
                 }
             }
             .navigationDestination(isPresented: $appState.goToBackingView) {
-                HomeBakeingView(viewModel: viewModel, backAction: {
+                HomeBakingView(viewModel: viewModel, backAction: {
                     appState.goToBackingView = false
                 })
             }

@@ -9,24 +9,28 @@ import SwiftUI
 import DesignSystem
 
 struct StatusBarView: View {
-    
     var goProfileSettingView: () -> Void = {}
     
     var body: some View {
         HStack{
+            Image(assetName: "mainHomeLogo")
+                .resizable()
+                .frame(width: 36, height: 36)
             Text("명언제과점")
-                .dNFBitBit(size: 26)
+                .gmarketSans(family: .Bold, size: 22)
                 .frame(height: 40)
-            
+                .foregroundColor(.primaryOrange)
             Spacer()
             
             Image(systemName: "person.crop.circle")
                 .resizable()
                 .frame(width: 24, height: 24)
+                .foregroundColor(.primaryOrangeDark)
                 .onTapGesture {
                     goProfileSettingView()
                 }
         }
-        .foregroundColor(.primaryOrangeDark)
+        .padding(.horizontal, 20)
+        
     }
 }

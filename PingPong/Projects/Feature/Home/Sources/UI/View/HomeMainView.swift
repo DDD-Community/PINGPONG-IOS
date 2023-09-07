@@ -32,13 +32,13 @@ public struct HomeMainView: View {
                     VStack {
                         if self.viewModel.selectedTab == .home {
                             navigationTopHeaderView()
-                                .frame(height: UIScreen.screenHeight * 0.06)
+                                .padding(EdgeInsets(top: 60, leading: 0, bottom: 20, trailing: 0))
                         }
                         selectTabView()
                     }
                     mainTabBar()
                 }
-                .modal(with: sheetManager, searchViewButtonInfoArray: $viewModel.searchViewButtonInfoArray)
+                .modal(sheetManager: sheetManager, viewModel: viewModel)
                 .onAppear {
                     if viewModel.isFirstUserPOPUP {
                         isFistUserPOPUP = false
@@ -85,10 +85,8 @@ public struct HomeMainView: View {
             StatusBarView(goProfileSettingView: {
                 appState.goToProfileSettingView.toggle()
             })
+            .frame(height: 40)
             .findNavigator(isPresented: $appState.goToProfileSettingView)
-                .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing:20))
-            
-            Spacer()
         }
     }
     
@@ -123,7 +121,7 @@ public struct HomeMainView: View {
 }
 
 extension View {
-    func modal(with sheetManager: SheetManager, searchViewButtonInfoArray: Binding<[SearchViewButtonInfo]>, selectedIdx: Binding<Int>) -> some View {
-        self.modifier(ModalViewModifier(sheetManager: sheetManager, searchViewButtonInfoArray: searchViewButtonInfoArray))
+    func modal(sheetManager: SheetManager, viewModel: HomeViewViewModel) -> some View {
+        self.modifier(ModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
     }
 }

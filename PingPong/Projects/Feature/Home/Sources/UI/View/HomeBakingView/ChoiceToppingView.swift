@@ -14,16 +14,19 @@ public struct ChoiceToppingView: View {
     @StateObject private var viewModel: HomeViewViewModel
     
     var backAction: () -> Void
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+    var rebakeAction: () -> Void
+    
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
+        self.rebakeAction = rebakeAction
     }
     
-    let toppingArray: [String] = ["appleJam", "caramelSyrup", "chestnut"]
+    let toppingArray: [String] = ["carouselcondolenceImage", "carouselmotiveImage", "carouselwisdomImage"]
     let toppingDictionary = [
-        "appleJam": "사과잼",
-        "caramelSyrup": "캬라멜시럽",
-        "chestnut": "밤"
+        "carouselcondolenceImage": "사과잼",
+        "carouselmotiveImage": "캬라멜시럽",
+        "carouselwisdomImage": "밤"
     ]
     
     @Environment(\.presentationMode) var presentationMode
@@ -51,7 +54,7 @@ public struct ChoiceToppingView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedTopping) {
-            FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction)
+            FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
         }
     }
     
@@ -67,12 +70,11 @@ public struct ChoiceToppingView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            Text("건너뛰기")
-                .pretendardFont(family: .Regular, size: 14)
-                .foregroundColor(.basicGray6)
-                .onTapGesture {
-                    //                    viewModel.isSelectedCategory.toggle()
-                }
+            NavigationLink(destination: FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)) {
+                Text("건너뛰기")
+                    .pretendardFont(family: .Regular, size: 14)
+                    .foregroundColor(.basicGray6)
+            }
         }
         .padding(.horizontal, 20)
     }
@@ -106,16 +108,18 @@ public struct ChoiceToppingView: View {
                         VStack {
                             Circle()
                                 .frame(width: 96, height: 96)
-                                .foregroundColor(self.viewModel.choicedTopping ==  Topping(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
+                                .foregroundColor(self.viewModel.tmpChoicedTopping ==  Topping(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
                                 .overlay(
                                     Image(assetName: item)
+                                        .resizable()
+                                        .frame(width:56, height: 56)
                                 )
                             
                             Text(toppingDictionary[item]!)
                                 .pretendardFont(family: .SemiBold, size: 14)
                         }
                         .onTapGesture {
-                            self.viewModel.choicedTopping = Topping(rawValue: item)!
+                            self.viewModel.tmpChoicedTopping = Topping(rawValue: item)!
                         }
                     }
                 }
@@ -130,17 +134,18 @@ public struct ChoiceToppingView: View {
     private func confirmButtonView() -> some View {
         HStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(viewModel.choicedTopping == nil ? .basicGray3 : .primaryOrange)
+                .foregroundColor(viewModel.tmpChoicedTopping == nil ? .basicGray3 : .primaryOrange)
                 .frame(width: UIScreen.screenWidth - 40 , height: 50)
                 .overlay {
                     Text("다음")
-                        .foregroundColor(viewModel.choicedTopping == nil ? .basicGray5 : .basicWhite)
+                        .foregroundColor(viewModel.tmpChoicedTopping == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.isChoicedTopping.toggle()
+                            viewModel.choicedTopping = viewModel.tmpChoicedTopping
                         }
                 }
-                .disabled(viewModel.choicedTopping == nil)
+                .disabled(viewModel.tmpChoicedTopping == nil)
         }
     }
 

@@ -16,7 +16,19 @@ public class HomeViewViewModel: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
   
+    //MARK: 모달 관련
+    @Published var offsetY: CGFloat = 0
+    func generateIsButtonAble(situationFlavorSourceTitle: SituationFlavorSourceTitle) -> Bool {
+        
+        let situationFlavorSourceArray = searchViewButtonInfoArray.filter{ $0.title == situationFlavorSourceTitle }
+        let count = situationFlavorSourceArray.filter { $0.options[0].isCheck }.count
+//        let totalCount = situationFlavorSourceArray[0].options.count
+        return count > 0
+    }
+    
     //MARK: HomeBakeing 관련
+    @Published var randomInt = (1...2).randomElement()!
+    
     @Published var isStartBake: Bool = false
     @Published var isChoicedBread: Bool = false
     @Published var isChoicedIngredent: Bool = false
@@ -27,16 +39,20 @@ public class HomeViewViewModel: ObservableObject {
     @Published var choicedIngredent: Ingredent?
     @Published var choicedTopping: Topping?
     
+    @Published var tmpChoicedBread: Bread?
+    @Published var tmpChoicedIngredent: Ingredent?
+    @Published var tmpChoicedTopping: Topping?
+    
     @Published var homePosts = [
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, genre: .greatMan), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, genre: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
     ]
     enum SituationFlavorSource: String {
         case motivation = "동기부여"
@@ -54,12 +70,12 @@ public class HomeViewViewModel: ObservableObject {
         case books = "책"
     }
     @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
-        SearchViewButtonInfo(title: "상황", options:  [
+        SearchViewButtonInfo(title: .situation, options:  [
             SearchOption(val: "동기부여", detail: "도전정신과 의지를 북돋아줄 명언"),
             SearchOption(val: "위로", detail: "지친 일상을 따스하게 응원해줄 명언"),
             SearchOption(val: "지혜", detail: "현명한 인생을 위한 교훈을 주는 명언")]),
         
-        SearchViewButtonInfo(title: "맛", options:  [
+        SearchViewButtonInfo(title: .flavor, options:  [
             SearchOption(val: "달콤한 맛", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
             SearchOption(val: "짭짤한 맛", detail: "울컥하게 만드는 감동적인 명언"),
             SearchOption(val: "매콤한 맛", detail: "따끔한 조언의 자극적인 명언"),
@@ -67,7 +83,7 @@ public class HomeViewViewModel: ObservableObject {
             SearchOption(val: "담백한 맛", detail: "지친 삶의 위로, 기쁨을 주는 명언")
         ]),
         
-        SearchViewButtonInfo(title: "출처", options:  [
+        SearchViewButtonInfo(title: .source, options:  [
             SearchOption(val: "위인", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
             SearchOption(val: "유명인", detail: "영향력있는 인물들의 인상적인 명언"),
             SearchOption(val: "드라마/영화", detail: "감성을 자극하는 감수성 풍부한 명언"),
@@ -86,32 +102,33 @@ public class HomeViewViewModel: ObservableObject {
     private func setupCustomTabs(homePosts: [Post]) {
         let homeView = HomeView(viewModel: self)
         let exploreView = ExploreView(viewModel: self)
-        let arhiveView = ArchiveView()
-        let customTabHome = CustomTab(name: "홈", image: "house.fill", tab: .home, view: AnyView(homeView), isOn: false)
-        let customTabSafari = CustomTab(name: "탐색", image: "plus.magnifyingglass", tab: .explore, view: AnyView(exploreView), isOn: false)
-        let customTabArchive = CustomTab(name: "보관함", image: "archivebox", tab: .archive, view: AnyView(arhiveView), isOn: false)
+        let arhiveView = ArchiveView(viewModel: self)
+        let customTabHome = CustomTab(name: "홈", imageName: "house.fill", tab: .home, view: AnyView(homeView), isOn: false)
+        let customTabSafari = CustomTab(name: "탐색", imageName: "plus.magnifyingglass", tab: .explore, view: AnyView(exploreView), isOn: false)
+        let customTabArchive = CustomTab(name: "보관함", imageName: "archivebox", tab: .archive, view: AnyView(arhiveView), isOn: false)
 
         customTabs = [customTabHome, customTabSafari, customTabArchive]
     }
     
-    func generateImageNameAndText(hashtags: Hashtags) -> (String, String, String){
-        var flavorAndGenre: (String, String, String) = ("","", "")
+    func generateImageNameAndText(hashtags: Hashtags) -> (String, String, String, String) {
+        var flavorAndGenre: (String, String, String, String) = ("", "", "", "")
+
         switch hashtags.flavor {
         case .light:
             flavorAndGenre.0 = "lightImage"
-            flavorAndGenre.2 = "CardBG_Mild_1"
+            flavorAndGenre.2 = "CardBG_Mild_\(randomInt)"
         case .spicy:
             flavorAndGenre.0 = "spicyImage"
-            flavorAndGenre.2 = "CardBG_Hot_1"
+            flavorAndGenre.2 = "CardBG_Hot_\(randomInt)"
         case .sweet:
             flavorAndGenre.0 = "sweetImage"
-            flavorAndGenre.2 = "CardBG_Sweet_1"
+            flavorAndGenre.2 = "CardBG_Sweet_\(randomInt)"
         case .salty:
             flavorAndGenre.0 = "saltyImage"
-            flavorAndGenre.2 = "CardBG_Salty_1"
+            flavorAndGenre.2 = "CardBG_Salty_\(randomInt)"
         case .nutty:
             flavorAndGenre.0 = "nuttyImage"
-            flavorAndGenre.2 = "CardBG_nutty_1"
+            flavorAndGenre.2 = "CardBG_nutty_\(randomInt)"
         }
         
         switch hashtags.genre {
@@ -121,12 +138,19 @@ public class HomeViewViewModel: ObservableObject {
             flavorAndGenre.1 = "bookImage"
         case .drama:
             flavorAndGenre.1 = "dramaImage"
-        case .etc:
-            flavorAndGenre.1 = ""
         case .famous:
             flavorAndGenre.1 = "celeImage"
         case .greatMan:
             flavorAndGenre.1 = "greatmanImage"
+        }
+        
+        switch hashtags.situation {
+        case .condolence:
+            flavorAndGenre.3 = "condolenceImage"
+        case .motive:
+            flavorAndGenre.3 = "motiveImage"
+        case .wisdom:
+            flavorAndGenre.3 = "wisdomImage"
         }
 
         return flavorAndGenre
@@ -141,7 +165,7 @@ enum Tab {
 
 struct CustomTab {
     var name: String
-    var image: String
+    var imageName: String
     var tab: Tab
     var view: AnyView
     var isOn: Bool
@@ -160,8 +184,13 @@ enum Genre: String {
     case famous = "유명인"
     case book = "책"
     case drama = "드라마"
-    case etc = "기타"
     case greatMan = "위인"
+}
+
+enum Situation: String {
+    case condolence = "위로"
+    case motive = "동기"
+    case wisdom = "지혜"
 }
 
 struct Post: Identifiable, Equatable {
@@ -181,26 +210,34 @@ struct Post: Identifiable, Equatable {
 struct Hashtags {
     let flavor: Flavor
     let genre: Genre
+    let situation: Situation
 }
 
 enum Bread: String {
-    case breadViewBread = "breadViewBread"
-    case croissant = "croissant"
-    case pancake = "pancake"
-    case cookie = "cookie"
-    case ciabatta = "ciabatta"
+    case breadViewBread = "carouselgreatmanImage"
+    case croissant = "carouselceleImage"
+    case pancake = "carouseldramaImage"
+    case cookie = "carouselanimeImage"
+    case ciabatta = "carouselbookImage"
 }
 
 enum Ingredent: String {
-    case chocolate = "chocolate"
-    case cheese = "cheese"
-    case jalapeno = "jalapeno"
-    case cream = "cream"
-    case corn = "corn"
+    case chocolate = "carouselsweetImage"
+    case cheese = "carouselsaltyImage"
+    case jalapeno = "carouselspicyImage"
+    case cream = "carouselnuttyImage"
+    case corn = "carousellightImage"
 }
 
 enum Topping: String {
-    case appleJam = "appleJam"
-    case caramelSyrup = "caramelSyrup"
-    case chestnut = "chestnut"
+    case appleJam = "carouselcondolenceImage"
+    case caramelSyrup = "carouselmotiveImage"
+    case chestnut = "carouselwisdomImage"
+}
+
+
+enum SituationFlavorSourceTitle: String {
+    case situation = "상황"
+    case flavor = "맛"
+    case source = "출처"
 }

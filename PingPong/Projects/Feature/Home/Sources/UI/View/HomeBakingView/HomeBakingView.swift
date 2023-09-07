@@ -9,18 +9,18 @@
 import SwiftUI
 import DesignSystem
 
-public struct HomeBakeingView: View {
+public struct HomeBakingView: View {
     @StateObject private var viewModel: HomeViewViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var backAction: () -> Void
+    
     public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
     }
     
     public var body: some View {
-//        NavigationStack {
             VStack {
                 HomeBakingViewHeaderTitle()
                 Spacer()
@@ -37,7 +37,6 @@ public struct HomeBakeingView: View {
                     
                 })
             }
-//        } //임시네비게이션스택
     }
     
     @ViewBuilder
@@ -96,9 +95,9 @@ public struct HomeBakeingView: View {
                     Text("다음에 할게요")
                         .foregroundColor(.basicGray5)
                         .font(.system(size: 16))
-                        .onTapGesture {
-//                            viewModel.isStartChoiceFavoritedView.toggle()
-                        }
+                }
+                .onTapGesture {
+                    presentationMode.wrappedValue.dismiss()
                 }
         }   .pretendardFont(family: .SemiBold, size: 16)
     }
