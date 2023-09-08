@@ -6,8 +6,10 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import SDWebImageSwiftUI
 import SwiftUI
 import DesignSystem
+
 
 public struct HomeBakingView: View {
     @StateObject private var viewModel: HomeViewViewModel
@@ -23,8 +25,12 @@ public struct HomeBakingView: View {
     public var body: some View {
             VStack {
                 HomeBakingViewHeaderTitle()
+                
                 Spacer()
-                Image(assetName: "bakingViewMainBreadImage")
+                
+                AnimatedImage(name: "startViewGIF.gif", isAnimating: .constant(true))
+                    .resizable()
+                    .frame(width: 200, height: 200)
                 
                 Spacer()
                 startButtonView()
