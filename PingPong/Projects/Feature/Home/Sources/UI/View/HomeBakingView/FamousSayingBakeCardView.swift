@@ -138,30 +138,31 @@ struct FamousSayingBakeCardView: View {
                             VStack{
                                 HStack{
                                     HStack{
+                                        HStack {
+                                            Image(assetName: imageNameAndText.0)
+                                            Text("\(post.hashtags.flavor.rawValue)")
+                                                .pretendardFont(family: .SemiBold, size: 12)
+                                        }
+                                        .foregroundColor(colorSet.icon)
+                                        .frame(minWidth: 41, maxHeight: 26)
+                                        .padding(.horizontal, 10)
+                                        .background (
                                         RoundedRectangle(cornerRadius: 16)
-                                            .frame(width: 86, height: 26)
                                             .foregroundColor(.basicGray1BG)
-                                            .overlay(
-                                                HStack {
-                                                    Image(assetName: imageNameAndText.0)
-                                                    Text("\(post.hashtags.flavor.rawValue)")
-                                                        .pretendardFont(family: .SemiBold, size: 12)
-                                                        .foregroundColor(colorSet.icon)
-                                                }
-                                            )
+                                        )
                                         
+                                        HStack {
+                                            Image(assetName: imageNameAndText.1)
+                                            Text("\(post.hashtags.source.rawValue)")
+                                                .pretendardFont(family: .SemiBold, size: 12)
+                                                .foregroundColor(colorSet.icon)
+                                        }
+                                        .frame(minWidth: 41, maxHeight: 26)
+                                        .padding(.horizontal, 10)
+                                        .background(
                                         RoundedRectangle(cornerRadius: 16)
-                                            .frame(width: 86, height: 26)
                                             .foregroundColor(.basicGray1BG)
-                                            .overlay(
-                                                
-                                                HStack {
-                                                    Image(assetName: imageNameAndText.1)
-                                                    Text("\(post.hashtags.source.rawValue)")
-                                                        .pretendardFont(family: .SemiBold, size: 12)
-                                                        .foregroundColor(colorSet.icon)
-                                                }
-                                            )
+                                        )
                                     }
                                     .padding()
                                     Spacer()
