@@ -11,7 +11,7 @@ import SwiftUI
 public class SheetManager: ObservableObject {
     public init() { }
     public typealias Config = Action.Info
-    var isPopup: Bool = false
+    @Published var isPopup: Bool = false
     public enum Action {
         public struct Info {
             var idx: Int

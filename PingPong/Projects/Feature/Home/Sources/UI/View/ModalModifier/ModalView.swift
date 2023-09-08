@@ -19,7 +19,7 @@ public struct ModalView: View {
     
     let didClose: () -> Void
     
-    let height:CGFloat = 500
+    let height:CGFloat = UIScreen.screenHeight * 0.7
     
     public init(viewModel: HomeViewViewModel, config: SheetManager.Config, isPopup: Bool, didClose: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -31,12 +31,14 @@ public struct ModalView: View {
     public var body: some View {
         VStack(spacing: .zero) {
             headLine
+                .frame(height: 60)
+            Spacer()
             contents
             filterBox(isButtonAble: viewModel.generateIsButtonAble(situationFlavorSourceTitle: viewModel.searchViewButtonInfoArray[config.idx].title))
         }
         .frame(maxWidth: .infinity, maxHeight: height)
         .padding(.horizontal, 24)
-        .padding(.vertical, 40)
+        .padding(.bottom, 50)
         .multilineTextAlignment(.leading)
         .background(background)
         .drawingGroup()
@@ -53,7 +55,7 @@ public struct ModalView: View {
                     }
                 }
                 .onEnded { value in
-                    if viewModel.offsetY > 300 {
+                    if viewModel.offsetY > 100 {
                         didClose()
                     } else {
                         viewModel.offsetY = 0
@@ -116,10 +118,14 @@ private extension ModalView {
                             VStack {
                                 HStack {
                                     Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
+                                        .pretendardFont(family: .Medium, size: 16)
+                                        .foregroundColor(.basicGray8)
                                     Spacer()
                                 }
                                 HStack {
                                     Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
+                                        .pretendardFont(family: .Medium, size: 12)
+                                        .foregroundColor(.basicGray6)
                                     Spacer()
                                 }
                             }

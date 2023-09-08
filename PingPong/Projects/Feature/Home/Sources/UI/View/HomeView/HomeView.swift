@@ -125,30 +125,31 @@ public struct HomeView: View {
                                     VStack{
                                         HStack{
                                             HStack{
+                                                HStack {
+                                                    Image(assetName: imageNameAndText.0)
+                                                    Text("\(post.hashtags.flavor.rawValue)")
+                                                        .pretendardFont(family: .SemiBold, size: 12)
+                                                }
+                                                .foregroundColor(colorSet.icon)
+                                                .frame(minWidth: 41, maxHeight: 26)
+                                                .padding(.horizontal, 10)
+                                                .background (
                                                 RoundedRectangle(cornerRadius: 16)
-                                                    .frame(width: 86, height: 26)
                                                     .foregroundColor(.basicGray1BG)
-                                                    .overlay(
-                                                        HStack {
-                                                            Image(assetName: imageNameAndText.0)
-                                                            Text("\(post.hashtags.flavor.rawValue)")
-                                                                .pretendardFont(family: .SemiBold, size: 12)
-                                                                .foregroundColor(colorSet.icon)
-                                                        }
-                                                    )
+                                                )
                                                 
+                                                HStack {
+                                                    Image(assetName: imageNameAndText.1)
+                                                    Text("\(post.hashtags.source.rawValue)")
+                                                        .pretendardFont(family: .SemiBold, size: 12)
+                                                        .foregroundColor(colorSet.icon)
+                                                }
+                                                .frame(minWidth: 41, maxHeight: 26)
+                                                .padding(.horizontal, 10)
+                                                .background(
                                                 RoundedRectangle(cornerRadius: 16)
-                                                    .frame(width: 86, height: 26)
                                                     .foregroundColor(.basicGray1BG)
-                                                    .overlay(
-                                                        
-                                                        HStack {
-                                                            Image(assetName: imageNameAndText.1)
-                                                            Text("\(post.hashtags.genre.rawValue)")
-                                                                .pretendardFont(family: .SemiBold, size: 12)
-                                                                .foregroundColor(colorSet.icon)
-                                                        }
-                                                    )
+                                                )
                                             }
                                             .padding()
                                             Spacer()
@@ -193,8 +194,10 @@ public struct HomeView: View {
                                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                                     .foregroundColor(post.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                                     .onTapGesture {
-                                                        let postIndex = searchPostIndex(post: post)
+                                                        let postIndex = viewModel.searchPostIndex(post: post)
                                                         viewModel.homePosts[postIndex].isBookrmark.toggle()
+                                                        let newPost = Post(stageNum: viewModel.detailViewInfo.post.stageNum, hashtags: viewModel.detailViewInfo.post.hashtags, image: viewModel.detailViewInfo.post.image, title: viewModel.detailViewInfo.post.title, sources: viewModel.detailViewInfo.post.sources, isBookrmark: !viewModel.detailViewInfo.post.isBookrmark)
+                                                        viewModel.updateDetailViewInfo(colorSet: viewModel.detailViewInfo.colorSet, post: newPost, imageNameAndText: viewModel.detailViewInfo.imageNameAndText)
                                                     }
                                             }
                                         }
@@ -221,7 +224,7 @@ public struct HomeView: View {
                     }
             }
             .onAppear {
-                if !isOn.isEmpty { //빈배열일 경우 방어문
+                if !isOn.isEmpty {
                     self.isOn[0] = true
                 }
             }
@@ -231,14 +234,6 @@ public struct HomeView: View {
                 })
             }
         }
-    }
-    func searchPostIndex(post: Post) -> Int {
-        for index in viewModel.homePosts.indices {
-            if viewModel.homePosts[index] == post {
-                return index
-            }
-        }
-        return 0
     }
 }
 

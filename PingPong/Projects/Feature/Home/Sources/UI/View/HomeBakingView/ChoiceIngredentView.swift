@@ -72,7 +72,7 @@ public struct ChoiceIngredentView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            NavigationLink(destination: FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)) {
+            NavigationLink(destination: ChoiceToppingView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)) {
                 Text("건너뛰기")
                     .pretendardFont(family: .Regular, size: 14)
                     .foregroundColor(.basicGray6)

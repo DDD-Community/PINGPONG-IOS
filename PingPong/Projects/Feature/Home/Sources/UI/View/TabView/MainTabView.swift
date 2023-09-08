@@ -32,11 +32,12 @@ struct MainTabView: View {
                                     
                                 }) {
                                     VStack{
-                                        Image(assetName: viewModel.customTabs[idx].imageName)
+                                        Image(assetName: viewModel.selectedTab == viewModel.customTabs[idx].tab ? "selected\(viewModel.customTabs[idx].imageName)": viewModel.customTabs[idx].imageName)
                                             .resizable()
                                             .frame(width: 28, height: 28)
                                         Text(viewModel.customTabs[idx].name)
-                                            .font(.system(size: 11))
+                                            .pretendardFont(family: .SemiBold, size: 10)
+                                            .foregroundColor(viewModel.selectedTab == viewModel.customTabs[idx].tab ? .primaryOrangeDark : .primaryOrangeMedium)
                                     }
                                     .padding(EdgeInsets(top: 10, leading: 45, bottom: 0, trailing: 45))
                                 }

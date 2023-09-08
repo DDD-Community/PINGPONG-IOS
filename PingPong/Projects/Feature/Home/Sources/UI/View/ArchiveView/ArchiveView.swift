@@ -42,7 +42,11 @@ public struct ArchiveView: View {
                         }
                     }
                 )
+            
             let group = generateBookmarkPostContents()
+            
+            staticsView(count: group.count)
+            
             if group.count != 0 {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
@@ -90,7 +94,9 @@ public struct ArchiveView: View {
                                 .cornerRadius(10)
                                 .onTapGesture {
                                     withAnimation {
-                                        sheetManager.isPopup.toggle()
+                                        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: item.hashtags)
+                                        viewModel.updateDetailViewInfo(colorSet: colorSet, post: item, imageNameAndText: imageNameAndText)
+                                        viewModel.isShowDetailView.toggle()
                                     }
                                 }
                         }
@@ -98,12 +104,12 @@ public struct ArchiveView: View {
                 }
             } else {
                 VStack(alignment: .center){
-                    Spacer()
                     Image(assetName: "archiveEmptyImage")
                         .resizable()
                         .frame(width: 200, height: 80)
                     Text("저장된 명언이 없네요!")
                     Text("오늘의 명언을 만들러 가볼까요?")
+                    
                     RoundedRectangle(cornerRadius: UIScreen.screenWidth * 0.12)
                         .fill(Color.primaryOrange)
                         .frame(width: UIScreen.screenWidth * 0.6, height: 60, alignment: .center)
@@ -121,6 +127,7 @@ public struct ArchiveView: View {
                         }
                 }
                 .pretendardFont(family: .SemiBold, size: 18)
+                .frame(height: UIScreen.main.bounds.height * 0.6)
             }
         }
         .navigationDestination(isPresented: $appState.goToBackingView) {
@@ -129,6 +136,34 @@ public struct ArchiveView: View {
             })
         }
     }
+    
+    private func staticsView(count: Int) -> some View {
+        HStack{
+            HStack{
+                Text("\(count)문장")
+                
+                Spacer()
+                HStack {
+                    Image(systemName: "arrow.up.arrow.down")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                    Text("가나다순")
+                }
+            }
+            .foregroundColor(.primaryOrangeDark)
+            .pretendardFont(family: .Medium, size: 14)
+            .onTapGesture {
+                if viewModel.isAscendingOrder {
+                    viewModel.homePosts.sort { $0.title < $1.title }
+                } else {
+                    viewModel.homePosts.sort { $0.title > $1.title }
+                }
+                viewModel.isAscendingOrder.toggle()
+            }
+        }
+        .frame(width: UIScreen.screenWidth - 40, height: 38)
+    }
+    
     func generateBookmarkPostContents() -> [Post] {
         var filterContent: [Post] = []
         for post in viewModel.homePosts {

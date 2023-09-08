@@ -31,7 +31,7 @@ struct FamousSayingBakeCardView: View {
                 Spacer()
             }
             VStack {
-                let post = viewModel.homePosts[0]
+                var post = viewModel.homePosts[0]
                 let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
                 let size = UIScreen.main.bounds.size
                 let colorSet = searchCharacterColor(flavor: post.hashtags.flavor)
@@ -157,7 +157,7 @@ struct FamousSayingBakeCardView: View {
                                                 
                                                 HStack {
                                                     Image(assetName: imageNameAndText.1)
-                                                    Text("\(post.hashtags.genre.rawValue)")
+                                                    Text("\(post.hashtags.source.rawValue)")
                                                         .pretendardFont(family: .SemiBold, size: 12)
                                                         .foregroundColor(colorSet.icon)
                                                 }
@@ -206,7 +206,10 @@ struct FamousSayingBakeCardView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                             .foregroundColor(post.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
-                                                //북마크하는 로직
+                                                let postIndex = viewModel.searchPostIndex(post: post)
+                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
+                                                
+                                                post.isBookrmark.toggle()
                                             }
                                     }
                                 }
@@ -237,7 +240,11 @@ struct FamousSayingBakeCardView: View {
             self.viewModel.tmpChoicedIngredent = nil
             self.viewModel.tmpChoicedTopping = nil
         }
-        
+        .onDisappear {
+            self.viewModel.choicedBread = nil
+            self.viewModel.choicedIngredent = nil
+            self.viewModel.choicedTopping = nil
+        }
         
     }
     

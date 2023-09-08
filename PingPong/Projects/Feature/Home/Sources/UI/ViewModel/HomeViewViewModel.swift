@@ -26,9 +26,14 @@ public class HomeViewViewModel: ObservableObject {
         return count > 0
     }
     
+    @Published var isShowDetailView:Bool = false
+    @Published var detailViewInfo: DetailViewInfo = DetailViewInfo(colorSet: CharacterColor(icon: .basicBlack, iconBackground: .basicBlack, background: .basicBlack), post: Post(stageNum: 1, hashtags: .init(flavor: .light, source: .animation, situation: .condolence), image: "", title: "", sources: "", isBookrmark: false), imageNameAndText: ("","","",""))
+    
     //MARK: HomeBakeing 관련
+    @Published var exploreViewSearchBarText: String = ""
     @Published var randomInt = (1...2).randomElement()!
     
+    @Published var isTodayBake: Bool = false
     @Published var isStartBake: Bool = false
     @Published var isChoicedBread: Bool = false
     @Published var isChoicedIngredent: Bool = false
@@ -43,17 +48,32 @@ public class HomeViewViewModel: ObservableObject {
     @Published var tmpChoicedIngredent: Ingredent?
     @Published var tmpChoicedTopping: Topping?
     
-    @Published var homePosts = [
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, genre: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
+    @Published var isAscendingOrder = true
+    
+    @Published var originHomePosts = [
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
     ]
+    
+    @Published var homePosts = [
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
+    ]
+    
     enum SituationFlavorSource: String {
         case motivation = "동기부여"
         case consolation = "위로"
@@ -69,6 +89,7 @@ public class HomeViewViewModel: ObservableObject {
         case animation = "애니메이션"
         case books = "책"
     }
+    
     @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
         SearchViewButtonInfo(title: .situation, options:  [
             SearchOption(val: "동기부여", detail: "도전정신과 의지를 북돋아줄 명언"),
@@ -92,6 +113,10 @@ public class HomeViewViewModel: ObservableObject {
         ]),
     ]
     
+    func searchCheckCount(idx: Int) -> Int {
+        return searchViewButtonInfoArray[idx].options.filter { $0.isCheck }.count
+    }
+    
     public init() {
          setupCustomTabs(homePosts: homePosts)
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
@@ -103,9 +128,9 @@ public class HomeViewViewModel: ObservableObject {
         let homeView = HomeView(viewModel: self)
         let exploreView = ExploreView(viewModel: self)
         let arhiveView = ArchiveView(viewModel: self)
-        let customTabHome = CustomTab(name: "홈", imageName: "house.fill", tab: .home, view: AnyView(homeView), isOn: false)
-        let customTabSafari = CustomTab(name: "탐색", imageName: "plus.magnifyingglass", tab: .explore, view: AnyView(exploreView), isOn: false)
-        let customTabArchive = CustomTab(name: "보관함", imageName: "archivebox", tab: .archive, view: AnyView(arhiveView), isOn: false)
+        let customTabHome = CustomTab(name: "홈", imageName: "homeTap", tab: .home, view: AnyView(homeView), isOn: false)
+        let customTabSafari = CustomTab(name: "탐색", imageName: "exploreTap", tab: .explore, view: AnyView(exploreView), isOn: false)
+        let customTabArchive = CustomTab(name: "보관함", imageName: "archiveTap", tab: .archive, view: AnyView(arhiveView), isOn: false)
 
         customTabs = [customTabHome, customTabSafari, customTabArchive]
     }
@@ -131,7 +156,7 @@ public class HomeViewViewModel: ObservableObject {
             flavorAndGenre.2 = "CardBG_nutty_\(randomInt)"
         }
         
-        switch hashtags.genre {
+        switch hashtags.source {
         case .animation:
             flavorAndGenre.1 = "animeImage"
         case .book:
@@ -155,6 +180,34 @@ public class HomeViewViewModel: ObservableObject {
 
         return flavorAndGenre
     }
+    
+    func filterPostsByText() {
+            if exploreViewSearchBarText.isEmpty {
+                homePosts = originHomePosts
+            } else {
+                homePosts = originHomePosts.filter { $0.title.contains(exploreViewSearchBarText)
+                }
+            }
+        }
+    
+    func updateDetailViewInfo(colorSet: CharacterColor, post: Post, imageNameAndText: (String, String, String, String)){
+        self.detailViewInfo = DetailViewInfo(colorSet: colorSet, post: post, imageNameAndText: imageNameAndText)
+    }
+    
+    func searchPostIndex(post: Post) -> Int {
+        for index in homePosts.indices {
+            if homePosts[index] == post {
+                return index
+            }
+        }
+        return 0
+    }
+}
+
+struct DetailViewInfo {
+    let colorSet: CharacterColor
+    var post: Post
+    let imageNameAndText: (String, String, String, String)
 }
 
 enum Tab {
@@ -179,17 +232,17 @@ enum Flavor: String {
     case light = "담백한 맛"
 }
 
-enum Genre: String {
+enum Source: String {
     case animation = "애니메이션"
     case famous = "유명인"
     case book = "책"
-    case drama = "드라마"
+    case drama = "드라마/영화"
     case greatMan = "위인"
 }
 
 enum Situation: String {
     case condolence = "위로"
-    case motive = "동기"
+    case motive = "동기부여"
     case wisdom = "지혜"
 }
 
@@ -209,7 +262,7 @@ struct Post: Identifiable, Equatable {
 
 struct Hashtags {
     let flavor: Flavor
-    let genre: Genre
+    let source: Source
     let situation: Situation
 }
 
@@ -240,4 +293,9 @@ enum SituationFlavorSourceTitle: String {
     case situation = "상황"
     case flavor = "맛"
     case source = "출처"
+}
+
+
+protocol SituationFlavorSourceTitleDelegate {
+    
 }

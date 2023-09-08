@@ -14,7 +14,7 @@ public struct HomeMainView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
     @StateObject var appState: HomeAppState = HomeAppState()
-    @Environment(\.presentationMode) var  presentationMode
+    @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool
     
     @StateObject private var viewModel: HomeViewViewModel
@@ -25,7 +25,6 @@ public struct HomeMainView: View {
     }
     
     public var body: some View {
-        NavigationStack(root: {
             ZStack{
                 Color.basicGray1BG
                 ZStack {
@@ -58,7 +57,7 @@ public struct HomeMainView: View {
                         .animation(.easeIn)
                         .closeOnTap(true)
                         .closeOnTapOutside(true)
-                        .backgroundColor(Color.basicGray8.opacity(0.4))
+                        .backgroundColor(.basicBlackDimmed)
                 }
                 
                 .fullScreenCover(isPresented: $appState.goToProfileSettingView) {
@@ -68,7 +67,6 @@ public struct HomeMainView: View {
                     .transition(.slide)
                 }
             }
-        })
         .ignoresSafeArea()
     }
     
@@ -116,8 +114,20 @@ public struct HomeMainView: View {
                 .padding(.bottom, -UIScreen.main.bounds.height * 0.05)
         }
         Rectangle()
-            .foregroundColor(sheetManager.isPopup ? Color.black.opacity(0.6) : .clear)
+            .foregroundColor(sheetManager.isPopup ? Color.basicBlackDimmed : .clear)
+        ZStack {
+            Rectangle()
+                .foregroundColor(viewModel.isShowDetailView ? Color.basicBlackDimmed : .clear)
+                .onTapGesture {
+                    viewModel.isShowDetailView.toggle()
+                }
+            if viewModel.isShowDetailView {
+                FamousSayingDetailView(viewModel: self.viewModel)
+            }
+        }
     }
+    
+    
 }
 
 extension View {

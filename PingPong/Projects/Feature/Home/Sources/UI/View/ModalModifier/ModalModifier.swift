@@ -25,7 +25,6 @@ struct ModalViewModifier: ViewModifier {
         content
             .overlay(alignment: .bottom) {
                 if case let .present(config) = sheetManager.action {
-//                    ModalView(viewModel: self.viewModel, config: config, isPopup: sheetManager.isPopup, searchViewButtonInfoArray: $searchViewButtonInfoArray) {
                     ModalView(viewModel: self.viewModel,
                               config: config,
                               isPopup: sheetManager.isPopup)

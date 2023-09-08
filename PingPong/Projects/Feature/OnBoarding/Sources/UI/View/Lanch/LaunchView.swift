@@ -13,8 +13,6 @@ import DesignSystem
 public struct LaunchView: View {
     @Binding var showLanchView: Bool
     
-    
-    
     public init(showLanchView: Binding<Bool>) {
         self._showLanchView = showLanchView
     }
@@ -24,20 +22,15 @@ public struct LaunchView: View {
             Color.primaryOrange
                 .edgesIgnoringSafeArea(.all)
             
-            
             VStack(spacing: 8) {
                 Image(asset: .splash)
                     .resizable()
                     .scaledToFill()
                     .frame(height: UIScreen.screenHeight/2)
                 
-                
                 Spacer()
                     .frame(height: UIScreen.screenWidth*0.2)
-                
-//                Spacer()
-//                    .frame(height: UIScreen.screenHeight/2 + (UIScreen.screenWidth*0.4) + 10)
-//
+
                 Text("있으면 좀 더 행복한")
                     .foregroundColor(.basicWhite)
                     .gmarketSans(family: .Medium, size: 18)
@@ -46,7 +39,6 @@ public struct LaunchView: View {
                 Text("500g 더 나은 삶을 위한 서비스")
                     .foregroundColor(.basicWhite)
                     .gmarketSans(family: .Medium, size: 18)
-                
             }
             
         }

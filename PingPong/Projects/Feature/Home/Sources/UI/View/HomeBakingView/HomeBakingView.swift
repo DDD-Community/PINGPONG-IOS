@@ -97,7 +97,7 @@ public struct HomeBakingView: View {
                         .font(.system(size: 16))
                 }
                 .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
+                    backAction()
                 }
         }   .pretendardFont(family: .SemiBold, size: 16)
     }
