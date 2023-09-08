@@ -9,6 +9,7 @@
 import SwiftUI
 import Inject
 import DesignSystem
+import SafariServices
 
 public struct ServiceUseAgreementView: View {
     public init() { }
@@ -98,7 +99,9 @@ public struct ServiceUseAgreementView: View {
                                   showleft: true,
                                   title: "서비스 이용약관 동의",
                                   agreeAllService: false,
-                                  essential: .essential)
+                                  essential: .essential,
+                                  safariURL: URL(string: "https://zircon-throne-197.notion.site/fe86e02d0dce4e01a7f4d1795b8afd6d?pvs=4")!
+                )
                 .onTapGesture {
                     viewModel.checkTermsService.toggle()
                     viewModel.allAgreeCheckButton = viewModel.checkAllAgreeStatus
@@ -108,7 +111,8 @@ public struct ServiceUseAgreementView: View {
                                   showleft: true,
                                   title: "개인정보 수집 및 이용 동의",
                                   agreeAllService: false,
-                                  essential: .essential
+                                  essential: .essential,
+                                  safariURL: URL(string: "https://zircon-throne-197.notion.site/efb487f2e8ac49938034b3c32114e754?pvs=4")!
                 )
                 .onTapGesture {
                     viewModel.checkPesonalInformation.toggle()
@@ -119,7 +123,9 @@ public struct ServiceUseAgreementView: View {
                                   showleft: true,
                                   title: "마케팅 정보 수신동의",
                                   agreeAllService: false,
-                                  essential: .choice)
+                                  essential: .choice,
+                                  safariURL: URL(string: "https://zircon-throne-197.notion.site/c339bd214a4f43d3babcbe4781c4230e?pvs=4")!
+                )
                 .onTapGesture {
                     viewModel.checkReciveMarketingInformation.toggle()
                     viewModel.allAgreeCheckButton = viewModel.checkAllAgreeStatus
@@ -152,3 +158,4 @@ struct ServiceUseAgmentView_Previews: PreviewProvider {
         ServiceUseAgreementView()
     }
 }
+
