@@ -8,11 +8,6 @@
 
 import SwiftUI
 import Model
-import Combine
-import Moya
-import CombineMoya
-import API
-import Service
 
 public class HomeViewViewModel: ObservableObject {
     
@@ -21,22 +16,24 @@ public class HomeViewViewModel: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
   
-    //MARK: -  랜덤  명언 조회 api
-    @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
-    var homeRandomQuoteCancellable: AnyCancellable?
+    //MARK: 모달 관련
+    @Published var offsetY: CGFloat = 0
+    func generateIsButtonAble(situationFlavorSourceTitle: SituationFlavorSourceTitle) -> Bool {
+        
+        let situationFlavorSourceArray = searchViewButtonInfoArray.filter{ $0.title == situationFlavorSourceTitle }
+        let count = situationFlavorSourceArray.filter { $0.options[0].isCheck }.count
+//        let totalCount = situationFlavorSourceArray[0].options.count
+        return count > 0
+    }
     
-    @Published public var homeUserPrefModel: UserPrefModel?
-    var homeUserPrefCancellable: AnyCancellable?
-    
-    @Published public var homeLikeScrapModel: BaseModel?
-    var homeLikeCancellable: AnyCancellable?
-    var homeScrapCancellable: AnyCancellable?
-    
-    
-    @Published public var seachUserFlavorCodeModel: SearchUserPrefCodeModel?
-    var seachUserFlavopCancellable: AnyCancellable?
+    @Published var isShowDetailView:Bool = false
+    @Published var detailViewInfo: DetailViewInfo = DetailViewInfo(colorSet: CharacterColor(icon: .basicBlack, iconBackground: .basicBlack, background: .basicBlack), post: Post(stageNum: 1, hashtags: .init(flavor: .light, source: .animation, situation: .condolence), image: "", title: "", sources: "", isBookrmark: false), imageNameAndText: ("","","",""))
     
     //MARK: HomeBakeing 관련
+    @Published var exploreViewSearchBarText: String = ""
+    @Published var randomInt = (1...2).randomElement()!
+    
+    @Published var isTodayBake: Bool = false
     @Published var isStartBake: Bool = false
     @Published var isChoicedBread: Bool = false
     @Published var isChoicedIngredent: Bool = false
@@ -47,17 +44,34 @@ public class HomeViewViewModel: ObservableObject {
     @Published var choicedIngredent: Ingredent?
     @Published var choicedTopping: Topping?
     
+    @Published var tmpChoicedBread: Bread?
+    @Published var tmpChoicedIngredent: Ingredent?
+    @Published var tmpChoicedTopping: Topping?
+    
+    @Published var isAscendingOrder = true
+    
+    @Published var originHomePosts = [
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
+    ]
     
     @Published var homePosts = [
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, genre: .drama), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, genre: .famous), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, genre: .book), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, genre: .greatMan), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, genre: .greatMan), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
+        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
     ]
     
     enum SituationFlavorSource: String {
@@ -77,12 +91,12 @@ public class HomeViewViewModel: ObservableObject {
     }
     
     @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
-        SearchViewButtonInfo(title: "상황", options:  [
+        SearchViewButtonInfo(title: .situation, options:  [
             SearchOption(val: "동기부여", detail: "도전정신과 의지를 북돋아줄 명언"),
             SearchOption(val: "위로", detail: "지친 일상을 따스하게 응원해줄 명언"),
             SearchOption(val: "지혜", detail: "현명한 인생을 위한 교훈을 주는 명언")]),
         
-        SearchViewButtonInfo(title: "맛", options:  [
+        SearchViewButtonInfo(title: .flavor, options:  [
             SearchOption(val: "달콤한 맛", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
             SearchOption(val: "짭짤한 맛", detail: "울컥하게 만드는 감동적인 명언"),
             SearchOption(val: "매콤한 맛", detail: "따끔한 조언의 자극적인 명언"),
@@ -90,7 +104,7 @@ public class HomeViewViewModel: ObservableObject {
             SearchOption(val: "담백한 맛", detail: "지친 삶의 위로, 기쁨을 주는 명언")
         ]),
         
-        SearchViewButtonInfo(title: "출처", options:  [
+        SearchViewButtonInfo(title: .source, options:  [
             SearchOption(val: "위인", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
             SearchOption(val: "유명인", detail: "영향력있는 인물들의 인상적인 명언"),
             SearchOption(val: "드라마/영화", detail: "감성을 자극하는 감수성 풍부한 명언"),
@@ -98,6 +112,10 @@ public class HomeViewViewModel: ObservableObject {
             SearchOption(val: "책", detail: "정신적 성장을 도와주는 현명한 명언")
         ]),
     ]
+    
+    func searchCheckCount(idx: Int) -> Int {
+        return searchViewButtonInfoArray[idx].options.filter { $0.isCheck }.count
+    }
     
     public init() {
          setupCustomTabs(homePosts: homePosts)
@@ -109,221 +127,87 @@ public class HomeViewViewModel: ObservableObject {
     private func setupCustomTabs(homePosts: [Post]) {
         let homeView = HomeView(viewModel: self)
         let exploreView = ExploreView(viewModel: self)
-        let arhiveView = ArchiveView()
-        let customTabHome = CustomTab(name: "홈", image: "house.fill", tab: .home, view: AnyView(homeView), isOn: false)
-        let customTabSafari = CustomTab(name: "탐색", image: "plus.magnifyingglass", tab: .explore, view: AnyView(exploreView), isOn: false)
-        let customTabArchive = CustomTab(name: "보관함", image: "archivebox", tab: .archive, view: AnyView(arhiveView), isOn: false)
+        let arhiveView = ArchiveView(viewModel: self)
+        let customTabHome = CustomTab(name: "홈", imageName: "homeTap", tab: .home, view: AnyView(homeView), isOn: false)
+        let customTabSafari = CustomTab(name: "탐색", imageName: "exploreTap", tab: .explore, view: AnyView(exploreView), isOn: false)
+        let customTabArchive = CustomTab(name: "보관함", imageName: "archiveTap", tab: .archive, view: AnyView(arhiveView), isOn: false)
 
         customTabs = [customTabHome, customTabSafari, customTabArchive]
     }
     
-    func generateImageNameAndText(hashtags: Hashtags) -> (String, String, String){
-        var flavorAndGenre: (String, String, String) = ("","", "")
+    func generateImageNameAndText(hashtags: Hashtags) -> (String, String, String, String) {
+        var flavorAndGenre: (String, String, String, String) = ("", "", "", "")
+
         switch hashtags.flavor {
         case .light:
             flavorAndGenre.0 = "lightImage"
-            flavorAndGenre.2 = "CardBG_Mild_1"
+            flavorAndGenre.2 = "CardBG_Mild_\(randomInt)"
         case .spicy:
             flavorAndGenre.0 = "spicyImage"
-            flavorAndGenre.2 = "CardBG_Hot_1"
+            flavorAndGenre.2 = "CardBG_Hot_\(randomInt)"
         case .sweet:
             flavorAndGenre.0 = "sweetImage"
-            flavorAndGenre.2 = "CardBG_Sweet_1"
+            flavorAndGenre.2 = "CardBG_Sweet_\(randomInt)"
         case .salty:
             flavorAndGenre.0 = "saltyImage"
-            flavorAndGenre.2 = "CardBG_Salty_1"
+            flavorAndGenre.2 = "CardBG_Salty_\(randomInt)"
         case .nutty:
             flavorAndGenre.0 = "nuttyImage"
-            flavorAndGenre.2 = "CardBG_nutty_1"
+            flavorAndGenre.2 = "CardBG_nutty_\(randomInt)"
         }
         
-        switch hashtags.genre {
+        switch hashtags.source {
         case .animation:
             flavorAndGenre.1 = "animeImage"
         case .book:
             flavorAndGenre.1 = "bookImage"
         case .drama:
             flavorAndGenre.1 = "dramaImage"
-        case .etc:
-            flavorAndGenre.1 = ""
         case .famous:
             flavorAndGenre.1 = "celeImage"
         case .greatMan:
             flavorAndGenre.1 = "greatmanImage"
         }
+        
+        switch hashtags.situation {
+        case .condolence:
+            flavorAndGenre.3 = "condolenceImage"
+        case .motive:
+            flavorAndGenre.3 = "motiveImage"
+        case .wisdom:
+            flavorAndGenre.3 = "wisdomImage"
+        }
 
         return flavorAndGenre
     }
     
-    
-    //MARK: - api 통신
-    
-    public func randomQuoteToViewModel(_ list: HomeRandomQuoteModel){
-        self.homeRandomQuoteModel = list
-    }
-    
-    public func randomQuoteRequest(userID: String) {
-        if let cancellable = homeRandomQuoteCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: 1, sizePerPage: 50, userId: userID))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
+    func filterPostsByText() {
+            if exploreViewSearchBarText.isEmpty {
+                homePosts = originHomePosts
+            } else {
+                homePosts = originHomePosts.filter { $0.title.contains(exploreViewSearchBarText)
                 }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
-                    self?.randomQuoteToViewModel(model)
-                    print("홈 핸덤 명언 조회", model)
-                } else {
-                    self?.randomQuoteToViewModel(model)
-                    print("홈 핸덤 명언 조회 실패", model)
-                }
-            })
-        
-    }
-    
-    
-    
-    public func homeLikeScrapToViewModel(_ list: BaseModel) {
-        self.homeLikeScrapModel = list
-    }
-    
-  
-    
-    public func userPrefRequest(userID: String, quoteId: Int, isScarp: Bool) {
-        if isScarp {
-            if let cancellable = homeLikeCancellable {
-                cancellable.cancel()
             }
-            
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: BaseModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 취향", model)
-                    } else {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 취향", model)
-                    }
-                })
-        } else {
-            if let cancellable = homeScrapCancellable {
-                cancellable.cancel()
+        }
+    
+    func updateDetailViewInfo(colorSet: CharacterColor, post: Post, imageNameAndText: (String, String, String, String)){
+        self.detailViewInfo = DetailViewInfo(colorSet: colorSet, post: post, imageNameAndText: imageNameAndText)
+    }
+    
+    func searchPostIndex(post: Post) -> Int {
+        for index in homePosts.indices {
+            if homePosts[index] == post {
+                return index
             }
-            
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeScrapCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: BaseModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 좋아요", model)
-                    } else {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 좋아요", model)
-                    }
-                })
         }
-        
+        return 0
     }
-    
-    public func userPrefToViewModel(_ list: UserPrefModel) {
-        self.homeUserPrefModel = list
-    }
-   
-    
-    public func userPrefRequest(userID: String) {
-        if let cancellable = homeUserPrefCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeUserPrefCancellable = provider.requestWithProgressPublisher(.userPref(userId: userID))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: UserPrefModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
-                    self?.userPrefToViewModel(model)
-                    print("유저 취향 조회", model)
-                } else {
-                    self?.userPrefToViewModel(model)
-                    print("유저 취향 조회", model)
-                }
-            })
-        
-    }
-    
-    public func userSearchUserCommCodeToViewModel(_ list: SearchUserPrefCodeModel) {
-        self.seachUserFlavorCodeModel = list
-    }
-    
-    public func  userSearchUserCommCodeRequest(userID: String) {
-        if let cancellable = seachUserFlavopCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
-        seachUserFlavopCancellable = provider.requestWithProgressPublisher(.searchUserByUid(uid: userID))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: SearchUserPrefCodeModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.userSearchUserCommCodeRequest == NetworkCode.sucess.status {
-                    self?.userSearchUserCommCodeToViewModel(model)
-                    print("유저 코드", model)
-                } else {
-                    self?.userSearchUserCommCodeToViewModel(model)
-                    print("유저 코드", model)
-                }
-            })
-        
-    }
-    
-    
+}
+
+struct DetailViewInfo {
+    let colorSet: CharacterColor
+    var post: Post
+    let imageNameAndText: (String, String, String, String)
 }
 
 enum Tab {
@@ -334,21 +218,32 @@ enum Tab {
 
 struct CustomTab {
     var name: String
-    var image: String
+    var imageName: String
     var tab: Tab
     var view: AnyView
     var isOn: Bool
 }
 
+enum Flavor: String {
+    case sweet = "달콤한 맛"
+    case salty = "짭짤한 맛"
+    case spicy = "매콤한 맛"
+    case nutty = "고소한 맛"
+    case light = "담백한 맛"
+}
 
-
-enum Genre: String {
+enum Source: String {
     case animation = "애니메이션"
     case famous = "유명인"
     case book = "책"
-    case drama = "드라마"
-    case etc = "기타"
+    case drama = "드라마/영화"
     case greatMan = "위인"
+}
+
+enum Situation: String {
+    case condolence = "위로"
+    case motive = "동기부여"
+    case wisdom = "지혜"
 }
 
 struct Post: Identifiable, Equatable {
@@ -367,27 +262,40 @@ struct Post: Identifiable, Equatable {
 
 struct Hashtags {
     let flavor: Flavor
-    let genre: Genre
+    let source: Source
+    let situation: Situation
 }
 
 enum Bread: String {
-    case breadViewBread = "breadViewBread"
-    case croissant = "croissant"
-    case pancake = "pancake"
-    case cookie = "cookie"
-    case ciabatta = "ciabatta"
+    case breadViewBread = "carouselgreatmanImage"
+    case croissant = "carouselceleImage"
+    case pancake = "carouseldramaImage"
+    case cookie = "carouselanimeImage"
+    case ciabatta = "carouselbookImage"
 }
 
 enum Ingredent: String {
-    case chocolate = "chocolate"
-    case cheese = "cheese"
-    case jalapeno = "jalapeno"
-    case cream = "cream"
-    case corn = "corn"
+    case chocolate = "carouselsweetImage"
+    case cheese = "carouselsaltyImage"
+    case jalapeno = "carouselspicyImage"
+    case cream = "carouselnuttyImage"
+    case corn = "carousellightImage"
 }
 
 enum Topping: String {
-    case appleJam = "appleJam"
-    case caramelSyrup = "caramelSyrup"
-    case chestnut = "chestnut"
+    case appleJam = "carouselcondolenceImage"
+    case caramelSyrup = "carouselmotiveImage"
+    case chestnut = "carouselwisdomImage"
+}
+
+
+enum SituationFlavorSourceTitle: String {
+    case situation = "상황"
+    case flavor = "맛"
+    case source = "출처"
+}
+
+
+protocol SituationFlavorSourceTitleDelegate {
+    
 }

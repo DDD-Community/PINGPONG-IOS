@@ -12,24 +12,23 @@ import Model
 
 public struct ChoiceBreadView: View {
     @StateObject private var viewModel: HomeViewViewModel
-    var backAction: () -> Void = {}
+    var backAction: () -> Void
     
     public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
     }
-    
-    let breadArray: [String] = ["breadViewBread", "croissant", "pancake", "cookie", "ciabatta"]
+        
+    let breadArray: [String] = ["carouselgreatmanImage", "carouselceleImage", "carouseldramaImage", "carouselanimeImage", "carouselbookImage"]
     let breadDictionary = [
-        "breadViewBread": "식빵",
-        "croissant": "크로아상",
-        "pancake": "팬케익",
-        "cookie": "쿠키",
-        "ciabatta": "치아바타"
+        "carouselgreatmanImage": "식빵",
+        "carouselceleImage": "크로아상",
+        "carouseldramaImage": "팬케익",
+        "carouselanimeImage": "쿠키",
+        "carouselbookImage": "치아바타"
     ]
     
     @Environment(\.presentationMode) var presentationMode
-    
     
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
@@ -53,7 +52,11 @@ public struct ChoiceBreadView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $viewModel.isChoicedBread) {
-            ChoiceIngredentView(viewModel: self.viewModel, backAction: backAction)
+            ChoiceIngredentView(viewModel: viewModel,
+                                backAction: backAction,
+                                rebakeAction: {
+                viewModel.isChoicedBread = false
+            })
         }
     }
     
@@ -102,16 +105,18 @@ public struct ChoiceBreadView: View {
                         VStack {
                             Circle()
                                 .frame(width: 96, height: 96)
-                                .foregroundColor(self.viewModel.choicedBread ==  Bread(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
+                                .foregroundColor(self.viewModel.tmpChoicedBread ==  Bread(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
                                 .overlay(
                                     Image(assetName: item)
+                                        .resizable()
+                                        .frame(width:56, height: 56)
                                 )
                             
                             Text(breadDictionary[item]!)
                                 .pretendardFont(family: .SemiBold, size: 14)
                         }
                         .onTapGesture {
-                            self.viewModel.choicedBread = Bread(rawValue: item)!
+                            self.viewModel.tmpChoicedBread = Bread(rawValue: item)!
                         }
                     }
                 }
@@ -126,17 +131,18 @@ public struct ChoiceBreadView: View {
     private func confirmButtonView() -> some View {
         HStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(viewModel.choicedBread == nil ? .basicGray3 : .primaryOrange)
+                .foregroundColor(viewModel.tmpChoicedBread == nil ? .basicGray3 : .primaryOrange)
                 .frame(width: UIScreen.screenWidth - 40 , height: 50)
                 .overlay {
                     Text("다음")
-                        .foregroundColor(viewModel.choicedBread == nil ? .basicGray5 : .basicWhite)
+                        .foregroundColor(viewModel.tmpChoicedBread == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
                             viewModel.isChoicedBread.toggle()
+                            viewModel.choicedBread = viewModel.tmpChoicedBread
                         }
                 }
-                        .disabled(viewModel.choicedBread == nil)
+                .disabled(viewModel.tmpChoicedBread == nil)
         }
     }
 

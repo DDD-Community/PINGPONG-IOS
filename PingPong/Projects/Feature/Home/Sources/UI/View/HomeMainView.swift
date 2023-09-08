@@ -14,7 +14,7 @@ public struct HomeMainView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
     @StateObject var appState: HomeAppState = HomeAppState()
-    @Environment(\.presentationMode) var  presentationMode
+    @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool
     
     @StateObject var viewModel: HomeViewViewModel
@@ -25,20 +25,19 @@ public struct HomeMainView: View {
     }
     
     public var body: some View {
-        NavigationStack(root: {
             ZStack{
                 Color.basicGray1BG
                 ZStack {
                     VStack {
                         if self.viewModel.selectedTab == .home {
                             navigationTopHeaderView()
-                                .frame(height: UIScreen.screenHeight * 0.06)
+                                .padding(EdgeInsets(top: 60, leading: 0, bottom: 20, trailing: 0))
                         }
                         selectTabView()
                     }
                     mainTabBar()
                 }
-                .modal(with: sheetManager, searchViewButtonInfoArray: $viewModel.searchViewButtonInfoArray)
+                .modal(sheetManager: sheetManager, viewModel: viewModel)
                 .onAppear {
                     if viewModel.isFirstUserPOPUP {
                         isFistUserPOPUP = false
@@ -58,7 +57,7 @@ public struct HomeMainView: View {
                         .animation(.easeIn)
                         .closeOnTap(true)
                         .closeOnTapOutside(true)
-                        .backgroundColor(Color.basicGray8.opacity(0.4))
+                        .backgroundColor(.basicBlackDimmed)
                 }
                 
                 .fullScreenCover(isPresented: $appState.goToProfileSettingView) {
@@ -68,7 +67,6 @@ public struct HomeMainView: View {
                     .transition(.slide)
                 }
             }
-        })
         .ignoresSafeArea()
     }
     
@@ -85,10 +83,8 @@ public struct HomeMainView: View {
             StatusBarView(goProfileSettingView: {
                 appState.goToProfileSettingView.toggle()
             })
+            .frame(height: 40)
             .findNavigator(isPresented: $appState.goToProfileSettingView)
-                .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing:20))
-            
-            Spacer()
         }
     }
     
@@ -118,12 +114,24 @@ public struct HomeMainView: View {
                 .padding(.bottom, -UIScreen.main.bounds.height * 0.05)
         }
         Rectangle()
-            .foregroundColor(sheetManager.isPopup ? Color.black.opacity(0.6) : .clear)
+            .foregroundColor(sheetManager.isPopup ? Color.basicBlackDimmed : .clear)
+        ZStack {
+            Rectangle()
+                .foregroundColor(viewModel.isShowDetailView ? Color.basicBlackDimmed : .clear)
+                .onTapGesture {
+                    viewModel.isShowDetailView.toggle()
+                }
+            if viewModel.isShowDetailView {
+                FamousSayingDetailView(viewModel: self.viewModel)
+            }
+        }
     }
+    
+    
 }
 
 extension View {
-    func modal(with sheetManager: SheetManager, searchViewButtonInfoArray: Binding<[SearchViewButtonInfo]>, selectedIdx: Binding<Int>) -> some View {
-        self.modifier(ModalViewModifier(sheetManager: sheetManager, searchViewButtonInfoArray: searchViewButtonInfoArray))
+    func modal(sheetManager: SheetManager, viewModel: HomeViewViewModel) -> some View {
+        self.modifier(ModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
     }
 }

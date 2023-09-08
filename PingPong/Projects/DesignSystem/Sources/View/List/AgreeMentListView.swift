@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SafariServices
 
 public struct AgreeMentListView: View {
     
@@ -15,13 +16,15 @@ public struct AgreeMentListView: View {
     var title: String
     var agreeAllService: Bool
     var essential: TermsEssential
+    let safariURL: URL
     
-    public init(checkAgreeButton: Binding<Bool>, showleft: Bool, title: String, agreeAllService: Bool, essential: TermsEssential) {
+    public init(checkAgreeButton: Binding<Bool>, showleft: Bool, title: String, agreeAllService: Bool, essential: TermsEssential, safariURL: URL = URL(string: "https://zircon-throne-197.notion.site/c339bd214a4f43d3babcbe4781c4230e?pvs=4")!) {
         self._checkAgreeButton = checkAgreeButton
         self.showleft = showleft
         self.title = title
         self.agreeAllService = agreeAllService
         self.essential = essential
+        self.safariURL = safariURL
     }
     
     
@@ -62,11 +65,13 @@ public struct AgreeMentListView: View {
                     Spacer()
                     
                     if showleft {
-                        Image(systemName: "chevron.right")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.gray)
+                        Link(destination: safariURL) {
+                             Image(systemName: "chevron.right")
+                                 .resizable()
+                                 .scaledToFit()
+                                 .frame(width: 15, height: 15)
+                                 .foregroundColor(.basicGray5)
+                        }
                         
                     } else {
                         Spacer()
@@ -83,13 +88,8 @@ public struct AgreeMentListView: View {
     }
 }
 
-struct AgreeMentListView_Previews: PreviewProvider {
-    static var previews: some View {
-        AgreeMentListView(checkAgreeButton: .constant(true), showleft: false, title: "", agreeAllService: true, essential: .essential)
-    }
-}
-
 public enum TermsEssential: String {
     case essential = "(필수)"
     case choice = "(선택)"
 }
+

@@ -6,25 +6,31 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import SDWebImageSwiftUI
 import SwiftUI
 import DesignSystem
 
-public struct HomeBakeingView: View {
+
+public struct HomeBakingView: View {
     @StateObject private var viewModel: HomeViewViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var backAction: () -> Void
+    
     public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
     }
     
     public var body: some View {
-//        NavigationStack {
             VStack {
                 HomeBakingViewHeaderTitle()
+                
                 Spacer()
-                Image(assetName: "bakingViewMainBreadImage")
+                
+                AnimatedImage(name: "startViewGIF.gif", isAnimating: .constant(true))
+                    .resizable()
+                    .frame(width: 200, height: 200)
                 
                 Spacer()
                 startButtonView()
@@ -37,7 +43,6 @@ public struct HomeBakeingView: View {
                     
                 })
             }
-//        } //임시네비게이션스택
     }
     
     @ViewBuilder
@@ -96,9 +101,9 @@ public struct HomeBakeingView: View {
                     Text("다음에 할게요")
                         .foregroundColor(.basicGray5)
                         .font(.system(size: 16))
-                        .onTapGesture {
-//                            viewModel.isStartChoiceFavoritedView.toggle()
-                        }
+                }
+                .onTapGesture {
+                    backAction()
                 }
         }   .pretendardFont(family: .SemiBold, size: 16)
     }

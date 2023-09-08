@@ -42,8 +42,24 @@ public struct HomeView: View {
                                     ZStack {
                                         VStack {
                                             HStack {
-                                                Image(assetName: imageNameAndText.2)
-                                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                ZStack {
+                                                    Image(assetName: imageNameAndText.2)
+                                                        .resizable()
+                                                        .frame(width: 335, height: 236)
+                                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                    ZStack {
+                                                        Image(assetName: "carousel\(imageNameAndText.1)")
+                                                            .resizable()
+                                                            .frame(width: 120, height: 120)
+                                                        Image(assetName: "carousel\(imageNameAndText.0)")
+                                                            .resizable()
+                                                            .frame(width: 120, height: 120)
+                                                        Image(assetName: "carousel\(imageNameAndText.3)")
+                                                            .resizable()
+                                                            .frame(width: 120, height: 120)
+                                                    }
+                                                    .offset(x: -50, y: 22)
+                                                }
                                                 Spacer()
                                             }
                                             Spacer()
@@ -82,8 +98,26 @@ public struct HomeView: View {
                                 ZStack {
                                     VStack {
                                         HStack {
-                                            Image(assetName: imageNameAndText.2)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            ZStack {
+                                                Image(assetName: imageNameAndText.2)
+                                                    .resizable()
+                                                    .frame(width: 335, height: 236)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                                    
+                                                ZStack {
+                                                    Image(assetName: "carousel\(imageNameAndText.1)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                    Image(assetName: "carousel\(imageNameAndText.0)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                    Image(assetName: "carousel\(imageNameAndText.3)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                                .offset(x: -50, y: 22)
+                                                
+                                            }
                                             Spacer()
                                         }
                                         Spacer()
@@ -91,30 +125,31 @@ public struct HomeView: View {
                                     VStack{
                                         HStack{
                                             HStack{
+                                                HStack {
+                                                    Image(assetName: imageNameAndText.0)
+                                                    Text("\(post.hashtags.flavor.rawValue)")
+                                                        .pretendardFont(family: .SemiBold, size: 12)
+                                                }
+                                                .foregroundColor(colorSet.icon)
+                                                .frame(minWidth: 41, maxHeight: 26)
+                                                .padding(.horizontal, 10)
+                                                .background (
                                                 RoundedRectangle(cornerRadius: 16)
-                                                    .frame(width: 86, height: 26)
                                                     .foregroundColor(.basicGray1BG)
-                                                    .overlay(
-                                                        HStack {
-                                                            Image(assetName: imageNameAndText.0)
-                                                            Text("\(post.hashtags.flavor.rawValue)")
-                                                                .pretendardFont(family: .SemiBold, size: 12)
-                                                                .foregroundColor(colorSet.icon)
-                                                        }
-                                                    )
+                                                )
                                                 
+                                                HStack {
+                                                    Image(assetName: imageNameAndText.1)
+                                                    Text("\(post.hashtags.source.rawValue)")
+                                                        .pretendardFont(family: .SemiBold, size: 12)
+                                                        .foregroundColor(colorSet.icon)
+                                                }
+                                                .frame(minWidth: 41, maxHeight: 26)
+                                                .padding(.horizontal, 10)
+                                                .background(
                                                 RoundedRectangle(cornerRadius: 16)
-                                                    .frame(width: 86, height: 26)
                                                     .foregroundColor(.basicGray1BG)
-                                                    .overlay(
-                                                        
-                                                        HStack {
-                                                            Image(assetName: imageNameAndText.1)
-                                                            Text("\(post.hashtags.genre.rawValue)")
-                                                                .pretendardFont(family: .SemiBold, size: 12)
-                                                                .foregroundColor(colorSet.icon)
-                                                        }
-                                                    )
+                                                )
                                             }
                                             .padding()
                                             Spacer()
@@ -159,8 +194,10 @@ public struct HomeView: View {
                                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                                     .foregroundColor(post.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                                     .onTapGesture {
-                                                        let postIndex = searchPostIndex(post: post)
+                                                        let postIndex = viewModel.searchPostIndex(post: post)
                                                         viewModel.homePosts[postIndex].isBookrmark.toggle()
+                                                        let newPost = Post(stageNum: viewModel.detailViewInfo.post.stageNum, hashtags: viewModel.detailViewInfo.post.hashtags, image: viewModel.detailViewInfo.post.image, title: viewModel.detailViewInfo.post.title, sources: viewModel.detailViewInfo.post.sources, isBookrmark: !viewModel.detailViewInfo.post.isBookrmark)
+                                                        viewModel.updateDetailViewInfo(colorSet: viewModel.detailViewInfo.colorSet, post: newPost, imageNameAndText: viewModel.detailViewInfo.imageNameAndText)
                                                     }
                                             }
                                         }
@@ -187,13 +224,13 @@ public struct HomeView: View {
                     }
             }
             .onAppear {
-                if !isOn.isEmpty { //빈배열일 경우 방어문
+                if !isOn.isEmpty {
                     self.isOn[0] = true
                     viewModel.randomQuoteRequest(userID: "423")
                 }
             }
             .navigationDestination(isPresented: $appState.goToBackingView) {
-                HomeBakeingView(viewModel: viewModel, backAction: {
+                HomeBakingView(viewModel: viewModel, backAction: {
                     appState.goToBackingView = false
                 })
             }
@@ -203,14 +240,6 @@ public struct HomeView: View {
             viewModel.randomQuoteRequest(userID: "423")
             viewModel.userPrefRequest(userID: "423")
         }
-    }
-    func searchPostIndex(post: Post) -> Int {
-        for index in viewModel.homePosts.indices {
-            if viewModel.homePosts[index] == post {
-                return index
-            }
-        }
-        return 0
     }
 }
 

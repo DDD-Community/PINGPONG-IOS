@@ -18,6 +18,7 @@ public struct OnBoardingView: View {
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
+    @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
     
     public init() {
         //        self.i0 = i0

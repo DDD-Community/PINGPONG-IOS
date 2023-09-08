@@ -11,26 +11,27 @@ import SwiftUI
 struct FamousSayingBakeCardView: View {
     
     @StateObject private var viewModel: HomeViewViewModel
-    @StateObject var appState: HomeAppState = HomeAppState()
     @Environment(\.presentationMode) var presentationMode
     @StateObject var sheetManager: SheetManager = SheetManager()
     
-    var backAction: () -> Void = {}
+    var backAction: () -> Void
+    var rebakeAction: () -> Void
     
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
+        self.rebakeAction = rebakeAction
     }
     
     var body: some View {
         ZStack {
             VStack {
                 topHeaderBackButton()
-                    .padding(.top, 20)
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
             }
             VStack {
-                let post = viewModel.homePosts[0]
+                var post = viewModel.homePosts[0]
                 let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
                 let size = UIScreen.main.bounds.size
                 let colorSet = searchCharacterColor(flavor: post.hashtags.flavor)
@@ -45,8 +46,30 @@ struct FamousSayingBakeCardView: View {
                             ZStack {
                                 VStack {
                                     HStack {
-                                        Image(assetName: imageNameAndText.2)
-                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        ZStack {
+                                            Image(assetName: imageNameAndText.2)
+                                                .resizable()
+                                                .frame(width: 335, height: 236)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            ZStack {
+                                                if let choicedBread = viewModel.choicedBread  {
+                                                    Image(assetName: "\(choicedBread.rawValue)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                                if let choicedIngredent = viewModel.choicedIngredent  {
+                                                    Image(assetName: "\(choicedIngredent.rawValue)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                                if let choicedTopping = viewModel.choicedTopping  {
+                                                    Image(assetName: "\(choicedTopping.rawValue)")
+                                                        .resizable()
+                                                        .frame(width: 120, height: 120)
+                                                }
+                                            }
+                                            .offset(x: -50, y: 22)
+                                        }
                                         Spacer()
                                     }
                                     Spacer()
@@ -84,8 +107,30 @@ struct FamousSayingBakeCardView: View {
                         ZStack {
                             VStack {
                                 HStack {
-                                    Image(assetName: imageNameAndText.2)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    ZStack {
+                                        Image(assetName: imageNameAndText.2)
+                                            .resizable()
+                                            .frame(width: 335, height: 236)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        ZStack {
+                                            if let choicedBread = viewModel.choicedBread  {
+                                                Image(assetName: "\(choicedBread.rawValue)")
+                                                    .resizable()
+                                                    .frame(width: 120, height: 120)
+                                            }
+                                            if let choicedIngredent = viewModel.choicedIngredent  {
+                                                Image(assetName: "\(choicedIngredent.rawValue)")
+                                                    .resizable()
+                                                    .frame(width: 120, height: 120)
+                                            }
+                                            if let choicedTopping = viewModel.choicedTopping  {
+                                                Image(assetName: "\(choicedTopping.rawValue)")
+                                                    .resizable()
+                                                    .frame(width: 120, height: 120)
+                                            }
+                                        }
+                                        .offset(x: -50, y: 22)
+                                    }
                                     Spacer()
                                 }
                                 Spacer()
@@ -93,30 +138,31 @@ struct FamousSayingBakeCardView: View {
                             VStack{
                                 HStack{
                                     HStack{
+                                        HStack {
+                                            Image(assetName: imageNameAndText.0)
+                                            Text("\(post.hashtags.flavor.rawValue)")
+                                                .pretendardFont(family: .SemiBold, size: 12)
+                                        }
+                                        .foregroundColor(colorSet.icon)
+                                        .frame(minWidth: 41, maxHeight: 26)
+                                        .padding(.horizontal, 10)
+                                        .background (
                                         RoundedRectangle(cornerRadius: 16)
-                                            .frame(width: 86, height: 26)
                                             .foregroundColor(.basicGray1BG)
-                                            .overlay(
-                                                HStack {
-                                                    Image(assetName: imageNameAndText.0)
-                                                    Text("\(post.hashtags.flavor.rawValue)")
-                                                        .pretendardFont(family: .SemiBold, size: 12)
-                                                        .foregroundColor(colorSet.icon)
-                                                }
-                                            )
+                                        )
                                         
+                                        HStack {
+                                            Image(assetName: imageNameAndText.1)
+                                            Text("\(post.hashtags.source.rawValue)")
+                                                .pretendardFont(family: .SemiBold, size: 12)
+                                                .foregroundColor(colorSet.icon)
+                                        }
+                                        .frame(minWidth: 41, maxHeight: 26)
+                                        .padding(.horizontal, 10)
+                                        .background(
                                         RoundedRectangle(cornerRadius: 16)
-                                            .frame(width: 86, height: 26)
                                             .foregroundColor(.basicGray1BG)
-                                            .overlay(
-                                                
-                                                HStack {
-                                                    Image(assetName: imageNameAndText.1)
-                                                    Text("\(post.hashtags.genre.rawValue)")
-                                                        .pretendardFont(family: .SemiBold, size: 12)
-                                                        .foregroundColor(colorSet.icon)
-                                                }
-                                            )
+                                        )
                                     }
                                     .padding()
                                     Spacer()
@@ -161,7 +207,10 @@ struct FamousSayingBakeCardView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                             .foregroundColor(post.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
-                                                //북마크하는 로직
+                                                let postIndex = viewModel.searchPostIndex(post: post)
+                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
+                                                
+                                                post.isBookrmark.toggle()
                                             }
                                     }
                                 }
@@ -180,12 +229,23 @@ struct FamousSayingBakeCardView: View {
                             .foregroundColor(.primaryOrange)
                     )
                     .padding(.top, 10)
-                
+                    .onTapGesture {
+                        rebakeAction()
+                    }
             }
             
         }
         .navigationBarBackButtonHidden(true)
-        
+        .onAppear {
+            self.viewModel.tmpChoicedBread = nil
+            self.viewModel.tmpChoicedIngredent = nil
+            self.viewModel.tmpChoicedTopping = nil
+        }
+        .onDisappear {
+            self.viewModel.choicedBread = nil
+            self.viewModel.choicedIngredent = nil
+            self.viewModel.choicedTopping = nil
+        }
         
     }
     
@@ -199,6 +259,5 @@ struct FamousSayingBakeCardView: View {
                     backAction()
                 }
         }
-        .padding(.horizontal, 20)
     }
 }

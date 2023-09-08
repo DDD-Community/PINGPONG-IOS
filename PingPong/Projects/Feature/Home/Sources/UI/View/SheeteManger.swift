@@ -10,10 +10,10 @@ import SwiftUI
 
 public class SheetManager: ObservableObject {
     public init() { }
-    typealias Config = Action.Info
-    var isPopup: Bool = false
-    enum Action {
-        struct Info {
+    public typealias Config = Action.Info
+    @Published var isPopup: Bool = false
+    public enum Action {
+        public struct Info {
             var idx: Int
         }
         case na

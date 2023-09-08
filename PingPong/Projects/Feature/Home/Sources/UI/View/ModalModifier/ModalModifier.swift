@@ -9,17 +9,29 @@
 import SwiftUI
 
 struct ModalViewModifier: ViewModifier {
+    
+    @StateObject private var viewModel: HomeViewViewModel
     @ObservedObject var sheetManager: SheetManager
-    @State var offsetY: CGFloat = 0
-    @Binding var searchViewButtonInfoArray: [SearchViewButtonInfo]
+    
+    var backAction: () -> Void
+    
+    public init(viewModel: HomeViewViewModel, sheetManager: SheetManager) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._sheetManager = ObservedObject(wrappedValue: sheetManager)
+        self.backAction = sheetManager.dismiss
+    }
+    
     func body(content: Content) -> some View {
         content
             .overlay(alignment: .bottom) {
                 if case let .present(config) = sheetManager.action {
-                    ModalView(config: config, isPopup: sheetManager.isPopup, searchViewButtonInfoArray: $searchViewButtonInfoArray, offsetY: $offsetY) {
+                    ModalView(viewModel: self.viewModel,
+                              config: config,
+                              isPopup: sheetManager.isPopup)
+                    {
                         withAnimation(.spring()) {
                             sheetManager.dismiss()
-                            offsetY = 0
+                            viewModel.offsetY = 0
                             sheetManager.isPopup = false
                         }
                     }
@@ -29,7 +41,7 @@ struct ModalViewModifier: ViewModifier {
 }
 
 extension View {
-    func modal(with sheetManager: SheetManager, searchViewButtonInfoArray: Binding<[SearchViewButtonInfo]>) -> some View {
-        self.modifier(ModalViewModifier(sheetManager: sheetManager, searchViewButtonInfoArray: searchViewButtonInfoArray))
+    func modal(with sheetManager: SheetManager, viewModel: HomeViewViewModel) -> some View {
+        self.modifier(ModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
     }
 }
