@@ -122,7 +122,7 @@ public struct HomeMainView: View {
                     viewModel.isShowDetailView.toggle()
                 }
             if viewModel.isShowDetailView {
-                FamousSayingDetailView(viewModel: self.viewModel)
+//                FamousSayingDetailView(viewModel: self.viewModel)
             }
         }
     }

@@ -20,7 +20,7 @@ extension SearchService: BaseTargetType {
         switch self {
         case .searchQuote:
             return PingPongAPISearch.searchQuote
-        case .searchCommCode(let commCdTpCd)
+        case .searchCommCode(let commCdTpCd):
             return "\(PingPongAPISearch.searchCommonCode)"
         }
     }
@@ -29,7 +29,7 @@ extension SearchService: BaseTargetType {
         switch self {
         case .searchQuote:
             return .get
-        case .searchCommCode
+        case .searchCommCode:
             return .get
         }
     }
@@ -49,7 +49,7 @@ extension SearchService: BaseTargetType {
             
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
-        case .searchCommCode(let commCdTpCd)
+        case .searchCommCode(let commCdTpCd):
             let parameters : [String : Any] = [
                 "commCdTpCd": commCdTpCd
                
