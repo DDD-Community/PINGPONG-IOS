@@ -71,14 +71,26 @@ public class HomeViewViewModel: ObservableObject {
     
     @Published var originHomePosts = [
         Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .condolence), image: "safari.fill", title: "절대로 멈출수가 없는것들이 있다. 인간이 '자유'의 답을 찾는 한, 그것들은 절대로 멈추지 않는다. 이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .motive), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .wisdom), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .condolence), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 0, hashtags: Hashtags(flavor: .nutty, source: .drama, situation: .motive), image: "safari.fill", title: "이건 나는 게 아니야 멋지게 추락하는 거지", sources: "<토이스토리, 1955>", isBookrmark: false),
-        Post(stageNum: 1, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .wisdom), image: "safari.fill", title: "아 대충살고 싶다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 2, hashtags: Hashtags(flavor:.salty, source: .book, situation: .condolence), image: "safari.fill", title: "왜 옆자리 아저씨는 도서관까지 와서 카드게임을 하는 걸까?", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .motive), image: "safari.fill", title: "오늘 저녁은 계란을 구워먹겠습니다.", sources: "<변진하, 2023>", isBookrmark: false),
-        Post(stageNum: 3, hashtags: Hashtags(flavor: .light, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "담백한 맛 명언.", sources: "<변진하, 2023>", isBookrmark: false),
+        Post(stageNum: 4, hashtags: Hashtags(flavor: .salty, source: .animation, situation: .motive), image: "safari.fill", title: "공포는 악이 아니야 그것은 자신의 약함을 안다는 것이다", sources: "<페어리테일>", isBookrmark: false),
+        Post(stageNum: 5, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "분노는 바보들의 가슴 속에서만 살아간다", sources: "<아인슈타인>", isBookrmark: false),
+        Post(stageNum: 6, hashtags: Hashtags(flavor: .nutty, source: .book, situation: .wisdom), image: "safari.fill", title: "그릇이 차면 넘치고, 사람이 자만하면 이지러진다", sources: "<명심보감>", isBookrmark: false),
+        Post(stageNum: 7, hashtags: Hashtags(flavor: .light, source: .greatMan, situation: .motive), image: "safari.fill", title: "작은 도끼라도 찍고 찍으면 큰 참나무는 넘어진다", sources: "<세익스피어>", isBookrmark: false),
+        Post(stageNum: 8, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .motive), image: "safari.fill", title: "1퍼센트의 가능성, 그것이 나의 길이다", sources: "<나폴레옹>", isBookrmark: false),
+        Post(stageNum: 9, hashtags: Hashtags(flavor: .nutty, source: .famous, situation: .wisdom), image: "safari.fill", title: "안심하면서 먹는 한 조각 빵이 근심하면서 먹는 잔치보다 낫다", sources: "<이솝>", isBookrmark: false),
+        Post(stageNum: 10, hashtags: Hashtags(flavor: .spicy, source: .greatMan, situation: .wisdom), image: "safari.fill", title: "게으름은 쇠붙이의 녹과 같다 노동보다도 더 심신을 소모시킨다", sources: "<프랭클린>", isBookrmark: false),
+        Post(stageNum: 11, hashtags: Hashtags(flavor: .sweet, source: .famous, situation: .motive), image: "safari.fill", title: "기회는 새와 같은 것, 날아가기 전에 꼭 잡아라", sources: "<스마일즈>", isBookrmark: false),
+        Post(stageNum: 12, hashtags: Hashtags(flavor: .spicy, source: .animation, situation: .condolence), image: "safari.fill", title: "아픈 과거는 잊는 것이 아니라 받아들이는 것이다", sources: "<나루토>", isBookrmark: false),
+        Post(stageNum: 13, hashtags: Hashtags(flavor: .sweet, source: .animation, situation: .condolence), image: "safari.fill", title: "평범하다는 것은, 단지 아직 자신의 특별함을 발견하지 못했다는 것뿐이야", sources: "<도라에몽>", isBookrmark: false),
+        Post(stageNum: 14, hashtags: Hashtags(flavor: .salty, source: .famous, situation: .wisdom), image: "safari.fill", title: "니가 아는 거라 곤 니가 다 아는 줄 아는 것 뿐이다", sources: "<유병재>", isBookrmark: false),
+        Post(stageNum: 15, hashtags: Hashtags(flavor: .spicy, source: .drama, situation: .motive), image: "safari.fill", title: "아무리 빨리 이 새벽을 맞아도 어김없이 길에는 사람들이 있었다. 남들이 아직 꿈속을 헤맬 거라 생각했지만 언제나 그렇듯 세상은 나보다 빠르다", sources: "<미생>", isBookrmark: false),
+        Post(stageNum: 16, hashtags: Hashtags(flavor: .sweet, source: .drama, situation: .wisdom), image: "safari.fill", title: "사랑하고 일하고, 일하고 사랑하라! 그게 삶의 전부다.", sources: "<인턴>", isBookrmark: false),
+        Post(stageNum: 17, hashtags: Hashtags(flavor: .sweet, source: .drama, situation: .condolence), image: "safari.fill", title: "살아가면서 너무 늦거나 이른 것은 없어. 넌 뭐든 될 수 있단다. 조금이라도 후회가 생긴다면 용기를 내서 다시 시작하렴", sources: "<벤자민 버튼의 시간은 거꾸로 간다>", isBookrmark: false),
+        Post(stageNum: 18, hashtags: Hashtags(flavor: .salty, source: .drama, situation: .wisdom), image: "safari.fill", title: "당한 만큼 배로 갚아준다.", sources: "<한자와 나오키>", isBookrmark: false),
+        Post(stageNum: 19, hashtags: Hashtags(flavor: .spicy, source: .drama, situation: .motive), image: "safari.fill", title: "강한 사람이 아니어도 괜찮습니다. 우리는 서로 도울 거니까요.", sources: "<스토브리그>", isBookrmark: false),
+        Post(stageNum: 15, hashtags: Hashtags(flavor: .sweet, source: .drama, situation: .condolence), image: "safari.fill", title: "넌 내 삶의 빛이고, 가장 소중한 보물이란다, 나의 작은 스타.", sources: "<가디언즈 오브 갤럭시>", isBookrmark: false),
+        Post(stageNum: 16, hashtags: Hashtags(flavor: .sweet, source: .animation, situation: .motive), image: "safari.fill", title: "희망은 우리가 받은 가장 위대한 선물이에요.", sources: "<미녀와 야수>", isBookrmark: false),
+        Post(stageNum: 17, hashtags: Hashtags(flavor: .salty, source: .book, situation: .wisdom), image: "safari.fill", title: "집을 이룰 아이는 인분도 금처럼 아끼고, 집을 망칠 아이는 금도 인분처럼 쓴다.", sources: "<명심보감>", isBookrmark: false),
+        Post(stageNum: 18, hashtags: Hashtags(flavor: .light, source: .book, situation: .motive), image: "safari.fill", title: "뿌리가 튼튼해야 열매가 많다.", sources: "<용비어천가>", isBookrmark: false)
     ]
     
     @Published var homePosts = [
@@ -235,170 +247,14 @@ public class HomeViewViewModel: ObservableObject {
         return 0
     }
     
-    //MARK: - api 통신
-    
-    public func randomQuoteToViewModel(_ list: HomeRandomQuoteModel){
-        self.homeRandomQuoteModel = list
-    }
-    
-    public func randomQuoteRequest(userID: String) {
-        if let cancellable = homeRandomQuoteCancellable {
-            cancellable.cancel()
-        }
+    func generateCardByCondition() -> Post {
+        let filteredPosts: [Post] = homePosts
+            .filter{ choicedBread == nil || $0.hashtags.source.bread == choicedBread }
+            .filter{ choicedIngredent == nil || $0.hashtags.flavor.ingredent == choicedIngredent }
+            .filter{ choicedTopping == nil || $0.hashtags.situation.topping == choicedTopping}
+        guard let ramdomIndex = (0..<filteredPosts.count).randomElement() else { return homePosts[0] }
         
-        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: 1, sizePerPage: 50, userId: userID))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
-                    self?.randomQuoteToViewModel(model)
-                    print("홈 핸덤 명언 조회", model)
-                } else {
-                    self?.randomQuoteToViewModel(model)
-                    print("홈 핸덤 명언 조회 실패", model)
-                }
-            })
-        
-    }
-    
-    
-    
-    public func homeLikeScrapToViewModel(_ list: BaseModel) {
-        self.homeLikeScrapModel = list
-    }
-    
-    
-    
-    public func userPrefRequest(userID: String, quoteId: Int, isScarp: Bool) {
-        if isScarp {
-            if let cancellable = homeLikeCancellable {
-                cancellable.cancel()
-            }
-            
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: BaseModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 취향", model)
-                    } else {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 취향", model)
-                    }
-                })
-        } else {
-            if let cancellable = homeScrapCancellable {
-                cancellable.cancel()
-            }
-            
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeScrapCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: BaseModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 좋아요", model)
-                    } else {
-                        self?.homeLikeScrapToViewModel(model)
-                        print("홈 좋아요", model)
-                    }
-                })
-        }
-        
-    }
-    
-    public func userPrefToViewModel(_ list: UserPrefModel) {
-        self.homeUserPrefModel = list
-    }
-    
-    
-    public func userPrefRequest(userID: String) {
-        if let cancellable = homeUserPrefCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeUserPrefCancellable = provider.requestWithProgressPublisher(.userPref(userId: userID))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: UserPrefModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
-                    self?.userPrefToViewModel(model)
-                    print("유저 취향 조회", model)
-                } else {
-                    self?.userPrefToViewModel(model)
-                    print("유저 취향 조회", model)
-                }
-            })
-        
-    }
-    
-    public func userSearchUserCommCodeToViewModel(_ list: SearchUserPrefCodeModel) {
-        self.seachUserFlavorCodeModel = list
-    }
-    
-    public func  userSearchUserCommCodeRequest(userID: String) {
-        if let cancellable = seachUserFlavopCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
-        seachUserFlavopCancellable = provider.requestWithProgressPublisher(.searchUserByUid(uid: userID))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: SearchUserPrefCodeModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
-                    self?.userSearchUserCommCodeToViewModel(model)
-                    print("유저 코드", model)
-                } else {
-                    self?.userSearchUserCommCodeToViewModel(model)
-                    print("유저 코드", model)
-                }
-            })
+        return filteredPosts[ramdomIndex]
     }
 }
 
@@ -429,6 +285,21 @@ enum Flavor: String {
     case spicy = "매콤한 맛"
     case nutty = "고소한 맛"
     case light = "담백한 맛"
+    
+    var ingredent: Ingredent {
+        switch self {
+        case .light:
+            return .corn
+        case .nutty:
+            return .cream
+        case .salty:
+            return .cheese
+        case .spicy:
+            return .jalapeno
+        case .sweet:
+            return .chocolate
+        }
+    }
 }
 
 enum Source: String {
@@ -437,12 +308,38 @@ enum Source: String {
     case book = "책"
     case drama = "드라마/영화"
     case greatMan = "위인"
+    
+    var bread: Bread {
+        switch self {
+        case .greatMan:
+            return .breadViewBread
+        case .famous:
+            return .croissant
+        case .animation:
+            return .cookie
+        case .drama:
+            return .pancake
+        case .book:
+            return .ciabatta
+        }
+    }
 }
 
 enum Situation: String {
     case condolence = "위로"
     case motive = "동기부여"
     case wisdom = "지혜"
+    
+    var topping: Topping {
+        switch self {
+        case .condolence:
+            return .appleJam
+        case .motive:
+            return .caramelSyrup
+        case .wisdom:
+            return .chestnut
+        }
+    }
 }
 
 struct Post: Identifiable, Equatable {

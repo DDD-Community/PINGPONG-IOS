@@ -31,7 +31,7 @@ struct FamousSayingBakeCardView: View {
                 Spacer()
             }
             VStack {
-                var post = viewModel.homePosts[0]
+                var post = viewModel.generateCardByCondition()
                 let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
                 let size = UIScreen.main.bounds.size
                 let colorSet = searchCharacterColor(flavor: post.hashtags.flavor)
