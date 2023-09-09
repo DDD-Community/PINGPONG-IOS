@@ -23,7 +23,7 @@ let project = Project.makeAppModule(
         .SPM.Inject,
         .SPM.PopupView,
         .Projcet.DesignSystem,
-        .Projcet.Authorization
+        .Projcet.Authorization,
         
         
             

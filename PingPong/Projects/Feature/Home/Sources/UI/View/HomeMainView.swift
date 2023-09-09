@@ -40,9 +40,10 @@ public struct HomeMainView: View {
                 .modal(sheetManager: sheetManager, viewModel: viewModel)
                 .onAppear {
                     if viewModel.isFirstUserPOPUP {
-                        isFistUserPOPUP = false
-                    } else {
                         isFistUserPOPUP = true
+                    } else {
+                        isFistUserPOPUP = false
+                        
                     }
                 }
                 .popup(isPresented: $isFistUserPOPUP) {

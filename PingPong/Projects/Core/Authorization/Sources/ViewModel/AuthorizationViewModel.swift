@@ -19,7 +19,6 @@ import CombineMoya
 import API
 import Moya
 import Service
-
 //import GoogleSignIn
 
 public class AuthorizationViewModel: ObservableObject {
@@ -135,6 +134,7 @@ public class AuthorizationViewModel: ObservableObject {
             }
         }
     }
+    
     
     //MARK: -  유저 이름 검증
     public func userNickNameValidateToViewModel(_ list: NickNameValidateModel) {

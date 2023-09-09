@@ -28,7 +28,8 @@ let project = Project.makeAppModule(
         .Projcet.Service,
         .SPM.FirebaseAuth,
         .SPM.FirebaseFirestore,
-        .SPM.FirebaseDatabase
+        .SPM.FirebaseDatabase,
+//        .SPM.GoogleSignIn,
 
     ],
     sources: ["Sources/**"]
