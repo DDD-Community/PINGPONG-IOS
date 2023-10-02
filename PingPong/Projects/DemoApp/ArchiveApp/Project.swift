@@ -12,8 +12,8 @@ import MyPlugin
 
 let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.makeAppModule(
-    name: "ProfileApp",
-    bundleId: .appBundleID(name: "Profile"),
+    name: "ArchiveApp",
+    bundleId: .appBundleID(name: "ArchiveApp"),
     platform: .iOS,
     product: .app,
     //MARK: - 풀 빌드 할때는 프레임 워크로 변경
@@ -24,13 +24,13 @@ let project = Project.makeAppModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .Projcet.Profile
+        .Projcet.Archive
             
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],
     resources: ["Resources/**", "Sources/**"],
-    infoPlist: .file(path: "Support/ProfileInfo.plist"),
-    entitlements: .relativeToCurrentFile("Entitlements/ProfileApp.entitlements")
+    infoPlist: .file(path: "Support/ArchiveInfo.plist"),
+    entitlements: .relativeToCurrentFile("Entitlements/ArchiveApp.entitlements")
 //    scheme: [realseScheme, debugScheme]
 )
 

@@ -10,6 +10,7 @@ import DesignSystem
 import Model
 import SwiftUI
 import Model
+import Authorization
 
 public struct ExploreView: View {
     // 셀에 표시할 데이터 배열
@@ -145,6 +146,7 @@ public struct ExploreView: View {
             }
         }
     }
+    
     func generateSituationFlavorSourceArray(situationFlavorSourceTitle: SituationFlavorSourceTitle) -> ([String], OptionButtonInfo) {
         var situationFlavorSourceCount: Int = 0
         var isFirst: Bool = true

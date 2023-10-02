@@ -55,6 +55,27 @@ platform :ios do
      end
    end
 
+ desc "build App"
+  lane:build_App do
+   clear_derived_data
+    
+      scan
+      sh "bash ./Script/buldApp.sh"
+       slack(
+      message: "Unit test  성공",
+      slack_url: ENV["SLACK_URL_TEST"],
+      payload: { "Build Date" => Time.new.to_s }
+    )
+
+ # ✅ 에러 처리.
+   error do |lane, exception, options|
+    slack(
+      message: "에러 발생 : #{exception}",
+      success: false,
+      slack_url: ENV["SLACK_URL_TEST"]
+    )
+     end
+   end
 
  desc "Install Profiles and Build My App"
   lane :build_ipa do

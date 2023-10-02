@@ -8,26 +8,19 @@
 
 import SwiftUI
 
-struct SnapCarousel<Content: View, T: Identifiable> : View{
+public struct SnapCarousel<Content: View, T: Identifiable> : View{
+    @GestureState var offset: CGFloat = 0
+    @State var currentIndex : Int = 0
     @Binding var isOn : [Bool]
+    @Binding var index: Int
     var content: (T) -> Content
     var list: [T]
     var spacing: CGFloat
     var trailingSpace: CGFloat
-    @Binding var index: Int
-    public func update(index: Int) {
-        withAnimation {
-            isOn[index] = true
-            if index > 0 {
-                isOn[index - 1] = false
-            }
-            if index < (list.count - 1) {
-                isOn[index + 1] = false
-            }
-        }
-    }
     
-    init(spacing : CGFloat = UIScreen.screenWidth * 0.5, trailingSpace : CGFloat = UIScreen.screenWidth * 0.1, index : Binding<Int> , items:[T], isOn: Binding<[Bool]>, @ViewBuilder content: @escaping (T)-> Content ){
+    
+    
+    public init(spacing : CGFloat = UIScreen.screenWidth * 0.5, trailingSpace : CGFloat = UIScreen.screenWidth * 0.1, index : Binding<Int> , items:[T], isOn: Binding<[Bool]>, @ViewBuilder content: @escaping (T)-> Content ){
         self._isOn = isOn
         self.list = items
         self.spacing
@@ -37,11 +30,10 @@ struct SnapCarousel<Content: View, T: Identifiable> : View{
         self.content = content
     }
     
-    @GestureState var offset: CGFloat = 0
-    @State var currentIndex : Int = 0
+   
     
-    var body : some View{
-        GeometryReader{proxy in
+    public var body : some View{
+        GeometryReader{ proxy in
             let width = proxy.size.width - (trailingSpace - spacing)
             let adjustMentWidth = (trailingSpace / 2 ) - spacing
             
@@ -76,6 +68,19 @@ struct SnapCarousel<Content: View, T: Identifiable> : View{
             )
         }
         .animation(.easeInOut, value: offset == 0 )
+        
+    }
+    
+    public func update(index: Int) {
+        withAnimation {
+            isOn[index] = true
+            if index > 0 {
+                isOn[index - 1] = false
+            }
+            if index < (list.count - 1) {
+                isOn[index + 1] = false
+            }
+        }
     }
 }
 

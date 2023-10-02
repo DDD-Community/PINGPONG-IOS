@@ -19,9 +19,12 @@ let project = Project.makeAppModule(
     setting:  .appBaseSetting,
     dependencies: [
         .Projcet.Home,
-        .Projcet.Profile,
+        .Projcet.Archive,
         .Projcet.Auth,
-        .Projcet.Search
+        .Projcet.Search,
+        .Projcet.Home,
+        .Projcet.Archive,
+        
             
         
     ],

@@ -19,7 +19,7 @@ public extension TargetDependency.Projcet {
     static let Authorization = TargetDependency.project(target: "Authorization", path: .relativeToRoot("Projects/Core/Authorization"))
     static let DesignSystem = TargetDependency.project(target: "DesignSystem", path: .relativeToRoot("Projects/DesignSystem"))
     static let Home = TargetDependency.project(target: "Home", path: .relativeToRoot("Projects/Feature/Home"))
-    static let Profile = TargetDependency.project(target: "Profile", path: .relativeToRoot("Projects/Feature/Profile"))
+    static let Archive = TargetDependency.project(target: "Archive", path: .relativeToRoot("Projects/Feature/Archive"))
     static let Search = TargetDependency.project(target: "Search", path: .relativeToRoot("Projects/Feature/Search"))
     static let Auth = TargetDependency.project(target: "Auth", path: .relativeToRoot("Projects/Feature/Auth"))
     static let HomeApp = TargetDependency.project(target: "HomeApp", path: .relativeToRoot("Projects/DemoApp/HomeApp"))

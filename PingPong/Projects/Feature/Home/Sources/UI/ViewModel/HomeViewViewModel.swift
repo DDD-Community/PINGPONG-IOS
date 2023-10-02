@@ -19,7 +19,7 @@ public class HomeViewViewModel: ObservableObject {
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
     
     @Published var selectedTab: Tab = .home
-    @Published var customTabs: [CustomTab] = []
+//    @Published var customTabs: [CustomTab] = []
     
     //MARK: 모달 관련
     @Published var offsetY: CGFloat = 0
@@ -162,22 +162,22 @@ public class HomeViewViewModel: ObservableObject {
     }
     
     public init() {
-        setupCustomTabs(homePosts: homePosts)
+//        setupCustomTabs(homePosts: homePosts)
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
         
         
     }
     
-    private func setupCustomTabs(homePosts: [Post]) {
-        let homeView = HomeView(viewModel: self)
-        let exploreView = ExploreView(viewModel: self)
-        let arhiveView = ArchiveView(viewModel: self)
-        let customTabHome = CustomTab(name: "홈", imageName: "homeTap", tab: .home, view: AnyView(homeView), isOn: false)
-        let customTabSafari = CustomTab(name: "탐색", imageName: "exploreTap", tab: .explore, view: AnyView(exploreView), isOn: false)
-        let customTabArchive = CustomTab(name: "보관함", imageName: "archiveTap", tab: .archive, view: AnyView(arhiveView), isOn: false)
-        
-        customTabs = [customTabHome, customTabSafari, customTabArchive]
-    }
+//    private func setupCustomTabs(homePosts: [Post]) {
+//        let homeView = HomeView(viewModel: self)
+//        let exploreView = ExploreView(viewModel: self)
+//        let arhiveView = ArchiveView(viewModel: self)
+//        let customTabHome = CustomTab(name: "홈", imageName: "homeTap", tab: .home, view: AnyView(homeView), isOn: false)
+//        let customTabSafari = CustomTab(name: "탐색", imageName: "exploreTap", tab: .explore, view: AnyView(exploreView), isOn: false)
+//        let customTabArchive = CustomTab(name: "보관함", imageName: "archiveTap", tab: .archive, view: AnyView(arhiveView), isOn: false)
+//        
+//        customTabs = [customTabHome, customTabSafari, customTabArchive]
+//    }
     
     func generateImageNameAndText(hashtags: Hashtags) -> (String, String, String, String) {
         var flavorAndGenre: (String, String, String, String) = ("", "", "", "")
@@ -435,131 +435,8 @@ struct DetailViewInfo {
     let imageNameAndText: (String, String, String, String)
 }
 
-enum Tab {
-    case home
-    case explore
-    case archive
-}
-
-struct CustomTab {
-    var name: String
-    var imageName: String
-    var tab: Tab
-    var view: AnyView
-    var isOn: Bool
-}
-
-enum Flavor: String {
-    case sweet = "달콤한 맛"
-    case salty = "짭짤한 맛"
-    case spicy = "매콤한 맛"
-    case nutty = "고소한 맛"
-    case light = "담백한 맛"
-    
-    var ingredent: Ingredent {
-        switch self {
-        case .light:
-            return .corn
-        case .nutty:
-            return .cream
-        case .salty:
-            return .cheese
-        case .spicy:
-            return .jalapeno
-        case .sweet:
-            return .chocolate
-        }
-    }
-}
-
-enum Source: String {
-    case animation = "애니메이션"
-    case famous = "유명인"
-    case book = "책"
-    case drama = "드라마/영화"
-    case greatMan = "위인"
-    
-    var bread: Bread {
-        switch self {
-        case .greatMan:
-            return .breadViewBread
-        case .famous:
-            return .croissant
-        case .animation:
-            return .cookie
-        case .drama:
-            return .pancake
-        case .book:
-            return .ciabatta
-        }
-    }
-}
-
-enum Situation: String {
-    case condolence = "위로"
-    case motive = "동기부여"
-    case wisdom = "지혜"
-    
-    var topping: Topping {
-        switch self {
-        case .condolence:
-            return .appleJam
-        case .motive:
-            return .caramelSyrup
-        case .wisdom:
-            return .chestnut
-        }
-    }
-}
-
-struct Post: Identifiable, Equatable {
-    static func == (lhs: Post, rhs: Post) -> Bool {
-        return lhs.title == rhs.title
-    }
-    
-    var id = UUID().uuidString
-    var stageNum : Int
-    var hashtags: Hashtags
-    var image: String
-    var title: String
-    var sources: String
-    var isBookrmark: Bool
-}
-
-struct Hashtags {
-    let flavor: Flavor
-    let source: Source
-    let situation: Situation
-}
-
-enum Bread: String {
-    case breadViewBread = "carouselgreatmanImage"
-    case croissant = "carouselceleImage"
-    case pancake = "carouseldramaImage"
-    case cookie = "carouselanimeImage"
-    case ciabatta = "carouselbookImage"
-}
-
-enum Ingredent: String {
-    case chocolate = "carouselsweetImage"
-    case cheese = "carouselsaltyImage"
-    case jalapeno = "carouselspicyImage"
-    case cream = "carouselnuttyImage"
-    case corn = "carousellightImage"
-}
-
-enum Topping: String {
-    case appleJam = "carouselcondolenceImage"
-    case caramelSyrup = "carouselmotiveImage"
-    case chestnut = "carouselwisdomImage"
-}
 
 
-enum SituationFlavorSourceTitle: String {
-    case situation = "상황"
-    case flavor = "맛"
-    case source = "출처"
-}
 
 
 protocol SituationFlavorSourceTitleDelegate {

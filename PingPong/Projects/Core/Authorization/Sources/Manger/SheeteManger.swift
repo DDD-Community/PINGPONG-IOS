@@ -23,14 +23,14 @@ public class SheetManager: ObservableObject {
     
     @Published private(set) var action: Action = .na
     
-    func present(with config: Config) {
+    public func present(with config: Config) {
         guard !action.isPresented else { return }
         if !self.isPopup {
             self.action = .present(info: config)
         }
     }
     
-    func dismiss() {
+    public func dismiss() {
         self.action = .dismiss
     }
 }

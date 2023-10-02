@@ -25,7 +25,8 @@ let project = Project.makeAppModule(
         .Projcet.DesignSystem,
         .Projcet.Service,
         .Projcet.Model,
-        .Projcet.Profile
+        .Projcet.Authorization
+            
         
             
     ],

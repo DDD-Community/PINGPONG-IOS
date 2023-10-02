@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Authorization
 
 struct ModalViewModifier: ViewModifier {
     
