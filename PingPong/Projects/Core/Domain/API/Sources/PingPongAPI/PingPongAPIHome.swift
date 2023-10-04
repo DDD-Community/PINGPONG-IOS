@@ -12,7 +12,6 @@ public enum PingPongAPIHome {
     public static let homeRandomQuote = String("home/random-quote")
     public static let homeBakeQuote = String("home/bake-quote")
     public static let homeLike = String("home/like")
-    public static let homeScarp = String("home/like")
-    public static let userPref = String("mypage/user-pref/")
+    public static let homeScarp = String("home/scrap")
     
 }

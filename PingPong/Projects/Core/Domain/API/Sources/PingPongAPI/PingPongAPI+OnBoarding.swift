@@ -9,6 +9,6 @@
 import Foundation
 
 public enum PingPongAPIOnBoarding {
-    public static let userPrefURL = String("onboard/user-pref/1")
+    public static let userPrefURL = String("onboard/user-pref/")
     public static let searchUserPrefURL = String("onboard/search-user-pref-codes")
 }
