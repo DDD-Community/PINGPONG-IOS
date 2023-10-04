@@ -24,7 +24,9 @@ let project = Project.makeAppModule(
         .SPM.Moya,
         .SPM.CombineMoya,
         .Projcet.Authorization,
-        .Projcet.Common
+        .Projcet.Common,
+        .Projcet.Bake
+        
             
         
         

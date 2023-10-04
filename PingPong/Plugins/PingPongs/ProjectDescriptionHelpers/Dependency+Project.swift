@@ -29,11 +29,13 @@ public extension TargetDependency.Projcet {
     
     //MARK: -  Feature에서 각 씬 모듈(Core 안에는 다들어가 있습니다.)
     static let Core = TargetDependency.project(target: "Core", path: .relativeToRoot("Projects/Feature/Core"))
+    static let Bake = TargetDependency.project(target: "Bake", path: .relativeToRoot("Projects/Feature/Bake"))
     static let OnBoarding = TargetDependency.project(target: "OnBoarding", path: .relativeToRoot("Projects/Feature/OnBoarding"))
     static let Home = TargetDependency.project(target: "Home", path: .relativeToRoot("Projects/Feature/Home"))
     static let Archive = TargetDependency.project(target: "Archive", path: .relativeToRoot("Projects/Feature/Archive"))
     static let Search = TargetDependency.project(target: "Search", path: .relativeToRoot("Projects/Feature/Search"))
     static let Auth = TargetDependency.project(target: "Auth", path: .relativeToRoot("Projects/Feature/Auth"))
+   
     
      
    
