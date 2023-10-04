@@ -26,7 +26,8 @@ let project = Project.makeAppModule(
         .SPM.CombineMoya,
         .SPM.FirebaseAuth,
         .Projcet.Authorization,
-        .Projcet.Core
+        .Projcet.Core,
+        .Projcet.Common
 //        .SPM.GoogleSignInSwift
         
     ],

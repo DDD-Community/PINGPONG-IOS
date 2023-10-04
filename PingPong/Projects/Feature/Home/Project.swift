@@ -26,6 +26,7 @@ let project = Project.makeAppModule(
         .Projcet.Authorization,
         .SPM.Moya,
         .SPM.CombineMoya,
+        .Projcet.Common
             
         
             

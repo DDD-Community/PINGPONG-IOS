@@ -22,7 +22,11 @@ let project = Project.makeAppModule(
         .Projcet.Service,
         .Projcet.Model,
         .SPM.Moya,
-        .SPM.CombineMoya
+        .SPM.CombineMoya,
+        .Projcet.Authorization,
+        .Projcet.Common
+            
+        
         
     ],
     sources: ["Sources/**"]
