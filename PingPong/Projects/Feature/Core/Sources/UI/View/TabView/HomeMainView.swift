@@ -5,6 +5,7 @@
 //  Created by Byeon jinha on 2023/06/01.
 //
 
+import Common
 import SwiftUI
 import DesignSystem
 import PopupView
@@ -15,13 +16,13 @@ import Model
 public struct HomeMainView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
-    @StateObject var appState: HomeAppState = HomeAppState()
+    @StateObject var appState: AppState = AppState()
     @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool
     
-    @StateObject var viewModel: CoreViewModel
+    @StateObject var viewModel: CommonViewViewModel
     
-    public init(viewModel: CoreViewModel, isFistUserPOPUP: Binding<Bool>) {
+    public init(viewModel: CommonViewViewModel, isFistUserPOPUP: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._isFistUserPOPUP = isFistUserPOPUP
     }
@@ -48,20 +49,20 @@ public struct HomeMainView: View {
                         
                     }
                 }
-                .popup(isPresented: $isFistUserPOPUP) {
-                    CustomPOPUP(image: .empty, title: "좌우를 넘기며", title1: "명언을 확인해보세요", subTitle: "", useGif: true, confirmAction: {
-                        isFistUserPOPUP = false
-                        viewModel.isFirstUserPOPUP = true
-                    })
-                } customize: { popup in
-                    popup
-                        .type(.default)
-                        .position(.bottom)
-                        .animation(.easeIn)
-                        .closeOnTap(true)
-                        .closeOnTapOutside(true)
-                        .backgroundColor(.basicBlackDimmed)
-                }
+//                .popup(isPresented: $isFistUserPOPUP) {
+//                    CustomPOPUP(image: .empty, title: "좌우를 넘기며", title1: "명언을 확인해보세요", subTitle: "", useGif: true, confirmAction: {
+//                        isFistUserPOPUP = false
+//                        viewModel.isFirstUserPOPUP = true
+//                    })
+//                } customize: { popup in
+//                    popup
+//                        .type(.default)
+//                        .position(.bottom)
+//                        .animation(.easeIn)
+//                        .closeOnTap(true)
+//                        .closeOnTapOutside(true)
+//                        .backgroundColor(.basicBlackDimmed)
+//                }
                 
             }
         .ignoresSafeArea()
@@ -127,8 +128,3 @@ public struct HomeMainView: View {
     
 }
 
-extension View {
-    func modal(sheetManager: SheetManager, viewModel: HomeViewViewModel) -> some View {
-        self.modifier(ModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
-    }
-}

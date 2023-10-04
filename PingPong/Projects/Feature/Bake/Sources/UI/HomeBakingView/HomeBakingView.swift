@@ -6,18 +6,20 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
+import DesignSystem
 import SDWebImageSwiftUI
 import SwiftUI
-import DesignSystem
-
 
 public struct HomeBakingView: View {
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject private var appState: AppState
+    @StateObject private var viewModel: CommonViewViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var backAction: () -> Void
     
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void) {
+        self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
     }
@@ -37,8 +39,8 @@ public struct HomeBakingView: View {
                     .padding(.bottom, 30)
             }
             .navigationBarHidden(true)
-            .navigationDestination(isPresented: $viewModel.isStartBake) {
-                ChoiceBreadView(viewModel: self.viewModel, backAction: {
+            .navigationDestination(isPresented: $appState.isStartBake) {
+                ChoiceBreadView(viewModel: self.viewModel, appState: self.appState, backAction: {
                 backAction()
                     
                 })
@@ -91,7 +93,7 @@ public struct HomeBakingView: View {
                     Text("시작하기")
                         .foregroundColor(.basicWhite)
                         .onTapGesture {
-                            viewModel.isStartBake.toggle()
+                            appState.isStartBake.toggle()
                         }
                 }
             RoundedRectangle(cornerRadius: 10)

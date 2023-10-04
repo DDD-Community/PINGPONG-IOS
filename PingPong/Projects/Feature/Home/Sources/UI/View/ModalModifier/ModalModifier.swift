@@ -6,17 +6,20 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
-import SwiftUI
 import Authorization
+import Common
+import DesignSystem
+import SwiftUI
 
 struct ModalViewModifier: ViewModifier {
+    let shareManager = SharedManger.shared
     
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject private var viewModel: CommonViewViewModel
     @ObservedObject var sheetManager: SheetManager
     
     var backAction: () -> Void
     
-    public init(viewModel: HomeViewViewModel, sheetManager: SheetManager) {
+    public init(viewModel: CommonViewViewModel, sheetManager: SheetManager) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._sheetManager = ObservedObject(wrappedValue: sheetManager)
         self.backAction = sheetManager.dismiss
@@ -42,7 +45,7 @@ struct ModalViewModifier: ViewModifier {
 }
 
 extension View {
-    func modal(with sheetManager: SheetManager, viewModel: HomeViewViewModel) -> some View {
+    func modal(with sheetManager: SheetManager, viewModel: CommonViewViewModel) -> some View {
         self.modifier(ModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
     }
 }

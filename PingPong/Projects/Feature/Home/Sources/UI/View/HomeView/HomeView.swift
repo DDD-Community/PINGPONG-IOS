@@ -7,6 +7,8 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Bake
+import Common
 import DesignSystem
 import SwiftUI
 import Model
@@ -14,11 +16,11 @@ import Model
 public struct HomeView: View {
     
     @State var currentIndex: Int = 0
-    @StateObject private var viewModel: HomeViewViewModel
-    @StateObject var appState: HomeAppState = HomeAppState()
+    @StateObject private var viewModel: CommonViewViewModel
+    @StateObject var appState: AppState = AppState()
 
     @State var isOn: [Bool] = []
-    public init(viewModel: HomeViewViewModel) {
+    public init(viewModel: CommonViewViewModel) {
         self._isOn = State(initialValue: Array(repeating: false, count: viewModel.homePosts.count))
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -230,7 +232,7 @@ public struct HomeView: View {
                 }
             }
             .navigationDestination(isPresented: $appState.goToBackingView) {
-                HomeBakingView(viewModel: viewModel, backAction: {
+                HomeBakingView(viewModel: viewModel, appState: appState, backAction: {
                     appState.goToBackingView = false
                 })
             }
@@ -268,16 +270,5 @@ func shareContent(content: UIImage) {
     UIApplication.shared.windows.first?.rootViewController?.present(avc, animated: true, completion: nil)
 }
 
-extension View {
-    func asImage() -> UIImage {
-        let controller = UIHostingController(rootView: self)
-        let view = controller.view
-        let size = controller.sizeThatFits(in: UIScreen.main.bounds.size)
-        view?.bounds = CGRect(origin: .zero, size: size)
-        let renderer = UIGraphicsImageRenderer(size: size)
-        return renderer.image { _ in
-            view?.drawHierarchy(in: view!.bounds, afterScreenUpdates: true)
-        }
-    }
-}
+
 

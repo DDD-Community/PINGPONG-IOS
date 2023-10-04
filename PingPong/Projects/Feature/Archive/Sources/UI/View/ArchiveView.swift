@@ -6,6 +6,7 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Bake
 import Common
 import DesignSystem
 import Model
@@ -136,7 +137,7 @@ public struct ArchiveView: View {
             }
         }
         .navigationDestination(isPresented: $appState.goToBackingView) {
-            HomeBakingView(viewModel: viewModel, backAction: {
+            HomeBakingView(viewModel: viewModel, appState: appState, backAction: {
                 appState.goToBackingView = false
             })
         }

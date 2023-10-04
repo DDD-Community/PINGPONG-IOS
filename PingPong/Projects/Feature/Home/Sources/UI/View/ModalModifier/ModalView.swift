@@ -6,6 +6,7 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
 import DesignSystem
 import Foundation
 import Model
@@ -16,13 +17,13 @@ public struct ModalView: View {
     let config: SheetManager.Config
     let isPopup: Bool
     
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject private var viewModel: CommonViewViewModel
     
     let didClose: () -> Void
     
     let height:CGFloat = UIScreen.screenHeight * 0.7
     
-    public init(viewModel: HomeViewViewModel, config: SheetManager.Config, isPopup: Bool, didClose: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, didClose: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.config = config
         self.isPopup = isPopup

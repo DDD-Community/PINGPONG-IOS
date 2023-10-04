@@ -7,6 +7,7 @@
 //
 
 import Common
+import DesignSystem
 import SwiftUI
 
 struct FamousSayingBakeCardView: View {
@@ -35,7 +36,7 @@ struct FamousSayingBakeCardView: View {
                 var post = viewModel.generateCardByCondition()
                 let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
                 let size = UIScreen.main.bounds.size
-                let colorSet = searchCharacterColor(flavor: post.hashtags.flavor)
+                let colorSet = viewModel.searchCharacterColor(flavor: post.hashtags.flavor)
                 
                 let shareView =
                 VStack {
@@ -197,7 +198,7 @@ struct FamousSayingBakeCardView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 16))
                                             .foregroundColor(colorSet.iconBackground)
                                             .onTapGesture {
-                                                shareContent(content: shareView.asImage())
+                                                SharedManger.shared.shareContent(content: shareView.asImage())
                                             }
                                         Circle()
                                             .frame(width: 44)

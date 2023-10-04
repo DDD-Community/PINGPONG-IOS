@@ -11,12 +11,13 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct FamousSayingBakeView: View {
-    
+    @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     var backAction: () -> Void
     var rebakeAction: () -> Void
     
-    public init(viewModel: CommonViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+        self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
         self.rebakeAction = rebakeAction
@@ -35,12 +36,12 @@ struct FamousSayingBakeView: View {
                 .foregroundColor(.basicGray8)
         }
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.isCompleteBake) {
+        .navigationDestination(isPresented: $appState.isCompleteBake) {
             FamousSayingBakeCardView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                self.viewModel.isCompleteBake.toggle()
+                appState.isCompleteBake.toggle()
             }
         }
     }

@@ -27,6 +27,17 @@ public extension View {
         
         return safeArea
     }
+    
+    public func asImage() -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        let view = controller.view
+        let size = controller.sizeThatFits(in: UIScreen.main.bounds.size)
+        view?.bounds = CGRect(origin: .zero, size: size)
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { _ in
+            view?.drawHierarchy(in: view!.bounds, afterScreenUpdates: true)
+        }
+    }
 }
 
 

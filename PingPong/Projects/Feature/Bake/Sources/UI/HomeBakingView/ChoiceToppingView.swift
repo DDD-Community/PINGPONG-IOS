@@ -12,12 +12,14 @@ import Model
 import SwiftUI
 
 public struct ChoiceToppingView: View {
+    @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     
     var backAction: () -> Void
     var rebakeAction: () -> Void
     
-    public init(viewModel: CommonViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+        self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
         self.rebakeAction = rebakeAction
@@ -54,8 +56,8 @@ public struct ChoiceToppingView: View {
         }
         
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.isChoicedTopping) {
-            FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
+        .navigationDestination(isPresented: $appState.isChoicedTopping) {
+            FamousSayingBakeView(viewModel: self.viewModel, appState: appState, backAction: backAction, rebakeAction: rebakeAction)
         }
     }
     
@@ -71,7 +73,7 @@ public struct ChoiceToppingView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            NavigationLink(destination: FamousSayingBakeView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)) {
+            NavigationLink(destination: FamousSayingBakeView(viewModel: self.viewModel, appState: appState, backAction: backAction, rebakeAction: rebakeAction)) {
                 Text("건너뛰기")
                     .pretendardFont(family: .Regular, size: 14)
                     .foregroundColor(.basicGray6)
@@ -142,7 +144,7 @@ public struct ChoiceToppingView: View {
                         .foregroundColor(viewModel.tmpChoicedTopping == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isChoicedTopping.toggle()
+                            appState.isChoicedTopping.toggle()
                             viewModel.choicedTopping = viewModel.tmpChoicedTopping
                         }
                 }
