@@ -19,8 +19,8 @@ public enum OnBoardingService {
 extension OnBoardingService: BaseTargetType {
     public var path: String {
         switch self {
-        case .userPreferenceRegister:
-            return PingPongAPIOnBoarding.userPrefURL
+        case .userPreferenceRegister(let userId):
+            return "\(PingPongAPIOnBoarding.userPrefURL)\(userId)"
         case .searchUserPreferenceRegister:
             return PingPongAPIOnBoarding.searchUserPrefURL
         }
@@ -44,6 +44,7 @@ extension OnBoardingService: BaseTargetType {
                 "sources": sources
             ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
+            
         case .searchUserPreferenceRegister:
             let parameters : [String : Any] = [:]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)

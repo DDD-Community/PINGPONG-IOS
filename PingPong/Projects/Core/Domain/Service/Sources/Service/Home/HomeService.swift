@@ -15,7 +15,6 @@ public enum HomeService  {
     case homeBakeQuote(userId: String, flavor: String, source: String, mood: String)
     case homeLike(userId: String, quoteId: Int)
     case homeQuoteScrap(userId: String, quoteId: Int)
-    case userPref(userId: String)
 }
 
 
@@ -30,8 +29,6 @@ extension HomeService: BaseTargetType {
             return PingPongAPIHome.homeLike
         case .homeQuoteScrap:
             return PingPongAPIHome.homeScarp
-        case .userPref(let userId):
-            return "\(PingPongAPIHome.userPref)\(userId)"
             
         }
     }
@@ -46,8 +43,6 @@ extension HomeService: BaseTargetType {
             return .post
         case .homeQuoteScrap:
             return .post
-        case .userPref:
-            return .get
         }
     }
     
@@ -86,13 +81,6 @@ extension HomeService: BaseTargetType {
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
-        case .userPref(let userId):
-            let parameters : [String : Any] = [
-                "userId": userId
-                
-               
-            ]
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         }
     }
 }
