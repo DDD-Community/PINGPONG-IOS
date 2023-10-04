@@ -6,13 +6,15 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
+import DesignSystem
 import SwiftUI
 
 struct FamousSayingDetailView: View {
+    let shareManager = SharedManger.shared
+    @StateObject private var viewModel: CommonViewViewModel
     
-    @StateObject private var viewModel: HomeViewViewModel
-    
-    public init(viewModel: HomeViewViewModel) {
+    public init(viewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -164,7 +166,7 @@ struct FamousSayingDetailView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 16))
                                             .foregroundColor(viewModel.detailViewInfo.colorSet.iconBackground)
                                             .onTapGesture {
-                                                shareContent(content: shareView.asImage())
+                                                shareManager.shareContent(content: shareView.asImage())
                                             }
                                         Circle()
                                             .frame(width: 44)

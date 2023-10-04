@@ -6,18 +6,20 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
 import Foundation
 import SwiftUI
 import DesignSystem
 import Authorization
 import Home
+import Core
 
 public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var sheetManger: SheetManager = SheetManager()
-    @StateObject var homeViewModel: HomeViewViewModel =  HomeViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -43,7 +45,7 @@ public struct CompletOnBoardingView: View {
         }
         
         .navigationDestination(isPresented: $viewModel.inviteMainView, destination: {
-            HomeMainView(viewModel: self.homeViewModel, isFistUserPOPUP: $homeViewModel.isFirstUserPOPUP)
+            HomeMainView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                 .navigationBarHidden(true)
                 .environmentObject(sheetManger)
         })

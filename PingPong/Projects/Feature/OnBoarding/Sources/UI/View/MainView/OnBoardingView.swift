@@ -5,19 +5,21 @@
 //  Created by Byeon jinha on 2023/06/01.
 //
 
+import Common
 import SwiftUI
 import DesignSystem
 import Authorization
 import AuthenticationServices
 import PopupView
 import Home
+import Core
 //import GoogleSignInSwift
 
 public struct OnBoardingView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
-    @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
     public init() {
@@ -42,7 +44,7 @@ public struct OnBoardingView: View {
             }
             
             .navigationDestination(isPresented: $appState.goToMainHomeView) {
-                HomeMainView(viewModel: self.homeViewModel, isFistUserPOPUP: $viewModel.isFirstUserPOPUP)
+                HomeMainView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                     .environmentObject(sheetManager)
                     .navigationBarHidden(true)
             }

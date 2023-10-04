@@ -6,15 +6,19 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
-import SwiftUI
+import Bake
+import Common
 import DesignSystem
 import Model
+import SwiftUI
 
 public struct ChoiceBreadView: View {
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject private var appState: AppState
+    @StateObject private var viewModel: CommonViewViewModel
     var backAction: () -> Void
     
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void) {
+        self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
     }
@@ -51,11 +55,12 @@ public struct ChoiceBreadView: View {
         }
         
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.isChoicedBread) {
+        .navigationDestination(isPresented: $appState.isChoicedBread) {
             ChoiceIngredentView(viewModel: viewModel,
+                                appState: appState,
                                 backAction: backAction,
                                 rebakeAction: {
-                viewModel.isChoicedBread = false
+                appState.isChoicedBread = false
             })
         }
     }
@@ -138,7 +143,7 @@ public struct ChoiceBreadView: View {
                         .foregroundColor(viewModel.tmpChoicedBread == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isChoicedBread.toggle()
+                            appState.isChoicedBread.toggle()
                             viewModel.choicedBread = viewModel.tmpChoicedBread
                         }
                 }

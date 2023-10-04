@@ -16,19 +16,21 @@ import Moya
 import Service
 
 public class CommonViewViewModel: ObservableObject {
+    
     public init() {
 //        setupCustomTabs(homePosts: homePosts)
-//        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
+        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
 
     }
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
+
+    @Published public var selectedTab: Tab = .home
+    @Published public var customTabs: [CustomTab] = []
     
-    @Published var selectedTab: Tab = .home
-//    @Published var customTabs: [CustomTab] = []
     
     //MARK: 모달 관련
-    @Published var offsetY: CGFloat = 0
-    func generateIsButtonAble(situationFlavorSourceTitle: SituationFlavorSourceTitle) -> Bool {
+    @Published public var offsetY: CGFloat = 0
+    public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {
         
         let situationFlavorSourceArray = searchViewButtonInfoArray.filter{ $0.title.rawValue == situationFlavorSourceTitle.rawValue }
         let count = situationFlavorSourceArray.filter { $0.options[0].isCheck }.count
@@ -36,12 +38,14 @@ public class CommonViewViewModel: ObservableObject {
         return count > 0
     }
     
+   
+    
     //MARK: -  랜덤  명언 조회 api
     @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
-    var homeRandomQuoteCancellable: AnyCancellable?
+    public var homeRandomQuoteCancellable: AnyCancellable?
     
     @Published public var homeUserPrefModel: UserPrefModel?
-    var homeUserPrefCancellable: AnyCancellable?
+    public var homeUserPrefCancellable: AnyCancellable?
     
     @Published public var homeLikeScrapModel: BaseModel?
     var homeLikeCancellable: AnyCancellable?
@@ -51,7 +55,7 @@ public class CommonViewViewModel: ObservableObject {
     var seachUserFlavopCancellable: AnyCancellable?
     
     @Published public var isShowDetailView:Bool = false
-    @Published var detailViewInfo: DetailViewInfo = DetailViewInfo(colorSet: CharacterColor(icon: .basicBlack, iconBackground: .basicBlack, background: .basicBlack), post: Post(stageNum: 1, hashtags: .init(flavor: .light, source: .animation, situation: .condolence), image: "", title: "", sources: "", isBookrmark: false), imageNameAndText: ("","","",""))
+    @Published public var detailViewInfo: DetailViewInfo = DetailViewInfo(colorSet: CharacterColor(icon: .basicBlack, iconBackground: .basicBlack, background: .basicBlack), post: Post(stageNum: 1, hashtags: .init(flavor: .light, source: .animation, situation: .condolence), image: "", title: "", sources: "", isBookrmark: false), imageNameAndText: ("","","",""))
     
     //MARK: HomeBakeing 관련
     @Published public var exploreViewSearchBarText: String = ""
@@ -130,7 +134,7 @@ public class CommonViewViewModel: ObservableObject {
         case books = "책"
     }
     
-    @Published var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
+    @Published public var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
         SearchViewButtonInfo(title: .situation, options:  [
             SearchOption(val: "동기부여", iconImageName: "", detail: "도전정신과 의지를 북돋아줄 명언"),
             SearchOption(val: "위로", iconImageName: "", detail: "지친 일상을 따스하게 응원해줄 명언"),
@@ -236,7 +240,7 @@ public class CommonViewViewModel: ObservableObject {
         self.detailViewInfo = DetailViewInfo(colorSet: colorSet, post: post, imageNameAndText: imageNameAndText)
     }
     
-    func searchPostIndex(post: Post) -> Int {
+    public func searchPostIndex(post: Post) -> Int {
         for index in homePosts.indices {
             if homePosts[index] == post {
                 return index
@@ -361,34 +365,34 @@ public class CommonViewViewModel: ObservableObject {
         }
     
     
-        public func userPrefRequest(userID: String) {
-            if let cancellable = homeUserPrefCancellable {
-                cancellable.cancel()
-            }
-    
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeUserPrefCancellable = provider.requestWithProgressPublisher(.userPref(userId: userID))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: UserPrefModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
-                        self?.userPrefToViewModel(model)
-                        print("유저 취향 조회", model)
-                    } else {
-                        self?.userPrefToViewModel(model)
-                        print("유저 취향 조회", model)
-                    }
-                })
-    
-        }
+//        public func userPrefRequest(userID: String) {
+//            if let cancellable = homeUserPrefCancellable {
+//                cancellable.cancel()
+//            }
+//    
+//            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+//            homeUserPrefCancellable = provider.requestWithProgressPublisher(.userPref(userId: userID))
+//                .compactMap { $0.response?.data }
+//                .receive(on: DispatchQueue.main)
+//                .decode(type: UserPrefModel.self, decoder: JSONDecoder())
+//                .sink(receiveCompletion: { [weak self] result in
+//                    switch result {
+//                    case .finished:
+//                        break
+//                    case .failure(let error):
+//                        print("네트워크에러", error.localizedDescription)
+//                    }
+//                }, receiveValue: { [weak self] model in
+//                    if model.status == NetworkCode.sucess.status {
+//                        self?.userPrefToViewModel(model)
+//                        print("유저 취향 조회", model)
+//                    } else {
+//                        self?.userPrefToViewModel(model)
+//                        print("유저 취향 조회", model)
+//                    }
+//                })
+//    
+//        }
     
         public func userSearchUserCommCodeToViewModel(_ list: SearchUserPrefCodeModel) {
             self.seachUserFlavorCodeModel = list
@@ -432,8 +436,8 @@ public extension CommonViewViewModel {
 }
 
 
-struct DetailViewInfo {
-    let colorSet: CharacterColor
-    var post: Post
-    let imageNameAndText: (String, String, String, String)
+public struct DetailViewInfo {
+    public let colorSet: CharacterColor
+    public var post: Post
+    public let imageNameAndText: (String, String, String, String)
 }

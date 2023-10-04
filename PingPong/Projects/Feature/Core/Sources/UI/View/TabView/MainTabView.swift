@@ -5,12 +5,14 @@
 //  Created by Byeon jinha on 2023/07/02.
 //
 
+import Common
+import Model
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject var viewModel: HomeViewViewModel
+    @StateObject var viewModel: CommonViewViewModel
     
-    init(viewModel: HomeViewViewModel, selectedTab: Binding<Tab>) {
+    init(viewModel: CommonViewViewModel, selectedTab: Binding<Tab>) {
         @State var selectedIdx: Int = 0
         self._viewModel = StateObject(wrappedValue: viewModel)
     }

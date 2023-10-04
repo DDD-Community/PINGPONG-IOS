@@ -12,12 +12,14 @@ import Model
 import SwiftUI
 
 public struct ChoiceIngredentView: View {
+    @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     
     var backAction: () -> Void
     var rebakeAction: () -> Void
     
-    public init(viewModel: CommonViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel,appState: AppState, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+        self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
         self.rebakeAction = rebakeAction
@@ -56,8 +58,8 @@ public struct ChoiceIngredentView: View {
         }
         
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.isChoicedIngredent) {
-            ChoiceToppingView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
+        .navigationDestination(isPresented: $appState.isChoicedIngredent) {
+            ChoiceToppingView(viewModel: self.viewModel, appState: appState, backAction: backAction, rebakeAction: rebakeAction)
         }
     }
     
@@ -73,7 +75,7 @@ public struct ChoiceIngredentView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             Spacer()
-            NavigationLink(destination: ChoiceToppingView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)) {
+            NavigationLink(destination: ChoiceToppingView(viewModel: self.viewModel, appState: appState, backAction: backAction, rebakeAction: rebakeAction)) {
                 Text("건너뛰기")
                     .pretendardFont(family: .Regular, size: 14)
                     .foregroundColor(.basicGray6)
@@ -144,7 +146,7 @@ public struct ChoiceIngredentView: View {
                         .foregroundColor(viewModel.tmpChoicedIngredent == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isChoicedIngredent.toggle()
+                            appState.isChoicedIngredent.toggle()
                             viewModel.choicedIngredent = viewModel.tmpChoicedIngredent
                         }
                 }
