@@ -1,5 +1,5 @@
 //
-//  ArchiveViewModel.swift
+//  ArchiveViewViewModel.swift
 //  Archive
 //
 //  Created by Byeon jinha on 2023/10/04.
@@ -8,6 +8,9 @@
 
 import Foundation
 
-public class ArchiveViewModel: ObservableObject {
+public class ArchiveViewViewModel: ObservableObject {
+    
     public init() { }
+    
+    @Published var isAscendingOrder = true
 }

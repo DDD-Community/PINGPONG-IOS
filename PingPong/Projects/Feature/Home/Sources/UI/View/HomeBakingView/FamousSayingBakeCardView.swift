@@ -6,18 +6,19 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
 import SwiftUI
 
 struct FamousSayingBakeCardView: View {
     
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject private var viewModel: CommonViewViewModel
     @Environment(\.presentationMode) var presentationMode
     @StateObject var sheetManager: SheetManager = SheetManager()
     
     var backAction: () -> Void
     var rebakeAction: () -> Void
     
-    public init(viewModel: HomeViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
         self.rebakeAction = rebakeAction

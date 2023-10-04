@@ -6,15 +6,19 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
 import DesignSystem
+import Model
 import SwiftUI
-import Home
+import Authorization
 
 public struct ArchiveView: View {
-    @StateObject private var viewModel: HomeViewViewModel
-    @StateObject var appState: HomeAppState = HomeAppState()
     
-    public init(viewModel: HomeViewViewModel) {
+    @StateObject var viewModel: CommonViewViewModel
+    @StateObject var archiveViewViewModel: ArchiveViewViewModel = ArchiveViewViewModel()
+    @StateObject var appState: AppState = AppState()
+    
+    public init(viewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -52,7 +56,7 @@ public struct ArchiveView: View {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
                         ForEach(group) { item in
-                            let colorSet = searchCharacterColor(flavor: Flavor(rawValue: item.hashtags.flavor.rawValue) ?? .light)
+                            let colorSet = viewModel.searchCharacterColor(flavor: Flavor(rawValue: item.hashtags.flavor.rawValue) ?? .light)
                             VStack {
                                 HStack {
                                     let imageSet = viewModel.generateImageNameAndText(hashtags: item.hashtags)
@@ -154,12 +158,12 @@ public struct ArchiveView: View {
             .foregroundColor(.primaryOrangeDark)
             .pretendardFont(family: .Medium, size: 14)
             .onTapGesture {
-                if viewModel.isAscendingOrder {
+                if archiveViewViewModel.isAscendingOrder {
                     viewModel.homePosts.sort { $0.title < $1.title }
                 } else {
                     viewModel.homePosts.sort { $0.title > $1.title }
                 }
-                viewModel.isAscendingOrder.toggle()
+                archiveViewViewModel.isAscendingOrder.toggle()
             }
         }
         .frame(width: UIScreen.screenWidth - 40, height: 38)

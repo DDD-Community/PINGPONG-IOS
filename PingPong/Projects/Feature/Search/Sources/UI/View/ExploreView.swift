@@ -10,15 +10,14 @@ import DesignSystem
 import Model
 import SwiftUI
 import Model
-import Home
-import Authorization
+import Common
 
 
 public struct ExploreView: View {
     // 셀에 표시할 데이터 배열
-    @StateObject private var viewModel: HomeViewViewModel
+    @StateObject private var viewModel: CommonViewViewModel
     
-    public init(viewModel: HomeViewViewModel) {
+    public init(viewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -200,21 +199,21 @@ public struct ExploreView: View {
         RoundedRectangle(cornerRadius: 8)
             .foregroundColor(.primaryOrangeBright)
             .frame(width: UIScreen.screenWidth - 40, height: 48)
-            .overlay(
-//                HStack{
-//                    TextField("", text: $viewModel.exploreViewSearchBarText)
-//                        .pretendardFont(family: .SemiBold, size: 18)
-//                        .padding(.leading, 15)
-//                        
-//                    Image(systemName: "magnifyingglass")
-//                        .resizable()
-//                        .frame(width: 17, height: 17)
-//                        .padding(15)
-//                        .onTapGesture {
-//                            viewModel.filterPostsByText()
-//                        }
-//                }
-            )
+//            .overlay(
+////                HStack{
+////                    TextField("", text: $viewModel.exploreViewSearchBarText)
+////                        .pretendardFont(family: .SemiBold, size: 18)
+////                        .padding(.leading, 15)
+////                        
+////                    Image(systemName: "magnifyingglass")
+////                        .resizable()
+////                        .frame(width: 17, height: 17)
+////                        .padding(15)
+////                        .onTapGesture {
+////                            viewModel.filterPostsByText()
+////                        }
+////                }
+//            )
     }
     
     @ViewBuilder
