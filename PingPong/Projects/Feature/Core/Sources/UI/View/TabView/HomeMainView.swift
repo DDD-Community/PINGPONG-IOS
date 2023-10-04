@@ -8,7 +8,9 @@
 import SwiftUI
 import DesignSystem
 import PopupView
-import Profile
+import Archive
+import Authorization
+import Model
 
 public struct HomeMainView: View {
     @EnvironmentObject var sheetManager: SheetManager
@@ -17,9 +19,9 @@ public struct HomeMainView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool
     
-    @StateObject var viewModel: HomeViewViewModel
+    @StateObject var viewModel: CoreViewModel
     
-    public init(viewModel: HomeViewViewModel, isFistUserPOPUP: Binding<Bool>) {
+    public init(viewModel: CoreViewModel, isFistUserPOPUP: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._isFistUserPOPUP = isFistUserPOPUP
     }
@@ -61,12 +63,6 @@ public struct HomeMainView: View {
                         .backgroundColor(.basicBlackDimmed)
                 }
                 
-                .fullScreenCover(isPresented: $appState.goToProfileSettingView) {
-                    ProfileView {
-                        appState.goToProfileSettingView = false
-                    }
-                    .transition(.slide)
-                }
             }
         .ignoresSafeArea()
     }

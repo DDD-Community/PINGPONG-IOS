@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
+import Model
 
 public class SheetManager: ObservableObject {
     public init() { }
     public typealias Config = Action.Info
-    @Published var isPopup: Bool = false
+    @Published public var isPopup: Bool = false
     public enum Action {
         public struct Info {
             var idx: Int
@@ -21,7 +22,7 @@ public class SheetManager: ObservableObject {
         case dismiss
     }
     
-    @Published private(set) var action: Action = .na
+    @Published public private(set) var action: Action = .na
     
     public func present(with config: Config) {
         guard !action.isPresented else { return }

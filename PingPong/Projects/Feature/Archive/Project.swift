@@ -17,16 +17,13 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
-        .SPM.Kingfisher,
-        .SPM.PopupView,
-        .SPM.ACarousel,
         .SPM.PopupView,
         .Projcet.DesignSystem,
-        .SPM.Inject,
-        .Projcet.Auth,
         .Projcet.Service,
         .Projcet.Model,
-        .Projcet.Authorization
+        .SPM.Moya,
+        .SPM.CombineMoya
+        
     ],
     sources: ["Sources/**"]
 )

@@ -8,10 +8,14 @@
 import SwiftUI
 import DesignSystem
 
-struct StatusBarView: View {
-    var goProfileSettingView: () -> Void = {}
+public struct StatusBarView: View {
+    public var goProfileSettingView: () -> Void = {}
     
-    var body: some View {
+    public init(goProfileSettingView: @escaping () -> Void) {
+        self.goProfileSettingView = goProfileSettingView
+    }
+    
+    public var body: some View {
         HStack{
             Image(assetName: "mainHomeLogo")
                 .resizable()

@@ -10,6 +10,7 @@ import DesignSystem
 import Foundation
 import Model
 import SwiftUI
+import Authorization
 
 public struct ModalView: View {
     let config: SheetManager.Config

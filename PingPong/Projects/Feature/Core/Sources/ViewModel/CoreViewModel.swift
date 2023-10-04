@@ -15,10 +15,13 @@ import Model
 
 public class CoreViewModel: ObservableObject {
     
+    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
     var homeViewModel: HomeViewViewModel = HomeViewViewModel()
+    @Published var selectedTab: Tab = .home
     @Published var customTabs: [CustomTab] = []
     public init() {
         setupCustomTabs(homePosts: [])
+        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
     }
     
     private func setupCustomTabs(homePosts: [Post]) {

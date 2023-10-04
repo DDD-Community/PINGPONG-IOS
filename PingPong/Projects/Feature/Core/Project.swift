@@ -24,6 +24,7 @@ let project = Project.makeAppModule(
         .Projcet.Search,
         .Projcet.Home,
         .Projcet.Archive,
+        .SPM.PopupView
         
             
         

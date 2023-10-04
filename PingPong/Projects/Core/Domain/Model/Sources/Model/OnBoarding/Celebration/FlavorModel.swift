@@ -15,7 +15,7 @@ public enum Flavor: String {
     case nutty = "고소한 맛"
     case light = "담백한 맛"
     
-    var ingredent: Ingredent {
+    public var ingredent: Ingredent {
         switch self {
         case .light:
             return .corn
@@ -29,4 +29,6 @@ public enum Flavor: String {
             return .chocolate
         }
     }
+    
+    
 }
