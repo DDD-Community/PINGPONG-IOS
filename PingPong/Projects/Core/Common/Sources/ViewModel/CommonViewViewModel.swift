@@ -16,9 +16,10 @@ import Moya
 import Service
 
 public class CommonViewViewModel: ObservableObject {
+    
     public init() {
 //        setupCustomTabs(homePosts: homePosts)
-//        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
+        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
 
     }
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
@@ -36,6 +37,8 @@ public class CommonViewViewModel: ObservableObject {
         //        let totalCount = situationFlavorSourceArray[0].options.count
         return count > 0
     }
+    
+   
     
     //MARK: -  랜덤  명언 조회 api
     @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
