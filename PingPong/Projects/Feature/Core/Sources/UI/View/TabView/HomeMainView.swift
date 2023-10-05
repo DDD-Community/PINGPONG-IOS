@@ -12,6 +12,7 @@ import PopupView
 import Archive
 import Authorization
 import Model
+import Home
 
 public struct HomeMainView: View {
     @EnvironmentObject var sheetManager: SheetManager
@@ -40,7 +41,7 @@ public struct HomeMainView: View {
                     }
                     mainTabBar()
                 }
-                .modal(sheetManager: sheetManager, viewModel: viewModel)
+                .modal(with: sheetManager, viewModel: viewModel)
                 .onAppear {
                     if viewModel.isFirstUserPOPUP {
                         isFistUserPOPUP = true

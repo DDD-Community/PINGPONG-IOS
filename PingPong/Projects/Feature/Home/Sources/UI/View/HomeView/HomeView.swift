@@ -240,7 +240,7 @@ public struct HomeView: View {
         
         .onAppear{
             viewModel.randomQuoteRequest(userID: "423")
-            viewModel.userPrefRequest(userID: "423")
+//            viewModel.userPrefRequest(userID: "423")
         }
     }
 }

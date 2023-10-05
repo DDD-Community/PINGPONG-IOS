@@ -23,13 +23,13 @@ public class CommonViewViewModel: ObservableObject {
     }
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
-    @Published var selectedTab: Tab = .home
-    @Published var customTabs: [CustomTab] = []
+    @Published public var selectedTab: Tab = .home
+    @Published public var customTabs: [CustomTab] = []
     
     
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 0
-    public func generateIsButtonAble(situationFlavorSourceTitle: SituationFlavorSourceTitle) -> Bool {
+    public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {
         
         let situationFlavorSourceArray = searchViewButtonInfoArray.filter{ $0.title.rawValue == situationFlavorSourceTitle.rawValue }
         let count = situationFlavorSourceArray.filter { $0.options[0].isCheck }.count

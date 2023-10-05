@@ -15,8 +15,13 @@ public class SheetManager: ObservableObject {
     @Published public var isPopup: Bool = false
     public enum Action {
         public struct Info {
-            var idx: Int
+            public var idx: Int
+            
+            public init(idx: Int) {
+                self.idx = idx
+            }
         }
+        
         case na
         case present(info: Info)
         case dismiss

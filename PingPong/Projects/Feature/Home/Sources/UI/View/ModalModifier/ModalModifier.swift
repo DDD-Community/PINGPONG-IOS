@@ -45,7 +45,7 @@ struct ModalViewModifier: ViewModifier {
 }
 
 extension View {
-    func modal(with sheetManager: SheetManager, viewModel: CommonViewViewModel) -> some View {
+   public func modal(with sheetManager: SheetManager, viewModel: CommonViewViewModel) -> some View {
         self.modifier(ModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
     }
 }

@@ -4,6 +4,8 @@
 //
 //  Created by Byeon jinha on 2023/06/01.
 //
+
+import Common
 import SwiftUI
 import Core
 import OnBoarding
@@ -17,15 +19,16 @@ struct PingPongProjectApp: App {
     @State var showlanch: Bool = true
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
-    @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     
     var body: some Scene {
         WindowGroup {
            
             ZStack {
                 if viewModel.isLogin {
-                    HomeMainView(viewModel: self.homeViewModel, isFistUserPOPUP: $viewModel.isFirstUserPOPUP)
+                    HomeMainView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                         .environmentObject(sheetManager)
+                    
                 } else {
                     OnBoardingView()
                 }

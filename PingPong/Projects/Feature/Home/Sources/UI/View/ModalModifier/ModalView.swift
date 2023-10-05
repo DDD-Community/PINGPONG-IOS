@@ -32,10 +32,14 @@ public struct ModalView: View {
     
     public var body: some View {
         VStack(spacing: .zero) {
+            
             headLine
                 .frame(height: 60)
+            
             Spacer()
+            
             contents
+            
             filterBox(isButtonAble: viewModel.generateIsButtonAble(situationFlavorSourceTitle: viewModel.searchViewButtonInfoArray[config.idx].title))
         }
         .frame(maxWidth: .infinity, maxHeight: height)
