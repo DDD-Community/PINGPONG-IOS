@@ -28,8 +28,9 @@ struct PingPongProjectApp: App {
            
             ZStack {
                 if viewModel.isLogin {
-                    HomeMainView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                         .environmentObject(sheetManager)
+                        .navigationBarHidden(true)
                     
                 } else {
                     OnBoardingView()

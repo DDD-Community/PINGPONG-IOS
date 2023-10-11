@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Model
 
 public struct SnapCarousel<Content: View, T: Identifiable> : View{
     @GestureState var offset: CGFloat = 0
@@ -20,7 +21,7 @@ public struct SnapCarousel<Content: View, T: Identifiable> : View{
     
     
     
-    public init(spacing : CGFloat = UIScreen.screenWidth * 0.5, trailingSpace : CGFloat = UIScreen.screenWidth * 0.1, index : Binding<Int> , items:[T], isOn: Binding<[Bool]>, @ViewBuilder content: @escaping (T)-> Content ){
+    public init(spacing : CGFloat = UIScreen.screenWidth * 0.5, trailingSpace : CGFloat = UIScreen.screenWidth * 0.1, index : Binding<Int> , items: [T], isOn: Binding<[Bool]>, @ViewBuilder content: @escaping (T)-> Content ){
         self._isOn = isOn
         self.list = items
         self.spacing

@@ -45,7 +45,7 @@ public struct CompletOnBoardingView: View {
         }
         
         .navigationDestination(isPresented: $viewModel.inviteMainView, destination: {
-            HomeMainView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+            CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                 .navigationBarHidden(true)
                 .environmentObject(sheetManger)
         })

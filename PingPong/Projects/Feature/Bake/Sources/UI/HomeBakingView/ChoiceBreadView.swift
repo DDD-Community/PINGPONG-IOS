@@ -6,7 +6,6 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
-import Bake
 import Common
 import DesignSystem
 import Model
@@ -122,6 +121,7 @@ public struct ChoiceBreadView: View {
                         }
                         .onTapGesture {
                             self.viewModel.tmpChoicedBread = Bread(rawValue: item)!
+                            print("타입 \(item)")
                         }
                     }
                 }

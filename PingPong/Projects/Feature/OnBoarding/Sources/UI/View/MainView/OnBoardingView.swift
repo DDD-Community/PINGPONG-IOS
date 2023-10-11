@@ -44,7 +44,7 @@ public struct OnBoardingView: View {
             }
             
             .navigationDestination(isPresented: $appState.goToMainHomeView) {
-                HomeMainView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                     .environmentObject(sheetManager)
                     .navigationBarHidden(true)
             }
