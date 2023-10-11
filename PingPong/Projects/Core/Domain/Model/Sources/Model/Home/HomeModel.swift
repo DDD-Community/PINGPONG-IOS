@@ -23,7 +23,7 @@ public struct HomeRandomQuoteModel: Codable {
 
 // MARK: - DataClass
 public struct HomeRandomQuoteResponseModel: Codable {
-    public let content: [Content]?
+    public let content: [QuoteContent]?
     public let pageable: Pageable?
     public let totalPages, totalElements: Int?
     public let last: Bool?
@@ -32,7 +32,7 @@ public struct HomeRandomQuoteResponseModel: Codable {
     public let numberOfElements: Int?
     public let first, empty: Bool?
     
-    public init(content: [Content]?, pageable: Pageable?, totalPages: Int?, totalElements: Int?, last: Bool?, size: Int?, number: Int?, sort: Sort?, numberOfElements: Int?, first: Bool?, empty: Bool?) {
+    public init(content: [QuoteContent]?, pageable: Pageable?, totalPages: Int?, totalElements: Int?, last: Bool?, size: Int?, number: Int?, sort: Sort?, numberOfElements: Int?, first: Bool?, empty: Bool?) {
         self.content = content
         self.pageable = pageable
         self.totalPages = totalPages
@@ -48,7 +48,8 @@ public struct HomeRandomQuoteResponseModel: Codable {
 }
 
 // MARK: - Content
-public struct Content: Codable {
+public struct QuoteContent: Codable, Identifiable {
+    public let id = UUID().uuidString
     public let regDttm, modDttm, regrID: String?
     public let regrNm: String?
     public let modrID: String?

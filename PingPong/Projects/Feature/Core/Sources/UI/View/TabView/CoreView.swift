@@ -14,7 +14,7 @@ import Authorization
 import Model
 import Home
 
-public struct HomeMainView: View {
+public struct CoreView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
     @StateObject var appState: AppState = AppState()
@@ -29,13 +29,14 @@ public struct HomeMainView: View {
     }
     
     public var body: some View {
+        NavigationStack {
             ZStack{
                 Color.basicGray1BG
                 ZStack {
                     VStack {
                         if self.viewModel.selectedTab == .home {
                             navigationTopHeaderView()
-                                .padding(EdgeInsets(top: 60, leading: 0, bottom: 20, trailing: 0))
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
                         }
                         selectTabView()
                     }
@@ -66,6 +67,8 @@ public struct HomeMainView: View {
 //                }
                 
             }
+        }
+        .navigationBarHidden(true)
         .ignoresSafeArea()
     }
     
@@ -109,7 +112,7 @@ public struct HomeMainView: View {
         VStack {
             Spacer()
             MainTabView(viewModel: self.viewModel, selectedTab: $viewModel.selectedTab)
-                .frame(height: UIScreen.main.bounds.height * 0.15)
+                .frame(height: UIScreen.main.bounds.height * 0.11)
                 .padding(.bottom, -UIScreen.main.bounds.height * 0.05)
         }
         Rectangle()
