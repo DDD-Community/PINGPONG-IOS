@@ -183,7 +183,7 @@ public class OnBoardingViewModel: ObservableObject {
                     self?.appState.netWorkErrorPOP = true
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
+                if model.status == NetworkCode.success.status {
                     self?.onBoardingSearchUserToViewModel(model)
                     print("사용자 취향 관련한 명언 공통코드 맛/출처 조회", model)
                 } else {
@@ -265,7 +265,7 @@ public class OnBoardingViewModel: ObservableObject {
                     print("네트워크 에러 ",error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
+                if model.status == NetworkCode.success.status {
                     self?.onBoardingRegisterToViewModel(model)
                     print("사용자 취향 등록 성공", model)
                 } else {

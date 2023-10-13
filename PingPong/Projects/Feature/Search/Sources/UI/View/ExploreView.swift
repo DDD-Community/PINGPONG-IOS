@@ -32,7 +32,7 @@ public struct ExploreView: View {
     public var body: some View {
         ZStack {
             ScrollView(.vertical){
-                let (group, situationInfo, flavorCountInfo, sourceCountInfo) = filterHomePostContents()
+//                let (group, situationInfo, flavorCountInfo, sourceCountInfo) = filterHomePostContents()
                 searchBar()
                     .padding(.top, 62)
                 VStack {
@@ -73,7 +73,7 @@ public struct ExploreView: View {
                 }
                 .frame(height:46)
                 
-                staticsView(count: group.count)
+//                staticsView(count: group.count)
                 
 //                if group.count != 0 {
 //                    ScrollView(.vertical) {
@@ -175,23 +175,23 @@ public struct ExploreView: View {
         return (situationFlavorSourceArray, OptionButtonInfo(title: situationFlavorSource, count: situationFlavorSourceCount))
     }
     
-    func filterHomePostContents() -> ([Post], OptionButtonInfo, OptionButtonInfo, OptionButtonInfo) {
-        var filterContent: [Post] = []
-        
-        let (situationArray, situationInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .situation)
-        let (flavorArray, flavorInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .flavor)
-        let (sourceArray, sourceInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .source)
-        
-//        for post in viewModel.homePosts {
-//            if flavorArray.contains(post.hashtags.flavor.rawValue) &&
-//                situationArray.contains(post.hashtags.situation.rawValue) &&
-//                sourceArray.contains(post.hashtags.source.rawValue) {
-//                filterContent.append(post)
-//            }
-//        }
-        
-        return (filterContent, situationInfo, flavorInfo, sourceInfo)
-    }
+//    func filterHomePostContents() -> ([Post], OptionButtonInfo, OptionButtonInfo, OptionButtonInfo) {
+//        var filterContent: [Post] = []
+//
+//        let (situationArray, situationInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .situation)
+//        let (flavorArray, flavorInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .flavor)
+//        let (sourceArray, sourceInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .source)
+//
+////        for post in viewModel.homePosts {
+////            if flavorArray.contains(post.hashtags.flavor.rawValue) &&
+////                situationArray.contains(post.hashtags.situation.rawValue) &&
+////                sourceArray.contains(post.hashtags.source.rawValue) {
+////                filterContent.append(post)
+////            }
+////        }
+//
+//        return (filterContent, situationInfo, flavorInfo, sourceInfo)
+//    }
     
     
     @ViewBuilder

@@ -25,6 +25,7 @@ public class HomeViewViewModel: ObservableObject {
     public var homeUserPrefCancellable: AnyCancellable?
     
     @Published public var homeBaseModel: BaseModel?
+    
     var homeLikeCancellable: AnyCancellable?
     var homeScrapCancellable: AnyCancellable?
     
@@ -52,7 +53,7 @@ public class HomeViewViewModel: ObservableObject {
         }
     }
     
-    public func transferSource(sourceType: String) -> Sources {
+    public func transferSource(sourceType: String) -> Source {
         switch sourceType {
         case "animation":
             return .animation
@@ -70,7 +71,7 @@ public class HomeViewViewModel: ObservableObject {
     }
     
     
-    public func transferMood(moodType: String) -> Situations {
+    public func transferMood(moodType: String) -> Mood {
         switch moodType {
         case "condolence":
             return .condolence
@@ -106,7 +107,7 @@ public class HomeViewViewModel: ObservableObject {
                     print("네트워크에러", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
+                if model.status == NetworkCode.success.status {
                     self?.randomQuoteToViewModel(model)
                     print("홈 핸덤 명언 조회", model)
                 } else {
@@ -141,7 +142,7 @@ public class HomeViewViewModel: ObservableObject {
                         print("네트워크에러", error.localizedDescription)
                     }
                 }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
+                    if model.status == NetworkCode.success.status {
                         self?.homeBaseToViewModel(model)
                         print("홈 취향", model)
                     } else {
@@ -167,7 +168,7 @@ public class HomeViewViewModel: ObservableObject {
                         print("네트워크에러", error.localizedDescription)
                     }
                 }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.sucess.status {
+                    if model.status == NetworkCode.success.status {
                         self?.homeBaseToViewModel(model)
                         print("홈 좋아요", model)
                     } else {
@@ -203,7 +204,4 @@ public class HomeViewViewModel: ObservableObject {
                 print("홈 랜덤  명언 굽기", model)
             })
     }
-    
-    
-    
 }

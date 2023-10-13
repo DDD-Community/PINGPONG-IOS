@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Sources: String {
+public enum Source: String {
     case animation = "애니메이션"
     case famous = "유명인"
     case book = "책"

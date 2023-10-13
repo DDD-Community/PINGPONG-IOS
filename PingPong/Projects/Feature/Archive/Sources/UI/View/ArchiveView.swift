@@ -49,23 +49,23 @@ public struct ArchiveView: View {
                     }
                 )
             
-            let group = generateBookmarkPostContents()
+            let posts = generateBookmarkPostContents()
             
-            staticsView(count: group.count)
+            staticsView(count: posts.count)
             
-            if group.count != 0 {
+            if posts.count != 0 {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
-                        ForEach(group) { item in
-                            let colorSet = viewModel.searchCharacterColor(flavor: Flavor(rawValue: item.hashtags.flavor.rawValue) ?? .light)
+                        ForEach(posts) { post in
+                            let colorSet = viewModel.searchCharacterColor(flavor: Flavor(rawValue: post.hashtags.flavor.rawValue) ?? .light)
                             VStack {
                                 HStack {
-                                    let imageSet = viewModel.generateImageNameAndText(hashtags: item.hashtags)
+                                    let imageSet = viewModel.generateImageNameAndText(hashtags: post.hashtags)
                                     Circle()
                                         .foregroundColor(colorSet.iconBackground)
                                         .frame(width: 20, height: 20)
                                         .overlay(
-                                            Image(assetName: imageSet.0)
+                                            Image(assetName: imageSet.userCustomFlavorImageName)
                                                 .resizable()
                                                 .frame(width: 14, height: 14)
                                         )
@@ -73,7 +73,7 @@ public struct ArchiveView: View {
                                         .foregroundColor(colorSet.iconBackground)
                                         .frame(width: 20, height: 20)
                                         .overlay(
-                                            Image(assetName: imageSet.1)
+                                            Image(assetName: imageSet.userCustomSourceIconImageName)
                                                 .resizable()
                                                 .frame(width: 14, height: 14)
                                         )
@@ -82,14 +82,14 @@ public struct ArchiveView: View {
                                 .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
                                 Spacer()
                                 HStack {
-                                    Text(item.title)
+                                    Text(post.title)
                                         .baeEun(size: 18)
                                         .foregroundColor(.cardTextMain)
                                         .padding()
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(item.sources)
+                                    Text(post.sources)
                                         .baeEun(size: 18)
                                         .foregroundColor(.cardTextMain)
                                         .padding()
@@ -100,8 +100,8 @@ public struct ArchiveView: View {
                                 .cornerRadius(10)
                                 .onTapGesture {
                                     withAnimation {
-                                        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: item.hashtags)
-                                        viewModel.updateDetailViewInfo(colorSet: colorSet, post: item, imageNameAndText: imageNameAndText)
+                                        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
+                                        viewModel.updateDetailViewInfo(colorSet: colorSet, cardInfomation: post, imageNameAndText: imageNameAndText)
                                         viewModel.isShowDetailView.toggle()
                                     }
                                 }
@@ -160,9 +160,9 @@ public struct ArchiveView: View {
             .pretendardFont(family: .Medium, size: 14)
             .onTapGesture {
                 if archiveViewViewModel.isAscendingOrder {
-                    viewModel.homePosts.sort { $0.title < $1.title }
+                    viewModel.cards.sort { $0.title < $1.title }
                 } else {
-                    viewModel.homePosts.sort { $0.title > $1.title }
+                    viewModel.cards.sort { $0.title > $1.title }
                 }
                 archiveViewViewModel.isAscendingOrder.toggle()
             }
@@ -170,9 +170,9 @@ public struct ArchiveView: View {
         .frame(width: UIScreen.screenWidth - 40, height: 38)
     }
     
-    func generateBookmarkPostContents() -> [Post] {
-        var filterContent: [Post] = []
-        for post in viewModel.homePosts {
+    func generateBookmarkPostContents() -> [CardInfomation] {
+        var filterContent: [CardInfomation] = []
+        for post in viewModel.cards {
             if post.isBookrmark {
                 filterContent.append(post)
             }

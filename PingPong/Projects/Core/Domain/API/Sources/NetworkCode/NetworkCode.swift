@@ -9,13 +9,13 @@
 import Foundation
 
 public enum NetworkCode: String , CustomStringConvertible{
-    case sucess
+    case success
     case netWorkError
     case serverError
     
     public var status: Int {
         switch self {
-        case .sucess:
+        case .success:
             return 200
         case .netWorkError:
             return 400
@@ -26,7 +26,7 @@ public enum NetworkCode: String , CustomStringConvertible{
     
     public var description: String {
         switch self {
-        case .sucess:
+        case .success:
             return "200"
         case .netWorkError:
             return "400"

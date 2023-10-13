@@ -28,18 +28,18 @@ struct FamousSayingDetailView: View {
                         VStack {
                             HStack {
                                 ZStack {
-                                    Image(assetName: viewModel.detailViewInfo.imageNameAndText.2)
+                                    Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomMoodImageName)
                                         .resizable()
                                         .frame(width: 335, height: 236)
                                         .clipShape(RoundedRectangle(cornerRadius: 12))
                                     ZStack {
-                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.1)")
+                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)")
                                             .resizable()
                                             .frame(width: 120, height: 120)
-                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.0)")
+                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)")
                                             .resizable()
                                             .frame(width: 120, height: 120)
-                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.3)")
+                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomBackgroundImageName)")
                                             .resizable()
                                             .frame(width: 120, height: 120)
                                     }
@@ -55,13 +55,13 @@ struct FamousSayingDetailView: View {
                                 VStack(alignment: .leading){
                                     Spacer()
                                     HStack{
-                                        Text(viewModel.detailViewInfo.post.title)
+                                        Text(viewModel.detailViewInfo.cardInfomation.title)
                                             .baeEun(size: 28)
                                             .foregroundColor(.cardTextMain)
                                             .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                         Spacer()
                                     }
-                                    Text(viewModel.detailViewInfo.post.sources)
+                                    Text(viewModel.detailViewInfo.cardInfomation.sources)
                                         .baeEun(size: 24)
                                         .foregroundColor(.cardTextMain)
                                         .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
@@ -84,18 +84,18 @@ struct FamousSayingDetailView: View {
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Image(assetName: viewModel.detailViewInfo.imageNameAndText.2)
+                                        Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomMoodImageName)
                                             .resizable()
                                             .frame(width: 335, height: 236)
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
                                         ZStack {
-                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.1)")
+                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)")
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
-                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.0)")
+                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)")
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
-                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.3)")
+                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomBackgroundImageName)")
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
                                         }
@@ -109,8 +109,8 @@ struct FamousSayingDetailView: View {
                                 HStack{
                                     HStack{
                                         HStack {
-                                            Image(assetName: viewModel.detailViewInfo.imageNameAndText.0)
-                                            Text("\(viewModel.detailViewInfo.post.hashtags.flavor.rawValue)")
+                                            Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)
+                                            Text("\(viewModel.detailViewInfo.cardInfomation.hashtags.flavor.rawValue)")
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                         }
                                         .foregroundColor(viewModel.detailViewInfo.colorSet.icon)
@@ -122,8 +122,8 @@ struct FamousSayingDetailView: View {
                                         )
                                         
                                         HStack {
-                                            Image(assetName: viewModel.detailViewInfo.imageNameAndText.1)
-                                            Text("\(viewModel.detailViewInfo.post.hashtags.source.rawValue)")
+                                            Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)
+                                            Text("\(viewModel.detailViewInfo.cardInfomation.hashtags.source.rawValue)")
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                                 .foregroundColor(viewModel.detailViewInfo.colorSet.icon)
                                         }
@@ -142,13 +142,13 @@ struct FamousSayingDetailView: View {
                                     VStack(alignment: .leading){
                                         Spacer()
                                         HStack{
-                                            Text(viewModel.detailViewInfo.post.title)
+                                            Text(viewModel.detailViewInfo.cardInfomation.title)
                                                 .baeEun(size: 28)
                                                 .foregroundColor(.cardTextMain)
                                                 .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                             Spacer()
                                         }
-                                        Text(viewModel.detailViewInfo.post.sources)
+                                        Text(viewModel.detailViewInfo.cardInfomation.sources)
                                             .baeEun(size: 24)
                                             .foregroundColor(.cardTextMain)
                                             .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
@@ -172,15 +172,15 @@ struct FamousSayingDetailView: View {
                                             .frame(width: 44)
                                             .overlay(
                                                 Image(systemName: "heart")
-                                                    .foregroundColor(viewModel.detailViewInfo.post.isBookrmark ?  .basicWhite : viewModel.detailViewInfo.colorSet.icon)
+                                                    .foregroundColor(viewModel.detailViewInfo.cardInfomation.isBookrmark ?  .basicWhite : viewModel.detailViewInfo.colorSet.icon)
                                             )
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
-                                            .foregroundColor(viewModel.detailViewInfo.post.isBookrmark ? viewModel.detailViewInfo.colorSet.icon : viewModel.detailViewInfo.colorSet.iconBackground)
+                                            .foregroundColor(viewModel.detailViewInfo.cardInfomation.isBookrmark ? viewModel.detailViewInfo.colorSet.icon : viewModel.detailViewInfo.colorSet.iconBackground)
                                             .onTapGesture {
-                                                let postIndex = viewModel.searchPostIndex(post: viewModel.detailViewInfo.post)
-                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
+                                                let postIndex = viewModel.searchPostIndex(cardInfomation: viewModel.detailViewInfo.cardInfomation)
+                                                viewModel.cards[postIndex].isBookrmark.toggle()
                                                 
-                                                viewModel.detailViewInfo.post.isBookrmark.toggle()
+                                                viewModel.detailViewInfo.cardInfomation.isBookrmark.toggle()
                                             }
                                     }
                                 }

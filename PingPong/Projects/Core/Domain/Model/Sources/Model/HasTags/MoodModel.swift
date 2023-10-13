@@ -13,14 +13,20 @@ public enum Mood: String {
     case motive = "동기부여"
     case wisdom = "지혜"
     
-    public var topping: Topping {
+    public var type: ToppingType {
         switch self {
         case .condolence:
-            return .appleJam
+            return ToppingType(english: "condolence", korean: "위로", toppingImageName: .appleJam)
         case .motive:
-            return .caramelSyrup
+            return ToppingType(english: "motive", korean: "동기부여", toppingImageName: .caramelSyrup)
         case .wisdom:
-            return .chestnut
+            return ToppingType(english: "wisdom", korean: "지혜", toppingImageName: .chestnut)
         }
+    }
+    
+    public struct ToppingType {
+        public let english: String
+        public let korean: String
+        public let toppingImageName: Topping
     }
 }
