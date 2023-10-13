@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Situations: String {
+public enum Mood: String {
     case condolence = "위로"
     case motive = "동기부여"
     case wisdom = "지혜"
