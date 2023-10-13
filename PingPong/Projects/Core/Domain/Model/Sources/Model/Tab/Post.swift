@@ -8,12 +8,12 @@
 
 import Foundation
 
-public struct Post: Identifiable, Equatable {
-     public static func == (lhs: Post, rhs: Post) -> Bool {
-        return lhs.title == rhs.title
+public struct CardInfomation: Identifiable, Equatable {
+     public static func == (lhs: CardInfomation, rhs: CardInfomation) -> Bool {
+         return lhs.id == rhs.id
     }
     
-    public var id = UUID().uuidString
+    public let id = UUID().uuidString
     public var stageNum : Int
     public var hashtags: Hashtags
     public var image: String
@@ -21,8 +21,7 @@ public struct Post: Identifiable, Equatable {
     public var sources: String
     public var isBookrmark: Bool
     
-    public init(id: String = UUID().uuidString, stageNum: Int, hashtags: Hashtags, image: String, title: String, sources: String, isBookrmark: Bool) {
-        self.id = id
+    public init(stageNum: Int, hashtags: Hashtags, image: String, title: String, sources: String, isBookrmark: Bool) {
         self.stageNum = stageNum
         self.hashtags = hashtags
         self.image = image

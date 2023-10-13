@@ -22,7 +22,8 @@ public struct HomeView: View {
     
     @State var isOn: [Bool] = []
     public init(viewModel: CommonViewViewModel) {
-        self._isOn = State(initialValue: Array(repeating: false, count: viewModel.homePosts.count))
+        //TODO: dummy 수정 = viewModel.homePosts
+        self._isOn = State(initialValue: Array(repeating: false, count: viewModel.cards.count))
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -40,6 +41,8 @@ public struct HomeView: View {
             .onAppear {
                 if !isOn.isEmpty {
                     self.isOn[0] = true
+                    homeViewModel.randomQuoteRequest(userID: "423")
+                } else {
                     homeViewModel.randomQuoteRequest(userID: "423")
                 }
             }
@@ -62,7 +65,9 @@ public struct HomeView: View {
                 let source = homeViewModel.transferSource(sourceType: post.source ?? "")
                 let mood = homeViewModel.transferMood(moodType: post.mood ?? "")
                 
-                let hasTags = Hashtags(flavor: homeViewModel.transferFlavor(flavorType: post.flavor ?? "") , source: homeViewModel.transferSource(sourceType: post.source ?? ""), situation: homeViewModel.transferMood(moodType: post.mood ?? ""))
+                let hasTags = Hashtags(flavor: homeViewModel.transferFlavor(flavorType: post.flavor ?? "") ,
+                                       source: homeViewModel.transferSource(sourceType: post.source ?? ""),
+                                       mood: homeViewModel.transferMood(moodType: post.mood ?? ""))
                 let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: hasTags)
                 
                 GeometryReader{ proxy in
@@ -79,18 +84,18 @@ public struct HomeView: View {
                                     VStack {
                                         HStack {
                                             ZStack {
-                                                Image(assetName: imageNameAndText.2)
+                                                Image(assetName: imageNameAndText.userCustomMoodImageName)
                                                     .resizable()
                                                     .frame(width: 335, height: 236)
                                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                                 ZStack {
-                                                    Image(assetName: "carousel\(imageNameAndText.1)")
+                                                    Image(assetName: "carousel\(imageNameAndText.userCustomSourceIconImageName)")
                                                         .resizable()
                                                         .frame(width: 120, height: 120)
-                                                    Image(assetName: "carousel\(imageNameAndText.0)")
+                                                    Image(assetName: "carousel\(imageNameAndText.userCustomFlavorImageName)")
                                                         .resizable()
                                                         .frame(width: 120, height: 120)
-                                                    Image(assetName: "carousel\(imageNameAndText.3)")
+                                                    Image(assetName: "carousel\(imageNameAndText.userCustomBackgroundImageName)")
                                                         .resizable()
                                                         .frame(width: 120, height: 120)
                                                 }
@@ -138,19 +143,19 @@ public struct HomeView: View {
                                 VStack {
                                     HStack {
                                         ZStack {
-                                            Image(assetName: imageNameAndText.2)
+                                            Image(assetName: imageNameAndText.userCustomBackgroundImageName)
                                                 .resizable()
                                                 .frame(width: 335, height: 236)
                                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                                             
                                             ZStack {
-                                                Image(assetName: "carousel\(imageNameAndText.1)")
+                                                Image(assetName: "carousel\(imageNameAndText.userCustomSourceIconImageName)")
                                                     .resizable()
                                                     .frame(width: 120, height: 120)
-                                                Image(assetName: "carousel\(imageNameAndText.0)")
+                                                Image(assetName: "carousel\(imageNameAndText.userCustomFlavorImageName)")
                                                     .resizable()
                                                     .frame(width: 120, height: 120)
-                                                Image(assetName: "carousel\(imageNameAndText.3)")
+                                                Image(assetName: "carousel\(imageNameAndText.userCustomMoodImageName)")
                                                     .resizable()
                                                     .frame(width: 120, height: 120)
                                             }
@@ -166,7 +171,7 @@ public struct HomeView: View {
                                     HStack{
                                         HStack{
                                             HStack {
-                                                Image(assetName: imageNameAndText.0)
+                                                Image(assetName: imageNameAndText.userCustomFlavorImageName)
                                                 Text("\(flavors.rawValue)")
                                                     .pretendardFont(family: .SemiBold, size: 12)
                                             }
@@ -179,7 +184,7 @@ public struct HomeView: View {
                                             )
                                             
                                             HStack {
-                                                Image(assetName: imageNameAndText.1)
+                                                Image(assetName: imageNameAndText.userCustomSourceIconImageName)
                                                 Text("\(source.rawValue)")
                                                     .pretendardFont(family: .SemiBold, size: 12)
                                                     .foregroundColor(colorSet.icon)
@@ -234,12 +239,12 @@ public struct HomeView: View {
                                                 )
                                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                                 .foregroundColor(post.likeYn ?? false ? colorSet.icon : colorSet.iconBackground)
-                                                .onTapGesture {
-                                                    let postIndex = post.quoteID
-                                                    viewModel.homePosts[postIndex ?? .zero].isBookrmark.toggle()
-                                                    homeViewModel.userPrefRequest(userID: "403", quoteId: post.quoteID ?? .zero, isScarp: false)
-                                                    homeViewModel.userPrefRequest(userID: "403", quoteId: post.quoteID ?? .zero, isScarp: true)
-                                                }
+//                                                .onTapGesture {
+//                                                    let postIndex = post.quoteID
+//                                                    viewModel.homePosts[postIndex ?? .zero].isBookrmark.toggle()
+//                                                    homeViewModel.userPrefRequest(userID: "403", quoteId: post.quoteID ?? .zero, isScarp: false)
+//                                                    homeViewModel.userPrefRequest(userID: "403", quoteId: post.quoteID ?? .zero, isScarp: true)
+//                                                }
                                         }
                                     }
                                 }

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public enum Ingredent: String {
     case chocolate = "carouselsweetImage"
     case cheese = "carouselsaltyImage"

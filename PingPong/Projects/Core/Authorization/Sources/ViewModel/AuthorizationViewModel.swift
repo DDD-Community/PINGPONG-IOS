@@ -159,7 +159,7 @@ public class AuthorizationViewModel: ObservableObject {
                     print("네트워크 에러 ", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
+                if model.status == NetworkCode.success.status {
                     self?.userNickNameValidateToViewModel(model)
                     self?.nickNameInvalid = model.data ?? false
                     print("nickname 검증 ", model)
@@ -231,7 +231,7 @@ public class AuthorizationViewModel: ObservableObject {
                     print("네트워크 에러", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.sucess.status {
+                if model.status == NetworkCode.success.status {
                     self?.searchUserIdToViewModel(model)
                     print("아이디 조회 성공", model)
                     self?.userNickName = model.data?.nickname ?? ""

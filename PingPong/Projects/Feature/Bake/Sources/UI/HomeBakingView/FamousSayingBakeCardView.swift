@@ -49,7 +49,7 @@ struct FamousSayingBakeCardView: View {
                                 VStack {
                                     HStack {
                                         ZStack {
-                                            Image(assetName: imageNameAndText.2)
+                                            Image(assetName: imageNameAndText.userCustomMoodImageName)
                                                 .resizable()
                                                 .frame(width: 335, height: 236)
                                                 .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -110,7 +110,7 @@ struct FamousSayingBakeCardView: View {
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Image(assetName: imageNameAndText.2)
+                                        Image(assetName: imageNameAndText.userCustomMoodImageName)
                                             .resizable()
                                             .frame(width: 335, height: 236)
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -141,7 +141,7 @@ struct FamousSayingBakeCardView: View {
                                 HStack{
                                     HStack{
                                         HStack {
-                                            Image(assetName: imageNameAndText.0)
+                                            Image(assetName: imageNameAndText.userCustomFlavorImageName)
                                             Text("\(post.hashtags.flavor.rawValue)")
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                         }
@@ -154,7 +154,7 @@ struct FamousSayingBakeCardView: View {
                                         )
                                         
                                         HStack {
-                                            Image(assetName: imageNameAndText.1)
+                                            Image(assetName: imageNameAndText.userCustomSourceIconImageName)
                                             Text("\(post.hashtags.source.rawValue)")
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                                 .foregroundColor(colorSet.icon)
@@ -209,8 +209,8 @@ struct FamousSayingBakeCardView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                             .foregroundColor(post.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
-                                                let postIndex = viewModel.searchPostIndex(post: post)
-                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
+//                                                let postIndex = viewModel.searchPostIndex(post: post)
+//                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
                                                 
                                                 post.isBookrmark.toggle()
                                             }
