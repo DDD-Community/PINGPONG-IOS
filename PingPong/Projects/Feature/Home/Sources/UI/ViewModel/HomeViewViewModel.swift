@@ -27,6 +27,7 @@ public class HomeViewViewModel: ObservableObject {
     @Published public var homeBaseModel: BaseModel?
     
     var homeLikeCancellable: AnyCancellable?
+    
     var homeScrapCancellable: AnyCancellable?
     
     var homeBakeCancellbale: AnyCancellable?
@@ -35,61 +36,12 @@ public class HomeViewViewModel: ObservableObject {
         
     }
     
-    
-    public func transferFlavor(flavorType: String) -> Flavor {
-        switch flavorType {
-        case "sweet":
-            return .sweet
-        case "salty":
-            return .salty
-        case "spicy":
-            return .spicy
-        case "nutty":
-            return .nutty
-        case "light":
-            return .light
-        default:
-            return .sweet
-        }
-    }
-    
-    public func transferSource(sourceType: String) -> Source {
-        switch sourceType {
-        case "animation":
-            return .animation
-        case "famous":
-            return .famous
-        case "book":
-            return .book
-        case "drama":
-            return .drama
-        case "greatMan":
-            return .greatMan
-        default:
-            return .animation
-        }
-    }
-    
-    
-    public func transferMood(moodType: String) -> Mood {
-        switch moodType {
-        case "condolence":
-            return .condolence
-        case "motive":
-            return .motive
-        case "wisdom":
-            return .wisdom
-        default:
-            return .condolence
-        }
-    }
-    
     //MARK: - api 통신
     public func randomQuoteToViewModel(_ list: HomeRandomQuoteModel){
         self.homeRandomQuoteModel = list
     }
     
-    public func randomQuoteRequest(userID: String) {
+    public func randomQuoteRequest(userID: String, completion: @escaping (Result<HomeRandomQuoteModel, Error>) -> Void) {
         if let cancellable = homeRandomQuoteCancellable {
             cancellable.cancel()
         }
@@ -109,6 +61,7 @@ public class HomeViewViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
                     self?.randomQuoteToViewModel(model)
+                    completion(.success(model))
                     print("홈 핸덤 명언 조회", model)
                 } else {
                     self?.randomQuoteToViewModel(model)
@@ -203,5 +156,20 @@ public class HomeViewViewModel: ObservableObject {
                 self?.homeBaseToViewModel(model)
                 print("홈 랜덤  명언 굽기", model)
             })
+    }
+    
+    public func getHashtags(post: QuoteContent) -> Hashtags {
+        let flavor = Flavor(rawValue: post.flavor ?? "")!
+        let source = Source(rawValue: post.source ?? "")!
+        let mood = Mood(rawValue: post.mood ?? "")!
+        
+        return Hashtags(flavor: flavor, source: source, mood: mood)
+    }
+}
+
+
+public enum pingpongError: Error {
+    public enum HomeViewError: Error {
+        case invalidInput(text: String)
     }
 }

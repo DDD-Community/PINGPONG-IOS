@@ -9,15 +9,15 @@
 import Foundation
 
 public enum Source: String {
-    case animation = "애니메이션"
-    case famous = "유명인"
-    case book = "책"
-    case drama = "드라마/영화"
-    case greatMan = "위인"
+    case animation
+    case famous
+    case book
+    case drama
+    case greatman 
     
     public var type: SourceType {
         switch self {
-        case .greatMan:
+        case .greatman:
             return SourceType(english: "greatMan", korean: "위인", breadImageName: .breadViewBread)
         case .famous:
             return SourceType(english: "famous", korean: "유명인", breadImageName: .croissant)
