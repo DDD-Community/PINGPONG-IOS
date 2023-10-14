@@ -22,7 +22,7 @@ public class OnBoardingViewModel: ObservableObject {
     
     //MARK: -  사용자 취향 코드 모델
     var onBoardingSearchUserCancellable: AnyCancellable?
-    @Published var onBoardingSearchUserModel: onBoardingUserPreferenceModel?
+    @Published var onBoardingSearchUserModel: CommonCodeModel?
     
     var onBoardingRegisterFlavorCancellable: AnyCancellable?
     @Published var onBoardingRegisterFlavor: OnBoardingRegisterFlavorModel?
@@ -142,7 +142,7 @@ public class OnBoardingViewModel: ObservableObject {
     }
     
     //MARK: -  사용자 취향 관련한 명언 공통코드 맛/출처 조회
-    public func onBoardingSearchUserToViewModel(_ list: onBoardingUserPreferenceModel) {
+    public func onBoardingSearchUserToViewModel(_ list: CommonCodeModel) {
         self.onBoardingSearchUserModel = list
     }
     
@@ -173,7 +173,7 @@ public class OnBoardingViewModel: ObservableObject {
                 
             })
             .receive(on: DispatchQueue.main)
-            .decode(type: onBoardingUserPreferenceModel.self, decoder: JSONDecoder())
+            .decode(type: CommonCodeModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:

@@ -14,9 +14,12 @@ import SwiftUI
 public struct ChoiceIngredentView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject private var bakeViewModel: BakeViewModel = BakeViewModel()
     
     var backAction: () -> Void
     var rebakeAction: () -> Void
+    
+    @Environment(\.presentationMode) var presentationMode
     
     public init(viewModel: CommonViewViewModel,appState: AppState, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._appState = StateObject(wrappedValue: appState)
@@ -25,16 +28,7 @@ public struct ChoiceIngredentView: View {
         self.rebakeAction = rebakeAction
     }
     
-    let IngredentArray: [String] = ["carouselsweetImage", "carouselsaltyImage", "carouselspicyImage", "carouselnuttyImage", "carousellightImage"]
-    let IngredentDictionary = [
-        "carouselsweetImage": "초콜릿",
-        "carouselsaltyImage": "치즈",
-        "carouselspicyImage": "할라피뇨",
-        "carouselnuttyImage": "생크림",
-        "carousellightImage": "옥수수"
-    ]
     
-    @Environment(\.presentationMode) var presentationMode
     
     
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
@@ -43,18 +37,22 @@ public struct ChoiceIngredentView: View {
             VStack {
                 topHeaderBackButton()
                     .padding(.top, 20)
-                Spacer()
-            }
-            VStack {
+                
                 selectCatetoryContentView()
                 
                 Spacer()
+                
                 confirmButtonView()
                     .padding(.bottom, 30)
             }
-            .padding(.top, 40)
+            
+            
             .frame(height: UIScreen.screenHeight * 0.9)
             
+        }
+        .task {
+            bakeViewModel.commCodeRequest(commCdTpCd: .flavor)
+           
         }
         
         .navigationBarHidden(true)
@@ -109,22 +107,26 @@ public struct ChoiceIngredentView: View {
                 .padding(.bottom, 8)
                 
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(IngredentArray, id: \.self) { item in
-                        VStack {
-                            Circle()
-                                .frame(width: 96, height: 96)
-                                .foregroundColor(self.viewModel.tmpChoicedIngredent ==  Ingredent(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
-                                .overlay(
-                                    Image(assetName: item)
-                                        .resizable()
-                                        .frame(width:56, height: 56)
-                                )
-                            
-                            Text(IngredentDictionary[item]!)
-                                .pretendardFont(family: .SemiBold, size: 14)
-                        }
-                        .onTapGesture {
-                            self.viewModel.tmpChoicedIngredent = Ingredent(rawValue: item)!
+                    if let commonData = bakeViewModel.commonCodeModel?.data {
+                       
+                        ForEach(commonData.commCds, id: \.self) { item in
+                            VStack {
+                                Circle()
+                                    .frame(width: 96, height: 96)
+                                    .foregroundColor(self.viewModel.tmpChoicedIngredent ==  Ingredent(rawValue: bakeViewModel.generateFlavorIngredentImage(commCd: item.commCD)) ? .primaryOrange : .primaryOrangeBright)
+                                    .overlay(
+                                        Image(assetName: bakeViewModel.generateFlavorIngredentImage(commCd: item.commCD))
+                                            .resizable()
+                                            .frame(width:56, height: 56)
+                                    )
+                                
+                                Text(bakeViewModel.generateFlavorIngredentText(commCd: item.commCD))
+                                    .pretendardFont(family: .SemiBold, size: 14)
+                            }
+                            .onTapGesture {
+                                self.viewModel.selectFlavor = item.commCD
+                                self.viewModel.tmpChoicedIngredent = Ingredent(rawValue: bakeViewModel.generateFlavorIngredentImage(commCd: item.commCD))
+                            }
                         }
                     }
                 }

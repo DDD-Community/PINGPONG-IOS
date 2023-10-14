@@ -19,7 +19,6 @@ let project = Project.makeAppModule(
     dependencies: [
         .SPM.Kingfisher,
         .SPM.PopupView,
-        .SPM.ACarousel,
         .SPM.Inject,
         .SPM.PopupView,
         .Projcet.DesignSystem,

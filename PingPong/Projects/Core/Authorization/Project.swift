@@ -15,7 +15,7 @@ let project = Project.makeAppModule(
     bundleId: .appBundleID(name: ".Authorization"),
     product: .staticFramework,
     packages: [
-
+        
     ],
     setting:  .appBaseSetting,
     dependencies: [
@@ -30,6 +30,7 @@ let project = Project.makeAppModule(
         .SPM.FirebaseFirestore,
         .SPM.FirebaseDatabase,
 //        .SPM.GoogleSignIn,
+//        .SPM.GoogleSignInSwift
 
     ],
     sources: ["Sources/**"]

@@ -20,6 +20,8 @@ public class HomeViewViewModel: ObservableObject {
     //MARK: -  랜덤  명언 조회 api
     @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
     public var homeRandomQuoteCancellable: AnyCancellable?
+    @State var isOn: [Bool] = []
+    
     
     @Published public var homeUserPrefModel: UserPrefModel?
     public var homeUserPrefCancellable: AnyCancellable?
@@ -41,7 +43,7 @@ public class HomeViewViewModel: ObservableObject {
         self.homeRandomQuoteModel = list
     }
     
-    public func randomQuoteRequest(userID: String, completion: @escaping (Result<HomeRandomQuoteModel, Error>) -> Void) {
+    public func randomQuoteRequest(userID: String, completion: @escaping () -> Void) {
         if let cancellable = homeRandomQuoteCancellable {
             cancellable.cancel()
         }
@@ -61,8 +63,9 @@ public class HomeViewViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
                     self?.randomQuoteToViewModel(model)
-                    completion(.success(model))
+                    completion()
                     print("홈 핸덤 명언 조회", model)
+                    
                 } else {
                     self?.randomQuoteToViewModel(model)
                     print("홈 핸덤 명언 조회 실패", model)

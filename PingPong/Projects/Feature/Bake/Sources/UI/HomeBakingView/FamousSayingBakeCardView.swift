@@ -13,8 +13,11 @@ import SwiftUI
 struct FamousSayingBakeCardView: View {
     
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject private var bakeViewModel: BakeViewModel = BakeViewModel()
+    
     @Environment(\.presentationMode) var presentationMode
     @StateObject var sheetManager: SheetManager = SheetManager()
+    
     
     var backAction: () -> Void
     var rebakeAction: () -> Void
@@ -110,7 +113,7 @@ struct FamousSayingBakeCardView: View {
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Image(assetName: imageNameAndText.userCustomMoodImageName)
+                                        Image(assetName: imageNameAndText.userCustomBackgroundImageName)
                                             .resizable()
                                             .frame(width: 335, height: 236)
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -232,6 +235,9 @@ struct FamousSayingBakeCardView: View {
                     )
                     .padding(.top, 10)
                     .onTapGesture {
+                        self.viewModel.selectFlavor = nil
+                        self.viewModel.selectSource = nil
+                        self.viewModel.selectMood = nil
                         rebakeAction()
                     }
             }
@@ -242,6 +248,9 @@ struct FamousSayingBakeCardView: View {
             self.viewModel.tmpChoicedBread = nil
             self.viewModel.tmpChoicedIngredent = nil
             self.viewModel.tmpChoicedTopping = nil
+        }
+        .task {
+            bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor ?? "", source: viewModel.selectSource ?? "", mood: viewModel.selectMood ?? "")
         }
         .onDisappear {
             self.viewModel.choicedBread = nil

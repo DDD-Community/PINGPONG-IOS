@@ -9,12 +9,12 @@
 import Foundation
 
 
-public struct onBoardingUserPreferenceModel: Codable {
+public struct CommonCodeModel: Codable {
     public let status: Int
-    public let data: [onBoardingUserPreferenceResponse]?
+    public let data: [commonCodeResponse]?
     public let message: String?
     
-    public init(status: Int, data: [onBoardingUserPreferenceResponse]?, message: String?) {
+    public init(status: Int, data: [commonCodeResponse]?, message: String?) {
         self.status = status
         self.data = data
         self.message = message
@@ -22,7 +22,7 @@ public struct onBoardingUserPreferenceModel: Codable {
 }
 
 // MARK: - WelcomeElement
-public struct onBoardingUserPreferenceResponse: Codable , Identifiable {
+public struct commonCodeResponse: Codable , Identifiable {
     public let id = UUID().uuidString
     public let commCDTpID: Int?
     public let commCDTpCD, commCDTpNm: String?

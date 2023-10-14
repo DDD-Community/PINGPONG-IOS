@@ -9,10 +9,10 @@
 import Foundation
 
 public struct BaseModel: Codable {
-    public let status, data: Int
+    public let status, data: Int?
     public let message: String?
     
-    public init(status: Int, data: Int, message: String?) {
+    public init(status: Int?, data: Int?, message: String?) {
         self.status = status
         self.data = data
         self.message = message

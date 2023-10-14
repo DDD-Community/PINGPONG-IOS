@@ -40,19 +40,6 @@ public class CommonViewViewModel: ObservableObject {
     
    
     
-    //MARK: -  랜덤  명언 조회 api
-    @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
-    public var homeRandomQuoteCancellable: AnyCancellable?
-    
-    @Published public var homeUserPrefModel: UserPrefModel?
-    public var homeUserPrefCancellable: AnyCancellable?
-    
-    @Published public var homeLikeScrapModel: BaseModel?
-    var homeLikeCancellable: AnyCancellable?
-    var homeScrapCancellable: AnyCancellable?
-    
-    @Published public var seachUserFlavorCodeModel: SearchUserPrefCodeModel?
-    var seachUserFlavopCancellable: AnyCancellable?
     
     @Published public var isShowDetailView:Bool = false
     @Published public var detailViewInfo: DetailViewInfo = DetailViewInfo(colorSet: CharacterColor(icon: .basicBlack, iconBackground: .basicBlack, background: .basicBlack),
@@ -68,27 +55,20 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var choicedTopping: Topping?
     
     @Published public var tmpChoicedBread: Bread?
+    @Published public var selectSource: String? = nil
+    @Published public var selectFlavor: String? = nil
+    @Published public var selectMood: String? = nil
     @Published public var tmpChoicedIngredent: Ingredent?
     @Published public var tmpChoicedTopping: Topping?
     
     
-    @Published public var cards: [CardInfomation] = []
-    
-    enum SituationFlavorSource: String {
-        case motivation = "동기부여"
-        case consolation = "위로"
-        case wisdom = "지혜"
-        case sweet = "달콤한 맛"
-        case salty = "짭짤한 맛"
-        case spicy = "매콤한 맛"
-        case nutty = "고소한 맛"
-        case light = "담백한 맛"
-        case historicalFigures = "위인"
-        case celebrities = "유명인"
-        case dramaMovies = "드라마/영화"
-        case animation = "애니메이션"
-        case books = "책"
+    @Published public var cards: [CardInfomation] = [] {
+        didSet {
+            isOn  = Array(repeating: false, count: cards.count)
+        }
     }
+    @Published public var isOn: [Bool] = []
+    
     
     @Published public var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
         SearchViewButtonInfo(title: .situation, options:  [
@@ -218,44 +198,7 @@ public class CommonViewViewModel: ObservableObject {
     }
     
     
-    
-        public func userPrefToViewModel(_ list: UserPrefModel) {
-            self.homeUserPrefModel = list
-        }
-    
-        public func userSearchUserCommCodeToViewModel(_ list: SearchUserPrefCodeModel) {
-            self.seachUserFlavorCodeModel = list
-        }
-    
-        public func userSearchUserCommCodeRequest(userID: String) {
-            if let cancellable = seachUserFlavopCancellable {
-                cancellable.cancel()
-            }
-    
-            let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
-            seachUserFlavopCancellable = provider.requestWithProgressPublisher(.searchUserByUid(uid: userID))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: SearchUserPrefCodeModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.success.status {
-                        self?.userSearchUserCommCodeToViewModel(model)
-                        print("유저 코드", model)
-                    } else {
-                        self?.userSearchUserCommCodeToViewModel(model)
-                        print("유저 코드", model)
-                    }
-                })
-    
-        }
-    
+
     
 }
 

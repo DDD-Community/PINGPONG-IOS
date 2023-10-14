@@ -11,7 +11,6 @@ import Common
 import DesignSystem
 import Model
 import SwiftUI
-import Authorization
 
 public struct ArchiveView: View {
     

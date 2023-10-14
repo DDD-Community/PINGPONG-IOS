@@ -14,9 +14,12 @@ import SwiftUI
 public struct ChoiceToppingView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject private var bakeViewModel: BakeViewModel = BakeViewModel()
     
     var backAction: () -> Void
     var rebakeAction: () -> Void
+    
+    @Environment(\.presentationMode) var presentationMode
     
     public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void, rebakeAction: @escaping () -> Void) {
         self._appState = StateObject(wrappedValue: appState)
@@ -25,34 +28,25 @@ public struct ChoiceToppingView: View {
         self.rebakeAction = rebakeAction
     }
     
-    let toppingArray: [String] = ["carouselcondolenceImage", "carouselmotiveImage", "carouselwisdomImage"]
-    let toppingDictionary = [
-        "carouselcondolenceImage": "사과잼",
-        "carouselmotiveImage": "캬라멜시럽",
-        "carouselwisdomImage": "밤"
-    ]
-    
-    @Environment(\.presentationMode) var presentationMode
-    
-    
+
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
         ZStack {
             VStack {
                 topHeaderBackButton()
                     .padding(.top, 20)
-                Spacer()
-            }
-            VStack {
+                
                 selectCatetoryContentView()
                 
                 Spacer()
                 confirmButtonView()
                     .padding(.bottom, 30)
             }
-            .padding(.top, 40)
             .frame(height: UIScreen.screenHeight * 0.9)
             
+        }
+        .task {
+            bakeViewModel.commCodeRequest(commCdTpCd: .mood)
         }
         
         .navigationBarHidden(true)
@@ -107,22 +101,25 @@ public struct ChoiceToppingView: View {
                 .padding(.bottom, 8)
                 
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(toppingArray, id: \.self) { item in
-                        VStack {
-                            Circle()
-                                .frame(width: 96, height: 96)
-                                .foregroundColor(self.viewModel.tmpChoicedTopping ==  Topping(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
-                                .overlay(
-                                    Image(assetName: item)
-                                        .resizable()
-                                        .frame(width:56, height: 56)
-                                )
-                            
-                            Text(toppingDictionary[item]!)
-                                .pretendardFont(family: .SemiBold, size: 14)
-                        }
-                        .onTapGesture {
-                            self.viewModel.tmpChoicedTopping = Topping(rawValue: item)!
+                    if let commonData = bakeViewModel.commonCodeModel?.data {
+                        ForEach(commonData.commCds, id: \.self) { item in
+                            VStack {
+                                Circle()
+                                    .frame(width: 96, height: 96)
+                                    .foregroundColor(self.viewModel.tmpChoicedTopping ==  Topping(rawValue: bakeViewModel.generateMoodTopicingImage(commCd: item.commCD)) ? .primaryOrange : .primaryOrangeBright)
+                                    .overlay(
+                                        Image(assetName: bakeViewModel.generateMoodTopicingImage(commCd: item.commCD))
+                                            .resizable()
+                                            .frame(width:56, height: 56)
+                                    )
+                                
+                                Text(bakeViewModel.generateMoodTopicingText(commCd: item.commCD))
+                                    .pretendardFont(family: .SemiBold, size: 14)
+                            }
+                            .onTapGesture {
+                                self.viewModel.selectMood = item.commCD
+                                self.viewModel.tmpChoicedTopping = Topping(rawValue: bakeViewModel.generateMoodTopicingImage(commCd: item.commCD))
+                            }
                         }
                     }
                 }
