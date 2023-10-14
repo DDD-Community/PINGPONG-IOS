@@ -12,6 +12,7 @@ import UIKit
 import FirebaseMessaging
 import Firebase
 import Authorization
+//import GoogleSignIn
 
 class AppDelegate: UIViewController, UIApplicationDelegate{
     
@@ -44,6 +45,11 @@ class AppDelegate: UIViewController, UIApplicationDelegate{
         
         return true
     }
+    
+//    func application(_ application: UIApplication, open url: URL,
+//                     options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+//        return GIDSignIn.sharedInstance.handle(url)
+//    }
 }
 
 

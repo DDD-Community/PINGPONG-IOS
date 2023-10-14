@@ -6,7 +6,6 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
-import Authorization
 import Common
 import DesignSystem
 import SwiftUI

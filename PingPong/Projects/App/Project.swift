@@ -27,6 +27,8 @@ let project = Project.makeAppWidgetModule(
         .SPM.Inject,
         .SPM.FirebaseMessaging,
         .Projcet.OnBoarding,
+//        .SPM.GoogleSignIn,
+//        .sdk(name: "GTMAppAuth+", type: .library),
         .sdk(name: "WidgetKit", type: .framework),
         
 

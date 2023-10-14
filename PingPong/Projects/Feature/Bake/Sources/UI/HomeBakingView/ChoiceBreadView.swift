@@ -14,6 +14,10 @@ import SwiftUI
 public struct ChoiceBreadView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject private var bakeViewModel: BakeViewModel = BakeViewModel()
+    
+    @Environment(\.presentationMode) var presentationMode
+    
     var backAction: () -> Void
     
     public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void) {
@@ -21,17 +25,7 @@ public struct ChoiceBreadView: View {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
     }
-        
-    let breadArray: [String] = ["carouselgreatmanImage", "carouselceleImage", "carouseldramaImage", "carouselanimeImage", "carouselbookImage"]
-    let breadDictionary = [
-        "carouselgreatmanImage": "식빵",
-        "carouselceleImage": "크로아상",
-        "carouseldramaImage": "팬케익",
-        "carouselanimeImage": "쿠키",
-        "carouselbookImage": "치아바타"
-    ]
     
-    @Environment(\.presentationMode) var presentationMode
     
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
@@ -39,21 +33,24 @@ public struct ChoiceBreadView: View {
             VStack {
                 topHeaderBackButton()
                     .padding(.top, 20)
-                Spacer()
-            }
-            VStack {
+                
                 selectCatetoryContentView()
                 
                 Spacer()
                 confirmButtonView()
                     .padding(.bottom, 30)
+                
+                
             }
-            .padding(.top, 40)
+//            .padding(.top, 40)
             .frame(height: UIScreen.screenHeight * 0.9)
+            .task {
+                bakeViewModel.commCodeRequest(commCdTpCd: .source)
+            }
             
         }
-        
         .navigationBarHidden(true)
+        
         .navigationDestination(isPresented: $appState.isChoicedBread) {
             ChoiceIngredentView(viewModel: viewModel,
                                 appState: appState,
@@ -105,24 +102,30 @@ public struct ChoiceBreadView: View {
                 .padding(.bottom, 8)
                 
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(breadArray, id: \.self) { item in
-                        VStack {
-                            Circle()
-                                .frame(width: 96, height: 96)
-                                .foregroundColor(self.viewModel.tmpChoicedBread ==  Bread(rawValue: item)! ? .primaryOrange : .primaryOrangeBright)
-                                .overlay(
-                                    Image(assetName: item)
-                                        .resizable()
-                                        .frame(width:56, height: 56)
-                                )
-                            
-                            Text(breadDictionary[item]!)
-                                .pretendardFont(family: .SemiBold, size: 14)
+                    if let commonData = bakeViewModel.commonCodeModel?.data {
+                        let sortedCommCds = commonData.commCds.filter { $0.commCD != "other" && $0.commCD != "proverb" && $0.commCD != "unknown"}
+                        ForEach(sortedCommCds, id: \.self) { item in
+                            VStack {
+                                Circle()
+                                    .frame(width: 96, height: 96)
+                                    .foregroundColor(self.viewModel.selectSource ==  item.commCD ? .primaryOrange : .primaryOrangeBright)
+                                    .overlay(
+                                        Image(assetName: bakeViewModel.generateSourceBreadImage(commCd: item.commCD))
+                                            .resizable()
+                                            .frame(width:56, height: 56)
+                                    )
+                                Text(bakeViewModel.generateSourceBreadText(commCd: item.commCD))
+                                    .pretendardFont(family: .SemiBold, size: 14)
+                            }
+                            .onTapGesture {
+                                self.viewModel.selectSource = item.commCD
+                                self.viewModel.tmpChoicedBread = Bread(rawValue: bakeViewModel.generateSourceBreadImage(commCd: item.commCD))
+                                print("선택된  source \(self.viewModel.selectSource)")
+                                
+                            }
+   
                         }
-                        .onTapGesture {
-                            self.viewModel.tmpChoicedBread = Bread(rawValue: item)!
-                            print("타입 \(item)")
-                        }
+                        
                     }
                 }
             }

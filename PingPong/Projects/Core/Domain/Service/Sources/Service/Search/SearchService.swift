@@ -21,7 +21,7 @@ extension SearchService: BaseTargetType {
         case .searchQuote:
             return PingPongAPISearch.searchQuote
         case .searchCommCode(let commCdTpCd):
-            return "\(PingPongAPISearch.searchCommonCode)"
+            return "\(PingPongAPISearch.searchCommonCode)\(commCdTpCd)"
         }
     }
     

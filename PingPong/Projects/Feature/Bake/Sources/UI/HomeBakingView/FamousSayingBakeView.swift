@@ -13,6 +13,7 @@ import SwiftUI
 struct FamousSayingBakeView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject private var bakeViewModel: BakeViewModel = BakeViewModel()
     var backAction: () -> Void
     var rebakeAction: () -> Void
     
@@ -39,9 +40,11 @@ struct FamousSayingBakeView: View {
         .navigationDestination(isPresented: $appState.isCompleteBake) {
             FamousSayingBakeCardView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
         }
-        .onAppear {
+        .task {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                 appState.isCompleteBake.toggle()
+                
+                bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor ?? "", source: viewModel.selectSource ?? "", mood: viewModel.selectMood ?? "")
             }
         }
     }

@@ -41,13 +41,20 @@ public struct HomeView: View {
             .onAppear {
                 if !isOn.isEmpty {
                     self.isOn[0] = true
-                    homeViewModel.randomQuoteRequest(userID: "423") { data in
-                        print(data)
-                        CommonViewViewModel.cards.append(CardInfomation(stageNum: 0, hashtags: <#T##Hashtags#>, image: <#T##String#>, title: <#T##String#>, sources: <#T##String#>, isBookrmark: <#T##Bool#>))
+                    homeViewModel.randomQuoteRequest(userID: "423") {
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                            
+                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.flavor ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                        }
                     }
                 } else {
-                    homeViewModel.randomQuoteRequest(userID: "423") { data  in
-                        print(data)
+                    homeViewModel.randomQuoteRequest(userID: "423") {
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                            
+                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.flavor ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                        }
                     }
                 }
             }
@@ -65,7 +72,7 @@ public struct HomeView: View {
     @ViewBuilder
     private func carouselRandomQuoteView() -> some View {
         if let contents = homeViewModel.homeRandomQuoteModel?.data?.content {
-            SnapCarousel(index: $currentIndex, items: contents, isOn : $isOn ) { post in
+            SnapCarousel(index: $currentIndex, items: contents, isOn : $viewModel.isOn ) { post in
                 
                 let hashTags = homeViewModel.getHashtags(post: post)
                 
