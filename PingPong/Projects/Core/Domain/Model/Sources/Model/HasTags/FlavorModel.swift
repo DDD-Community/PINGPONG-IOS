@@ -9,11 +9,11 @@
 import Foundation
 
 public enum Flavor: String {
-    case sweet = "달콤한 맛"
-    case salty = "짭짤한 맛"
-    case spicy = "매콤한 맛"
-    case nutty = "고소한 맛"
-    case light = "담백한 맛"
+    case sweet
+    case salty
+    case spicy
+    case nutty
+    case light
     
     public var type: FlavorType {
         switch self {

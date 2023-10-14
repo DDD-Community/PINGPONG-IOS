@@ -9,9 +9,9 @@
 import Foundation
 
 public enum Mood: String {
-    case condolence = "위로"
-    case motive = "동기부여"
-    case wisdom = "지혜"
+    case condolence
+    case motive
+    case wisdom
     
     public var type: ToppingType {
         switch self {

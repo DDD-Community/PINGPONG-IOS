@@ -148,7 +148,7 @@ public class CommonViewViewModel: ObservableObject {
             flavorAndGenre.userCustomSourceIconImageName = "dramaImage"
         case .famous:
             flavorAndGenre.userCustomSourceIconImageName = "celeImage"
-        case .greatMan:
+        case .greatman:
             flavorAndGenre.userCustomSourceIconImageName = "greatmanImage"
         }
         
