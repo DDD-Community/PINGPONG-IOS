@@ -12,5 +12,5 @@ public class ArchiveViewViewModel: ObservableObject {
     
     public init() { }
     
-    @Published var isAscendingOrder = true
+    @Published public var isAscendingOrder = true
 }

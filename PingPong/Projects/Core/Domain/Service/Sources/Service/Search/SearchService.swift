@@ -18,7 +18,7 @@ public enum SearchService {
 extension SearchService: BaseTargetType {
     public var path: String {
         switch self {
-        case .searchQuote:
+        case .searchQuote: 
             return PingPongAPISearch.searchQuote
         case .searchCommCode(let commCdTpCd):
             return "\(PingPongAPISearch.searchCommonCode)\(commCdTpCd)"
