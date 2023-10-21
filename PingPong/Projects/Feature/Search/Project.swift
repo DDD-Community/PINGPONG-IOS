@@ -26,7 +26,8 @@ let project = Project.makeAppModule(
         .Projcet.Model,
         .SPM.Moya,
         .SPM.CombineMoya,
-        .Projcet.Common
+        .Projcet.Common,
+        .Projcet.Archive
         
     ],
     sources: ["Sources/**"]

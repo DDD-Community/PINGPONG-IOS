@@ -26,18 +26,17 @@ public struct CompletOnBoardingView: View {
     }
     
     public var body: some View {
-        VStack {
-            favoriteRegistrationTitle()
-            
-            favoriteRegistrationImage()
-            
-            
-            completedOnBoardingButton()
-            
-            Spacer()
+        NavigationStack {
+            VStack {
+                favoriteRegistrationTitle()
+                
+                favoriteRegistrationImage()
+                
+                completedOnBoardingButton()
+                
+                Spacer()
+            }
         }
-        
-        
         
         .task {
             //MARK: -  임시 값

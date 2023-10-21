@@ -12,7 +12,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeAppWidgetModule(
+let project = Project.makeAppModule(
     name: "PingPong",
     bundleId: .mainBundleID(),
     platform: .iOS,
@@ -29,7 +29,7 @@ let project = Project.makeAppWidgetModule(
         .Projcet.OnBoarding,
 //        .SPM.GoogleSignIn,
 //        .sdk(name: "GTMAppAuth+", type: .library),
-        .sdk(name: "WidgetKit", type: .framework),
+//        .sdk(name: "WidgetKit", type: .framework),
         
 
         
