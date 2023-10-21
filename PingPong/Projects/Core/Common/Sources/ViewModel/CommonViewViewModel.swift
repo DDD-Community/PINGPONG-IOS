@@ -18,7 +18,6 @@ import Service
 public class CommonViewViewModel: ObservableObject {
     
     public init() {
-//        setupCustomTabs(homePosts: homePosts)
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
 
     }

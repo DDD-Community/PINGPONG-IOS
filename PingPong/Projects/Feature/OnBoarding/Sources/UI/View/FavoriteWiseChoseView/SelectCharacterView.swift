@@ -181,7 +181,7 @@ public struct SelectCharacterView: View {
             ForEach(sortedCommCds, id: \.self) { commCDItem in
                 let flavorIndex = viewModel.searchFlavorIndex(commNm: String(commCDItem.commNm.prefix(3)) + " " + String(commCDItem.commNm.dropFirst(3)))
 
-                let flavor: Flavor = Flavor(rawValue: viewModel.flavorArray.options[flavorIndex].val) ?? .light
+                let flavor: Flavor = Flavor(rawValue: commCDItem.commCD) ?? .light
                 let colorSet = viewModel.searchCharacterColor(flavor: flavor)
 
                 RoundedRectangle(cornerRadius: 10)

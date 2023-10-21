@@ -207,7 +207,7 @@ public struct ExploreView: View {
                         }
                         
                         HStack {
-                            Text(item.sources)
+                            Text(item.author)
                                 .baeEun(size: 18)
                                 .foregroundColor(.cardTextMain)
                                 .padding()

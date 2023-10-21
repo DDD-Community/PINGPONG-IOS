@@ -91,7 +91,7 @@ struct FamousSayingBakeCardView: View {
                                                     .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                                 Spacer()
                                             }
-                                            Text(post.sources)
+                                            Text(post.author)
                                                 .baeEun(size: 24)
                                                 .foregroundColor(.cardTextMain)
                                                 .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
@@ -183,7 +183,7 @@ struct FamousSayingBakeCardView: View {
                                                 .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                             Spacer()
                                         }
-                                        Text(post.sources)
+                                        Text(post.author)
                                             .baeEun(size: 24)
                                             .foregroundColor(.cardTextMain)
                                             .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))

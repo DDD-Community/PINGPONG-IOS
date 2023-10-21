@@ -18,7 +18,7 @@ public struct CardInfomation: Identifiable, Equatable {
     public var hashtags: Hashtags
     public var image: String
     public var title: String
-    public var sources: String
+    public var author: String
     public var isBookrmark: Bool
     
     public init(stageNum: Int, hashtags: Hashtags, image: String, title: String, sources: String, isBookrmark: Bool) {
@@ -26,7 +26,7 @@ public struct CardInfomation: Identifiable, Equatable {
         self.hashtags = hashtags
         self.image = image
         self.title = title
-        self.sources = sources
+        self.author = sources
         self.isBookrmark = isBookrmark
     }
 }

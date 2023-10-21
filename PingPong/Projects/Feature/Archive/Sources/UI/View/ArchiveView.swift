@@ -88,7 +88,7 @@ public struct ArchiveView: View {
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(post.sources)
+                                    Text(post.author)
                                         .baeEun(size: 18)
                                         .foregroundColor(.cardTextMain)
                                         .padding()

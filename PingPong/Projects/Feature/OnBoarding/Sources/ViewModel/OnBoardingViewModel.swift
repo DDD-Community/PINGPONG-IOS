@@ -61,8 +61,12 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectedFavoriteFlavor: String = ""
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
-    
-    @AppStorage("isLogin") public var isLogin: Bool = false
+    @Published public var isLoginCheck: Bool = false
+    @AppStorage("isLogin") public var isLogin: Bool = false {
+        didSet {
+            self.isLoginCheck = isLogin
+        }
+    }
     @AppStorage("isFirstUser") public var isFirstUser: Bool = false
     @AppStorage("completdSignUP") public var completdSignUP: Bool = false
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false

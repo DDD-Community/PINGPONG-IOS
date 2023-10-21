@@ -45,7 +45,7 @@ public struct HomeView: View {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
                             
-                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.flavor ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
                         }
                     }
                 } else {
@@ -53,7 +53,7 @@ public struct HomeView: View {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
                             
-                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.flavor ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
                         }
                     }
                 }
@@ -65,24 +65,19 @@ public struct HomeView: View {
                 appState.goToBackingView = false
             })
         }
-        
-        
     }
     
     @ViewBuilder
     private func carouselRandomQuoteView() -> some View {
-        if let contents = homeViewModel.homeRandomQuoteModel?.data?.content {
-            SnapCarousel(index: $currentIndex, items: contents, isOn : $viewModel.isOn ) { post in
+        SnapCarousel(index: $currentIndex, items: viewModel.cards, isOn : $viewModel.isOn ) { card in
                 
-                let hashTags = homeViewModel.getHashtags(post: post)
-                
-                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: hashTags)
+                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: card.hashtags)
                 
                 GeometryReader{ proxy in
                     let size = proxy.size
-                    let colorSet = viewModel.searchCharacterColor(flavor: hashTags.flavor)
+                    let colorSet = viewModel.searchCharacterColor(flavor: card.hashtags.flavor)
                     
-                    let shareView = shareView(colorSet: colorSet, size: size, imageNameAndText: imageNameAndText, post: post)
+                    let shareView = shareView(colorSet: colorSet, size: size, imageNameAndText: imageNameAndText, card: card)
                     
                     
                     RoundedRectangle(cornerRadius: 12)
@@ -93,19 +88,19 @@ public struct HomeView: View {
                                 usercustomBreadView(imageNameAndText: imageNameAndText)
                                 
                                 VStack{
-                                    hashTagsView(colorSet: colorSet, hashTags: hashTags, imageNameAndText: imageNameAndText)
+                                    hashTagsView(colorSet: colorSet, hashTags: card.hashtags, imageNameAndText: imageNameAndText)
                                     Spacer()
                                     HStack{
                                         VStack(alignment: .leading){
                                             Spacer()
                                             HStack{
-                                                Text(post.content ?? "")
+                                                Text(card.title)
                                                     .baeEun(size: 28)
                                                     .foregroundColor(.cardTextMain)
                                                     .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                                 Spacer()
                                             }
-                                            Text(post.author ?? "")
+                                            Text(card.author)
                                                 .baeEun(size: 24)
                                                 .foregroundColor(.cardTextMain)
                                                 .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
@@ -113,7 +108,7 @@ public struct HomeView: View {
                                         .frame(width: UIScreen.screenWidth * 0.6)
                                         
                                         Spacer()
-                                        cardSideView(colorSet: colorSet, post: post, shareView: shareView)
+                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
                                     }
                                 }
                             }
@@ -123,8 +118,6 @@ public struct HomeView: View {
                 
             }
             .frame(height: UIScreen.screenHeight * 0.64)
-        }
-        
     }
     
     private var bakeBreadButton: some View {
@@ -176,7 +169,7 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    private func shareView(colorSet: CharacterColor, size: CGSize, imageNameAndText: UserCustomBreadViewInfo, post: QuoteContent) -> some View {
+    private func shareView(colorSet: CharacterColor, size: CGSize, imageNameAndText: UserCustomBreadViewInfo, card: CardInfomation) -> some View {
         VStack {
             RoundedRectangle(cornerRadius: 12)
                 .foregroundColor(colorSet.background)
@@ -194,13 +187,13 @@ public struct HomeView: View {
                                     Spacer()
                                     
                                     HStack{
-                                        Text(post.content ?? "")
+                                        Text(card.title)
                                             .baeEun(size: 28)
                                             .foregroundColor(.cardTextMain)
                                             .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                         Spacer()
                                     }
-                                    Text(post.source ?? "")
+                                    Text(card.author)
                                         .baeEun(size: 24)
                                         .foregroundColor(.cardTextMain)
                                         .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
@@ -251,7 +244,7 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    func cardSideView(colorSet: CharacterColor, post: QuoteContent, shareView: any View) -> some View {
+    func cardSideView(colorSet: CharacterColor, card: CardInfomation, shareView: any View) -> some View {
         VStack{
             Spacer()
             Circle()
@@ -269,10 +262,10 @@ public struct HomeView: View {
                 .frame(width: 44)
                 .overlay(
                     Image(systemName: "heart")
-                        .foregroundColor(post.likeYn ?? false ?  .basicWhite : colorSet.icon)
+                        .foregroundColor(card.isBookrmark ?  .basicWhite : colorSet.icon)
                 )
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
-                .foregroundColor(post.likeYn ?? false ? colorSet.icon : colorSet.iconBackground)
+                .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
             //                                                .onTapGesture {
             //                                                    let postIndex = post.quoteID
             //                                                    viewModel.homePosts[postIndex ?? .zero].isBookrmark.toggle()

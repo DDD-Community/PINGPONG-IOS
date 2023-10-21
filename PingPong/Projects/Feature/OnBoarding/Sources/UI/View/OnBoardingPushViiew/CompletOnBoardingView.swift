@@ -42,12 +42,6 @@ public struct CompletOnBoardingView: View {
             //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "423")
         }
-        
-        .navigationDestination(isPresented: $viewModel.inviteMainView, destination: {
-            CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
-                .navigationBarHidden(true)
-                .environmentObject(sheetManger)
-        })
     }
     
     @ViewBuilder
@@ -121,9 +115,8 @@ public struct CompletOnBoardingView: View {
                 }
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
+                    viewModel.isLogin = true
                     viewModel.isFirstUser = true
-                    viewModel.inviteMainView.toggle()
-                    
                 }
         }
     }

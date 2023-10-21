@@ -18,12 +18,12 @@ import Core
 public struct OnBoardingView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
-    @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
+    @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
-    public init() {
-        //        self.i0 = i0
+    public init(viewModel: OnBoardingViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     public var body: some View {
         NavigationStack {

@@ -71,6 +71,9 @@ public struct CoreView: View {
         }
         .navigationBarHidden(true)
         .ignoresSafeArea()
+        .onAppear {
+            self.viewModel.setupCustomTabs()
+        }
     }
     
     @ViewBuilder

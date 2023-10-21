@@ -16,7 +16,7 @@ import SwiftUI
 
 
 extension CommonViewViewModel {
-     func setupCustomTabs() {
+     public func setupCustomTabs() {
         let homeView = HomeView(viewModel: self)
         let exploreView = ExploreView(viewModel: self)
         let arhiveView = ArchiveView(viewModel: self)
