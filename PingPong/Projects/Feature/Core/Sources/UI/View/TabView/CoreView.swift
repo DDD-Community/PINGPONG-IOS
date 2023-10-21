@@ -40,6 +40,7 @@ public struct CoreView: View {
                         }
                         selectTabView()
                     }
+                    
                     mainTabBar()
                 }
                 .modal(with: sheetManager, viewModel: viewModel)

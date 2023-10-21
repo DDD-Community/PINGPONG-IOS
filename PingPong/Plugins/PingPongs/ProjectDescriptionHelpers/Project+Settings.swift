@@ -26,9 +26,33 @@ extension Settings {
                 "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File",
                 "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""]
         ,configurations: [
-            .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable",  "-all_load"],  ]),
-            .debug(name: "Dev", settings: ["PRODUCT_NAME" : "PingPong-Dev","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"], "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: "$(APP_PROVISIONING_PROFILE)")]),
-            .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])], defaultSettings: .recommended)
+            .debug(name: .debug, settings: [
+                "PRODUCT_NAME" : "PingPong",
+                "DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": [
+                    "-Xlinker", "-interposable",  "-all_load", "-ObjC"],
+                "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
+                "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+                       "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+            ]),
+            .debug(name: "Dev", settings: [
+                "PRODUCT_NAME" : "PingPong-Dev",
+                "DISPLAY_NAME" : "PingPong",
+                "OTHER_LDFLAGS": [
+                    "-Xlinker", "-interposable", "-all_load", "-ObjC"], "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: "$(APP_PROVISIONING_PROFILE)"),
+                "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
+                "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+                       "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+                
+            ]),
+            .release(name: .release, settings: [
+                "DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"",
+                "PRODUCT_NAME" :"PingPongs" ,
+                "DISPLAY_NAME" : "PingPong" ,
+                "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load", "-ObjC"],
+                "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
+                "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+                       "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+            ])], defaultSettings: .recommended)
                                                                            
                                                                            
    public static let appBaseSetting: Settings = .settings(
@@ -37,8 +61,21 @@ extension Settings {
                 "CURRENT_PROJECT_VERSION": .string(.appBuildVersion()),
                 "CODE_SIGN_STYLE": "Automatic",
                 "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],configurations: [
-                .debug(name: .debug, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable","-all_load"]]),
-                .release(name: .release, settings: ["PRODUCT_NAME": "PingPong", "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])], defaultSettings: .recommended)
+                .debug(name: .debug, settings: [
+                    "PRODUCT_NAME": "PingPong",
+                    "OTHER_LDFLAGS": [
+                        "-Xlinker", "-interposable","-all_load", "-ObjC"],
+                    "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
+                    "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+                           "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+                ]),
+                .release(name: .release, settings: [
+                    "PRODUCT_NAME": "PingPong",
+                    "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load", "-ObjC"],
+                    "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
+                    "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+                           "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+                ])], defaultSettings: .recommended)
                                                                            
     public static let appWidgetSetting: Settings = .settings(
         base: [ "PRODUCT_NAME": "PingPong",
@@ -50,9 +87,9 @@ extension Settings {
                 "DEVELOPMENT_TEAM": "N94CS4N6VR",
                 "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File",
                 "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""] ,configurations: [
-                    .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable",  "-all_load"]]),
+                    .debug(name: .debug, settings: ["PRODUCT_NAME" : "PingPong","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable",  "-all_load", "-ObjC"]]),
                     .debug(name: "Dev", settings: ["PRODUCT_NAME" : "PingPong-Dev","DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]]),
-                    .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load"]])],
+                    .release(name: .release, settings: ["DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"","PRODUCT_NAME" :"PingPongs" , "DISPLAY_NAME" : "PingPong" ,  "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load", "-ObjC"]])],
         defaultSettings: .recommended)}
                                                                            
                                                                            

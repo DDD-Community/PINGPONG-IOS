@@ -23,7 +23,7 @@ import Service
 public class AuthorizationViewModel: ObservableObject {
     
     
-    @Published var userSession: FirebaseAuth.User?
+    @Published var userSession: Firebase.User?
     @Published public var nonce: String  = ""
     @AppStorage("log_status") var log_Status = false
     @AppStorage("Uid") public var uid: String = ""

@@ -24,7 +24,6 @@ let project = Project.makeAppModule(
         .Projcet.Service,
         .SPM.Moya,
         .SPM.CombineMoya,
-//        .SPM.FirebaseAuth,
         .Projcet.Authorization,
         .Projcet.Core,
         .Projcet.Common
