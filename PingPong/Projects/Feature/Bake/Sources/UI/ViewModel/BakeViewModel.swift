@@ -75,7 +75,7 @@ public class BakeViewModel: ObservableObject {
             return "carouselsweetImage"
         case "salty":
             return "carouselsaltyImage"
-        case "hot":
+        case "spicy":
             return "carouselspicyImage"
         case "nutty" :
             return "carouselnuttyImage"
@@ -94,7 +94,7 @@ public class BakeViewModel: ObservableObject {
             return "초콜릿"
         case "salty":
             return "치즈"
-        case "hot":
+        case "spicy":
             return "할라피뇨"
         case "nutty" :
             return "생크림"
