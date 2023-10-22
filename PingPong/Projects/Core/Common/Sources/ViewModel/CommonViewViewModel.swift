@@ -196,6 +196,17 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
+    public func generateInfo(situationFlavorSourceTitle: SituationFlavorSourceTitle, flavorCountInfo: OptionButtonInfo, situationInfo: OptionButtonInfo, sourceCountInfo: OptionButtonInfo) -> OptionButtonInfo {
+        switch situationFlavorSourceTitle {
+        case .flavor:
+            return flavorCountInfo
+        case .situation:
+            return situationInfo
+        case .source:
+            return sourceCountInfo
+        }
+    }
+    
     
 
     

@@ -108,6 +108,7 @@ public struct HomeView: View {
                                         .frame(width: UIScreen.screenWidth * 0.6)
                                         
                                         Spacer()
+                                        
                                         cardSideView(colorSet: colorSet, card: card, shareView: shareView)
                                     }
                                 }
