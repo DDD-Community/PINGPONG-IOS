@@ -28,7 +28,7 @@ public struct ChoiceToppingView: View {
         self.rebakeAction = rebakeAction
     }
     
-
+    
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
         ZStack {
@@ -102,23 +102,27 @@ public struct ChoiceToppingView: View {
                 
                 LazyVGrid(columns: columns, spacing: 10) {
                     if let commonData = bakeViewModel.commonCodeModel?.data {
+                        
                         ForEach(commonData.commCds, id: \.self) { item in
+                            
+                            let mood: Mood = Mood(rawValue: item.commCD) ?? .motivation
+                            
                             VStack {
                                 Circle()
                                     .frame(width: 96, height: 96)
-                                    .foregroundColor(self.viewModel.tmpChoicedTopping ==  Topping(rawValue: bakeViewModel.generateMoodTopicingImage(commCd: item.commCD)) ? .primaryOrange : .primaryOrangeBright)
+                                    .foregroundColor(self.viewModel.tmpChoicedTopping == mood.type.topping  ? .primaryOrange : .primaryOrangeBright)
                                     .overlay(
-                                        Image(assetName: bakeViewModel.generateMoodTopicingImage(commCd: item.commCD))
+                                        Image(assetName: mood.type.topping.imageName)
                                             .resizable()
                                             .frame(width:56, height: 56)
                                     )
                                 
-                                Text(bakeViewModel.generateMoodTopicingText(commCd: item.commCD))
+                                Text(mood.type.topping.korean)
                                     .pretendardFont(family: .SemiBold, size: 14)
                             }
                             .onTapGesture {
-                                self.viewModel.selectMood = item.commCD
-                                self.viewModel.tmpChoicedTopping = Topping(rawValue: bakeViewModel.generateMoodTopicingImage(commCd: item.commCD))
+                                self.viewModel.selectMood = mood
+                                self.viewModel.tmpChoicedTopping = mood.type.topping
                             }
                         }
                     }
@@ -148,7 +152,7 @@ public struct ChoiceToppingView: View {
                 .disabled(viewModel.tmpChoicedTopping == nil)
         }
     }
-
+    
     @ViewBuilder
     private func validateImageView(imageName: String?) -> some View {
         HStack {
@@ -160,6 +164,6 @@ public struct ChoiceToppingView: View {
             EmptyView()
         }
     }
-
+    
 }
 

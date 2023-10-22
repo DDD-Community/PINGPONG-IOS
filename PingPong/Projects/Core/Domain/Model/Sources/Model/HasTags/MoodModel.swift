@@ -9,24 +9,35 @@
 import Foundation
 
 public enum Mood: String {
-    case condolence
-    case motive
+    case support
+    case motivation
     case wisdom
     
     public var type: ToppingType {
         switch self {
-        case .condolence:
-            return ToppingType(english: "condolence", korean: "위로", toppingImageName: .appleJam)
-        case .motive:
-            return ToppingType(english: "motive", korean: "동기부여", toppingImageName: .caramelSyrup)
+        case .support:
+            return ToppingType(english: "support", korean: "위로", topping: .appleJam)
+        case .motivation:
+            return ToppingType(english: "motivation", korean: "동기부여", topping: .caramelSyrup)
         case .wisdom:
-            return ToppingType(english: "wisdom", korean: "지혜", toppingImageName: .chestnut)
+            return ToppingType(english: "wisdom", korean: "지혜", topping: .chestnut)
+        }
+    }
+    
+    var iconImageName: String {
+        switch self {
+        case .motivation:
+            return "carouselMotivationImage"
+        case .support:
+            return "carouselSupportImage"
+        case .wisdom:
+            return  "carouselWisdomImage"
         }
     }
     
     public struct ToppingType {
         public let english: String
         public let korean: String
-        public let toppingImageName: Topping
+        public let topping: Topping
     }
 }

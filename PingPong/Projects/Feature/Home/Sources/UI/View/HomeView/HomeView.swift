@@ -71,13 +71,11 @@ public struct HomeView: View {
     private func carouselRandomQuoteView() -> some View {
         SnapCarousel(index: $currentIndex, items: viewModel.cards, isOn : $viewModel.isOn ) { card in
                 
-                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: card.hashtags)
-                
                 GeometryReader{ proxy in
                     let size = proxy.size
-                    let colorSet = viewModel.searchCharacterColor(flavor: card.hashtags.flavor)
+                    let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                     
-                    let shareView = shareView(colorSet: colorSet, size: size, imageNameAndText: imageNameAndText, card: card)
+//                    let shareView = shareView(colorSet: colorSet, size: size, imageNameAndText: imageNameAndText, card: card)
                     
                     
                     RoundedRectangle(cornerRadius: 12)
@@ -85,10 +83,10 @@ public struct HomeView: View {
                         .foregroundColor(colorSet.background)
                         .overlay(
                             ZStack {
-                                usercustomBreadView(imageNameAndText: imageNameAndText)
+                                usercustomBreadView(hashtags: card.hashtags)
                                 
                                 VStack{
-                                    hashTagsView(colorSet: colorSet, hashTags: card.hashtags, imageNameAndText: imageNameAndText)
+                                    hashTagsView(colorSet: colorSet, hashtags: card.hashtags)
                                     Spacer()
                                     HStack{
                                         VStack(alignment: .leading){
@@ -108,7 +106,7 @@ public struct HomeView: View {
                                         .frame(width: UIScreen.screenWidth * 0.6)
                                         
                                         Spacer()
-                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
+//                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
                                     }
                                 }
                             }
@@ -141,22 +139,22 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    private func usercustomBreadView(imageNameAndText: UserCustomBreadViewInfo) -> some View {
+    private func usercustomBreadView(hashtags: Hashtags) -> some View {
         VStack {
             HStack {
                 ZStack {
-                    Image(assetName: imageNameAndText.userCustomBackgroundImageName)
+                    Image(assetName: hashtags.flavor.type.backgroundImageName1)
                         .resizable()
                         .frame(width: 335, height: 236)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     ZStack {
-                        Image(assetName: "carousel\(imageNameAndText.userCustomSourceIconImageName)")
+                        Image(assetName: "carousel\(hashtags.source.type.bread.imageName)")
                             .resizable()
                             .frame(width: 120, height: 120)
-                        Image(assetName: "carousel\(imageNameAndText.userCustomFlavorImageName)")
+                        Image(assetName: "carousel\(hashtags.flavor.type.ingredent.imageName)")
                             .resizable()
                             .frame(width: 120, height: 120)
-                        Image(assetName: "carousel\(imageNameAndText.userCustomMoodImageName)")
+                        Image(assetName: "carousel\(hashtags.mood.type.topping.imageName)")
                             .resizable()
                             .frame(width: 120, height: 120)
                     }
@@ -169,14 +167,14 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    private func shareView(colorSet: CharacterColor, size: CGSize, imageNameAndText: UserCustomBreadViewInfo, card: CardInfomation) -> some View {
+    private func shareView(colorSet: FlavorColor, size: CGSize, card: CardInfomation) -> some View {
         VStack {
             RoundedRectangle(cornerRadius: 12)
                 .foregroundColor(colorSet.background)
                 .frame(width: size.width, height: size.height * 0.6)
                 .overlay(
                     ZStack {
-                        usercustomBreadView(imageNameAndText: imageNameAndText)
+                        usercustomBreadView(hashtags: card.hashtags)
                         
                         VStack{
                             Spacer()
@@ -209,12 +207,12 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    func hashTagsView(colorSet: CharacterColor, hashTags: Hashtags, imageNameAndText: UserCustomBreadViewInfo) -> some View {
+    func hashTagsView(colorSet: FlavorColor, hashtags: Hashtags) -> some View {
         HStack{
             HStack{
                 HStack {
-                    Image(assetName: imageNameAndText.userCustomFlavorImageName)
-                    Text("\(hashTags.flavor.type.korean)")
+                    Image(assetName: hashtags.flavor.type.smallIconImageName)
+                    Text("\(hashtags.flavor.type.korean)")
                         .pretendardFont(family: .SemiBold, size: 12)
                 }
                 .foregroundColor(colorSet.icon)
@@ -226,8 +224,8 @@ public struct HomeView: View {
                 )
                 
                 HStack {
-                    Image(assetName: imageNameAndText.userCustomSourceIconImageName)
-                    Text("\(hashTags.source.type.korean)")
+                    Image(assetName: hashtags.source.type.smallIconImageName)
+                    Text("\(hashtags.source.type.korean)")
                         .pretendardFont(family: .SemiBold, size: 12)
                         .foregroundColor(colorSet.icon)
                 }
@@ -244,7 +242,7 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    func cardSideView(colorSet: CharacterColor, card: CardInfomation, shareView: any View) -> some View {
+    func cardSideView(colorSet: FlavorColor, card: CardInfomation, shareView: any View) -> some View {
         VStack{
             Spacer()
             Circle()

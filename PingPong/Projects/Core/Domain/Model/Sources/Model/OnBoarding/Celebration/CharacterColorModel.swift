@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-public struct CharacterColor {
+public struct FlavorColor {
     public let icon: Color
     public let iconBackground: Color
     public let background: Color

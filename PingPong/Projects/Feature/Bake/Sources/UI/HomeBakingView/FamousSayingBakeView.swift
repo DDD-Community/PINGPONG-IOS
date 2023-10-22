@@ -44,7 +44,7 @@ struct FamousSayingBakeView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                 appState.isCompleteBake.toggle()
                 
-                bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor ?? "", source: viewModel.selectSource ?? "", mood: viewModel.selectMood ?? "")
+                bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor?.type.english ?? "", source: viewModel.selectSource?.type.english ?? "", mood: viewModel.selectMood?.type.english ?? "")
             }
         }
     }

@@ -9,30 +9,32 @@
 import Foundation
 
 public enum Source: String {
-    case animation
-    case famous
+    case anime
+    case celeb
     case book
-    case drama
+    case film
     case greatman 
     
     public var type: SourceType {
         switch self {
         case .greatman:
-            return SourceType(english: "greatMan", korean: "위인", breadImageName: .breadViewBread)
-        case .famous:
-            return SourceType(english: "famous", korean: "유명인", breadImageName: .croissant)
-        case .animation:
-            return SourceType(english: "animation", korean: "애니메이션", breadImageName: .cookie)
-        case .drama:
-            return SourceType(english: "drama", korean: "드라마/영화", breadImageName: .pancake)
+            return SourceType(english: "greatMan", korean: "위인", bread: .plainBread, smallIconImageName: "greatmanImage")
+        case .celeb:
+            return SourceType(english: "famous", korean: "유명인", bread: .croissant, smallIconImageName: "celeImage")
+        case .anime:
+            return SourceType(english: "animation", korean: "애니메이션", bread: .cookie, smallIconImageName: "animeImage")
+        case .film:
+            return SourceType(english: "film", korean: "드라마/영화", bread: .pancake, smallIconImageName: "filmImage")
         case .book:
-            return SourceType(english: "book", korean: "책", breadImageName: .ciabatta)
+            return SourceType(english: "book", korean: "책", bread: .ciabatta, smallIconImageName: "bookImage")
         }
     }
     
     public struct SourceType {
         public let english: String
         public let korean: String
-        public let breadImageName: Bread
+        public let bread: Bread
+        
+        public let smallIconImageName: String
     }
 }

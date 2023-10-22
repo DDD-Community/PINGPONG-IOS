@@ -56,54 +56,55 @@ public struct ArchiveView: View {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
                         ForEach(posts) { post in
-                            let colorSet = viewModel.searchCharacterColor(flavor: Flavor(rawValue: post.hashtags.flavor.rawValue) ?? .light)
-                            VStack {
-                                HStack {
-                                    let imageSet = viewModel.generateImageNameAndText(hashtags: post.hashtags)
-                                    Circle()
-                                        .foregroundColor(colorSet.iconBackground)
-                                        .frame(width: 20, height: 20)
-                                        .overlay(
-                                            Image(assetName: imageSet.userCustomFlavorImageName)
-                                                .resizable()
-                                                .frame(width: 14, height: 14)
-                                        )
-                                    Circle()
-                                        .foregroundColor(colorSet.iconBackground)
-                                        .frame(width: 20, height: 20)
-                                        .overlay(
-                                            Image(assetName: imageSet.userCustomSourceIconImageName)
-                                                .resizable()
-                                                .frame(width: 14, height: 14)
-                                        )
-                                    Spacer()
-                                }
-                                .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
-                                Spacer()
-                                HStack {
-                                    Text(post.title)
-                                        .baeEun(size: 18)
-                                        .foregroundColor(.cardTextMain)
-                                        .padding()
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text(post.author)
-                                        .baeEun(size: 18)
-                                        .foregroundColor(.cardTextMain)
-                                        .padding()
-                                    Spacer()
-                                }
-                            }.frame(width: 165, height: 240, alignment: .leading)
-                                .background(colorSet.background)
-                                .cornerRadius(10)
-                                .onTapGesture {
-                                    withAnimation {
-                                        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
-                                        viewModel.updateDetailViewInfo(colorSet: colorSet, cardInfomation: post, imageNameAndText: imageNameAndText)
-                                        viewModel.isShowDetailView.toggle()
-                                    }
-                                }
+                            
+                            let colorSet = viewModel.createColorSet(flavor: post.hashtags.flavor)
+                            
+//                            VStack {
+//                                HStack {
+//                                    Circle()
+//                                        .foregroundColor(post.hashtags.flavor.type.backgroundImageName1)
+//                                        .frame(width: 20, height: 20)
+//                                        .overlay(
+//                                            Image(assetName: post.hashtags.flavor.type.smallIconImageName)
+//                                                .resizable()
+//                                                .frame(width: 14, height: 14)
+//                                        )
+//                                    Circle()
+//                                        .foregroundColor(colorSet.iconBackground)
+//                                        .frame(width: 20, height: 20)
+//                                        .overlay(
+//                                            Image(assetName: post.hashtags.flavor.type.smallIconImageName)
+//                                                .resizable()
+//                                                .frame(width: 14, height: 14)
+//                                        )
+//                                    Spacer()
+//                                }
+//                                .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
+//                                Spacer()
+//                                HStack {
+//                                    Text(post.title)
+//                                        .baeEun(size: 18)
+//                                        .foregroundColor(.cardTextMain)
+//                                        .padding()
+//                                    Spacer()
+//                                }
+//                                HStack {
+//                                    Text(post.author)
+//                                        .baeEun(size: 18)
+//                                        .foregroundColor(.cardTextMain)
+//                                        .padding()
+//                                    Spacer()
+//                                }
+//                            }.frame(width: 165, height: 240, alignment: .leading)
+//                                .background(colorSet.background)
+//                                .cornerRadius(10)
+//                                .onTapGesture {
+//                                    withAnimation {
+//                                        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
+//                                        viewModel.updateDetailViewInfo(colorSet: colorSet, cardInfomation: post, imageNameAndText: imageNameAndText)
+//                                        viewModel.isShowDetailView.toggle()
+//                                    }
+//                                }
                         }
                     }
                 }

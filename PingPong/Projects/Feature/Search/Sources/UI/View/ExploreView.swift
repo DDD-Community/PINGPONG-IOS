@@ -80,7 +80,7 @@ public struct ExploreView: View {
                 staticsView(count: viewModel.cards.count)
                 
                 if !viewModel.cards.isEmpty {
-                    searchTextisEmptyQuote
+//                    searchTextisEmptyQuote
                     
                 }  else {
                     
@@ -167,69 +167,69 @@ public struct ExploreView: View {
             )
     }
     
-    private var searchTextisEmptyQuote: some View {
-        ScrollView(.vertical) {
-            LazyVGrid(columns: columns) {
-                ForEach(viewModel.cards) { item in
-                    let colorSet = viewModel.searchCharacterColor(flavor: Flavor(rawValue: item.hashtags.flavor.rawValue) ?? .light)
-                    VStack {
-                        HStack {
-                            let imageSet = viewModel.generateImageNameAndText(hashtags: item.hashtags)
-                            Circle()
-                                .foregroundColor(colorSet.iconBackground)
-                                .frame(width: 20, height: 20)
-                                .overlay(
-                                    Image(assetName: imageSet.userCustomFlavorImageName)
-                                        .resizable()
-                                        .frame(width: 14, height: 14)
-                                )
-                            Circle()
-                                .foregroundColor(colorSet.iconBackground)
-                                .frame(width: 20, height: 20)
-                                .overlay(
-                                    Image(assetName: imageSet.userCustomSourceIconImageName)
-                                        .resizable()
-                                        .frame(width: 14, height: 14)
-                                )
-                            Spacer()
-                        }
-                        .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
-                        
-                        Spacer()
-                        
-                        HStack {
-                            Text(item.title)
-                                .baeEun(size: 18)
-                                .foregroundColor(.cardTextMain)
-                                .allowsTightening(true)
-                                .padding()
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Text(item.author)
-                                .baeEun(size: 18)
-                                .foregroundColor(.cardTextMain)
-                                .padding()
-                            Spacer()
-                        }
-                    }
-                        .frame(width: 175, height: 240, alignment: .leading)
-                        .background(colorSet.background)
-                        .allowsTightening(true)
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            withAnimation {
-                                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: item.hashtags)
-                                viewModel.updateDetailViewInfo(colorSet: colorSet, cardInfomation: item, imageNameAndText: imageNameAndText)
-                                viewModel.isShowDetailView.toggle()
-                            }
-                        }
-                }
-            }
-        }
-        .frame(height: UIScreen.main.bounds.height * 0.6)
-    }
+//    private var searchTextisEmptyQuote: some View {
+//        ScrollView(.vertical) {
+//            LazyVGrid(columns: columns) {
+//                ForEach(viewModel.cards) { item in
+//                    let colorSet = viewModel.createColorSet(flavor: item.hashtags.flavor)
+//                    VStack {
+//                        HStack {
+//                            let imageSet = viewModel.generateImageNameAndText(hashtags: item.hashtags)
+//                            Circle()
+//                                .foregroundColor(colorSet.iconBackground)
+//                                .frame(width: 20, height: 20)
+//                                .overlay(
+//                                    Image(assetName: imageSet.userCustomFlavorImageName)
+//                                        .resizable()
+//                                        .frame(width: 14, height: 14)
+//                                )
+//                            Circle()
+//                                .foregroundColor(colorSet.iconBackground)
+//                                .frame(width: 20, height: 20)
+//                                .overlay(
+//                                    Image(assetName: imageSet.userCustomSourceIconImageName)
+//                                        .resizable()
+//                                        .frame(width: 14, height: 14)
+//                                )
+//                            Spacer()
+//                        }
+//                        .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
+//
+//                        Spacer()
+//
+//                        HStack {
+//                            Text(item.title)
+//                                .baeEun(size: 18)
+//                                .foregroundColor(.cardTextMain)
+//                                .allowsTightening(true)
+//                                .padding()
+//                            Spacer()
+//                        }
+//
+//                        HStack {
+//                            Text(item.author)
+//                                .baeEun(size: 18)
+//                                .foregroundColor(.cardTextMain)
+//                                .padding()
+//                            Spacer()
+//                        }
+//                    }
+//                        .frame(width: 175, height: 240, alignment: .leading)
+//                        .background(colorSet.background)
+//                        .allowsTightening(true)
+//                        .cornerRadius(10)
+//                        .onTapGesture {
+//                            withAnimation {
+//                                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: item.hashtags)
+//                                viewModel.updateDetailViewInfo(colorSet: colorSet, cardInfomation: item, imageNameAndText: imageNameAndText)
+//                                viewModel.isShowDetailView.toggle()
+//                            }
+//                        }
+//                }
+//            }
+//        }
+//        .frame(height: UIScreen.main.bounds.height * 0.6)
+//    }
     
     @ViewBuilder
     private func staticsView(count: Int) -> some View {

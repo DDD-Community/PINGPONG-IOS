@@ -36,74 +36,73 @@ struct FamousSayingBakeCardView: View {
                 Spacer()
             }
             VStack {
-                var post = viewModel.generateCardByCondition()
-                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
+                var card = viewModel.generateCardByCondition()
                 let size = UIScreen.main.bounds.size
-                let colorSet = viewModel.searchCharacterColor(flavor: post.hashtags.flavor)
+                let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                 
-                let shareView =
-                VStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .foregroundColor(colorSet.background)
-                    
-                        .frame(width: size.width  - 40, height: size.height * 0.6)
-                        .overlay(
-                            ZStack {
-                                VStack {
-                                    HStack {
-                                        ZStack {
-                                            Image(assetName: imageNameAndText.userCustomMoodImageName)
-                                                .resizable()
-                                                .frame(width: 335, height: 236)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                            ZStack {
-                                                if let choicedBread = viewModel.choicedBread  {
-                                                    Image(assetName: "\(choicedBread.rawValue)")
-                                                        .resizable()
-                                                        .frame(width: 120, height: 120)
-                                                }
-                                                if let choicedIngredent = viewModel.choicedIngredent  {
-                                                    Image(assetName: "\(choicedIngredent.rawValue)")
-                                                        .resizable()
-                                                        .frame(width: 120, height: 120)
-                                                }
-                                                if let choicedTopping = viewModel.choicedTopping  {
-                                                    Image(assetName: "\(choicedTopping.rawValue)")
-                                                        .resizable()
-                                                        .frame(width: 120, height: 120)
-                                                }
-                                            }
-                                            .offset(x: -50, y: 22)
-                                        }
-                                        Spacer()
-                                    }
-                                    Spacer()
-                                }
-                                VStack{
-                                    Spacer()
-                                    HStack{
-                                        VStack(alignment: .leading){
-                                            Spacer()
-                                            HStack{
-                                                Text(post.title)
-                                                    .baeEun(size: 28)
-                                                    .foregroundColor(.cardTextMain)
-                                                    .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
-                                                Spacer()
-                                            }
-                                            Text(post.author)
-                                                .baeEun(size: 24)
-                                                .foregroundColor(.cardTextMain)
-                                                .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
-                                        }
-                                        .frame(width: UIScreen.screenWidth * 0.6)
-                                        Spacer()
-                                    }
-                                }
-                            }
-                        )
-                } .frame(width: size.width  - 40, height: size.height * 0.8)
-                
+//                let shareView =
+//                VStack {
+//                    RoundedRectangle(cornerRadius: 12)
+//                        .foregroundColor(colorSet.background)
+//
+//                        .frame(width: size.width  - 40, height: size.height * 0.6)
+//                        .overlay(
+//                            ZStack {
+//                                VStack {
+//                                    HStack {
+//                                        ZStack {
+//                                            Image(assetName: imageNameAndText.userCustomMoodImageName)
+//                                                .resizable()
+//                                                .frame(width: 335, height: 236)
+//                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+//                                            ZStack {
+//                                                if let choicedBread = viewModel.choicedBread  {
+//                                                    Image(assetName: "\(choicedBread.rawValue)")
+//                                                        .resizable()
+//                                                        .frame(width: 120, height: 120)
+//                                                }
+//                                                if let choicedIngredent = viewModel.choicedIngredent  {
+//                                                    Image(assetName: "\(choicedIngredent.imageName)")
+//                                                        .resizable()
+//                                                        .frame(width: 120, height: 120)
+//                                                }
+//                                                if let choicedTopping = viewModel.choicedTopping  {
+//                                                    Image(assetName: "\(choicedTopping.imageName)")
+//                                                        .resizable()
+//                                                        .frame(width: 120, height: 120)
+//                                                }
+//                                            }
+//                                            .offset(x: -50, y: 22)
+//                                        }
+//                                        Spacer()
+//                                    }
+//                                    Spacer()
+//                                }
+//                                VStack{
+//                                    Spacer()
+//                                    HStack{
+//                                        VStack(alignment: .leading){
+//                                            Spacer()
+//                                            HStack{
+//                                                Text(post.title)
+//                                                    .baeEun(size: 28)
+//                                                    .foregroundColor(.cardTextMain)
+//                                                    .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
+//                                                Spacer()
+//                                            }
+//                                            Text(post.author)
+//                                                .baeEun(size: 24)
+//                                                .foregroundColor(.cardTextMain)
+//                                                .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
+//                                        }
+//                                        .frame(width: UIScreen.screenWidth * 0.6)
+//                                        Spacer()
+//                                    }
+//                                }
+//                            }
+//                        )
+//                } .frame(width: size.width  - 40, height: size.height * 0.8)
+//
                 
                 RoundedRectangle(cornerRadius: 12)
                     .frame(width: size.width  - 40, height: size.height * 0.6)
@@ -113,7 +112,7 @@ struct FamousSayingBakeCardView: View {
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Image(assetName: imageNameAndText.userCustomBackgroundImageName)
+                                        Image(assetName: card.hashtags.flavor.type.backgroundImageName1)
                                             .resizable()
                                             .frame(width: 335, height: 236)
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -124,12 +123,12 @@ struct FamousSayingBakeCardView: View {
                                                     .frame(width: 120, height: 120)
                                             }
                                             if let choicedIngredent = viewModel.choicedIngredent  {
-                                                Image(assetName: "\(choicedIngredent.rawValue)")
+                                                Image(assetName: "\(choicedIngredent.imageName)")
                                                     .resizable()
                                                     .frame(width: 120, height: 120)
                                             }
                                             if let choicedTopping = viewModel.choicedTopping  {
-                                                Image(assetName: "\(choicedTopping.rawValue)")
+                                                Image(assetName: "\(choicedTopping.imageName)")
                                                     .resizable()
                                                     .frame(width: 120, height: 120)
                                             }
@@ -144,8 +143,8 @@ struct FamousSayingBakeCardView: View {
                                 HStack{
                                     HStack{
                                         HStack {
-                                            Image(assetName: imageNameAndText.userCustomFlavorImageName)
-                                            Text("\(post.hashtags.flavor.rawValue)")
+                                            Image(assetName: card.hashtags.flavor.type.smallIconImageName)
+                                            Text("\(card.hashtags.flavor.type.korean)")
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                         }
                                         .foregroundColor(colorSet.icon)
@@ -157,8 +156,8 @@ struct FamousSayingBakeCardView: View {
                                         )
                                         
                                         HStack {
-                                            Image(assetName: imageNameAndText.userCustomSourceIconImageName)
-                                            Text("\(post.hashtags.source.rawValue)")
+                                            Image(assetName: card.hashtags.source.type.smallIconImageName)
+                                            Text("\(card.hashtags.source.type.korean)")
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                                 .foregroundColor(colorSet.icon)
                                         }
@@ -177,13 +176,13 @@ struct FamousSayingBakeCardView: View {
                                     VStack(alignment: .leading){
                                         Spacer()
                                         HStack{
-                                            Text(post.title)
+                                            Text(card.title)
                                                 .baeEun(size: 28)
                                                 .foregroundColor(.cardTextMain)
                                                 .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
                                             Spacer()
                                         }
-                                        Text(post.author)
+                                        Text(card.author)
                                             .baeEun(size: 24)
                                             .foregroundColor(.cardTextMain)
                                             .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
@@ -201,21 +200,21 @@ struct FamousSayingBakeCardView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 16))
                                             .foregroundColor(colorSet.iconBackground)
                                             .onTapGesture {
-                                                SharedManger.shared.shareContent(content: shareView.asImage())
+//                                                SharedManger.shared.shareContent(content: shareView.asImage())
                                             }
                                         Circle()
                                             .frame(width: 44)
                                             .overlay(
                                                 Image(systemName: "heart")
-                                                    .foregroundColor(post.isBookrmark ?  .basicWhite : colorSet.icon)
+                                                    .foregroundColor(card.isBookrmark ?  .basicWhite : colorSet.icon)
                                             )
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
-                                            .foregroundColor(post.isBookrmark ? colorSet.icon : colorSet.iconBackground)
+                                            .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
 //                                                let postIndex = viewModel.searchPostIndex(post: post)
 //                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
                                                 
-                                                post.isBookrmark.toggle()
+                                                card.isBookrmark.toggle()
                                             }
                                     }
                                 }
@@ -250,7 +249,7 @@ struct FamousSayingBakeCardView: View {
             self.viewModel.tmpChoicedTopping = nil
         }
         .task {
-            bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor ?? "", source: viewModel.selectSource ?? "", mood: viewModel.selectMood ?? "")
+            bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor?.type.english ?? "", source: viewModel.selectSource?.type.english ?? "", mood: viewModel.selectMood?.type.english ?? "" )
         }
         .onDisappear {
             self.viewModel.choicedBread = nil
