@@ -89,7 +89,9 @@ public struct HomeView: View {
                                 
                                 VStack{
                                     hashTagsView(colorSet: colorSet, hashTags: card.hashtags, imageNameAndText: imageNameAndText)
+                                    
                                     Spacer()
+                                    
                                     HStack{
                                         VStack(alignment: .leading){
                                             Spacer()
@@ -109,7 +111,7 @@ public struct HomeView: View {
                                         
                                         Spacer()
                                         
-                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
+                                        cardSideView(colorSet: colorSet, card: card, idx: card.stageNum, shareView: shareView)
                                     }
                                 }
                             }
@@ -245,7 +247,7 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    func cardSideView(colorSet: CharacterColor, card: CardInfomation, shareView: any View) -> some View {
+    func cardSideView(colorSet: CharacterColor, card: CardInfomation, idx: Int ,shareView: any View) -> some View {
         VStack{
             Spacer()
             Circle()
@@ -267,12 +269,12 @@ public struct HomeView: View {
                 )
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                 .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
-            //                                                .onTapGesture {
-            //                                                    let postIndex = post.quoteID
-            //                                                    viewModel.homePosts[postIndex ?? .zero].isBookrmark.toggle()
-            //                                                    homeViewModel.userPrefRequest(userID: "403", quoteId: post.quoteID ?? .zero, isScarp: false)
-            //                                                    homeViewModel.userPrefRequest(userID: "403", quoteId: post.quoteID ?? .zero, isScarp: true)
-            //                                                }
+                .onTapGesture {
+                    let postIndex = homeViewModel.homeRandomQuoteModel?.data?.content[idx].quoteID
+                    viewModel.cards[postIndex ?? .zero].isBookrmark.toggle()
+                    homeViewModel.userPrefRequest(userID: "423", quoteId: postIndex ?? .zero, isScarp: false)
+                    homeViewModel.userPrefRequest(userID: "423", quoteId: postIndex ?? .zero, isScarp: true)
+                }
         }
     }
 }

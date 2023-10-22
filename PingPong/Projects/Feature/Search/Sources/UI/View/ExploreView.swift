@@ -45,7 +45,7 @@ public struct ExploreView: View {
                         HStack {
                             ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
                                 let info: OptionButtonInfo =  viewModel.generateInfo(
-                                    situationFlavorSourceTitle: .flavor,
+                                    situationFlavorSourceTitle: .situation,
                                     flavorCountInfo: .init(title: "0", count: idx),
                                     situationInfo: .init(title: "0", count: idx),
                                     sourceCountInfo: .init(title: "0", count: idx))
