@@ -18,6 +18,7 @@ public struct ExploreView: View {
     // 셀에 표시할 데이터 배열
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject var archiveViewViewModel: ArchiveViewViewModel = ArchiveViewViewModel()
+    @StateObject var exploreViewViewModel: ExploreViewModel = ExploreViewModel()
     
     public init(viewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -42,34 +43,34 @@ public struct ExploreView: View {
                 VStack {
                     HStack {
                         HStack {
-                            //                            ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
-                            //                                let info: OptionButtonInfo = generateInfo(
-                            //                                    situationFlavorSourceTitle: viewModel.searchViewButtonInfoArray[idx].title,
-                            //                                    flavorCountInfo: flavorCountInfo,
-                            //                                    situationInfo: situationInfo,
-                            //                                    sourceCountInfo: sourceCountInfo)
-                            //                                Button(action: {
-                            //                                    withAnimation {
-                            //                                        sheetManager.present(with: .init(idx: idx))
-                            //                                    }
-                            //                                    sheetManager.isPopup = true
-                            //                                }) {
-                            //
-                            //                                    Text(info.count == 0 ? "\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)" : "\(info.title) +\(info.count)")
-                            //                                        .foregroundColor(.cardTextMain)
-                            //                                        .pretendardFont(family: .SemiBold, size: 14)
-                            //                                        .frame(minWidth: 48, minHeight: 30)
-                            //                                        .padding(.horizontal, 8)
-                            //                                        .background(
-                            //                                            RoundedRectangle(cornerRadius: 8)
-                            //                                                .foregroundColor(info.count == 0 ? .primaryOrangeBright: .primaryOrangeOpacity40)
-                            //                                                .overlay(
-                            //                                                    RoundedRectangle(cornerRadius: 10)
-                            //                                                        .stroke(info.count == 0 ? Color.hotIconBG : .primaryOrange, lineWidth: 1)
-                            //                                                )
-                            //                                        )
-                            //                                }
-                            //                            }
+                            ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
+                                let info: OptionButtonInfo =  viewModel.generateInfo(
+                                    situationFlavorSourceTitle: .situation,
+                                    flavorCountInfo: .init(title: "0", count: idx),
+                                    situationInfo: .init(title: "0", count: idx),
+                                    sourceCountInfo: .init(title: "0", count: idx))
+                                Button(action: {
+                                    withAnimation {
+                                        sheetManager.present(with: .init(idx: idx))
+                                    }
+                                    sheetManager.isPopup = true
+                                }) {
+                                    
+                                    Text(info.count == 0 ? "\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)" : "\(info.title) +\(info.count)")
+                                        .foregroundColor(.cardTextMain)
+                                        .pretendardFont(family: .SemiBold, size: 14)
+                                        .frame(minWidth: 48, minHeight: 30)
+                                        .padding(.horizontal, 8)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .foregroundColor(info.count == 0 ? .primaryOrangeBright: .primaryOrangeOpacity40)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .stroke(info.count == 0 ? Color.hotIconBG : .primaryOrange, lineWidth: 1)
+                                                )
+                                        )
+                                }
+                            }
                         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
                         
                         Spacer()
@@ -258,49 +259,6 @@ public struct ExploreView: View {
         }
         .frame(width: UIScreen.screenWidth - 40, height: 38)
     }
-    
-    
-    
-    
-//    func generateInfo(situationFlavorSourceTitle: SituationFlavorSourceTitle, flavorCountInfo: OptionButtonInfo, situationInfo: OptionButtonInfo, sourceCountInfo: OptionButtonInfo) -> OptionButtonInfo {
-//        switch situationFlavorSourceTitle {
-//        case .flavor:
-//            return flavorCountInfo
-//        case .situation:
-//            return situationInfo
-//        case .source:
-//            return sourceCountInfo
-//        }
-//    }
 }
 
 
-struct SearchOption: Hashable, Identifiable {
-    let id: UUID = UUID()
-    var val: String
-    var detail: String
-    var isCheck: Bool = false
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(detail)
-        hasher.combine(val)
-    }
-    
-    static func == (lhs: SearchOption, rhs: SearchOption) -> Bool {
-        return lhs.detail == rhs.detail && lhs.val == rhs.val
-    }
-}
-
-
-struct SearchViewButtonInfo: Identifiable {
-    var shouldShowDropdown = false
-    let id: UUID = UUID()
-    let title: SituationFlavorSourceTitle
-    var options: [SearchOption]
-    var onSelect: ((_ key: String) -> Void)?
-}
-
-struct OptionButtonInfo {
-    let title: String
-    let count: Int
-}

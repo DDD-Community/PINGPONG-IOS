@@ -52,20 +52,20 @@ public struct CoreView: View {
                         
                     }
                 }
-//                .popup(isPresented: $isFistUserPOPUP) {
-//                    CustomPOPUP(image: .empty, title: "좌우를 넘기며", title1: "명언을 확인해보세요", subTitle: "", useGif: true, confirmAction: {
-//                        isFistUserPOPUP = false
-//                        viewModel.isFirstUserPOPUP = true
-//                    })
-//                } customize: { popup in
-//                    popup
-//                        .type(.default)
-//                        .position(.bottom)
-//                        .animation(.easeIn)
-//                        .closeOnTap(true)
-//                        .closeOnTapOutside(true)
-//                        .backgroundColor(.basicBlackDimmed)
-//                }
+                .popup(isPresented: $isFistUserPOPUP) {
+                    CustomPOPUP(image: .empty, title: "좌우를 넘기며", title1: "명언을 확인해보세요", subTitle: "", useGif: true, confirmAction: {
+                        isFistUserPOPUP = false
+                        viewModel.isFirstUserPOPUP = true
+                    })
+                } customize: { popup in
+                    popup
+                        .type(.default)
+                        .position(.bottom)
+                        .animation(.easeIn)
+                        .closeOnTap(true)
+                        .closeOnTapOutside(true)
+                        .backgroundColor(.basicBlackDimmed)
+                }
                 
             }
         }
@@ -116,8 +116,8 @@ public struct CoreView: View {
         VStack {
             Spacer()
             MainTabView(viewModel: self.viewModel, selectedTab: $viewModel.selectedTab)
-                .frame(height: UIScreen.main.bounds.height * 0.11)
-                .padding(.bottom, -UIScreen.main.bounds.height * 0.05)
+                .frame(height: UIScreen.main.bounds.height == 667 ? UIScreen.main.bounds.height * 0.13 : UIScreen.main.bounds.height * 0.11)
+                .padding(.bottom,  UIScreen.main.bounds.height == 667 ? -UIScreen.main.bounds.height * 0.04 : -UIScreen.main.bounds.height * 0.05)
         }
         Rectangle()
             .foregroundColor(sheetManager.isPopup ? Color.basicBlackDimmed : .clear)

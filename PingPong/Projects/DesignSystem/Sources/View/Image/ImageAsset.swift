@@ -33,6 +33,13 @@ public enum ImageAsset: String {
     case profileEdit
     //MARK: -  탭바 아이콘
 
+    //MARK: -  bake
+    case backAgain
+    case bakeHome
+    case cloud1
+    case cloud2
+    case cloud3
+    
     
     
     case empty
