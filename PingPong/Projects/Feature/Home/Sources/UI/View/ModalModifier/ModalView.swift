@@ -103,49 +103,49 @@ private extension ModalView {
     
     var contents: some View {
         VStack {
-            ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
-                let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
-                let situationFlavorSource = SituationFlavorSource(rawValue: option.val)!
-                let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
-                    .frame(width: 336, height: 68)
-                    .background(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
-                    .overlay(
-                        HStack {
-                            Circle()
-                                .frame(width: 44, height: 44)
-                                .padding()
-                                .foregroundColor(colorSet.icon)
-                                .overlay(
-                                    Image(assetName: situationFlavorSource.imageName)
-                                )
-                            VStack {
-                                HStack {
-                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
-                                        .pretendardFont(family: .Medium, size: 16)
-                                        .foregroundColor(.basicGray8)
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
-                                        .pretendardFont(family: .Medium, size: 12)
-                                        .foregroundColor(.basicGray6)
-                                    Spacer()
-                                }
-                            }
-                            Spacer()
-                            Button(action: {
-                                viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
-                            }) {
-                                Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
-                                    .padding()
-                            }
-                        }
-                    )
-            }
-            .animation(.none, value: UUID())
+//            ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
+//                let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
+//                let situationFlavorSource = SituationFlavorSource(rawValue: option.val)!
+//                let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
+//                    .frame(width: 336, height: 68)
+//                    .background(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
+//                    .overlay(
+//                        HStack {
+//                            Circle()
+//                                .frame(width: 44, height: 44)
+//                                .padding()
+//                                .foregroundColor(colorSet.icon)
+//                                .overlay(
+//                                    Image(assetName: situationFlavorSource.imageName)
+//                                )
+//                            VStack {
+//                                HStack {
+//                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
+//                                        .pretendardFont(family: .Medium, size: 16)
+//                                        .foregroundColor(.basicGray8)
+//                                    Spacer()
+//                                }
+//                                HStack {
+//                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
+//                                        .pretendardFont(family: .Medium, size: 12)
+//                                        .foregroundColor(.basicGray6)
+//                                    Spacer()
+//                                }
+//                            }
+//                            Spacer()
+//                            Button(action: {
+//                                viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+//                            }) {
+//                                Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
+//                                    .foregroundColor(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
+//                                    .padding()
+//                            }
+//                        }
+//                    )
+//            }
+//            .animation(.none, value: UUID())
             Spacer()
         }
         
@@ -274,33 +274,33 @@ enum SituationFlavorSource: String {
         }
 }
 
-private func generateSituationFlavorSourceColor(situationFlavorSource: SituationFlavorSource) -> CharacterColor {
+private func generateSituationFlavorSourceColor(situationFlavorSource: SituationFlavorSource) -> FlavorColor {
     switch situationFlavorSource {
     case .animation:
-        return CharacterColor(icon: .nuttyFilter, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .nuttyFilter, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .motivation:
-        return CharacterColor(icon: .motivateIcon, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .motivateIcon, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .consolation:
-        return CharacterColor(icon: .consolationIcon, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .consolationIcon, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .wisdom:
-        return CharacterColor(icon: .wisdomIcon, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .wisdomIcon, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .sweet:
-        return CharacterColor(icon: .sweetFilter, iconBackground: .sweetIconText, background: .sweetBG)
+        return FlavorColor(icon: .sweetFilter, iconBackground: .sweetIconText, background: .sweetBG)
     case .salty:
-        return CharacterColor(icon: .saltyIconBG, iconBackground: .saltyIconText, background: .saltyBG)
+        return FlavorColor(icon: .saltyIconBG, iconBackground: .saltyIconText, background: .saltyBG)
     case .spicy:
-        return CharacterColor(icon: .hotIconBG, iconBackground: .hotIconText, background: .hotBG)
+        return FlavorColor(icon: .hotIconBG, iconBackground: .hotIconText, background: .hotBG)
     case .nutty:
-        return CharacterColor(icon: .nuttyFilter, iconBackground: .nuttyIconText, background: .nuttyBG)
+        return FlavorColor(icon: .nuttyFilter, iconBackground: .nuttyIconText, background: .nuttyBG)
     case .light:
-        return CharacterColor(icon: .mildBG, iconBackground: .mildIconText, background: .mildBG)
+        return FlavorColor(icon: .mildBG, iconBackground: .mildIconText, background: .mildBG)
     case .historicalFigures:
-        return CharacterColor(icon: .sweetFilter, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .sweetFilter, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .celebrities:
-        return CharacterColor(icon: .saltyIconBG, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .saltyIconBG, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .dramaMovies:
-        return CharacterColor(icon: .hotIconBG, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .hotIconBG, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     case .books:
-        return CharacterColor(icon: .mildIconBG, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
+        return FlavorColor(icon: .mildIconBG, iconBackground: .primaryOrange, background: .primaryOrangeOpacity30)
     }
 }

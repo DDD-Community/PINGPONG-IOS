@@ -8,94 +8,99 @@
 
 import Common
 import DesignSystem
+import Model
 import SwiftUI
 
 struct FamousSayingDetailView: View {
     let shareManager = SharedManger.shared
     @StateObject private var viewModel: CommonViewViewModel
+    let card: CardInfomation
+    let colorSet: FlavorColor
     
-    public init(viewModel: CommonViewViewModel) {
+    public init(viewModel: CommonViewViewModel, card: CardInfomation) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self.card = card
+        self.colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
     }
     
     var body: some View {
-        let shareView =     VStack {
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(viewModel.detailViewInfo.colorSet.background)
-                .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.6)
-                .overlay(
-                    ZStack {
-                        VStack {
-                            HStack {
-                                ZStack {
-                                    Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomMoodImageName)
-                                        .resizable()
-                                        .frame(width: 335, height: 236)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    ZStack {
-                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)")
-                                            .resizable()
-                                            .frame(width: 120, height: 120)
-                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)")
-                                            .resizable()
-                                            .frame(width: 120, height: 120)
-                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomBackgroundImageName)")
-                                            .resizable()
-                                            .frame(width: 120, height: 120)
-                                    }
-                                    .offset(x: -50, y: 22)
-                                }
-                                Spacer()
-                            }
-                            Spacer()
-                        }
-                        VStack{
-                            Spacer()
-                            HStack{
-                                VStack(alignment: .leading){
-                                    Spacer()
-                                    HStack{
-                                        Text(viewModel.detailViewInfo.cardInfomation.title)
-                                            .baeEun(size: 28)
-                                            .foregroundColor(.cardTextMain)
-                                            .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
-                                        Spacer()
-                                    }
-                                    Text(viewModel.detailViewInfo.cardInfomation.author)
-                                        .baeEun(size: 24)
-                                        .foregroundColor(.cardTextMain)
-                                        .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
-                                }
-                                .frame(width: UIScreen.screenWidth * 0.6)
-                                Spacer()
-                            }
-                        }
-                    }
-                )
-        } .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.8)
-        
+//        let shareView =     VStack {
+//            RoundedRectangle(cornerRadius: 12)
+//                .foregroundColor(viewModel.detailViewInfo.colorSet.background)
+//                .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.6)
+//                .overlay(
+//                    ZStack {
+//                        VStack {
+//                            HStack {
+//                                ZStack {
+//                                    Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomMoodImageName)
+//                                        .resizable()
+//                                        .frame(width: 335, height: 236)
+//                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                                    ZStack {
+//                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)")
+//                                            .resizable()
+//                                            .frame(width: 120, height: 120)
+//                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)")
+//                                            .resizable()
+//                                            .frame(width: 120, height: 120)
+//                                        Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomBackgroundImageName)")
+//                                            .resizable()
+//                                            .frame(width: 120, height: 120)
+//                                    }
+//                                    .offset(x: -50, y: 22)
+//                                }
+//                                Spacer()
+//                            }
+//                            Spacer()
+//                        }
+//                        VStack{
+//                            Spacer()
+//                            HStack{
+//                                VStack(alignment: .leading){
+//                                    Spacer()
+//                                    HStack{
+//                                        Text(viewModel.detailViewInfo.cardInfomation.title)
+//                                            .baeEun(size: 28)
+//                                            .foregroundColor(.cardTextMain)
+//                                            .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
+//                                        Spacer()
+//                                    }
+//                                    Text(viewModel.detailViewInfo.cardInfomation.author)
+//                                        .baeEun(size: 24)
+//                                        .foregroundColor(.cardTextMain)
+//                                        .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
+//                                }
+//                                .frame(width: UIScreen.screenWidth * 0.6)
+//                                Spacer()
+//                            }
+//                        }
+//                    }
+//                )
+//        } .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.8)
+//
         ZStack {
             VStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(viewModel.detailViewInfo.colorSet.background)
+                    .foregroundColor(colorSet.background)
                     .frame(width: UIScreen.screenWidth - 40, height: UIScreen.screenHeight * 0.6)
                     .overlay(
                         ZStack {
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomMoodImageName)
+                                        Image(assetName: card.hashtags.flavor.type.backgroundImageName1)
                                             .resizable()
                                             .frame(width: 335, height: 236)
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
                                         ZStack {
-                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)")
+                                            Image(assetName: card.hashtags.source.type.bread.imageName)
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
-                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)")
+                                            Image(assetName: card.hashtags.flavor.type.ingredent.imageName)
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
-                                            Image(assetName: "carousel\(viewModel.detailViewInfo.imageNameAndText.userCustomBackgroundImageName)")
+                                            Image(assetName: card.hashtags.mood.type.topping.imageName)
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
                                         }
@@ -109,11 +114,11 @@ struct FamousSayingDetailView: View {
                                 HStack{
                                     HStack{
                                         HStack {
-                                            Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomFlavorImageName)
-                                            Text("\(viewModel.detailViewInfo.cardInfomation.hashtags.flavor.rawValue)")
+                                            Image(assetName: card.hashtags.flavor.type.smallIconImageName)
+                                            Text(card.hashtags.flavor.type.korean)
                                                 .pretendardFont(family: .SemiBold, size: 12)
                                         }
-                                        .foregroundColor(viewModel.detailViewInfo.colorSet.icon)
+                                        .foregroundColor(colorSet.icon)
                                         .frame(minWidth: 41, maxHeight: 26)
                                         .padding(.horizontal, 10)
                                         .background (
@@ -122,10 +127,10 @@ struct FamousSayingDetailView: View {
                                         )
                                         
                                         HStack {
-                                            Image(assetName: viewModel.detailViewInfo.imageNameAndText.userCustomSourceIconImageName)
-                                            Text("\(viewModel.detailViewInfo.cardInfomation.hashtags.source.rawValue)")
+                                            Image(assetName: card.hashtags.source.type.smallIconImageName)
+                                            Text(card.hashtags.source.type.korean)
                                                 .pretendardFont(family: .SemiBold, size: 12)
-                                                .foregroundColor(viewModel.detailViewInfo.colorSet.icon)
+                                                .foregroundColor(colorSet.icon)
                                         }
                                         .frame(minWidth: 41, maxHeight: 26)
                                         .padding(.horizontal, 10)
@@ -142,16 +147,16 @@ struct FamousSayingDetailView: View {
                                     VStack(alignment: .leading){
                                         Spacer()
                                         HStack{
-                                            Text(viewModel.detailViewInfo.cardInfomation.title)
-                                                .baeEun(size: 28)
-                                                .foregroundColor(.cardTextMain)
-                                                .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
-                                            Spacer()
-                                        }
-                                        Text(viewModel.detailViewInfo.cardInfomation.author)
-                                            .baeEun(size: 24)
-                                            .foregroundColor(.cardTextMain)
-                                            .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
+//                                            Text(viewModel.detailViewInfo.cardInfomation.title)
+//                                                .baeEun(size: 28)
+//                                                .foregroundColor(.cardTextMain)
+//                                                .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
+//                                            Spacer()
+//                                        }
+//                                        Text(viewModel.detailViewInfo.cardInfomation.author)
+//                                            .baeEun(size: 24)
+//                                            .foregroundColor(.cardTextMain)
+//                                            .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
                                     }
                                     .frame(width: UIScreen.screenWidth * 0.6)
                                     Spacer()
@@ -161,26 +166,26 @@ struct FamousSayingDetailView: View {
                                             .frame(width: 44)
                                             .overlay(
                                                 Image(systemName: "square.and.arrow.up")
-                                                    .foregroundColor(viewModel.detailViewInfo.colorSet.icon)
+                                                    .foregroundColor(colorSet.icon)
                                             )
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 16))
-                                            .foregroundColor(viewModel.detailViewInfo.colorSet.iconBackground)
-                                            .onTapGesture {
-                                                shareManager.shareContent(content: shareView.asImage())
-                                            }
-                                        Circle()
-                                            .frame(width: 44)
-                                            .overlay(
-                                                Image(systemName: "heart")
-                                                    .foregroundColor(viewModel.detailViewInfo.cardInfomation.isBookrmark ?  .basicWhite : viewModel.detailViewInfo.colorSet.icon)
-                                            )
-                                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
-                                            .foregroundColor(viewModel.detailViewInfo.cardInfomation.isBookrmark ? viewModel.detailViewInfo.colorSet.icon : viewModel.detailViewInfo.colorSet.iconBackground)
-                                            .onTapGesture {
-                                                let postIndex = viewModel.searchPostIndex(cardInfomation: viewModel.detailViewInfo.cardInfomation)
-                                                viewModel.cards[postIndex].isBookrmark.toggle()
-                                                
-                                                viewModel.detailViewInfo.cardInfomation.isBookrmark.toggle()
+                                            .foregroundColor(colorSet.iconBackground)
+//                                            .onTapGesture {
+//                                                shareManager.shareContent(content: shareView.asImage())
+//                                            }
+//                                        Circle()
+//                                            .frame(width: 44)
+//                                            .overlay(
+//                                                Image(systemName: "heart")
+//                                                    .foregroundColor(viewModel.detailViewInfo.cardInfomation.isBookrmark ?  .basicWhite : viewModel.detailViewInfo.colorSet.icon)
+//                                            )
+//                                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
+//                                            .foregroundColor(viewModel.detailViewInfo.cardInfomation.isBookrmark ? viewModel.detailViewInfo.colorSet.icon : viewModel.detailViewInfo.colorSet.iconBackground)
+//                                            .onTapGesture {
+//                                                let postIndex = viewModel.searchPostIndex(cardInfomation: viewModel.detailViewInfo.cardInfomation)
+//                                                viewModel.cards[postIndex].isBookrmark.toggle()
+//
+//                                                viewModel.detailViewInfo.cardInfomation.isBookrmark.toggle()
                                             }
                                     }
                                 }

@@ -29,118 +29,6 @@ public class BakeViewModel: ObservableObject {
         
     }
     
-    
-    func generateSourceBreadImage(commCd: String) -> String {
-        switch commCd {
-        case "greatman":
-            return "carouselgreatmanImage"
-        case "celeb":
-            return "carouselceleImage"
-        case "film":
-            return "carouseldramaImage"
-        case "anime" :
-            return "carouselanimeImage"
-        case "book" :
-            return "carouselbookImage"
-       
-        default:
-            ""
-        }
-        return commCd
-    }
-    
-    func generateSourceBreadText(commCd: String) -> String {
-        switch commCd {
-        case "greatman":
-            return "식빵"
-        case "celeb":
-            return "크로아상"
-        case "film":
-            return "크로아상"
-        case "anime" :
-            return "쿠키"
-        case "book" :
-            return "치아바타"
-       
-        default:
-            ""
-        }
-        return commCd
-    }
-    
-    
-    func generateFlavorIngredentImage(commCd: String) -> String {
-        switch commCd {
-        case "sweet":
-            return "carouselsweetImage"
-        case "salty":
-            return "carouselsaltyImage"
-        case "spicy":
-            return "carouselspicyImage"
-        case "nutty" :
-            return "carouselnuttyImage"
-        case "mild" :
-            return "carousellightImage"
-       
-        default:
-            ""
-        }
-        return commCd
-    }
-    
-    func generateFlavorIngredentText(commCd: String) -> String {
-        switch commCd {
-        case "sweet":
-            return "초콜릿"
-        case "salty":
-            return "치즈"
-        case "spicy":
-            return "할라피뇨"
-        case "nutty" :
-            return "생크림"
-        case "mild" :
-            return "옥수수"
-       
-        default:
-            ""
-        }
-        return commCd
-    }
-    
-    
-    func generateMoodTopicingImage(commCd: String) -> String {
-        switch commCd {
-        case "motivation":
-            return "carouselcondolenceImage"
-        case "support":
-            return "carouselmotiveImage"
-        case "wisdom":
-            return "carouselwisdomImage"
-        default:
-            ""
-        }
-        return commCd
-    }
-    
-    func generateMoodTopicingText(commCd: String) -> String {
-        switch commCd {
-        case "motivation":
-            return "사과잼"
-        case "support":
-            return "캬라멜시럽"
-        case "wisdom":
-            return "밤"
-       
-        default:
-            ""
-        }
-        return commCd
-    }
-    
-    
-    
-   
-    
     public func commCodeToViewModel(_ list: CommonCdModel) {
         self.commonCodeModel = list
     }
@@ -176,9 +64,6 @@ public class BakeViewModel: ObservableObject {
                    
                 }
             })
-        
-        
-        
     }
     
     public func bakequoteCodeToViewModel(_ list: BaseModel) {

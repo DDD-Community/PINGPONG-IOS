@@ -41,22 +41,21 @@ public class CommonViewViewModel: ObservableObject {
     
     
     @Published public var isShowDetailView:Bool = false
-    @Published public var detailViewInfo: DetailViewInfo = DetailViewInfo(colorSet: CharacterColor(icon: .basicBlack, iconBackground: .basicBlack, background: .basicBlack),
-                                                                          cardInfomation: CardInfomation(stageNum: 1, hashtags: .init(flavor: .light, source: .animation, mood: .condolence), image: "", title: "", sources: "", isBookrmark: false),
-                                                                          imageNameAndText: UserCustomBreadViewInfo(userCustomFlavorImageName: "", userCustomSourceIconImageName: "", userCustomMoodImageName: "", userCustomBackgroundImageName: ""))
     
     //MARK: HomeBakeing 관련
     @Published public var exploreViewSearchBarText: String = ""
-    @Published public var randomInt = (1...2).randomElement()!
+
     
     @Published public var choicedBread: Bread?
     @Published public var choicedIngredent: Ingredent?
     @Published public var choicedTopping: Topping?
     
+    
+    @Published public var selectSource: Source?
+    @Published public var selectFlavor: Flavor?
+    @Published public var selectMood: Mood?
+    
     @Published public var tmpChoicedBread: Bread?
-    @Published public var selectSource: String? = nil
-    @Published public var selectFlavor: String? = nil
-    @Published public var selectMood: String? = nil
     @Published public var tmpChoicedIngredent: Ingredent?
     @Published public var tmpChoicedTopping: Topping?
     
@@ -96,53 +95,6 @@ public class CommonViewViewModel: ObservableObject {
         return searchViewButtonInfoArray[idx].options.filter { $0.isCheck }.count
     }
     
-    
-    public func generateImageNameAndText(hashtags: Hashtags) -> UserCustomBreadViewInfo {
-        var flavorAndGenre: UserCustomBreadViewInfo = UserCustomBreadViewInfo(userCustomFlavorImageName: "", userCustomSourceIconImageName: "", userCustomMoodImageName: "", userCustomBackgroundImageName: "'")
-        
-        switch hashtags.flavor {
-        case .light:
-            flavorAndGenre.userCustomFlavorImageName = "lightImage"
-            flavorAndGenre.userCustomBackgroundImageName = "CardBG_Mild_\(randomInt)"
-        case .spicy:
-            flavorAndGenre.userCustomFlavorImageName = "spicyImage"
-            flavorAndGenre.userCustomBackgroundImageName = "CardBG_Hot_\(randomInt)"
-        case .sweet:
-            flavorAndGenre.userCustomFlavorImageName = "sweetImage"
-            flavorAndGenre.userCustomBackgroundImageName = "CardBG_Sweet_\(randomInt)"
-        case .salty:
-            flavorAndGenre.userCustomFlavorImageName = "saltyImage"
-            flavorAndGenre.userCustomBackgroundImageName = "CardBG_Salty_\(randomInt)"
-        case .nutty:
-            flavorAndGenre.userCustomFlavorImageName = "nuttyImage"
-            flavorAndGenre.userCustomBackgroundImageName = "CardBG_nutty_\(randomInt)"
-        }
-        
-        switch hashtags.source {
-        case .animation:
-            flavorAndGenre.userCustomSourceIconImageName = "animeImage"
-        case .book:
-            flavorAndGenre.userCustomSourceIconImageName = "bookImage"
-        case .drama:
-            flavorAndGenre.userCustomSourceIconImageName = "dramaImage"
-        case .famous:
-            flavorAndGenre.userCustomSourceIconImageName = "celeImage"
-        case .greatman:
-            flavorAndGenre.userCustomSourceIconImageName = "greatmanImage"
-        }
-        
-        switch hashtags.mood {
-        case .condolence:
-            flavorAndGenre.userCustomMoodImageName = "condolenceImage"
-        case .motive:
-            flavorAndGenre.userCustomMoodImageName = "motiveImage"
-        case .wisdom:
-            flavorAndGenre.userCustomMoodImageName = "wisdomImage"
-        }
-        
-        return flavorAndGenre
-    }
-    
 //    func filterPostsByText() {
 //        if exploreViewSearchBarText.isEmpty {
 //            homePosts = originHomePosts
@@ -152,9 +104,9 @@ public class CommonViewViewModel: ObservableObject {
 //        }
 //    }
     
-    public func updateDetailViewInfo(colorSet: CharacterColor, cardInfomation: CardInfomation, imageNameAndText: UserCustomBreadViewInfo){
-        self.detailViewInfo = DetailViewInfo(colorSet: colorSet, cardInfomation: cardInfomation, imageNameAndText: imageNameAndText)
-    }
+//    public func updateDetailViewInfo(colorSet: FlavorColor, cardInfomation: CardInfomation, imageNameAndText: UserCustomBreadViewInfo){
+//        self.detailViewInfo = DetailViewInfo(colorSet: colorSet, cardInfomation: cardInfomation, imageNameAndText: imageNameAndText)
+//    }
     
     public func searchPostIndex(cardInfomation: CardInfomation) -> Int {
         for index in cards.indices {
@@ -167,61 +119,32 @@ public class CommonViewViewModel: ObservableObject {
     
     public func generateCardByCondition() -> CardInfomation {
         let filteredPosts: [CardInfomation] = cards
-            .filter{ choicedBread == nil || $0.hashtags.source.type.breadImageName == choicedBread }
-            .filter{ choicedIngredent == nil || $0.hashtags.flavor.type.ingredentImageName == choicedIngredent }
-            .filter{ choicedTopping == nil || $0.hashtags.mood.type.toppingImageName == choicedTopping}
+            .filter{ choicedBread == nil || $0.hashtags.source.type.bread == choicedBread }
+            .filter{ choicedIngredent == nil || $0.hashtags.flavor.type.ingredent == choicedIngredent }
+            .filter{ choicedTopping == nil || $0.hashtags.mood.type.topping == choicedTopping}
         guard let ramdomIndex = (0..<filteredPosts.count).randomElement() else { return cards[0] }
         
         return filteredPosts[ramdomIndex]
     }
     
     
-    public func searchCharacterColor(flavor: Flavor) -> CharacterColor {
+    public func createColorSet(flavor: Flavor) -> FlavorColor {
         switch flavor {
-        case .sweet: return CharacterColor(icon: .sweetIconText,
-                                           iconBackground: .sweetIconBG,
-                                           background: .sweetBG)
-        case .light: return CharacterColor(icon: .mildIconText,
-                                           iconBackground: .mildIconBG,
-                                           background: .mildBG)
-        case .nutty: return  CharacterColor(icon: .nuttyIconText,
-                                            iconBackground: .nuttyIconBG,
-                                            background: .nuttyBG)
-        case .salty: return  CharacterColor(icon: .saltyIconText,
-                                            iconBackground: .saltyIconBG,
-                                            background: .saltyBG)
-        case .spicy: return CharacterColor(icon: .hotIconText,
-                                           iconBackground: .hotIconBG,
-                                           background: .hotBG)
+        case .sweet: return FlavorColor(icon: .sweetIconText,
+                                        iconBackground: .sweetIconBG,
+                                        background: .sweetBG)
+        case .light: return FlavorColor(icon: .mildIconText,
+                                        iconBackground: .mildIconBG,
+                                        background: .mildBG)
+        case .nutty: return  FlavorColor(icon: .nuttyIconText,
+                                         iconBackground: .nuttyIconBG,
+                                         background: .nuttyBG)
+        case .salty: return  FlavorColor(icon: .saltyIconText,
+                                         iconBackground: .saltyIconBG,
+                                         background: .saltyBG)
+        case .spicy: return FlavorColor(icon: .hotIconText,
+                                        iconBackground: .hotIconBG,
+                                        background: .hotBG)
         }
     }
-    
-    public func generateInfo(situationFlavorSourceTitle: SituationFlavorSourceTitle, flavorCountInfo: OptionButtonInfo, situationInfo: OptionButtonInfo, sourceCountInfo: OptionButtonInfo) -> OptionButtonInfo {
-        switch situationFlavorSourceTitle {
-        case .flavor:
-            return flavorCountInfo
-        case .situation:
-            return situationInfo
-        case .source:
-            return sourceCountInfo
-        }
-    }
-    
-    
-
-    
-}
-
-public struct DetailViewInfo {
-    public let colorSet: CharacterColor
-    public var cardInfomation: CardInfomation
-    public let imageNameAndText: UserCustomBreadViewInfo
-}
-
-
-public struct UserCustomBreadViewInfo {
-    public var userCustomFlavorImageName: String
-    public var userCustomSourceIconImageName: String
-    public var userCustomMoodImageName: String
-    public var userCustomBackgroundImageName: String
 }

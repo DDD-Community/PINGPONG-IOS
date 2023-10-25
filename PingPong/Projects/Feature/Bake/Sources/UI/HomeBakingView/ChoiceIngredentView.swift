@@ -110,22 +110,27 @@ public struct ChoiceIngredentView: View {
                     if let commonData = bakeViewModel.commonCodeModel?.data {
                        
                         ForEach(commonData.commCds, id: \.self) { item in
+                            
+                            let flavor: Flavor = Flavor(rawValue: item.commCD) ?? .light
+                            
                             VStack {
+                             
+                                
                                 Circle()
                                     .frame(width: 96, height: 96)
-                                    .foregroundColor(self.viewModel.tmpChoicedIngredent ==  Ingredent(rawValue: bakeViewModel.generateFlavorIngredentImage(commCd: item.commCD)) ? .primaryOrange : .primaryOrangeBright)
+                                    .foregroundColor(self.viewModel.tmpChoicedIngredent == flavor.type.ingredent ? .primaryOrange : .primaryOrangeBright)
                                     .overlay(
-                                        Image(assetName: bakeViewModel.generateFlavorIngredentImage(commCd: item.commCD))
+                                        Image(assetName: flavor.type.ingredent.imageName)
                                             .resizable()
                                             .frame(width:56, height: 56)
                                     )
                                 
-                                Text(bakeViewModel.generateFlavorIngredentText(commCd: item.commCD))
+                                Text(flavor.type.ingredent.korean)
                                     .pretendardFont(family: .SemiBold, size: 14)
                             }
                             .onTapGesture {
-                                self.viewModel.selectFlavor = item.commCD
-                                self.viewModel.tmpChoicedIngredent = Ingredent(rawValue: bakeViewModel.generateFlavorIngredentImage(commCd: item.commCD))
+                                self.viewModel.selectFlavor = flavor
+                                self.viewModel.tmpChoicedIngredent = flavor.type.ingredent
                             }
                         }
                     }

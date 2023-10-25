@@ -42,7 +42,6 @@ public struct ChoiceBreadView: View {
                 
                 
             }
-//            .padding(.top, 40)
             .frame(height: UIScreen.screenHeight * 0.9)
             .task {
                 bakeViewModel.commCodeRequest(commCdTpCd: .source)
@@ -105,27 +104,27 @@ public struct ChoiceBreadView: View {
                     if let commonData = bakeViewModel.commonCodeModel?.data {
                         let sortedCommCds = commonData.commCds.filter { $0.commCD != "other" && $0.commCD != "proverb" && $0.commCD != "unknown"}
                         ForEach(sortedCommCds, id: \.self) { item in
+                            
+                            let source: Source = Source(rawValue: item.commCD) ?? .anime
+                            
                             VStack {
                                 Circle()
                                     .frame(width: 96, height: 96)
-                                    .foregroundColor(self.viewModel.selectSource ==  item.commCD ? .primaryOrange : .primaryOrangeBright)
+                                    .foregroundColor(self.viewModel.selectSource == source ? .primaryOrange : .primaryOrangeBright)
                                     .overlay(
-                                        Image(assetName: bakeViewModel.generateSourceBreadImage(commCd: item.commCD))
+                                        Image(assetName: source.type.bread.imageName)
                                             .resizable()
                                             .frame(width:56, height: 56)
                                     )
-                                Text(bakeViewModel.generateSourceBreadText(commCd: item.commCD))
+                                Text(source.type.korean)
                                     .pretendardFont(family: .SemiBold, size: 14)
                             }
                             .onTapGesture {
-                                self.viewModel.selectSource = item.commCD
-                                self.viewModel.tmpChoicedBread = Bread(rawValue: bakeViewModel.generateSourceBreadImage(commCd: item.commCD))
+                                self.viewModel.selectSource = source
+                                self.viewModel.tmpChoicedBread = source.type.bread
                                 print("선택된  source \(self.viewModel.selectSource)")
-                                
                             }
-   
                         }
-                        
                     }
                 }
             }

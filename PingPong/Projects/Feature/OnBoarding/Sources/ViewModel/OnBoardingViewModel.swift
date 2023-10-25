@@ -212,21 +212,21 @@ public class OnBoardingViewModel: ObservableObject {
         }
     }
     
-    func searchCharacterColor(flavor: Flavor) -> CharacterColor {
+    func searchCharacterColor(flavor: Flavor) -> FlavorColor {
         switch flavor {
-        case .sweet: return CharacterColor(icon: .sweetIconText,
+        case .sweet: return FlavorColor(icon: .sweetIconText,
                                            iconBackground: .sweetIconBG,
                                            background: .sweetBG)
-        case .light: return CharacterColor(icon: .mildIconText,
+        case .light: return FlavorColor(icon: .mildIconText,
                                            iconBackground: .mildIconBG,
                                            background: .mildBG)
-        case .nutty: return  CharacterColor(icon: .nuttyIconText,
+        case .nutty: return  FlavorColor(icon: .nuttyIconText,
                                             iconBackground: .nuttyIconBG,
                                             background: .nuttyBG)
-        case .salty: return  CharacterColor(icon: .saltyIconText,
+        case .salty: return  FlavorColor(icon: .saltyIconText,
                                             iconBackground: .saltyIconBG,
                                             background: .saltyBG)
-        case .spicy: return CharacterColor(icon: .hotIconText,
+        case .spicy: return FlavorColor(icon: .hotIconText,
                                            iconBackground: .hotIconBG,
                                            background: .hotBG)
         }
