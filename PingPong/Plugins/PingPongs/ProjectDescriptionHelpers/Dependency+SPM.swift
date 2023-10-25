@@ -28,6 +28,8 @@ public extension TargetDependency.SPM {
     static let GoogleSignInSwift = TargetDependency.external(name: "GoogleSignInSwift")
     static let SDWebImageSwiftUI = TargetDependency.external(name: "SDWebImageSwiftUI")
     
+    //MARK: -  array 관련
+    static let Collections = TargetDependency.external(name: "Collections")
     //MARK: - preview 관련
     
 

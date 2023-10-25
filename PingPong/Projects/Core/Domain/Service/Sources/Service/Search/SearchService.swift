@@ -28,7 +28,7 @@ extension SearchService: BaseTargetType {
     public var method: Moya.Method {
         switch self {
         case .searchQuote:
-            return .get
+            return .post
         case .searchCommCode:
             return .get
         }
