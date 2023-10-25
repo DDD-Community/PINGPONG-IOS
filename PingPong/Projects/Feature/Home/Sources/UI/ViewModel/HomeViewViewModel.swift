@@ -21,7 +21,7 @@ public class HomeViewViewModel: ObservableObject {
     @Published public var homeRandomQuoteModel: HomeRandomQuoteModel?
     public var homeRandomQuoteCancellable: AnyCancellable?
     @State var isOn: [Bool] = []
-    
+    @Published public var likeYn: Bool = false
     
     @Published public var homeUserPrefModel: UserPrefModel?
     public var homeUserPrefCancellable: AnyCancellable?

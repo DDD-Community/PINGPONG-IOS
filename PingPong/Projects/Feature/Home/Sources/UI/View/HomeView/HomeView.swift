@@ -39,25 +39,48 @@ public struct HomeView: View {
             .navigationBarHidden(true)
             
             .onAppear {
-                if !isOn.isEmpty {
-                    self.isOn[0] = true
+                if !homeViewModel.isOn.isEmpty {
                     homeViewModel.randomQuoteRequest(userID: "423") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
+                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
+                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
                             
-                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
                         }
                     }
                 } else {
                     homeViewModel.randomQuoteRequest(userID: "423") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                            
-                            viewModel.cards.append(CardInfomation(stageNum: 0, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
+//                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
+                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                            print("id \(quoteContent.quoteID)")
                         }
                     }
                 }
             }
+            .onChange(of: homeViewModel.likeYn, perform: { newValue in
+                if newValue {
+                    homeViewModel.randomQuoteRequest(userID: "423") {
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
+                            
+                        }
+                    }
+                }
+                else {
+                    homeViewModel.randomQuoteRequest(userID: "423") {
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
+                            
+                        }
+                    }
+                }
+            })
         }
         
         .navigationDestination(isPresented: $appState.goToBackingView) {
@@ -122,6 +145,8 @@ public struct HomeView: View {
             }
             .frame(height: UIScreen.screenHeight * 0.64)
     }
+    
+    
     
     private var bakeBreadButton: some View {
         RoundedRectangle(cornerRadius: UIScreen.screenWidth * 0.12)
@@ -270,10 +295,10 @@ public struct HomeView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                 .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                 .onTapGesture {
-                    let postIndex = homeViewModel.homeRandomQuoteModel?.data?.content[idx].quoteID
-                    viewModel.cards[postIndex ?? .zero].isBookrmark.toggle()
-                    homeViewModel.userPrefRequest(userID: "423", quoteId: postIndex ?? .zero, isScarp: false)
-                    homeViewModel.userPrefRequest(userID: "423", quoteId: postIndex ?? .zero, isScarp: true)
+                    self.homeViewModel.likeYn.toggle()
+//                    viewModel.cards[idx].isBookrmark.toggle()
+                    homeViewModel.userPrefRequest(userID: "423", quoteId: idx, isScarp: false)
+                    homeViewModel.userPrefRequest(userID: "423", quoteId: idx, isScarp: true)
                 }
         }
     }
