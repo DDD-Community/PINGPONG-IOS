@@ -13,6 +13,7 @@ import DesignSystem
 import SwiftUI
 import Model
 
+
 public struct HomeView: View {
     
     @State var currentIndex: Int = 0
@@ -45,7 +46,11 @@ public struct HomeView: View {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
                             self.homeViewModel.likeYn = quoteContent.likeYn ?? false
-                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                                  hashtags: hashTags, image: "",
+                                                                  title: quoteContent.content ?? "",
+                                                                  sources: quoteContent.author ?? "",
+                                                                  isBookrmark: quoteContent.likeYn ?? false))
                             
                         }
                     }
@@ -55,7 +60,11 @@ public struct HomeView: View {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.likeYn = quoteContent.likeYn ?? false
 //                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
-                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: quoteContent.likeYn ?? false))
+                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                                  hashtags: hashTags, image: "",
+                                                                  title: quoteContent.content ?? "",
+                                                                    sources: quoteContent.author ?? "",
+                                                                  isBookrmark: quoteContent.likeYn ?? false))
                             print("id \(quoteContent.quoteID)")
                         }
                     }
@@ -66,7 +75,7 @@ public struct HomeView: View {
                     homeViewModel.randomQuoteRequest(userID: "423") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
+                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
                             
                         }
                     }
@@ -75,7 +84,7 @@ public struct HomeView: View {
                     homeViewModel.randomQuoteRequest(userID: "423") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                            viewModel.cards.append(CardInfomation(stageNum: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
+                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
                             
                         }
                     }
@@ -98,7 +107,7 @@ public struct HomeView: View {
                     let size = proxy.size
                     let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                     
-//                    let shareView = shareView(colorSet: colorSet, size: size, imageNameAndText: imageNameAndText, card: card)
+                    let shareView = shareView(colorSet: colorSet, size: size, card: card)
                     
                     
                     RoundedRectangle(cornerRadius: 12)
@@ -106,7 +115,7 @@ public struct HomeView: View {
                         .foregroundColor(colorSet.background)
                         .overlay(
                             ZStack {
-                                usercustomBreadView(hashtags: card.hashtags)
+                                userCustomBreadView(hashtags: card.hashtags)
                                 
                                 VStack{
                                     hashTagsView(colorSet: colorSet, hashtags: card.hashtags)
@@ -130,7 +139,7 @@ public struct HomeView: View {
                                         .frame(width: UIScreen.screenWidth * 0.6)
                                         
                                         Spacer()
-//                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
+                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
                                     }
                                 }
                             }
@@ -165,7 +174,7 @@ public struct HomeView: View {
     }
     
     @ViewBuilder
-    private func usercustomBreadView(hashtags: Hashtags) -> some View {
+    private func userCustomBreadView(hashtags: Hashtags) -> some View {
         VStack {
             HStack {
                 ZStack {
@@ -174,13 +183,13 @@ public struct HomeView: View {
                         .frame(width: 335, height: 236)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     ZStack {
-                        Image(assetName: "carousel\(hashtags.source.type.bread.imageName)")
+                        Image(assetName: hashtags.source.type.bread.imageName)
                             .resizable()
                             .frame(width: 120, height: 120)
-                        Image(assetName: "carousel\(hashtags.flavor.type.ingredent.imageName)")
+                        Image(assetName: hashtags.flavor.type.ingredent.imageName)
                             .resizable()
                             .frame(width: 120, height: 120)
-                        Image(assetName: "carousel\(hashtags.mood.type.topping.imageName)")
+                        Image(assetName: hashtags.mood.type.topping.imageName)
                             .resizable()
                             .frame(width: 120, height: 120)
                     }
@@ -200,7 +209,7 @@ public struct HomeView: View {
                 .frame(width: size.width, height: size.height * 0.6)
                 .overlay(
                     ZStack {
-                        usercustomBreadView(hashtags: card.hashtags)
+                        userCustomBreadView(hashtags: card.hashtags)
                         
                         VStack{
                             Spacer()
@@ -286,15 +295,20 @@ public struct HomeView: View {
                 .frame(width: 44)
                 .overlay(
                     Image(systemName: "heart")
-                        .foregroundColor(card.isBookrmark ?  .basicWhite : colorSet.icon)
+                        .foregroundColor(card.isBookrmark ? .basicWhite : colorSet.icon)
                 )
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                 .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                 .onTapGesture {
                     self.homeViewModel.likeYn.toggle()
-//                    viewModel.cards[idx].isBookrmark.toggle()
-                    homeViewModel.userPrefRequest(userID: "423", quoteId: idx, isScarp: false)
-                    homeViewModel.userPrefRequest(userID: "423", quoteId: idx, isScarp: true)
+                    
+                    if let idx = viewModel.cards.firstIndex(of: card) {
+                        
+                        //FIXME: quteId 수정 후 해당 로직 수정
+                        viewModel.cards[idx].isBookrmark.toggle()
+                        homeViewModel.userPrefRequest(userID: "423", quoteId: card.qouteId, isScarp: false)
+                        homeViewModel.userPrefRequest(userID: "423", quoteId: card.qouteId, isScarp: true)
+                    }
                 }
         }
     }

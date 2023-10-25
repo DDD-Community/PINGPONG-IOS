@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Bread: String {
+public enum Bread {
     case plainBread
     case croissant
     case pancake

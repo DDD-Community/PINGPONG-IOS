@@ -8,6 +8,7 @@
 
 import Common
 import DesignSystem
+import Model
 import SwiftUI
 import Authorization
 
@@ -40,7 +41,10 @@ struct FamousSayingBakeCardView: View {
                 Spacer()
                     .frame(height: 17)
                 
-                bakeCardView()
+                // FIXME: Swagger 수정 후 추천 받은 명언으로 카드를 바꿔야합니다 :)
+                if let card = viewModel.cards.last {
+                    bakeCardView(card: card)
+                }
                 
                 bottomBakeButton()
 
@@ -54,7 +58,10 @@ struct FamousSayingBakeCardView: View {
             self.viewModel.tmpChoicedTopping = nil
         }
         .task {
-            bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor ?? "", source: viewModel.selectSource ?? "", mood: viewModel.selectMood ?? "")
+            bakeViewModel.bakeQuoteRequest(userId: "423",
+                                           flavor: (viewModel.selectFlavor?.type.english) ?? "",
+                                           source: (viewModel.selectSource?.type.english) ?? "",
+                                           mood: (viewModel.selectMood?.type.english) ?? "")
             authViewModel.searchUserIdRequest(uid: "423")
         }
         .onDisappear {
@@ -124,11 +131,10 @@ struct FamousSayingBakeCardView: View {
     }
     
     @ViewBuilder
-    private func bakeCardView() -> some View {
+    private func bakeCardView(card: CardInfomation) -> some View {
         var post = viewModel.generateCardByCondition()
-        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
         let size = UIScreen.main.bounds.size
-        let colorSet = viewModel.searchCharacterColor(flavor: post.hashtags.flavor)
+        let colorSet = viewModel.createColorSet(flavor: post.hashtags.flavor)
         
         let shareView =
         VStack {
@@ -141,23 +147,23 @@ struct FamousSayingBakeCardView: View {
                         VStack {
                             HStack {
                                 ZStack {
-                                    Image(assetName: imageNameAndText.userCustomMoodImageName)
+                                    Image(assetName: card.hashtags.flavor.type.backgroundImageName1)
                                         .resizable()
                                         .frame(width: 335, height: 236)
                                         .clipShape(RoundedRectangle(cornerRadius: 12))
                                     ZStack {
                                         if let choicedBread = viewModel.choicedBread  {
-                                            Image(assetName: "\(choicedBread.rawValue)")
+                                            Image(assetName: "\(choicedBread.imageName)")
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
                                         }
                                         if let choicedIngredent = viewModel.choicedIngredent  {
-                                            Image(assetName: "\(choicedIngredent.rawValue)")
+                                            Image(assetName: "\(choicedIngredent.imageName)")
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
                                         }
                                         if let choicedTopping = viewModel.choicedTopping  {
-                                            Image(assetName: "\(choicedTopping.rawValue)")
+                                            Image(assetName: "\(choicedTopping.imageName)")
                                                 .resizable()
                                                 .frame(width: 120, height: 120)
                                         }
@@ -202,23 +208,23 @@ struct FamousSayingBakeCardView: View {
                     VStack {
                         HStack {
                             ZStack {
-                                Image(assetName: imageNameAndText.userCustomBackgroundImageName)
+                                Image(assetName: card.hashtags.flavor.type.backgroundImageName1)
                                     .resizable()
                                     .frame(width: 335, height: 236)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                 ZStack {
                                     if let choicedBread = viewModel.choicedBread  {
-                                        Image(assetName: "\(choicedBread.rawValue)")
+                                        Image(assetName: "\(choicedBread.imageName)")
                                             .resizable()
                                             .frame(width: 120, height: 120)
                                     }
                                     if let choicedIngredent = viewModel.choicedIngredent  {
-                                        Image(assetName: "\(choicedIngredent.rawValue)")
+                                        Image(assetName: "\(choicedIngredent.imageName)")
                                             .resizable()
                                             .frame(width: 120, height: 120)
                                     }
                                     if let choicedTopping = viewModel.choicedTopping  {
-                                        Image(assetName: "\(choicedTopping.rawValue)")
+                                        Image(assetName: "\(choicedTopping.imageName)")
                                             .resizable()
                                             .frame(width: 120, height: 120)
                                     }
@@ -233,7 +239,7 @@ struct FamousSayingBakeCardView: View {
                         HStack{
                             HStack{
                                 HStack {
-                                    Image(assetName: imageNameAndText.userCustomFlavorImageName)
+                                    Image(assetName: card.hashtags.source.type.korean)
                                     Text("\(post.hashtags.flavor.rawValue)")
                                         .pretendardFont(family: .SemiBold, size: 12)
                                 }
@@ -246,7 +252,7 @@ struct FamousSayingBakeCardView: View {
                                 )
                                 
                                 HStack {
-                                    Image(assetName: imageNameAndText.userCustomSourceIconImageName)
+                                    Image(assetName: card.hashtags.source.type.smallIconImageName)
                                     Text("\(post.hashtags.source.rawValue)")
                                         .pretendardFont(family: .SemiBold, size: 12)
                                         .foregroundColor(colorSet.icon)

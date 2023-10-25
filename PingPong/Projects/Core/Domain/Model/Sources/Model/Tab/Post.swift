@@ -14,15 +14,15 @@ public struct CardInfomation: Identifiable, Equatable {
     }
     
     public let id = UUID().uuidString
-    public var stageNum : Int
+    public var qouteId : Int
     public var hashtags: Hashtags
     public var image: String
     public var title: String
     public var author: String
     public var isBookrmark: Bool
     
-    public init(stageNum: Int, hashtags: Hashtags, image: String, title: String, sources: String, isBookrmark: Bool) {
-        self.stageNum = stageNum
+    public init(qouteId: Int, hashtags: Hashtags, image: String, title: String, sources: String, isBookrmark: Bool) {
+        self.qouteId = qouteId
         self.hashtags = hashtags
         self.image = image
         self.title = title
