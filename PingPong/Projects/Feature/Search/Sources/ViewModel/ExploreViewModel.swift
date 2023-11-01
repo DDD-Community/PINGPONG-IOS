@@ -18,6 +18,9 @@ public class ExploreViewModel: ObservableObject {
     @Published var searchModel: SearchModel?
     var searchCancellable: AnyCancellable?
     
+    @Published public var optionButtonInfoArray: [OptionButtonInfo] = [OptionButtonInfo(defaultTitle: .situation),
+                                                                OptionButtonInfo(defaultTitle: .flavor),
+                                                                OptionButtonInfo(defaultTitle: .source)]
     
     public init() {
         

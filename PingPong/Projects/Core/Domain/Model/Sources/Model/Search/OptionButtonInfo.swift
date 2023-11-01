@@ -8,12 +8,20 @@
 
 import Foundation
 
-public struct OptionButtonInfo {
-    public let title: String
-    public let count: Int
+public class OptionButtonInfo {
     
-    public init(title: String, count: Int) {
-        self.title = title
-        self.count = count
+    public let defaultTitle: SearchType
+    public var options: [String] = []
+    
+    public var title: String {
+        return self.options.first ?? defaultTitle.rawValue
+    }
+    
+    public var count: Int {
+        return self.options.count
+    }
+    
+    public init(defaultTitle: SearchType) {
+        self.defaultTitle = defaultTitle
     }
 }

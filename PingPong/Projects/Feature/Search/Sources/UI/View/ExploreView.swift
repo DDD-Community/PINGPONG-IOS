@@ -46,12 +46,10 @@ public struct ExploreView: View {
                             
                             ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
                                 
-                                //TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
-//                                let info: OptionButtonInfo =  viewModel.generateInfo(
-//                                    situationFlavorSourceTitle: .situation,
-//                                    flavorCountInfo: .init(title: "0", count: idx),
-//                                    situationInfo: .init(title: "0", count: idx),
-//                                    sourceCountInfo: .init(title: "0", count: idx))
+//                                TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
+//                                let info: OptionButtonInfo = exploreViewViewModel.optionButtonInfoArray[idx]
+                                let info = viewModel.searchViewButtonInfoArray[idx]
+                                
                                 Button(action: {
                                     withAnimation {
                                         sheetManager.present(with: .init(idx: idx))
@@ -59,19 +57,19 @@ public struct ExploreView: View {
                                     sheetManager.isPopup = true
                                 }) {
                                     
-//                                    Text(info.count == 0 ? "\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)" : "\(info.title) +\(info.count)")
-//                                        .foregroundColor(.cardTextMain)
-//                                        .pretendardFont(family: .SemiBold, size: 14)
-//                                        .frame(minWidth: 48, minHeight: 30)
-//                                        .padding(.horizontal, 8)
-//                                        .background(
-//                                            RoundedRectangle(cornerRadius: 8)
-//                                                .foregroundColor(info.count == 0 ? .primaryOrangeBright: .primaryOrangeOpacity40)
-//                                                .overlay(
-//                                                    RoundedRectangle(cornerRadius: 10)
-//                                                        .stroke(info.count == 0 ? Color.hotIconBG : .primaryOrange, lineWidth: 1)
-//                                                )
-//                                        )
+                                    Text(info.count == 0 ? "\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)" : "\(info.choicedTitle)")
+                                        .foregroundColor(.cardTextMain)
+                                        .pretendardFont(family: .SemiBold, size: 14)
+                                        .frame(minWidth: 48, minHeight: 30)
+                                        .padding(.horizontal, 8)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .foregroundColor(info.count == 0 ? .primaryOrangeBright: .primaryOrangeOpacity40)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .stroke(info.count == 0 ? Color.hotIconBG : .primaryOrange, lineWidth: 1)
+                                                )
+                                        )
                                 }
                             }
                         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))

@@ -103,49 +103,49 @@ private extension ModalView {
     
     var contents: some View {
         VStack {
-//            ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
-//                let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
-//                let situationFlavorSource = SituationFlavorSource(rawValue: option.val)!
-//                let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
-//                RoundedRectangle(cornerRadius: 10)
-//                    .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
-//                    .frame(width: 336, height: 68)
-//                    .background(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
-//                    .overlay(
-//                        HStack {
-//                            Circle()
-//                                .frame(width: 44, height: 44)
-//                                .padding()
-//                                .foregroundColor(colorSet.icon)
-//                                .overlay(
-//                                    Image(assetName: situationFlavorSource.imageName)
-//                                )
-//                            VStack {
-//                                HStack {
-//                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
-//                                        .pretendardFont(family: .Medium, size: 16)
-//                                        .foregroundColor(.basicGray8)
-//                                    Spacer()
-//                                }
-//                                HStack {
-//                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
-//                                        .pretendardFont(family: .Medium, size: 12)
-//                                        .foregroundColor(.basicGray6)
-//                                    Spacer()
-//                                }
-//                            }
-//                            Spacer()
-//                            Button(action: {
-//                                viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
-//                            }) {
-//                                Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
-//                                    .foregroundColor(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
-//                                    .padding()
-//                            }
-//                        }
-//                    )
-//            }
-//            .animation(.none, value: UUID())
+            ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
+                let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
+                let situationFlavorSource = SituationFlavorSource(rawValue: option.val)!
+                let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
+                    .frame(width: 336, height: 68)
+                    .background(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
+                    .overlay(
+                        HStack {
+                            Circle()
+                                .frame(width: 44, height: 44)
+                                .padding()
+                                .foregroundColor(colorSet.icon)
+                                .overlay(
+                                    Image(assetName: situationFlavorSource.imageName)
+                                )
+                            VStack {
+                                HStack {
+                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
+                                        .pretendardFont(family: .Medium, size: 16)
+                                        .foregroundColor(.basicGray8)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
+                                        .pretendardFont(family: .Medium, size: 12)
+                                        .foregroundColor(.basicGray6)
+                                    Spacer()
+                                }
+                            }
+                            Spacer()
+                            Button(action: {
+                                viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                            }) {
+                                Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
+                                    .foregroundColor(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
+                                    .padding()
+                            }
+                        }
+                    )
+            }
+            .animation(.none, value: UUID())
             Spacer()
         }
         
