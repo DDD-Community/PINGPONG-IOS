@@ -306,8 +306,7 @@ public struct HomeView: View {
                         
                         //FIXME: quteId 수정 후 해당 로직 수정
                         viewModel.cards[idx].isBookrmark.toggle()
-                        homeViewModel.userPrefRequest(userID: "423", quoteId: card.qouteId, isScarp: false)
-                        homeViewModel.userPrefRequest(userID: "423", quoteId: card.qouteId, isScarp: true)
+                        homeViewModel.userPrefRequest(userID: "423", quoteId: card.qouteId)
                     }
                 }
         }

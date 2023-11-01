@@ -30,8 +30,6 @@ public class HomeViewViewModel: ObservableObject {
     
     var homeLikeCancellable: AnyCancellable?
     
-    var homeScrapCancellable: AnyCancellable?
-    
     var homeBakeCancellbale: AnyCancellable?
     
     public init () {
@@ -79,60 +77,32 @@ public class HomeViewViewModel: ObservableObject {
         self.homeBaseModel = list
     }
 
-    public func userPrefRequest(userID: String, quoteId: Int, isScarp: Bool) {
-        if isScarp {
-            if let cancellable = homeLikeCancellable {
-                cancellable.cancel()
-            }
-            
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: BaseModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.success.status {
-                        self?.homeBaseToViewModel(model)
-                        print("홈 취향", model)
-                    } else {
-                        self?.homeBaseToViewModel(model)
-                        print("홈 취향", model)
-                    }
-                })
-        } else {
-            if let cancellable = homeScrapCancellable {
-                cancellable.cancel()
-            }
-            
-            let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-            homeScrapCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-                .compactMap { $0.response?.data }
-                .receive(on: DispatchQueue.main)
-                .decode(type: BaseModel.self, decoder: JSONDecoder())
-                .sink(receiveCompletion: { [weak self] result in
-                    switch result {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("네트워크에러", error.localizedDescription)
-                    }
-                }, receiveValue: { [weak self] model in
-                    if model.status == NetworkCode.success.status {
-                        self?.homeBaseToViewModel(model)
-                        print("홈 좋아요", model)
-                    } else {
-                        self?.homeBaseToViewModel(model)
-                        print("홈 좋아요", model)
-                    }
-                })
+    public func userPrefRequest(userID: String, quoteId: Int) {
+        if let cancellable = homeLikeCancellable {
+            cancellable.cancel()
         }
+        
+        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+        homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: BaseModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.success.status {
+                    self?.homeBaseToViewModel(model)
+                    print("홈 취향", model)
+                } else {
+                    self?.homeBaseToViewModel(model)
+                    print("홈 취향", model)
+                }
+            })
         
         
         

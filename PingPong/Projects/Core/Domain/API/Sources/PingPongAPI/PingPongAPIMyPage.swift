@@ -11,7 +11,7 @@ import Foundation
 public enum PingPongAPIMyPage {
     public static let myPageUserPrefURL = String("mypage/user-pref/")
     public static let myPageEditUserPrefURL = String("mypage/user-pref/")
-    public static let myPageScrapURL = String("mypage/scraps/")
     public static let myPageLikeURL = String("mypage/likes/")
+    public static let deleteMypageLike = String("mypage/like/")
     
 }

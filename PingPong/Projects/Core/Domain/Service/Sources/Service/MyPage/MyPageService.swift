@@ -14,8 +14,8 @@ import Moya
 public enum MyPageService {
     case myPageUsePref(userId: String)
     case myPageEditUserPref(userId: String, userPrefId: String, flavors: [String], sources: [String])
-    case myPageScraps(userId: String)
     case myPageLikes(userId: String)
+    case deleteLike(likeId: String)
 }
 
 extension MyPageService: BaseTargetType {
@@ -25,10 +25,10 @@ extension MyPageService: BaseTargetType {
             return "\(PingPongAPIMyPage.myPageEditUserPrefURL)\(userId)"
         case .myPageEditUserPref(let userId, _, _, _):
             return "\(PingPongAPIMyPage.myPageEditUserPrefURL)\(userId)"
-        case .myPageScraps(let userId):
-            return "\(PingPongAPIMyPage.myPageScrapURL)\(userId)"
         case .myPageLikes(let userId):
             return "\(PingPongAPIMyPage.myPageLikeURL)\(userId)"
+        case .deleteLike(let likeId):
+            return "\(PingPongAPIMyPage.deleteMypageLike)\(likeId)"
         }
     }
     
@@ -38,10 +38,10 @@ extension MyPageService: BaseTargetType {
             return .get
         case .myPageEditUserPref:
             return .put
-        case .myPageScraps:
-            return .get
         case .myPageLikes:
             return .get
+        case .deleteLike:
+            return .delete
         }
     }
     
@@ -62,18 +62,18 @@ extension MyPageService: BaseTargetType {
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
-        case .myPageScraps(let userId):
-            let parameters : [String : Any] = [
-                "userId": userId
-            ]
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
             
         case .myPageLikes(let userId):
             let parameters : [String : Any] = [
                 "userId": userId
             ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
-            
+         
+        case .deleteLike(let likeId):
+            let parameters : [String : Any] = [
+                "likeId": likeId
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
 }
