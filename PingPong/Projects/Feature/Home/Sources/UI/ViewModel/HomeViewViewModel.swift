@@ -47,7 +47,7 @@ public class HomeViewViewModel: ObservableObject {
         }
 
         let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: 1, sizePerPage: 50, userId: userID))
+        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: 0, sizePerPage: 50, userId: userID))
             .compactMap { $0.response?.data }
             .receive(on: DispatchQueue.main)
             .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())
