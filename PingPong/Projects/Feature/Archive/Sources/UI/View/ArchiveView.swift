@@ -34,14 +34,12 @@ public struct ArchiveView: View {
         VStack(){
             archiveHeader()
             
-           
-            let posts = generateBookmarkPostContents()
-            staticsView(count: posts.count)
+            staticsView(count: archiveViewViewModel.bookmarkCards.count)
             
-            if !posts.isEmpty {
+            if !archiveViewViewModel.bookmarkCards.isEmpty {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
-                        ForEach(posts) { card in
+                        ForEach(archiveViewViewModel.bookmarkCards) { card in
                             let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                             VStack {
                                 HStack {
@@ -131,6 +129,22 @@ public struct ArchiveView: View {
                 appState.goToBackingView = false
             })
         }
+        .task {
+            await archiveViewViewModel.archiveRequest(userId: "423") {
+                archiveViewViewModel.bookmarkCards = []
+                for quoteContent in archiveViewViewModel.archiveModel?.data ?? [] {
+                    let hashTags = archiveViewViewModel.getHashtags(post: quoteContent)
+                    //FIXME: archive api 수정 요청
+//                    self.viewModel.likeYn = quoteContent.likeYn ?? false
+                    let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                              hashtags: hashTags, image: "",
+                                              title: quoteContent.content ?? "",
+                                              sources: quoteContent.author ?? "",
+                                              isBookrmark: false)
+                    archiveViewViewModel.bookmarkCards.append(card)
+                }
+            }
+        }
     }
     @ViewBuilder
     private func archiveHeader() -> some View {
@@ -177,15 +191,5 @@ public struct ArchiveView: View {
             }
         }
         .frame(width: UIScreen.screenWidth - 40, height: 38)
-    }
-    
-    func generateBookmarkPostContents() -> [CardInfomation] {
-        var filterContent: [CardInfomation] = []
-        for post in viewModel.cards {
-            if post.isBookrmark {
-                filterContent.append(post)
-            }
-        }
-        return filterContent
     }
 }
