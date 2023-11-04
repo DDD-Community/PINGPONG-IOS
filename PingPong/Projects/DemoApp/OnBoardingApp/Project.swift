@@ -24,7 +24,7 @@ let project = Project.makeAppModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .Projcet.OnBoarding
+        .feature(implements: .OnBoarding)
             
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],

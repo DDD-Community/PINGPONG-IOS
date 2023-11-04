@@ -24,7 +24,7 @@ let project = Project.makeAppModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .Projcet.Archive
+        .feature(implements: .Archive)
             
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],

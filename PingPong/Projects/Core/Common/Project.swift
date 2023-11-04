@@ -19,10 +19,11 @@ let project = Project.makeAppModule(
     ],
     setting:  .appBaseSetting,
     dependencies: [
+        .domain(implements: .Service),
+        .domain(implements: .Model),
+        
         .SPM.CombineMoya,
         .SPM.Moya,
-        .Projcet.Model,
-        .Projcet.Service
     ],
     sources: ["Sources/**"]
 //    resources: ["Resources/**"]

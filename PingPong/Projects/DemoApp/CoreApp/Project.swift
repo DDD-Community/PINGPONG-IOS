@@ -24,7 +24,7 @@ let project = Project.makeAppModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .Projcet.Core
+        .feature(implements: .Core)
             
     ],
     sources: ["Sources/**", "Resources/**"],

@@ -17,16 +17,17 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
+        .design(implements: .DesignSystem),
+        .domain(implements: .Model),
+        .domain(implements: .Service),
+        .core(implements: .Authorization),
+        .core(implements: .Common),
+        .feature(implements: .Core),
+        
         .SPM.Inject,
         .SPM.PopupView,
-        .Projcet.DesignSystem,
-        .Projcet.Model,
-        .Projcet.Service,
         .SPM.Moya,
         .SPM.CombineMoya,
-        .Projcet.Authorization,
-        .Projcet.Core,
-        .Projcet.Common
 //        .SPM.GoogleSignInSwift
         
     ],

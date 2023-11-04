@@ -17,17 +17,18 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
+        .design(implements: .DesignSystem),
+        .domain(implements: .Service),
+        .domain(implements: .Model),
+        .core(implements: .Authorization),
+        .core(implements: .Common),
+        .feature(implements: .Bake),
+        
         .SPM.PopupView,
         .SPM.Inject,
         .SPM.PopupView,
-        .Projcet.DesignSystem,
-        .Projcet.Service,
-        .Projcet.Model,
-        .Projcet.Authorization,
         .SPM.Moya,
         .SPM.CombineMoya,
-        .Projcet.Common,
-        .Projcet.Bake,
         .SPM.Collections
         
             
