@@ -79,7 +79,7 @@ public struct ExploreView: View {
                 }
                 .frame(height:46)
                 
-                staticsView(count: viewModel.cards.count)
+                staticsView(count: exploreViewViewModel.searchModel?.data?.totalElements ?? .zero)
                 
                 if !viewModel.cards.isEmpty {
                     searchTextisEmptyQuote
@@ -99,52 +99,17 @@ public struct ExploreView: View {
                 
             }
         }
+        .task {
+            await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: [], sources: [], mood: [], orderBy: "")
+        }
+        
+        .onChange(of: viewModel.exploreViewSearchBarText, perform: { value in
+            Task {
+                await exploreViewViewModel.searchRequest(keyword: value, flavors: [], sources: [], mood: [], orderBy: "")
+            }
+        })
+        
     }
-    
-//    func generateSituationFlavorSourceArray(situationFlavorSourceTitle: SituationFlavorSourceTitle) -> ([String], OptionButtonInfo) {
-//        var situationFlavorSourceCount: Int = 0
-//        var isFirst: Bool = true
-//        var situationFlavorSource: String = ""
-//        var situationFlavorSourceArray:[String] = []
-////        for searchViewButtonInfo in viewModel.searchViewButtonInfoArray where searchViewButtonInfo.title == situationFlavorSourceTitle {
-////            if searchViewButtonInfo.options.filter({ $0.isCheck }).count == 0 {
-////                for option in searchViewButtonInfo.options{
-////                    situationFlavorSourceArray.append(option.val)
-////                }
-////            } else {
-////                for index in searchViewButtonInfo.options.indices {
-////                    let option = searchViewButtonInfo.options[index]
-////                    if option.isCheck {
-////                        if isFirst {
-////                            situationFlavorSource = option.val
-////                            isFirst = false
-////                        }
-////                        situationFlavorSourceArray.append(option.val)
-////                        situationFlavorSourceCount += 1
-////                    }
-////                }
-////            }
-////        }
-//        return (situationFlavorSourceArray, OptionButtonInfo(title: situationFlavorSource, count: situationFlavorSourceCount))
-//    }
-    
-//    func filterHomePostContents() -> ([Post], OptionButtonInfo, OptionButtonInfo, OptionButtonInfo) {
-//        var filterContent: [Post] = []
-//
-//        let (situationArray, situationInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .situation)
-//        let (flavorArray, flavorInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .flavor)
-//        let (sourceArray, sourceInfo):([String], OptionButtonInfo) = generateSituationFlavorSourceArray(situationFlavorSourceTitle: .source)
-//
-////        for post in viewModel.homePosts {
-////            if flavorArray.contains(post.hashtags.flavor.rawValue) &&
-////                situationArray.contains(post.hashtags.situation.rawValue) &&
-////                sourceArray.contains(post.hashtags.source.rawValue) {
-////                filterContent.append(post)
-////            }
-////        }
-//
-//        return (filterContent, situationInfo, flavorInfo, sourceInfo)
-//    }
     
     
     @ViewBuilder
