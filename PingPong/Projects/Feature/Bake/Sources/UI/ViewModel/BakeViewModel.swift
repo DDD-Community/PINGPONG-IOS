@@ -23,7 +23,7 @@ public class BakeViewModel: ObservableObject {
     
     @Published public var bakeQuoteModel: BakeModel?
     var bakeQuoteCancellable: AnyCancellable?
-    
+    @Published public var bakeCard: CardInfomation? 
     
     public init() {
         
@@ -74,9 +74,8 @@ public class BakeViewModel: ObservableObject {
         userId: String,
         flavor: String,
         source: String,
-        mood: String,
-        completion: @escaping () -> Void
-    ) {
+        mood: String
+    ) async {
         if let cancellable = bakeQuoteCancellable {
             cancellable.cancel()
         }
@@ -98,10 +97,23 @@ public class BakeViewModel: ObservableObject {
                     if status == NetworkCode.success.status {
                         self?.bakequoteCodeToViewModel(model)
                         print("홈화면 랜덤 명언 굽기", model)
-                        completion()
+                        if let hashtags = self?.getHashtags(post: model) {
+                            self?.bakeCard = CardInfomation(qouteId: model.data?.quoteID ?? .zero, hashtags: hashtags, image: "", title: model.data?.content ?? "", sources: model.data?.author ?? "", isBookrmark: false)
+                        } else {
+                            
+                        }
+                        
                     }
                 }
             })
+    }
+    
+    public func getHashtags(post: BakeModel) -> Hashtags {
+        let flavor = Flavor(rawValue: post.data?.flavor ?? "")!
+        let source = Source(rawValue: post.data?.source ?? "")!
+        let mood = Mood(rawValue: post.data?.mood ?? "")!
+        
+        return Hashtags(flavor: flavor, source: source, mood: mood)
     }
 }
 

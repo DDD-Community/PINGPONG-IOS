@@ -116,7 +116,7 @@ public struct ChoiceBreadView: View {
                                             .resizable()
                                             .frame(width:56, height: 56)
                                     )
-                                Text(source.type.korean)
+                                Text(source.type.bread.korean)
                                     .pretendardFont(family: .SemiBold, size: 14)
                             }
                             .onTapGesture {

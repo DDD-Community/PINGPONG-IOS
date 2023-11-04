@@ -42,7 +42,7 @@ struct FamousSayingBakeCardView: View {
                     .frame(height: 17)
                 
                 // FIXME: Swagger 수정 후 추천 받은 명언으로 카드를 바꿔야합니다 :)
-                if let card = viewModel.cards.last {
+                if let card = bakeViewModel.bakeCard {
                     bakeCardView(card: card)
                 }
                 
@@ -58,13 +58,11 @@ struct FamousSayingBakeCardView: View {
             self.viewModel.tmpChoicedTopping = nil
         }
         .task {
-            bakeViewModel.bakeQuoteRequest(userId: "423",
+            await bakeViewModel.bakeQuoteRequest(userId: "423",
                                            flavor: (viewModel.selectFlavor?.type.english) ?? "",
                                            source: (viewModel.selectSource?.type.english) ?? "",
-                                           mood: (viewModel.selectMood?.type.english) ?? "", completion: {
-                
-            })
-            authViewModel.searchUserIdRequest(uid: "423")
+                                           mood: (viewModel.selectMood?.type.english) ?? "")
+//            authViewModel.searchUserIdRequest(uid: "423")
         }
         .onDisappear {
             self.viewModel.choicedBread = nil

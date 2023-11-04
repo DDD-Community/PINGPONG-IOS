@@ -235,7 +235,7 @@ public class AuthorizationViewModel: ObservableObject {
                     print("네트 워크 에러", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == 200 {
+                if model.status == NetworkCode.success.status {
                     self?.signupToViewModel(model)
                     self?.userid = model.data?.id ?? .zero
                     print("회원가입 성공", model)

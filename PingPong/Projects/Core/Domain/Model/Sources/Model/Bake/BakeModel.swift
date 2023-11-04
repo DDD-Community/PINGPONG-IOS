@@ -22,7 +22,7 @@ public struct BakeModel: Codable {
 }
 
 // MARK: - DataClass
-struct BakeResponseModel: Codable {
+public struct BakeResponseModel: Codable {
     public let regDttm, modDttm, regrID: String?
     public let regrNm: String?
     public let modrID: String
