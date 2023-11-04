@@ -26,9 +26,10 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var selectedTab: Tab = .home
     @Published public var customTabs: [CustomTab] = []
     
+    @Published public var likeYn: Bool = false
     
     //MARK: 모달 관련
-    @Published public var offsetY: CGFloat = 0
+    @Published public var offsetY: CGFloat = 30
     public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {
         
         let situationFlavorSourceArray = searchViewButtonInfoArray.filter{ $0.title.rawValue == situationFlavorSourceTitle.rawValue }
@@ -37,7 +38,7 @@ public class CommonViewViewModel: ObservableObject {
         return count > 0
     }
     
-//    @Published public var selectedCard: CardInfomation?
+    @Published public var selectedCard: CardInfomation = CardInfomation(qouteId: 0, hashtags: Hashtags(flavor: .light, source: .anime, mood: .motivation), image: "", title: "", sources: "", isBookrmark: false)
     
     
     @Published public var isShowDetailView:Bool = false
@@ -66,31 +67,44 @@ public class CommonViewViewModel: ObservableObject {
             isOn  = Array(repeating: false, count: cards.count)
         }
     }
+    
+    @Published public var searchedCards: [CardInfomation] = [] {
+        didSet {
+            isOn  = Array(repeating: false, count: searchedCards.count)
+        }
+    }
+    
     @Published public var isOn: [Bool] = []
     
     
     @Published public var searchViewButtonInfoArray: [SearchViewButtonInfo] = [
         SearchViewButtonInfo(title: .situation, options:  [
-            SearchOption(val: "동기부여", iconImageName: "", detail: "도전정신과 의지를 북돋아줄 명언"),
-            SearchOption(val: "위로", iconImageName: "", detail: "지친 일상을 따스하게 응원해줄 명언"),
-            SearchOption(val: "지혜", iconImageName: "", detail: "현명한 인생을 위한 교훈을 주는 명언")]),
+            SearchOption(korean: "동기부여", english: "motivation", iconImageName: "", detail: "도전정신과 의지를 북돋아줄 명언"),
+            SearchOption(korean: "위로", english: "support", iconImageName: "", detail: "지친 일상을 따스하게 응원해줄 명언"),
+            SearchOption(korean: "지혜", english: "wisdom", iconImageName: "", detail: "현명한 인생을 위한 교훈을 주는 명언")]),
         
         SearchViewButtonInfo(title: .flavor, options:  [
-            SearchOption(val: "달콤한 맛", iconImageName: "", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
-            SearchOption(val: "짭짤한 맛", iconImageName: "", detail: "울컥하게 만드는 감동적인 명언"),
-            SearchOption(val: "매콤한 맛", iconImageName: "", detail: "따끔한 조언의 자극적인 명언"),
-            SearchOption(val: "고소한 맛", iconImageName: "", detail: "재치있고 유희적인 명언"),
-            SearchOption(val: "담백한 맛", iconImageName: "", detail: "지친 삶의 위로, 기쁨을 주는 명언")
+            SearchOption(korean: "달콤한 맛", english: "sweet", iconImageName: "", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
+            SearchOption(korean: "짭짤한 맛", english: "salty", iconImageName: "", detail: "울컥하게 만드는 감동적인 명언"),
+            SearchOption(korean: "매콤한 맛", english: "spicy", iconImageName: "", detail: "따끔한 조언의 자극적인 명언"),
+            SearchOption(korean: "고소한 맛", english: "nutty", iconImageName: "", detail: "재치있고 유희적인 명언"),
+            SearchOption(korean: "담백한 맛", english: "light", iconImageName: "", detail: "지친 삶의 위로, 기쁨을 주는 명언")
         ]),
         
         SearchViewButtonInfo(title: .source, options:  [
-            SearchOption(val: "위인", iconImageName: "", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
-            SearchOption(val: "유명인", iconImageName: "", detail: "영향력있는 인물들의 인상적인 명언"),
-            SearchOption(val: "드라마/영화", iconImageName: "", detail: "감성을 자극하는 감수성 풍부한 명언"),
-            SearchOption(val: "애니메이션", iconImageName: "", detail: "순수함과 동심을 살려주는 따스한 명언"),
-            SearchOption(val: "책", iconImageName: "", detail: "정신적 성장을 도와주는 현명한 명언")
+            SearchOption(korean: "위인", english: "greatman", iconImageName: "", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
+            SearchOption(korean: "유명인", english: "celeb", iconImageName: "", detail: "영향력있는 인물들의 인상적인 명언"),
+            SearchOption(korean: "드라마/영화", english: "film", iconImageName: "", detail: "감성을 자극하는 감수성 풍부한 명언"),
+            SearchOption(korean: "애니메이션", english: "animation", iconImageName: "", detail: "순수함과 동심을 살려주는 따스한 명언"),
+            SearchOption(korean: "책", english: "book", iconImageName: "", detail: "정신적 성장을 도와주는 현명한 명언")
         ]),
     ]
+    
+    @Published public var homeBaseModel: BaseModel?
+    
+    var homeLikeCancellable: AnyCancellable?
+    
+    var homeBakeCancellbale: AnyCancellable?
     
     func searchCheckCount(idx: Int) -> Int {
         return searchViewButtonInfoArray[idx].options.filter { $0.isCheck }.count
@@ -104,6 +118,38 @@ public class CommonViewViewModel: ObservableObject {
 //            }
 //        }
 //    }
+    //MARK: -  홈  좋아요  및  스크램 api
+    public func homeBaseToViewModel(_ list: BaseModel) {
+        self.homeBaseModel = list
+    }
+
+    public func userPrefRequest(userID: String, quoteId: Int) {
+        if let cancellable = homeLikeCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+        homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: BaseModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.success.status {
+                    self?.homeBaseToViewModel(model)
+                    print("홈 취향", model)
+                } else {
+                    self?.homeBaseToViewModel(model)
+                    print("홈 취향", model)
+                }
+            })
+    }
     
     public func searchPostIndex(cardInfomation: CardInfomation) -> Int {
         for index in cards.indices {
@@ -143,5 +189,13 @@ public class CommonViewViewModel: ObservableObject {
                                         iconBackground: .hotIconBG,
                                         background: .hotBG)
         }
+    }
+    
+    public func getHashtags(post: QuoteContent) -> Hashtags {
+        let flavor = Flavor(rawValue: post.flavor ?? "")!
+        let source = Source(rawValue: post.source ?? "")!
+        let mood = Mood(rawValue: post.mood ?? "")!
+        
+        return Hashtags(flavor: flavor, source: source, mood: mood)
     }
 }

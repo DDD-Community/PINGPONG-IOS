@@ -27,10 +27,10 @@ public struct SearchViewButtonInfo: Identifiable, SearchViewButtonInfoProtocol {
       
         
         if self.count != 1 {
-            guard let title: String = options.filter({ $0.isCheck }).first?.val else { return  self.title.rawValue }
+            guard let title: String = options.filter({ $0.isCheck }).first?.korean else { return  self.title.rawValue }
             return "\(title) +\(self.count - 1)"
         }
-        return options.filter { $0.isCheck }.first?.val ?? self.title.rawValue
+        return options.filter { $0.isCheck }.first?.korean ?? self.title.rawValue
     }
     
     public var onSelect: ((_ key: String) -> Void)?

@@ -197,7 +197,7 @@ public struct SelectCharacterView: View {
                                 .padding()
                             VStack {
                                 HStack {
-                                    Text(self.viewModel.flavorArray.options[flavorIndex].val)
+                                    Text(self.viewModel.flavorArray.options[flavorIndex].korean)
                                         .foregroundColor(Color.basicGray8)
                                         .pretendardFont(family: .Medium, size: 16)
                                     Spacer()
@@ -216,7 +216,7 @@ public struct SelectCharacterView: View {
                         }
                     )
                     .onTapGesture {
-                        self.viewModel.appendAndPopCharacter(character: viewModel.flavorArray.options[flavorIndex].val, index: flavorIndex)
+                        self.viewModel.appendAndPopCharacter(character: viewModel.flavorArray.options[flavorIndex].korean, index: flavorIndex)
                         self.viewModel.selectedFavoriteFlavor = commCDItem.commCD
                     }
             }

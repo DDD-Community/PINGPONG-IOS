@@ -74,17 +74,17 @@ public class OnBoardingViewModel: ObservableObject {
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
     
     @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
-        SearchOption(val: "달콤한 맛", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
-        SearchOption(val: "짭잘한 맛", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
-        SearchOption(val: "매콤한 맛", iconImageName: "🔥", detail: "따끔한 조언의 자극적인 명언"),
-        SearchOption(val: "고소한 맛", iconImageName: "🥜", detail: "재치있고 유희적인 명언"),
-        SearchOption(val: "담백한 맛", iconImageName: "🥖", detail: "언제봐도 좋은 명언")
+        SearchOption(korean: "달콤한 맛", english: "sweet", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
+        SearchOption(korean: "짭잘한 맛", english: "salty", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
+        SearchOption(korean: "매콤한 맛", english: "spicy", iconImageName: "🔥", detail: "따끔한 조언의 자극적인 명언"),
+        SearchOption(korean: "고소한 맛", english:"nutty", iconImageName: "🥜", detail: "재치있고 유희적인 명언"),
+        SearchOption(korean: "담백한 맛", english: "light", iconImageName: "🥖", detail: "언제봐도 좋은 명언")
     ])
     
 
     public func searchFlavorIndex(commNm: String) -> Int {
         for index in flavorArray.options.indices {
-            if flavorArray.options[index].val == commNm {
+            if flavorArray.options[index].korean == commNm {
                 return index
             }
         }

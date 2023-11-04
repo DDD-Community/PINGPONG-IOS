@@ -63,7 +63,7 @@ public struct HomeView: View {
                 } else {
                     homeViewModel.randomQuoteRequest(userID: "423") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.likeYn = quoteContent.likeYn ?? false
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                                       hashtags: hashTags, image: "",
@@ -80,7 +80,7 @@ public struct HomeView: View {
             .onChange(of: homeViewModel.likeYn, perform: { newValue in
                 homeViewModel.randomQuoteRequest(userID: "423") {
                     for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                        let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                        let hashTags = viewModel.getHashtags(post: quoteContent)
                         viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
                         
                     }
@@ -302,7 +302,7 @@ public struct HomeView: View {
                         
                         //FIXME: quteId 수정 후 해당 로직 수정
                         viewModel.cards[idx].isBookrmark.toggle()
-                        homeViewModel.userPrefRequest(userID: "423", quoteId: card.qouteId)
+                        viewModel.userPrefRequest(userID: "423", quoteId: card.qouteId)
                     }
                 }
         }

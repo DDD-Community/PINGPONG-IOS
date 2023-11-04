@@ -124,13 +124,12 @@ public struct CoreView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(viewModel.isShowDetailView ? Color.basicBlackDimmed : .clear)
+                .ignoresSafeArea()
                 .onTapGesture {
                     viewModel.isShowDetailView.toggle()
                 }
             if viewModel.isShowDetailView {
-                if let card = self.viewModel.selectedCard {
-                    FamousSayingDetailView(viewModel: self.viewModel, card: card)
-                }
+                    FamousSayingDetailView(viewModel: self.viewModel)
             }
         }
     }

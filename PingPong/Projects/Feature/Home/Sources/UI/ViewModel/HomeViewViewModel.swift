@@ -76,37 +76,6 @@ public class HomeViewViewModel: ObservableObject {
     public func homeBaseToViewModel(_ list: BaseModel) {
         self.homeBaseModel = list
     }
-
-    public func userPrefRequest(userID: String, quoteId: Int) {
-        if let cancellable = homeLikeCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeLikeCancellable = provider.requestWithProgressPublisher(.homeLike(userId: userID, quoteId: quoteId))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: BaseModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.success.status {
-                    self?.homeBaseToViewModel(model)
-                    print("홈 취향", model)
-                } else {
-                    self?.homeBaseToViewModel(model)
-                    print("홈 취향", model)
-                }
-            })
-        
-        
-        
-    }
     
     public func homeBakeRequest(userId: String, flavor: String, source: String, mood: String) {
         if let canellable = homeBakeCancellbale {
@@ -129,14 +98,6 @@ public class HomeViewViewModel: ObservableObject {
                 self?.homeBaseToViewModel(model)
                 print("홈 랜덤  명언 굽기", model)
             })
-    }
-    
-    public func getHashtags(post: QuoteContent) -> Hashtags {
-        let flavor = Flavor(rawValue: post.flavor ?? "")!
-        let source = Source(rawValue: post.source ?? "")!
-        let mood = Mood(rawValue: post.mood ?? "")!
-        
-        return Hashtags(flavor: flavor, source: source, mood: mood)
     }
 }
 

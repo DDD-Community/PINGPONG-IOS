@@ -15,6 +15,7 @@ import SwiftUI
 public struct ModalView: View {
     let config: SheetManager.Config
     let isPopup: Bool
+    let defaultYoffset: CGFloat
     
     @StateObject private var viewModel: CommonViewViewModel
     
@@ -22,11 +23,12 @@ public struct ModalView: View {
     
     let height:CGFloat = UIScreen.screenHeight * 0.7
     
-    public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, didClose: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, defaultYoffset: CGFloat, didClose: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.config = config
         self.isPopup = isPopup
         self.didClose = didClose
+        self.defaultYoffset = defaultYoffset
     }
     
     public var body: some View {
@@ -52,10 +54,10 @@ public struct ModalView: View {
         .gesture(
             DragGesture()
                 .onChanged { value in
-                    if viewModel.offsetY == 0 && value.translation.height > 0 {
+                    if viewModel.offsetY == defaultYoffset && value.translation.height > defaultYoffset {
                         viewModel.offsetY += value.translation.height / 30
                     }
-                    if viewModel.offsetY > 0 {
+                    if viewModel.offsetY > defaultYoffset {
                         viewModel.offsetY += value.translation.height / 30
                     }
                 }
@@ -63,7 +65,7 @@ public struct ModalView: View {
                     if viewModel.offsetY > 100 {
                         didClose()
                     } else {
-                        viewModel.offsetY = 0
+                        viewModel.offsetY = defaultYoffset
                     }
                 }
         )
@@ -105,7 +107,7 @@ private extension ModalView {
         VStack {
             ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
                 let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
-                let situationFlavorSource = SituationFlavorSource(rawValue: option.val)!
+                let situationFlavorSource = SituationFlavorSource(rawValue: option.korean)!
                 let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
@@ -122,7 +124,7 @@ private extension ModalView {
                                 )
                             VStack {
                                 HStack {
-                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].val)
+                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].korean)
                                         .pretendardFont(family: .Medium, size: 16)
                                         .foregroundColor(.basicGray8)
                                     Spacer()
@@ -171,10 +173,19 @@ private extension ModalView {
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
+                let situationParameter: [String] = generateParameter(searchType: .situation)
+                let flavorParameter: [String] = generateParameter(searchType: .flavor)
+                let sourceParameter: [String] = generateParameter(searchType: .source)
+                print(situationParameter, flavorParameter, sourceParameter, viewModel.exploreViewSearchBarText)
                 didClose()
             }
     }
     
+    func generateParameter(searchType: SearchType) -> [String] {
+        let searchArray: [SearchOption] = viewModel.searchViewButtonInfoArray.filter{ $0.title == searchType }[0].options.filter { $0.isCheck }
+        let parameterArray: [String] = searchArray.compactMap{ $0.english }
+        return parameterArray
+    }
 }
 
 

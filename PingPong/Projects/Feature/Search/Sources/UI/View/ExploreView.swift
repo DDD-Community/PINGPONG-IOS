@@ -46,8 +46,8 @@ public struct ExploreView: View {
                             
                             ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
                                 
-//                                TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
-//                                let info: OptionButtonInfo = exploreViewViewModel.optionButtonInfoArray[idx]
+                                //                                TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
+                                //                                let info: OptionButtonInfo = exploreViewViewModel.optionButtonInfoArray[idx]
                                 let info = viewModel.searchViewButtonInfoArray[idx]
                                 
                                 Button(action: {
@@ -100,12 +100,36 @@ public struct ExploreView: View {
             }
         }
         .task {
-            await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: [], sources: [], mood: [], orderBy: "")
+            await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: [], sources: [], mood: [], orderBy: "") {
+                viewModel.searchedCards = []
+                for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
+                    let hashTags = viewModel.getHashtags(post: quoteContent)
+                    self.viewModel.likeYn = quoteContent.likeYn ?? false
+                    let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                              hashtags: hashTags, image: "",
+                                              title: quoteContent.content ?? "",
+                                              sources: quoteContent.author ?? "",
+                                              isBookrmark: quoteContent.likeYn ?? false)
+                    viewModel.searchedCards.append(card)
+                }
+            }
         }
         
         .onChange(of: viewModel.exploreViewSearchBarText, perform: { value in
             Task {
-                await exploreViewViewModel.searchRequest(keyword: value, flavors: [], sources: [], mood: [], orderBy: "")
+                await exploreViewViewModel.searchRequest(keyword: value, flavors: [], sources: [], mood: [], orderBy: "") {
+                    viewModel.searchedCards = []
+                    for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
+                        let hashTags = viewModel.getHashtags(post: quoteContent)
+                        self.viewModel.likeYn = quoteContent.likeYn ?? false
+                        let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                  hashtags: hashTags, image: "",
+                                                  title: quoteContent.content ?? "",
+                                                  sources: quoteContent.author ?? "",
+                                                  isBookrmark: quoteContent.likeYn ?? false)
+                        viewModel.searchedCards.append(card)
+                    }
+                }
             }
         })
         
@@ -122,13 +146,13 @@ public struct ExploreView: View {
                     TextField("", text: $viewModel.exploreViewSearchBarText)
                         .pretendardFont(family: .SemiBold, size: 18)
                         .padding(.leading, 15)
-                        
+                    
                     Image(systemName: "magnifyingglass")
                         .resizable()
                         .frame(width: 17, height: 17)
                         .padding(15)
                         .onTapGesture {
-//                            viewModel.filterPostsByText()
+                            //                            viewModel.filterPostsByText()
                         }
                 }
             )
@@ -137,15 +161,15 @@ public struct ExploreView: View {
     private var searchTextisEmptyQuote: some View {
         ScrollView(.vertical) {
             LazyVGrid(columns: columns) {
-                ForEach(viewModel.cards) { item in
-                    let colorSet = viewModel.createColorSet(flavor: item.hashtags.flavor)
+                ForEach(viewModel.searchedCards) { card in
+                    let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                     VStack {
                         HStack {
                             Circle()
                                 .foregroundColor(colorSet.iconBackground)
                                 .frame(width: 20, height: 20)
                                 .overlay(
-                                    Image(assetName: item.hashtags.flavor.type.smallIconImageName)
+                                    Image(assetName: card.hashtags.flavor.type.smallIconImageName)
                                         .resizable()
                                         .frame(width: 14, height: 14)
                                 )
@@ -153,44 +177,43 @@ public struct ExploreView: View {
                                 .foregroundColor(colorSet.iconBackground)
                                 .frame(width: 20, height: 20)
                                 .overlay(
-                                    Image(assetName: item.hashtags.source.type.smallIconImageName)
+                                    Image(assetName: card.hashtags.source.type.smallIconImageName)
                                         .resizable()
                                         .frame(width: 14, height: 14)
                                 )
                             Spacer()
                         }
                         .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
-
+                        
                         Spacer()
-
+                        
                         HStack {
-                            Text(item.title)
+                            Text(card.title)
                                 .baeEun(size: 18)
                                 .foregroundColor(.cardTextMain)
                                 .allowsTightening(true)
                                 .padding()
                             Spacer()
                         }
-
+                        
                         HStack {
-                            Text(item.author)
+                            Text(card.author)
                                 .baeEun(size: 18)
                                 .foregroundColor(.cardTextMain)
                                 .padding()
                             Spacer()
                         }
                     }
-                        .frame(width: 175, height: 240, alignment: .leading)
-                        .background(colorSet.background)
-                        .allowsTightening(true)
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            withAnimation {
-//                                let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: item.hashtags)
-                                
-                                viewModel.isShowDetailView.toggle()
-                            }
+                    .frame(width: 175, height: 240, alignment: .leading)
+                    .background(colorSet.background)
+                    .allowsTightening(true)
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        withAnimation {
+                            viewModel.selectedCard = card
+                            viewModel.isShowDetailView.toggle()
                         }
+                    }
                 }
             }
         }
@@ -215,9 +238,9 @@ public struct ExploreView: View {
             .pretendardFont(family: .Medium, size: 14)
             .onTapGesture {
                 if archiveViewViewModel.isAscendingOrder {
-                    viewModel.cards.sort { $0.title < $1.title }
+                    viewModel.searchedCards.sort { $0.title < $1.title }
                 } else {
-                    viewModel.cards.sort { $0.title > $1.title }
+                    viewModel.searchedCards.sort { $0.title > $1.title }
                 }
                 archiveViewViewModel.isAscendingOrder.toggle()
             }

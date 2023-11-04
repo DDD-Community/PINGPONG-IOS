@@ -36,7 +36,8 @@ public class ExploreViewModel: ObservableObject {
         flavors: [String],
         sources: [String],
         mood: [String],
-        orderBy: String
+        orderBy: String,
+        completion: @escaping () -> Void
     ) async {
         if let cancellable = searchCancellable {
             cancellable.cancel()
@@ -56,7 +57,8 @@ public class ExploreViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] model in
                 self?.searchRequestToViewModel(model)
-                print("성공 \(model)")
+                print("검색 결과 \(model)")
+                completion()
             })
         
     }
