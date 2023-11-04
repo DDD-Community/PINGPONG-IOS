@@ -21,7 +21,7 @@ public class BakeViewModel: ObservableObject {
     @Published public var commonCodeModel: CommonCdModel?
     var commonCodeCancellable: AnyCancellable?
     
-    @Published public var bakeQuoteModel: BaseModel?
+    @Published public var bakeQuoteModel: BakeModel?
     var bakeQuoteCancellable: AnyCancellable?
     
     
@@ -66,11 +66,17 @@ public class BakeViewModel: ObservableObject {
             })
     }
     
-    public func bakequoteCodeToViewModel(_ list: BaseModel) {
+    public func bakequoteCodeToViewModel(_ list: BakeModel) {
         self.bakeQuoteModel = list
     }
     
-    public func bakeQuoteRequest(userId: String, flavor: String, source: String, mood: String) {
+    public func bakeQuoteRequest(
+        userId: String,
+        flavor: String,
+        source: String,
+        mood: String,
+        completion: @escaping () -> Void
+    ) {
         if let cancellable = bakeQuoteCancellable {
             cancellable.cancel()
         }
@@ -79,7 +85,7 @@ public class BakeViewModel: ObservableObject {
         bakeQuoteCancellable = provider.requestWithProgressPublisher(.homeBakeQuote(userId: userId, flavor: flavor, source: source, mood: mood))
             .compactMap { $0.response?.data}
             .receive(on: DispatchQueue.main)
-            .decode(type: BaseModel.self, decoder: JSONDecoder())
+            .decode(type: BakeModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:
@@ -88,9 +94,13 @@ public class BakeViewModel: ObservableObject {
                     print("네트워크에러", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                self?.bakequoteCodeToViewModel(model)
-                os_log("홈화면 랜덤 명언 굽기")
-                print("홈화면 랜덤 명언 굽기", model)
+                if let status = model.status {
+                    if status == NetworkCode.success.status {
+                        self?.bakequoteCodeToViewModel(model)
+                        print("홈화면 랜덤 명언 굽기", model)
+                        completion()
+                    }
+                }
             })
     }
 }

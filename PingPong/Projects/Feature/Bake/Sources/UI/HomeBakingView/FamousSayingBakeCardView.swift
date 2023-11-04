@@ -61,7 +61,9 @@ struct FamousSayingBakeCardView: View {
             bakeViewModel.bakeQuoteRequest(userId: "423",
                                            flavor: (viewModel.selectFlavor?.type.english) ?? "",
                                            source: (viewModel.selectSource?.type.english) ?? "",
-                                           mood: (viewModel.selectMood?.type.english) ?? "")
+                                           mood: (viewModel.selectMood?.type.english) ?? "", completion: {
+                
+            })
             authViewModel.searchUserIdRequest(uid: "423")
         }
         .onDisappear {
