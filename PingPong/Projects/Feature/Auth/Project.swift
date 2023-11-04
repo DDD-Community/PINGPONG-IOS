@@ -17,12 +17,14 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
+        .design(implements: .DesignSystem),
+        .core(implements: .Authorization),
+        
         .SPM.Kingfisher,
         .SPM.PopupView,
         .SPM.Inject,
         .SPM.PopupView,
-        .Projcet.DesignSystem,
-        .Projcet.Authorization,
+       
         
         
             

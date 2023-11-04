@@ -2,6 +2,7 @@ GENERATE = tuist generate
 FETCH = tuist fetch
 BUILD = tuist build
 CLEAN = tuist clean
+CURRENT_DATE = $(shell run scripts/current_date.swift)
 
 # Define your targets and dependencies
 
@@ -20,4 +21,7 @@ clean:
 fetch:
 	$(FETCH)
 
-# Additional targets can be added as needed
+module:
+	tuist scaffold Module \
+	 --name ${name} \
+	 --author "서원지"

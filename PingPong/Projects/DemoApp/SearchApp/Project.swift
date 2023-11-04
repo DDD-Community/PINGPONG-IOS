@@ -24,7 +24,7 @@ let project = Project.makeAppModule(
     
     setting: .appMainSetting,
     dependencies: [
-        .Projcet.Search
+        .feature(implements: .Search)
             
     ],
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],

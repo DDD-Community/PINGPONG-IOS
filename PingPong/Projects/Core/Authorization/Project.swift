@@ -19,13 +19,12 @@ let project = Project.makeAppModule(
     ],
     setting:  .appBaseSetting,
     dependencies: [
-        .Projcet.DesignSystem,
+        .domain(implements: .Model),
+        .domain(implements: .Service),
+        .design(implements: .DesignSystem),
+        
         .SPM.CombineMoya,
         .SPM.Moya,
-        .SPM.Kingfisher,
-        .SPM.PopupView,
-        .Projcet.Model,
-        .Projcet.Service,
         .SPM.FirebaseAuth,
         .SPM.FirebaseFirestore,
         .SPM.FirebaseDatabase,

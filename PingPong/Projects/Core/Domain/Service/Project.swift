@@ -19,7 +19,9 @@ let project = Project.makeAppModule(
     dependencies: [
         .SPM.CombineMoya,
         .SPM.Moya,
-        .Projcet.API
+        .domain(implements: .API)
+        
+            
     ],
     sources: ["Sources/**"]
 )

@@ -18,12 +18,11 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
-        .Projcet.Home,
-        .Projcet.Archive,
-        .Projcet.Auth,
-        .Projcet.Search,
-        .Projcet.Home,
-        .Projcet.Archive,
+        .feature(implements: .Home),
+        .feature(implements: .Archive),
+        .feature(implements: .Auth),
+        .feature(implements: .Search),
+        
         .SPM.PopupView
         
             

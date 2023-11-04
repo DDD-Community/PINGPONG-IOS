@@ -56,7 +56,7 @@ public class ExploreViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] model in
                 self?.searchRequestToViewModel(model)
-                print("성공 \(model)")
+                print("검색 성공 \(model)")
             })
         
     }

@@ -18,16 +18,18 @@ let project = Project.makeAppModule(
     product: .staticFramework,
     setting:  .appBaseSetting,
     dependencies: [
+        .design(implements: .DesignSystem),
+        .domain(implements: .Service),
+        .domain(implements: .Model),
+        .feature(implements: .Archive),
+        .core(implements: .Common),
+        
         .SPM.PopupView,
         .SPM.Inject,
         .SPM.PopupView,
-        .Projcet.DesignSystem,
-        .Projcet.Service,
-        .Projcet.Model,
         .SPM.Moya,
-        .SPM.CombineMoya,
-        .Projcet.Common,
-        .Projcet.Archive
+        .SPM.CombineMoya
+        
         
     ],
     sources: ["Sources/**"]

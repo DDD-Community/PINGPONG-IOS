@@ -26,7 +26,7 @@ let project = Project.makeAppModule(
     dependencies: [
         .SPM.Inject,
         .SPM.FirebaseMessaging,
-        .Projcet.OnBoarding,
+        .feature(implements: .OnBoarding)
 //        .SPM.GoogleSignIn,
 //        .sdk(name: "GTMAppAuth+", type: .library),
 //        .sdk(name: "WidgetKit", type: .framework),
