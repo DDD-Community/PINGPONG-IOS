@@ -16,7 +16,7 @@ import API
 
 public class ExploreViewModel: ObservableObject {
     
-    @Published var searchModel: SearchQuoteModel?
+    @Published public var searchModel: SearchQuoteModel?
     var searchCancellable: AnyCancellable?
     
     @Published public var optionButtonInfoArray: [OptionButtonInfo] = [OptionButtonInfo(defaultTitle: .situation),

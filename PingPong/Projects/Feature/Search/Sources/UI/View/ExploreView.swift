@@ -40,48 +40,11 @@ public struct ExploreView: View {
                 searchBar()
                     .padding(.top, 62)
                 
-                VStack {
-                    HStack {
-                        HStack {
-                            
-                            ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
-                                
-                                //                                TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
-                                //                                let info: OptionButtonInfo = exploreViewViewModel.optionButtonInfoArray[idx]
-                                let info = viewModel.searchViewButtonInfoArray[idx]
-                                
-                                Button(action: {
-                                    withAnimation {
-                                        sheetManager.present(with: .init(idx: idx))
-                                    }
-                                    sheetManager.isPopup = true
-                                }) {
-                                    
-                                    Text(info.count == 0 ? "\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)" : "\(info.choicedTitle)")
-                                        .foregroundColor(.cardTextMain)
-                                        .pretendardFont(family: .SemiBold, size: 14)
-                                        .frame(minWidth: 48, minHeight: 30)
-                                        .padding(.horizontal, 8)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .foregroundColor(info.count == 0 ? .primaryOrangeBright: .primaryOrangeOpacity40)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 10)
-                                                        .stroke(info.count == 0 ? Color.hotIconBG : .primaryOrange, lineWidth: 1)
-                                                )
-                                        )
-                                }
-                            }
-                        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-                        
-                        Spacer()
-                    }
-                }
-                .frame(height:46)
+                searchHashTagView()
                 
-                staticsView(count: exploreViewViewModel.searchModel?.data?.totalElements ?? .zero)
+                staticsView(count: viewModel.searchedCards.count)
                 
-                if !viewModel.cards.isEmpty {
+                if !viewModel.searchedCards.isEmpty {
                     searchTextisEmptyQuote
                     
                 }  else {
@@ -218,6 +181,48 @@ public struct ExploreView: View {
             }
         }
         .frame(height: UIScreen.main.bounds.height * 0.56)
+    }
+    
+    @ViewBuilder
+    private func searchHashTagView() -> some View {
+        VStack {
+            HStack {
+                HStack {
+                    
+                    ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
+                        
+                        //                                TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
+                        //                                let info: OptionButtonInfo = exploreViewViewModel.optionButtonInfoArray[idx]
+                        let info = viewModel.searchViewButtonInfoArray[idx]
+                        
+                        Button(action: {
+                            withAnimation {
+                                sheetManager.present(with: .init(idx: idx))
+                            }
+                            sheetManager.isPopup = true
+                        }) {
+                            
+                            Text(info.count == 0 ? "\(viewModel.searchViewButtonInfoArray[idx].title.rawValue)" : "\(info.choicedTitle)")
+                                .foregroundColor(.cardTextMain)
+                                .pretendardFont(family: .SemiBold, size: 14)
+                                .frame(minWidth: 48, minHeight: 30)
+                                .padding(.horizontal, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .foregroundColor(info.count == 0 ? .primaryOrangeBright: .primaryOrangeOpacity40)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(info.count == 0 ? Color.hotIconBG : .primaryOrange, lineWidth: 1)
+                                        )
+                                )
+                        }
+                    }
+                }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
+                
+                Spacer()
+            }
+        }
+        .frame(height:46)
     }
     
     @ViewBuilder

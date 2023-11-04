@@ -23,6 +23,7 @@ let project = Project.makeAppModule(
         .core(implements: .Authorization),
         .core(implements: .Common),
         .feature(implements: .Bake),
+        .feature(implements: .Search),
         
         .SPM.PopupView,
         .SPM.Inject,

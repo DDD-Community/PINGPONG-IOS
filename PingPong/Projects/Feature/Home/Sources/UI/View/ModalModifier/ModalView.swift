@@ -11,6 +11,7 @@ import DesignSystem
 import Foundation
 import Model
 import SwiftUI
+import Search
 
 public struct ModalView: View {
     let config: SheetManager.Config
@@ -18,6 +19,8 @@ public struct ModalView: View {
     let defaultYoffset: CGFloat
     
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject var exploreViewViewModel: ExploreViewModel = ExploreViewModel()
+    
     
     let didClose: () -> Void
     
@@ -177,6 +180,24 @@ private extension ModalView {
                 let flavorParameter: [String] = generateParameter(searchType: .flavor)
                 let sourceParameter: [String] = generateParameter(searchType: .source)
                 print(situationParameter, flavorParameter, sourceParameter, viewModel.exploreViewSearchBarText)
+                
+                Task {
+                    await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: situationParameter, orderBy: "") {
+                        viewModel.searchedCards = []
+                        
+                        for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
+                            self.viewModel.likeYn = quoteContent.likeYn ?? false
+                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                      hashtags: hashTags, image: "",
+                                                      title: quoteContent.content ?? "",
+                                                      sources: quoteContent.author ?? "",
+                                                      isBookrmark: quoteContent.likeYn ?? false)
+                            viewModel.searchedCards.append(card)
+                        }
+                    }
+                }
+                
                 didClose()
             }
     }
