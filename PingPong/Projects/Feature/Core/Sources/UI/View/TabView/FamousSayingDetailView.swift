@@ -1,8 +1,8 @@
 //
 //  FamousSayingDetailView.swift
-//  Home
+//  Core
 //
-//  Created by Byeon jinha on 2023/09/08.
+//  Created by Byeon jinha on 2023/11/04.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import DesignSystem
 import Model
 import SwiftUI
 
-struct FamousSayingDetailView: View {
+public struct FamousSayingDetailView: View {
     let shareManager = SharedManger.shared
     @StateObject private var viewModel: CommonViewViewModel
     let card: CardInfomation
@@ -23,7 +23,7 @@ struct FamousSayingDetailView: View {
         self.colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
     }
     
-    var body: some View {
+    public var body: some View {
 //        let shareView =     VStack {
 //            RoundedRectangle(cornerRadius: 12)
 //                .foregroundColor(viewModel.detailViewInfo.colorSet.background)

@@ -37,7 +37,7 @@ public class CommonViewViewModel: ObservableObject {
         return count > 0
     }
     
-   
+//    @Published public var selectedCard: CardInfomation?
     
     
     @Published public var isShowDetailView:Bool = false
@@ -62,6 +62,7 @@ public class CommonViewViewModel: ObservableObject {
     
     @Published public var cards: [CardInfomation] = [] {
         didSet {
+            print("card count: \(cards.count)")
             isOn  = Array(repeating: false, count: cards.count)
         }
     }
@@ -102,10 +103,6 @@ public class CommonViewViewModel: ObservableObject {
 //            homePosts = originHomePosts.filter { $0.title.contains(exploreViewSearchBarText)
 //            }
 //        }
-//    }
-    
-//    public func updateDetailViewInfo(colorSet: FlavorColor, cardInfomation: CardInfomation, imageNameAndText: UserCustomBreadViewInfo){
-//        self.detailViewInfo = DetailViewInfo(colorSet: colorSet, cardInfomation: cardInfomation, imageNameAndText: imageNameAndText)
 //    }
     
     public func searchPostIndex(cardInfomation: CardInfomation) -> Int {

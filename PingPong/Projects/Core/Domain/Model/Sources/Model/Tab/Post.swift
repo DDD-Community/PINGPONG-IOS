@@ -10,7 +10,7 @@ import Foundation
 
 public struct CardInfomation: Identifiable, Equatable {
      public static func == (lhs: CardInfomation, rhs: CardInfomation) -> Bool {
-         return lhs.id == rhs.id
+         return lhs.qouteId == rhs.qouteId
     }
     
     public let id = UUID().uuidString

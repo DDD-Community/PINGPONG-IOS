@@ -42,51 +42,46 @@ public struct HomeView: View {
             .onAppear {
                 if !homeViewModel.isOn.isEmpty {
                     homeViewModel.randomQuoteRequest(userID: "423") {
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
-                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
-                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
-                                                                  hashtags: hashTags, image: "",
-                                                                  title: quoteContent.content ?? "",
-                                                                  sources: quoteContent.author ?? "",
-                                                                  isBookrmark: quoteContent.likeYn ?? false))
-                            
-                        }
+                        //                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                        //                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                        //                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
+                        //                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
+                        //
+                        //                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                        //                                                      hashtags: hashTags, image: "",
+                        //                                                      title: quoteContent.content ?? "",
+                        //                                                      sources: quoteContent.author ?? "",
+                        //                                                      isBookrmark: quoteContent.likeYn ?? false)
+                        //                            if !viewModel.cards.contains(card) {
+                        //                                viewModel.cards.append(card)
+                        //                            }
+                        //
+                        //
+                        //                        }
                     }
                 } else {
                     homeViewModel.randomQuoteRequest(userID: "423") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = homeViewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.likeYn = quoteContent.likeYn ?? false
-//                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
-                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
-                                                                  hashtags: hashTags, image: "",
-                                                                  title: quoteContent.content ?? "",
-                                                                    sources: quoteContent.author ?? "",
-                                                                  isBookrmark: quoteContent.likeYn ?? false))
-                            print("id \(quoteContent.quoteID)")
+                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                      hashtags: hashTags, image: "",
+                                                      title: quoteContent.content ?? "",
+                                                      sources: quoteContent.author ?? "",
+                                                      isBookrmark: quoteContent.likeYn ?? false)
+                            if !viewModel.cards.contains(card) {
+                                viewModel.cards.append(card)
+                            }
                         }
                     }
                 }
             }
             .onChange(of: homeViewModel.likeYn, perform: { newValue in
-                if newValue {
-                    homeViewModel.randomQuoteRequest(userID: "423") {
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
-                            
-                        }
-                    }
-                }
-                else {
-                    homeViewModel.randomQuoteRequest(userID: "423") {
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
-                            
-                        }
+                homeViewModel.randomQuoteRequest(userID: "423") {
+                    for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                        let hashTags = homeViewModel.getHashtags(post: quoteContent)
+                        viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
+                        
                     }
                 }
             })
@@ -102,53 +97,53 @@ public struct HomeView: View {
     @ViewBuilder
     private func carouselRandomQuoteView() -> some View {
         SnapCarousel(index: $currentIndex, items: viewModel.cards, isOn : $viewModel.isOn ) { card in
+            
+            GeometryReader{ proxy in
+                let size = proxy.size
+                let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                 
-                GeometryReader{ proxy in
-                    let size = proxy.size
-                    let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
-                    
-                    let shareView = shareView(colorSet: colorSet, size: size, card: card)
-                    
-                    
-                    RoundedRectangle(cornerRadius: 12)
-                        .frame(width: size.width, height: size.height * 0.62)
-                        .foregroundColor(colorSet.background)
-                        .overlay(
-                            ZStack {
-                                userCustomBreadView(hashtags: card.hashtags)
+                let shareView = shareView(colorSet: colorSet, size: size, card: card)
+                
+                
+                RoundedRectangle(cornerRadius: 12)
+                    .frame(width: size.width, height: size.height * 0.62)
+                    .foregroundColor(colorSet.background)
+                    .overlay(
+                        ZStack {
+                            userCustomBreadView(hashtags: card.hashtags)
+                            
+                            VStack{
+                                hashTagsView(colorSet: colorSet, hashtags: card.hashtags)
+                                Spacer()
                                 
-                                VStack{
-                                    hashTagsView(colorSet: colorSet, hashtags: card.hashtags)
-                                    Spacer()
-                                    
-                                    HStack{
-                                        VStack(alignment: .leading){
-                                            Spacer()
-                                            HStack{
-                                                Text(card.title)
-                                                    .baeEun(size: 28)
-                                                    .foregroundColor(.cardTextMain)
-                                                    .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
-                                                Spacer()
-                                            }
-                                            Text(card.author)
-                                                .baeEun(size: 24)
-                                                .foregroundColor(.cardTextMain)
-                                                .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
-                                        }
-                                        .frame(width: UIScreen.screenWidth * 0.6)
-                                        
+                                HStack{
+                                    VStack(alignment: .leading){
                                         Spacer()
-                                        cardSideView(colorSet: colorSet, card: card, shareView: shareView)
+                                        HStack{
+                                            Text(card.title)
+                                                .baeEun(size: 28)
+                                                .foregroundColor(.cardTextMain)
+                                                .padding(EdgeInsets(top: 0, leading: 19, bottom: 31, trailing:0))
+                                            Spacer()
+                                        }
+                                        Text(card.author)
+                                            .baeEun(size: 24)
+                                            .foregroundColor(.cardTextMain)
+                                            .padding(EdgeInsets(top: 0, leading: 21, bottom: 36, trailing:0))
                                     }
+                                    .frame(width: UIScreen.screenWidth * 0.6)
+                                    
+                                    Spacer()
+                                    cardSideView(colorSet: colorSet, card: card, shareView: shareView)
                                 }
                             }
-                        )
-                }
-                
-                
+                        }
+                    )
             }
-            .frame(height: UIScreen.screenHeight * 0.64)
+            
+            
+        }
+        .frame(height: UIScreen.screenHeight * 0.64)
     }
     
     

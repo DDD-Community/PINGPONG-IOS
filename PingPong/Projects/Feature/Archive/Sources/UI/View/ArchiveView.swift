@@ -11,13 +11,11 @@ import Common
 import DesignSystem
 import Model
 import SwiftUI
-import Home
 
 public struct ArchiveView: View {
     
     @StateObject var viewModel: CommonViewViewModel
     @StateObject var archiveViewViewModel: ArchiveViewViewModel = ArchiveViewViewModel()
-    @StateObject var homeViewViewModel: HomeViewViewModel = HomeViewViewModel()
     @StateObject var appState: AppState = AppState()
     
     public init(viewModel: CommonViewViewModel) {
@@ -52,7 +50,7 @@ public struct ArchiveView: View {
             
             let posts = generateBookmarkPostContents()
             
-            staticsView(count: homeViewViewModel.homeRandomQuoteModel?.data?.totalElements ?? .zero)
+//            staticsView(count: homeViewViewModel.homeRandomQuoteModel?.data?.totalElements ?? .zero)
             
             if posts.count != 0 {
                 ScrollView(.vertical) {

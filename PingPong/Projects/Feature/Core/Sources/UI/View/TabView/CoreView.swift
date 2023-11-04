@@ -128,7 +128,9 @@ public struct CoreView: View {
                     viewModel.isShowDetailView.toggle()
                 }
             if viewModel.isShowDetailView {
-//                FamousSayingDetailView(viewModel: self.viewModel)
+                if let card = self.viewModel.selectedCard {
+                    FamousSayingDetailView(viewModel: self.viewModel, card: card)
+                }
             }
         }
     }
