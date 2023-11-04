@@ -241,8 +241,8 @@ struct FamousSayingBakeCardView: View {
                         HStack{
                             HStack{
                                 HStack {
-                                    Image(assetName: card.hashtags.source.type.korean)
-                                    Text("\(post.hashtags.flavor.rawValue)")
+                                    Image(assetName: post.hashtags.flavor.type.smallIconImageName)
+                                    Text("\(post.hashtags.flavor.type.korean)")
                                         .pretendardFont(family: .SemiBold, size: 12)
                                 }
                                 .foregroundColor(colorSet.icon)
@@ -254,8 +254,8 @@ struct FamousSayingBakeCardView: View {
                                 )
                                 
                                 HStack {
-                                    Image(assetName: card.hashtags.source.type.smallIconImageName)
-                                    Text("\(post.hashtags.source.rawValue)")
+                                    Image(assetName: post.hashtags.source.type.smallIconImageName)
+                                    Text("\(post.hashtags.source.type.korean)")
                                         .pretendardFont(family: .SemiBold, size: 12)
                                         .foregroundColor(colorSet.icon)
                                 }

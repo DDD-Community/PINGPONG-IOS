@@ -27,7 +27,7 @@ public struct ExploreView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
     let columns = [
-        GridItem(.fixed(175)),   GridItem(.fixed(175))
+        GridItem(.fixed(175)), GridItem(.fixed(175))
     ]
     
     let buttonHeight: CGFloat = 30
@@ -35,8 +35,6 @@ public struct ExploreView: View {
     public var body: some View {
         ZStack {
             ScrollView(.vertical){
-                //                let (group, situationInfo, flavorCountInfo, sourceCountInfo) = filterHomePostContents()
-                
                 searchBar()
                     .padding(.top, 62)
                 
@@ -190,9 +188,6 @@ public struct ExploreView: View {
                 HStack {
                     
                     ForEach(viewModel.searchViewButtonInfoArray.indices, id: \.self) { idx in
-                        
-                        //                                TODO: 버튼 정보 예: 맛 + 3 이런 식으로 처리하기
-                        //                                let info: OptionButtonInfo = exploreViewViewModel.optionButtonInfoArray[idx]
                         let info = viewModel.searchViewButtonInfoArray[idx]
                         
                         Button(action: {

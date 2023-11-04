@@ -21,10 +21,21 @@ public class ArchiveViewViewModel: ObservableObject {
     @Published public var isAscendingOrder = true
     
     @Published public var archiveModel: ArchiveModel?
+    
+    @Published public var bookmarkCards: [CardInfomation] = []
+    
     var archiveCancellable: AnyCancellable?
     
     @Published public var deleteModel: DeleteModel?
     var deleteCancellable: AnyCancellable?
+    
+    public func getHashtags(post: ArchiveResponseModel) -> Hashtags {
+        let flavor = Flavor(rawValue: post.flavor ?? "")!
+        let source = Source(rawValue: post.source ?? "")!
+        let mood = Mood(rawValue: post.mood ?? "")!
+        
+        return Hashtags(flavor: flavor, source: source, mood: mood)
+    }
     
     public func archiveRequestToViewModel(_ list: ArchiveModel) {
         self.archiveModel = list

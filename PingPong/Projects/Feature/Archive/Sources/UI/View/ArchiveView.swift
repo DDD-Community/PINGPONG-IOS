@@ -25,89 +25,77 @@ public struct ArchiveView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
     let columns = [
-        GridItem(.fixed(165)),   GridItem(.fixed(165))
+        GridItem(.fixed(175)),   GridItem(.fixed(175))
     ]
     
     let buttonHeight: CGFloat = 30
     
     public var body: some View {
         VStack(){
-            Image(assetName: "archiveViewBG")
-                .resizable()
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.screenHeight * 0.2)
-                .overlay(
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Text("보관함")
-                                .padding()
-                                .pretendardFont(family: .SemiBold, size: 24)
-                                .foregroundColor(.basicGray9)
-                            Spacer()
-                        }
-                    }
-                )
+            archiveHeader()
             
-            let posts = generateBookmarkPostContents()
+            staticsView(count: archiveViewViewModel.bookmarkCards.count)
             
-//            staticsView(count: homeViewViewModel.homeRandomQuoteModel?.data?.totalElements ?? .zero)
-            
-            if posts.count != 0 {
+            if !archiveViewViewModel.bookmarkCards.isEmpty {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
-                        ForEach(posts) { post in
-                            
-                            let colorSet = viewModel.createColorSet(flavor: post.hashtags.flavor)
-                            
-//                            VStack {
-//                                HStack {
-//                                    Circle()
-//                                        .foregroundColor(post.hashtags.flavor.type.backgroundImageName1)
-//                                        .frame(width: 20, height: 20)
-//                                        .overlay(
-//                                            Image(assetName: post.hashtags.flavor.type.smallIconImageName)
-//                                                .resizable()
-//                                                .frame(width: 14, height: 14)
-//                                        )
-//                                    Circle()
-//                                        .foregroundColor(colorSet.iconBackground)
-//                                        .frame(width: 20, height: 20)
-//                                        .overlay(
-//                                            Image(assetName: post.hashtags.flavor.type.smallIconImageName)
-//                                                .resizable()
-//                                                .frame(width: 14, height: 14)
-//                                        )
-//                                    Spacer()
-//                                }
-//                                .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
-//                                Spacer()
-//                                HStack {
-//                                    Text(post.title)
-//                                        .baeEun(size: 18)
-//                                        .foregroundColor(.cardTextMain)
-//                                        .padding()
-//                                    Spacer()
-//                                }
-//                                HStack {
-//                                    Text(post.author)
-//                                        .baeEun(size: 18)
-//                                        .foregroundColor(.cardTextMain)
-//                                        .padding()
-//                                    Spacer()
-//                                }
-//                            }.frame(width: 165, height: 240, alignment: .leading)
-//                                .background(colorSet.background)
-//                                .cornerRadius(10)
-//                                .onTapGesture {
-//                                    withAnimation {
-//                                        let imageNameAndText = self.viewModel.generateImageNameAndText(hashtags: post.hashtags)
-//                                        viewModel.updateDetailViewInfo(colorSet: colorSet, cardInfomation: post, imageNameAndText: imageNameAndText)
-//                                        viewModel.isShowDetailView.toggle()
-//                                    }
-//                                }
+                        ForEach(archiveViewViewModel.bookmarkCards) { card in
+                            let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
+                            VStack {
+                                HStack {
+                                    Circle()
+                                        .foregroundColor(colorSet.iconBackground)
+                                        .frame(width: 20, height: 20)
+                                        .overlay(
+                                            Image(assetName: card.hashtags.flavor.type.smallIconImageName)
+                                                .resizable()
+                                                .frame(width: 14, height: 14)
+                                        )
+                                    Circle()
+                                        .foregroundColor(colorSet.iconBackground)
+                                        .frame(width: 20, height: 20)
+                                        .overlay(
+                                            Image(assetName: card.hashtags.source.type.smallIconImageName)
+                                                .resizable()
+                                                .frame(width: 14, height: 14)
+                                        )
+                                    Spacer()
+                                }
+                                .padding(EdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 0))
+                                
+                                Spacer()
+                                
+                                HStack {
+                                    Text(card.title)
+                                        .baeEun(size: 18)
+                                        .foregroundColor(.cardTextMain)
+                                        .allowsTightening(true)
+                                        .padding()
+                                    Spacer()
+                                }
+                                
+                                HStack {
+                                    Text(card.author)
+                                        .baeEun(size: 18)
+                                        .foregroundColor(.cardTextMain)
+                                        .padding()
+                                    Spacer()
+                                }
+                            }
+                            .frame(width: 175, height: 240, alignment: .leading)
+                            .background(colorSet.background)
+                            .allowsTightening(true)
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                withAnimation {
+                                    viewModel.selectedCard = card
+                                    viewModel.isShowDetailView.toggle()
+                                }
+                            }
                         }
                     }
                 }
+                .frame(height: UIScreen.main.bounds.height * 0.56)
             } else {
                 VStack(alignment: .center){
                     Image(assetName: "archiveEmptyImage")
@@ -133,7 +121,7 @@ public struct ArchiveView: View {
                         }
                 }
                 .pretendardFont(family: .SemiBold, size: 18)
-                .frame(height: UIScreen.main.bounds.height * 0.6)
+                .frame(height: UIScreen.main.bounds.height * 0.56)
             }
         }
         .navigationDestination(isPresented: $appState.goToBackingView) {
@@ -141,8 +129,43 @@ public struct ArchiveView: View {
                 appState.goToBackingView = false
             })
         }
+        .task {
+            await archiveViewViewModel.archiveRequest(userId: "423") {
+                archiveViewViewModel.bookmarkCards = []
+                for quoteContent in archiveViewViewModel.archiveModel?.data ?? [] {
+                    let hashTags = archiveViewViewModel.getHashtags(post: quoteContent)
+                    //FIXME: archive api 수정 요청
+//                    self.viewModel.likeYn = quoteContent.likeYn ?? false
+                    let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                              hashtags: hashTags, image: "",
+                                              title: quoteContent.content ?? "",
+                                              sources: quoteContent.author ?? "",
+                                              isBookrmark: false)
+                    archiveViewViewModel.bookmarkCards.append(card)
+                }
+            }
+        }
+    }
+    @ViewBuilder
+    private func archiveHeader() -> some View {
+        Image(assetName: "archiveViewBG")
+            .resizable()
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.screenHeight * 0.2)
+            .overlay(
+                VStack {
+                    Spacer()
+                    HStack {
+                        Text("보관함")
+                            .padding()
+                            .pretendardFont(family: .SemiBold, size: 24)
+                            .foregroundColor(.basicGray9)
+                        Spacer()
+                    }
+                }
+            )
     }
     
+    @ViewBuilder
     private func staticsView(count: Int) -> some View {
         HStack{
             HStack{
@@ -168,15 +191,5 @@ public struct ArchiveView: View {
             }
         }
         .frame(width: UIScreen.screenWidth - 40, height: 38)
-    }
-    
-    func generateBookmarkPostContents() -> [CardInfomation] {
-        var filterContent: [CardInfomation] = []
-        for post in viewModel.cards {
-            if post.isBookrmark {
-                filterContent.append(post)
-            }
-        }
-        return filterContent
     }
 }
