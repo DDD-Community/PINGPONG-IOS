@@ -18,11 +18,11 @@ public enum Source: String {
     public var type: SourceType {
         switch self {
         case .greatman:
-            return SourceType(english: "greatMan", korean: "위인", bread: .plainBread, smallIconImageName: "greatmanImage")
+            return SourceType(english: "greatman", korean: "위인", bread: .plainBread, smallIconImageName: "greatmanImage")
         case .celeb:
-            return SourceType(english: "famous", korean: "유명인", bread: .croissant, smallIconImageName: "celeImage")
+            return SourceType(english: "celeb", korean: "유명인", bread: .croissant, smallIconImageName: "celeImage")
         case .anime:
-            return SourceType(english: "animation", korean: "애니메이션", bread: .cookie, smallIconImageName: "animeImage")
+            return SourceType(english: "anime", korean: "애니메이션", bread: .cookie, smallIconImageName: "animeImage")
         case .film:
             return SourceType(english: "film", korean: "드라마/영화", bread: .pancake, smallIconImageName: "filmImage")
         case .book:

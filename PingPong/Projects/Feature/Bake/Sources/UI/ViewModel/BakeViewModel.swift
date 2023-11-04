@@ -108,10 +108,13 @@ public class BakeViewModel: ObservableObject {
             })
     }
     
-    public func getHashtags(post: BakeModel) -> Hashtags {
-        let flavor = Flavor(rawValue: post.data?.flavor ?? "")!
-        let source = Source(rawValue: post.data?.source ?? "")!
-        let mood = Mood(rawValue: post.data?.mood ?? "")!
+    public func getHashtags(post: BakeModel) -> Hashtags? {
+        guard let flavor = Flavor(rawValue: post.data?.flavor ?? ""),
+                let source = Source(rawValue: post.data?.source ?? ""),
+              let mood = Mood(rawValue: post.data?.mood ?? "")
+        else {
+            return nil
+        }
         
         return Hashtags(flavor: flavor, source: source, mood: mood)
     }

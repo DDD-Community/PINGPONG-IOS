@@ -183,9 +183,9 @@ public struct ArchiveView: View {
             .pretendardFont(family: .Medium, size: 14)
             .onTapGesture {
                 if archiveViewViewModel.isAscendingOrder {
-                    viewModel.cards.sort { $0.title < $1.title }
+                    archiveViewViewModel.bookmarkCards.sort { $0.title < $1.title }
                 } else {
-                    viewModel.cards.sort { $0.title > $1.title }
+                    archiveViewViewModel.bookmarkCards.sort { $0.title > $1.title }
                 }
                 archiveViewViewModel.isAscendingOrder.toggle()
             }

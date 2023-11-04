@@ -176,13 +176,13 @@ private extension ModalView {
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
-                let situationParameter: [String] = generateParameter(searchType: .situation)
+                let moodParameter: [String] = generateParameter(searchType: .situation)
                 let flavorParameter: [String] = generateParameter(searchType: .flavor)
                 let sourceParameter: [String] = generateParameter(searchType: .source)
-                print(situationParameter, flavorParameter, sourceParameter, viewModel.exploreViewSearchBarText)
+                print(moodParameter, flavorParameter, sourceParameter, viewModel.exploreViewSearchBarText)
                 
                 Task {
-                    await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: situationParameter, orderBy: "") {
+                    await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: moodParameter, orderBy: "") {
                         viewModel.searchedCards = []
                         
                         for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
