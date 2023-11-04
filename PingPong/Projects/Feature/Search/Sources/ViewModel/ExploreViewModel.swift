@@ -56,11 +56,14 @@ public class ExploreViewModel: ObservableObject {
                     print("네트워크 에러 \(error.localizedDescription)")
                 }
             }, receiveValue: { [weak self] model in
-                self?.searchRequestToViewModel(model)
-                print("검색 결과 \(model)")
-                completion()
+                if let status = model.status {
+                    if status == NetworkCode.success.status {
+                        self?.searchRequestToViewModel(model)
+                        print("검색 결과 \(model)")
+                        completion()
+                    }
+                }
             })
-        
     }
     
 }
