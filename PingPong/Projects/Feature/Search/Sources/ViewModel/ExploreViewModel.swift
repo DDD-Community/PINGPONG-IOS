@@ -12,10 +12,11 @@ import Combine
 import Moya
 import CombineMoya
 import Model
+import API
 
 public class ExploreViewModel: ObservableObject {
     
-    @Published var searchModel: SearchModel?
+    @Published var searchModel: SearchQuoteModel?
     var searchCancellable: AnyCancellable?
     
     @Published public var optionButtonInfoArray: [OptionButtonInfo] = [OptionButtonInfo(defaultTitle: .situation),
@@ -26,7 +27,7 @@ public class ExploreViewModel: ObservableObject {
         
     }
     
-    public func searchRequestToViewModel(_ list: SearchModel) {
+    public func searchRequestToViewModel(_ list: SearchQuoteModel) {
         self.searchModel = list
     }
     
@@ -35,17 +36,17 @@ public class ExploreViewModel: ObservableObject {
         flavors: [String],
         sources: [String],
         mood: [String],
-        orderBy: OrederByType
-    ){
+        orderBy: String
+    ) async {
         if let cancellable = searchCancellable {
             cancellable.cancel()
         }
         
         let provider = MoyaProvider<SearchService>(plugins: [MoyaLoggingPlugin()])
-        searchCancellable = provider.requestWithProgressPublisher(.searchQuote(page: 1, sizePerPage: 50, keyword: keyword, flavors: flavors, sources: sources, moods: mood, orderBy: orderBy.description))
+        searchCancellable = provider.requestWithProgressPublisher(.searchQuote(page: 0, sizePerPage: 100, keyword: keyword, flavors: flavors, sources: sources, moods: mood, orderBy: orderBy))
             .compactMap { $0.response?.data }
             .receive(on: DispatchQueue.main)
-            .decode(type: SearchModel.self, decoder: JSONDecoder())
+            .decode(type: SearchQuoteModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:
@@ -55,7 +56,7 @@ public class ExploreViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] model in
                 self?.searchRequestToViewModel(model)
-                print("검색  성공", model)
+                print("성공 \(model)")
             })
         
     }
