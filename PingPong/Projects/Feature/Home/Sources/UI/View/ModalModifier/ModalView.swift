@@ -186,12 +186,12 @@ private extension ModalView {
                         
                         for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
-                            self.viewModel.likeYn = quoteContent.likeYn ?? false
+                            self.viewModel.likeYn = quoteContent.likeID != nil
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
                                                       sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeYn ?? false)
+                                                      isBookrmark: quoteContent.likeID != nil )
                             viewModel.searchedCards.append(card)
                         }
                     }

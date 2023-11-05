@@ -48,13 +48,13 @@ public struct HomeView: View {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
-                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
+                            self.homeViewModel.likeYn = quoteContent.likeID != nil
                             
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
                                                       sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeYn ?? false)
+                                                      isBookrmark: quoteContent.likeID != nil )
                             if !viewModel.cards.contains(card) {
                                 viewModel.cards.append(card)
                             }
@@ -66,12 +66,12 @@ public struct HomeView: View {
                     homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
-                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
+                            self.homeViewModel.likeYn = quoteContent.likeID != nil
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
                                                       sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeYn ?? false)
+                                                      isBookrmark: quoteContent.likeID != nil )
                             if !viewModel.cards.contains(card) {
                                 viewModel.cards.append(card)
                             }
