@@ -11,7 +11,7 @@ import DesignSystem
 import SwiftUI
 import Authorization
 
-public struct OnBoardingPushViiew: View {
+public struct OnBoardingPushView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appState : OnBoardingAppState = OnBoardingAppState()
     @StateObject var viewModel: OnBoardingViewModel
@@ -107,6 +107,9 @@ public struct OnBoardingPushViiew: View {
                         RoundedRectangle(cornerRadius: 8.67)
                             .fill(Color.primaryOrange)
                             .frame(width: 38, height: 38)
+                            .overlay(
+                                Image(asset: .pingpongLogo)
+                            )
                         
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
