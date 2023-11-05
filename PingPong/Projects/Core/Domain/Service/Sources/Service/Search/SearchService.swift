@@ -36,13 +36,13 @@ extension SearchService: BaseTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case  .searchQuote(let page, let sizePerPage, let keyword, let flavors, let source, let moods, let orderBy):
+        case  .searchQuote(let page, let sizePerPage, let keyword, let flavors, let sources, let moods, let orderBy):
             let parameters : [String : Any] = [
                 "page": page,
                 "sizePerPage": sizePerPage,
                 "keyword": keyword,
                 "flavors": flavors,
-                "source": source,
+                "sources": sources,
                 "moods": moods,
                 "orderBy": orderBy
             ]

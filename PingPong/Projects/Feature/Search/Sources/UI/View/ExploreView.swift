@@ -61,7 +61,11 @@ public struct ExploreView: View {
             }
         }
         .task {
-            await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: [], sources: [], mood: [], orderBy: "") {
+            let moodParameter: [String] = viewModel.generateParameter(searchType: .situation)
+            let flavorParameter: [String] = viewModel.generateParameter(searchType: .flavor)
+            let sourceParameter: [String] = viewModel.generateParameter(searchType: .source)
+            
+            await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: moodParameter, orderBy: "") {
                 viewModel.searchedCards = []
                 for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
                     let hashTags = viewModel.getHashtags(post: quoteContent)

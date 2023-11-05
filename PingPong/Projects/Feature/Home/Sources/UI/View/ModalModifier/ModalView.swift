@@ -176,10 +176,9 @@ private extension ModalView {
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
-                let moodParameter: [String] = generateParameter(searchType: .situation)
-                let flavorParameter: [String] = generateParameter(searchType: .flavor)
-                let sourceParameter: [String] = generateParameter(searchType: .source)
-                print(moodParameter, flavorParameter, sourceParameter, viewModel.exploreViewSearchBarText)
+                let moodParameter: [String] = viewModel.generateParameter(searchType: .situation)
+                let flavorParameter: [String] = viewModel.generateParameter(searchType: .flavor)
+                let sourceParameter: [String] = viewModel.generateParameter(searchType: .source)
                 
                 Task {
                     await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: moodParameter, orderBy: "") {
@@ -200,12 +199,6 @@ private extension ModalView {
                 
                 didClose()
             }
-    }
-    
-    func generateParameter(searchType: SearchType) -> [String] {
-        let searchArray: [SearchOption] = viewModel.searchViewButtonInfoArray.filter{ $0.title == searchType }[0].options.filter { $0.isCheck }
-        let parameterArray: [String] = searchArray.compactMap{ $0.english }
-        return parameterArray
     }
 }
 

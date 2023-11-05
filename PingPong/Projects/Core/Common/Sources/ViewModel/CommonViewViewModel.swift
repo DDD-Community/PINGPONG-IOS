@@ -68,11 +68,7 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
-    @Published public var searchedCards: [CardInfomation] = [] {
-        didSet {
-            isOn  = Array(repeating: false, count: searchedCards.count)
-        }
-    }
+    @Published public var searchedCards: [CardInfomation] = []
     
     @Published public var isOn: [Bool] = []
     
@@ -105,6 +101,12 @@ public class CommonViewViewModel: ObservableObject {
     var homeLikeCancellable: AnyCancellable?
     
     var homeBakeCancellbale: AnyCancellable?
+    
+    public  func generateParameter(searchType: SearchType) -> [String] {
+        let searchArray: [SearchOption] = searchViewButtonInfoArray.filter{ $0.title == searchType }[0].options.filter { $0.isCheck }
+        let parameterArray: [String] = searchArray.compactMap{ $0.english }
+        return parameterArray
+    }
     
     func searchCheckCount(idx: Int) -> Int {
         return searchViewButtonInfoArray[idx].options.filter { $0.isCheck }.count
@@ -165,7 +167,7 @@ public class CommonViewViewModel: ObservableObject {
             .filter{ choicedBread == nil || $0.hashtags.source.type.bread == choicedBread }
             .filter{ choicedIngredent == nil || $0.hashtags.flavor.type.ingredent == choicedIngredent }
             .filter{ choicedTopping == nil || $0.hashtags.mood.type.topping == choicedTopping}
-        guard let ramdomIndex = (0..<filteredPosts.count).randomElement() else { return cards[0] }
+        guard let ramdomIndex = (0..<filteredPosts.count).randomElement() else { return CardInfomation(qouteId: 0, hashtags: Hashtags(flavor: .light, source: .anime, mood: .motivation), image: "", title: "", sources: "", isBookrmark: false) }
         
         return filteredPosts[ramdomIndex]
     }
