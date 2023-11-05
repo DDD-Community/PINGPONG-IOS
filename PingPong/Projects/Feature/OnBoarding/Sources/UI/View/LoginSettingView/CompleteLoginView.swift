@@ -130,7 +130,7 @@ public struct CompleteLoginView: View {
                             //MARK: - 임시로  하드 코딩 나중에 로그인 성공하면  successaction에  추가
                             //TODO: 회원가입 중간에 나가면 뷰깨지는 문제 해결
                             viewModel.completdSignUP = true
-                            authViewModel.signupPost(uid: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
+                            authViewModel.signupPost(token: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
                                 
                             } failSignUPAction: {
 //                                authViewModel.isSignupFail.toggle()

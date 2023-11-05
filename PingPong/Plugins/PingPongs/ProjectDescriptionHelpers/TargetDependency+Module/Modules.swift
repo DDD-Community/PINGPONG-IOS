@@ -26,7 +26,7 @@ public extension ModulePath {
         case OnBoarding
         case Search
         case PayMent
-//        case Profile
+        case Profile
         
         public static let name: String = "Feature"
     }

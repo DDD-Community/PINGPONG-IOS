@@ -10,10 +10,12 @@ import Common
 import DesignSystem
 import Model
 import SwiftUI
+import Authorization
 
 public struct FamousSayingDetailView: View {
     let shareManager = SharedManger.shared
     @StateObject private var viewModel: CommonViewViewModel
+    @StateObject private var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     let colorSet: FlavorColor
     
     public init(viewModel: CommonViewViewModel) {
@@ -186,7 +188,7 @@ public struct FamousSayingDetailView: View {
                                                     
                                                     //FIXME: quteId 수정 후 해당 로직 수정
                                                     viewModel.cards[idx].isBookrmark.toggle()
-                                                    viewModel.userPrefRequest(userID: "423", quoteId: viewModel.selectedCard.qouteId)
+                                                    viewModel.userPrefRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
                                                 }
                                             }
                                     }

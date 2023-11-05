@@ -24,6 +24,7 @@ let project = Project.makeAppModule(
         .core(implements: .Common),
         .feature(implements: .Bake),
         .feature(implements: .Search),
+        .feature(implements: .Profile),
         
         .SPM.PopupView,
         .SPM.Inject,

@@ -10,10 +10,13 @@ import DesignSystem
 import SwiftUI
 import Model
 import PopupView
+import Authorization
+
 
 public struct SelectCharacterView: View {
     @StateObject private var viewModel: OnBoardingViewModel
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -81,7 +84,7 @@ public struct SelectCharacterView: View {
                     viewModel.isSkipSelectedFlavor.toggle()
                     
                     if !viewModel.isSkipSelectedCategory &&  !viewModel.isSkipSelectedFlavor {
-                        viewModel.onBoardingRegisterPost(userId: "403", flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "OTHER", "anime", "film" , "celeb"]) {
+                        viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "OTHER", "anime", "film" , "celeb"]) {
                             appState.failRegisterFlavorPOPUP.toggle()
                         }
                     }
@@ -150,7 +153,7 @@ public struct SelectCharacterView: View {
                         .onTapGesture {
                             appState.goToSettingPushNotifcationView.toggle()
                             
-                            viewModel.onBoardingRegisterPost(userId: "403", flavors: [viewModel.selectedFavoriteFlavor], sources: [viewModel.selectedFavoriteCategory], failOnBoardingRegsiterAction: {
+                            viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: [viewModel.selectedFavoriteFlavor], sources: [viewModel.selectedFavoriteCategory], failOnBoardingRegsiterAction: {
                                 appState.failRegisterFlavorPOPUP.toggle()
                             })
                         }

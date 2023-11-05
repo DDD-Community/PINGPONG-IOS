@@ -40,7 +40,7 @@ public struct CompletOnBoardingView: View {
         
         .task {
             //MARK: -  임시 값
-            authViewModel.searchUserIdRequest(uid: "423")
+            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
         }
     }
     

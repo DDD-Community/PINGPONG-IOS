@@ -253,7 +253,7 @@ public class OnBoardingViewModel: ObservableObject {
     }
     
     
-    public func onBoardingRegisterPost(userId: String, flavors: [String], sources: [String], failOnBoardingRegsiterAction: @escaping () -> Void) {
+    public func onBoardingRegisterPost(userId: Int, flavors: [String], sources: [String], failOnBoardingRegsiterAction: @escaping () -> Void) {
         if let cancellable = onBoardingRegisterFlavorCancellable {
             cancellable.cancel()
         }

@@ -16,7 +16,6 @@ import Home
 
 public struct CoreView: View {
     @EnvironmentObject var sheetManager: SheetManager
-    
     @StateObject var appState: AppState = AppState()
     @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool

@@ -9,11 +9,14 @@
 import Common
 import SDWebImageSwiftUI
 import SwiftUI
+import Authorization
 
 struct FamousSayingBakeView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var bakeViewModel: BakeViewModel = BakeViewModel()
+    @StateObject private var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    
     var backAction: () -> Void
     var rebakeAction: () -> Void
     
@@ -45,7 +48,7 @@ struct FamousSayingBakeView: View {
                 appState.isCompleteBake.toggle()
                 
                 Task {
-                    await bakeViewModel.bakeQuoteRequest(userId: "423", flavor: viewModel.selectFlavor?.type.english ?? "", source: viewModel.selectSource?.type.english ?? "", mood: viewModel.selectMood?.type.english ?? "") 
+                    await bakeViewModel.bakeQuoteRequest(userId: "\(authViewModel.userid)", flavor: viewModel.selectFlavor?.type.english ?? "", source: viewModel.selectSource?.type.english ?? "", mood: viewModel.selectMood?.type.english ?? "") 
                 }
             }
         }

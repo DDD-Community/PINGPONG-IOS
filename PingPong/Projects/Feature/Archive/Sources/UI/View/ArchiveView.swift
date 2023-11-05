@@ -11,12 +11,14 @@ import Common
 import DesignSystem
 import Model
 import SwiftUI
+import Authorization
 
 public struct ArchiveView: View {
     
     @StateObject var viewModel: CommonViewViewModel
     @StateObject var archiveViewViewModel: ArchiveViewViewModel = ArchiveViewViewModel()
     @StateObject var appState: AppState = AppState()
+    @StateObject var authViewViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
     public init(viewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -130,7 +132,7 @@ public struct ArchiveView: View {
             })
         }
         .task {
-            await archiveViewViewModel.archiveRequest(userId: "423") {
+            await archiveViewViewModel.archiveRequest(userId: "\(authViewViewModel.userid)") {
                 archiveViewViewModel.bookmarkCards = []
                 for quoteContent in archiveViewViewModel.archiveModel?.data ?? [] {
                     let hashTags = archiveViewViewModel.getHashtags(post: quoteContent)

@@ -11,7 +11,7 @@ import Moya
 import API
 
 public enum AuthorizationService {
-    case signup(uid: String, fcm: String, email: String, nickname: String, jobCd: String)
+    case signup(token: String, fcm: String, email: String, nickname: String, jobCd: String)
     case validateUid(uid: String)
     case validateName(nickname: String)
     case searchUserByUid(uid: String)
@@ -56,9 +56,9 @@ extension AuthorizationService: BaseTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .signup(let uid, let fcm, let email, let nickname, let jobCd):
+        case .signup(let token, let fcm, let email, let nickname, let jobCd):
             let parameters : [String : Any] = [
-                "uid": uid,
+                "token": token,
                 "fcm": fcm,
                 "email": email,
                 "nickname": nickname,

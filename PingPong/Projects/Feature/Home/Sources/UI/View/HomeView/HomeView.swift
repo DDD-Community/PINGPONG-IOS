@@ -13,6 +13,7 @@ import DesignSystem
 import SwiftUI
 import Model
 import Collections
+import Authorization
 
 
 public struct HomeView: View {
@@ -20,6 +21,7 @@ public struct HomeView: View {
     @State var currentIndex: Int = 0
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var homeViewModel: HomeViewViewModel = HomeViewViewModel()
+    @StateObject private var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var appState: AppState = AppState()
     
     @State var isOn: [Bool] = []
@@ -42,26 +44,26 @@ public struct HomeView: View {
             
             .onAppear {
                 if !homeViewModel.isOn.isEmpty {
-                    homeViewModel.randomQuoteRequest(userID: "423") {
-                        //                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                        //                            let hashTags = homeViewModel.getHashtags(post: quoteContent)
-                        //                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
-                        //                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
-                        //
-                        //                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
-                        //                                                      hashtags: hashTags, image: "",
-                        //                                                      title: quoteContent.content ?? "",
-                        //                                                      sources: quoteContent.author ?? "",
-                        //                                                      isBookrmark: quoteContent.likeYn ?? false)
-                        //                            if !viewModel.cards.contains(card) {
-                        //                                viewModel.cards.append(card)
-                        //                            }
-                        //
-                        //
-                        //                        }
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
+                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
+                            self.homeViewModel.likeYn = quoteContent.likeYn ?? false
+                            
+                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                      hashtags: hashTags, image: "",
+                                                      title: quoteContent.content ?? "",
+                                                      sources: quoteContent.author ?? "",
+                                                      isBookrmark: quoteContent.likeYn ?? false)
+                            if !viewModel.cards.contains(card) {
+                                viewModel.cards.append(card)
+                            }
+                            
+                            
+                        }
                     }
                 } else {
-                    homeViewModel.randomQuoteRequest(userID: "423") {
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.likeYn = quoteContent.likeYn ?? false
@@ -78,7 +80,7 @@ public struct HomeView: View {
                 }
             }
             .onChange(of: homeViewModel.likeYn, perform: { newValue in
-                homeViewModel.randomQuoteRequest(userID: "423") {
+                homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
                     for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                         let hashTags = viewModel.getHashtags(post: quoteContent)
                         viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
@@ -302,7 +304,7 @@ public struct HomeView: View {
                         
                         //FIXME: quteId 수정 후 해당 로직 수정
                         viewModel.cards[idx].isBookrmark.toggle()
-                        viewModel.userPrefRequest(userID: "423", quoteId: card.qouteId)
+                        viewModel.userPrefRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId)
                     }
                 }
         }

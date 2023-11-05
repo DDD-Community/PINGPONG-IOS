@@ -23,6 +23,7 @@ struct PingPongProjectApp: App {
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
+    
     var body: some Scene {
         WindowGroup {
            

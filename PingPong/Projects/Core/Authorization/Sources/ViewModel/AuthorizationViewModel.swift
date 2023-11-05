@@ -27,6 +27,7 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var nonce: String  = ""
     @AppStorage("log_status") var log_Status = false
     @AppStorage("Uid") public var uid: String = ""
+    @AppStorage("userUid") public var userUid: String = ""
     @AppStorage("userEmail") public var userEmail: String = ""
     
    
@@ -51,6 +52,7 @@ public class AuthorizationViewModel: ObservableObject {
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         userid = UserDefaults.standard.integer(forKey: "userId")
+        userUid = UserDefaults.standard.string(forKey: "userUid") ?? ""
        
     }
     
@@ -121,6 +123,7 @@ public class AuthorizationViewModel: ObservableObject {
                     return
                   }
                     self.uid = idToken ?? ""
+                    APIHeaderManger.shared.firebaseUid = idToken ?? ""
                 }
                 let data = ["email" : result?.user.email ?? "" ,
                             "uid" : result?.user.uid ?? ""]
@@ -129,7 +132,7 @@ public class AuthorizationViewModel: ObservableObject {
                     .setData(data) { data in
                         debugPrint("DEBUG : Upload user data : \(String(describing: data))")
                     }
-                print("로그인 uid", self.uid)
+                print("로그인 uid", self.uid, APIHeaderManger.shared.firebaseUid)
             }
         }
     }
@@ -217,13 +220,13 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     //MARK: -  회원가입
-    public func signupPost(uid: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping () -> Void, failSignUPAction: @escaping () -> Void) {
+    public func signupPost(token: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping () -> Void, failSignUPAction: @escaping () -> Void) {
         if let cancellable = signupCancellable {
             cancellable.cancel()
         }
         
         let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
-        signupCancellable = provider.requestWithProgressPublisher(.signup(uid: uid, fcm: fcm, email: email, nickname: nickname, jobCd: jobCd))
+        signupCancellable = provider.requestWithProgressPublisher(.signup(token: token, fcm: fcm, email: email, nickname: nickname, jobCd: jobCd))
             .compactMap{ $0.response?.data}
             .decode(type: SignUPModel.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
@@ -238,6 +241,7 @@ public class AuthorizationViewModel: ObservableObject {
                 if model.status == NetworkCode.success.status {
                     self?.signupToViewModel(model)
                     self?.userid = model.data?.id ?? .zero
+                    self?.userUid = model.data?.uid ?? ""
                     print("회원가입 성공", model)
                     signupSuccessAction()
                 } else {

@@ -11,7 +11,7 @@ import API
 import Moya
 
 public enum OnBoardingService {
-    case userPreferenceRegister(userId: String, flavors: [String], sources: [String])
+    case userPreferenceRegister(userId: Int, flavors: [String], sources: [String])
     case searchUserPreferenceRegister
 }
 
@@ -19,7 +19,7 @@ public enum OnBoardingService {
 extension OnBoardingService: BaseTargetType {
     public var path: String {
         switch self {
-        case .userPreferenceRegister(let userId):
+        case .userPreferenceRegister(let userId, _ , _):
             return "\(PingPongAPIOnBoarding.userPrefURL)\(userId)"
         case .searchUserPreferenceRegister:
             return PingPongAPIOnBoarding.searchUserPrefURL
@@ -37,13 +37,12 @@ extension OnBoardingService: BaseTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .userPreferenceRegister(let userId, let flavors, let sources):
+        case .userPreferenceRegister(_, let flavors, let sources):
             let parameters : [String : Any] = [
-                "userId": userId,
                 "flavors": flavors,
                 "sources": sources
             ]
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
         case .searchUserPreferenceRegister:
             let parameters : [String : Any] = [:]
