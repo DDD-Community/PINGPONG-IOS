@@ -17,7 +17,6 @@ public struct OnBoardingPushView: View {
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
-    
     public init(viewModel: OnBoardingViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         
@@ -27,11 +26,9 @@ public struct OnBoardingPushView: View {
         ZStack {
             Color.basicWhite
                 .edgesIgnoringSafeArea(.all)
-            
-            ScrollView(showsIndicators: false) {
-                VStack {
-                    onboardingBackButton()
-                    
+            VStack {
+                onboardingBackButton()
+                ScrollView(showsIndicators: false) {
                     exampleWiseSayingView()
                     
                     stepContentTitleView()
@@ -42,8 +39,8 @@ public struct OnBoardingPushView: View {
                     
                     selectOnBoardingPushButton()
                 }
+                .bounce(false)
             }
-            .bounce(false)
             .navigationDestination(isPresented: $appState.completPushNotificationView) {
                 CompletedPushNotificationView(viewModel: self.viewModel)
                     .navigationBarHidden(true)
@@ -108,7 +105,10 @@ public struct OnBoardingPushView: View {
                             .fill(Color.primaryOrange)
                             .frame(width: 38, height: 38)
                             .overlay(
-                                Image(asset: .pingpongLogo)
+                                Image(asset: .pinpongMainLogo)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 38, height: 38)
                             )
                         
                         VStack(alignment: .leading, spacing: 8) {

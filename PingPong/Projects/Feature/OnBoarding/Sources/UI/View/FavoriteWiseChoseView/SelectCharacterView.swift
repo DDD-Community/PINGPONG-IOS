@@ -48,7 +48,7 @@ public struct SelectCharacterView: View {
         
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $appState.goToSettingPushNotifcationView) {
-            OnBoardingPushViiew(viewModel: self.viewModel)
+            OnBoardingPushView(viewModel: self.viewModel)
                 .navigationBarHidden(true)
         }
         

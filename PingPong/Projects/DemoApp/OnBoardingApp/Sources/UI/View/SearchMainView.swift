@@ -64,7 +64,7 @@ public struct Loading3View_Previews: PreviewProvider {
         @StateObject var viewModel = OnBoardingViewModel()
 //        NetworkingErrorView(refreshAction: {})
         NavigationStack {
-            OnBoardingPushViiew(viewModel: viewModel)
+            OnBoardingPushView(viewModel: viewModel)
         }
     }
 }

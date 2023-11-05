@@ -15,16 +15,9 @@ struct OnBoardingApp: App {
         WindowGroup {
             ZStack {
                 NavigationStack {
-                    SelectCategoryView(viewModel: viewModel)
+//                    OnBoardingPushView(viewModel: viewModel)
+//                    SelectCategoryView(viewModel: viewModel)
                 }
-//                CompletOnBoardingView(viewModel: viewModel)
-//                OnBoardingPushViiew()
-                
-//                ZStack {
-//                    if showLanch {
-//                        LaunchView(showLanchView: $showLanch)
-//                    }
-//                }
             }
         }
     }

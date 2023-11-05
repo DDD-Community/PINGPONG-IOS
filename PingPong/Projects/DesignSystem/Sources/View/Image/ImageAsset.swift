@@ -19,6 +19,7 @@ public enum ImageAsset: String {
     case breadSpicy
     case breadSweety
     case googleLogo
+    case pinpongMainLogo
     case pingpongLogo
     case pingpongLogoOrange
     case splashView
