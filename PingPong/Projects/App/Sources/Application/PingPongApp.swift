@@ -33,9 +33,15 @@ struct PingPongProjectApp: App {
                     CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                         .environmentObject(sheetManager)
                         .navigationBarHidden(true)
+                        .onAppear {
+                            authViewModel.getRefreshToken()
+                        }
                     
                 } else {
                     OnBoardingView(viewModel: self.viewModel)
+                        .onAppear {
+                            authViewModel.getRefreshToken()
+                        }
                 }
                 
 //                HomeMainView()

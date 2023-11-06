@@ -137,6 +137,20 @@ public class AuthorizationViewModel: ObservableObject {
         }
     }
     
+    public func getRefreshToken() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+          if let error = error {
+            // Handle error
+            return
+          }
+            self.uid = idToken ?? ""
+            APIHeaderManger.shared.firebaseUid = idToken ?? ""
+            
+            print("토큰 재생성")
+        }
+    }
+    
     public func googleLogin() {
         guard let clientID = FirebaseApp.app()?.options.clientID  else { return }
         
