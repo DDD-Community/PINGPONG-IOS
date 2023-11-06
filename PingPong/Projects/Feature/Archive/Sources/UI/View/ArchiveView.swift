@@ -142,7 +142,7 @@ public struct ArchiveView: View {
                                               hashtags: hashTags, image: "",
                                               title: quoteContent.content ?? "",
                                               sources: quoteContent.author ?? "",
-                                              isBookrmark: false)
+                                              isBookrmark: quoteContent.likeID != nil )
                     archiveViewViewModel.bookmarkCards.append(card)
                 }
             }

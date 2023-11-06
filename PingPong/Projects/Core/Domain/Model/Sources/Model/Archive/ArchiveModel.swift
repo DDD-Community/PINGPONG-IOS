@@ -36,6 +36,7 @@ public struct ArchiveResponseModel: Codable {
     public let flavor: String?
     public let source: String?
     public let mood: String?
+    public let likeID: Int?
 
     enum CodingKeys: String, CodingKey {
         case regDttm, modDttm
@@ -45,9 +46,10 @@ public struct ArchiveResponseModel: Codable {
         case modrNm, rmk, rowStatus
         case quoteID = "quoteId"
         case content, author, flavor, source, mood
+        case likeID = "likeId"
     }
     
-    public init(regDttm: String?, modDttm: String?, regrID: String?, regrNm: String?, modrID: String?, modrNm: String?, rmk: String?, rowStatus: String?, quoteID: Int?, content: String?, author: String?, flavor: String?, source: String?, mood: String?) {
+    public init(regDttm: String?, modDttm: String?, regrID: String?, regrNm: String?, modrID: String?, modrNm: String?, rmk: String?, rowStatus: String?, quoteID: Int?, content: String?, author: String?, flavor: String?, source: String?, mood: String?, likeID: Int?) {
         self.regDttm = regDttm
         self.modDttm = modDttm
         self.regrID = regrID
@@ -62,5 +64,6 @@ public struct ArchiveResponseModel: Codable {
         self.flavor = flavor
         self.source = source
         self.mood = mood
+        self.likeID = likeID
     }
 }
