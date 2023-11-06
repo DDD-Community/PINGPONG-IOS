@@ -42,6 +42,8 @@ public struct CoreView: View {
                     }
                     
                     mainTabBar()
+                        .keyboardAdaptive()
+                    
                 }
                 .modal(with: sheetManager, viewModel: viewModel)
                 .onAppear {
