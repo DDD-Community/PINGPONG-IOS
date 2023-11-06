@@ -188,7 +188,9 @@ public struct FamousSayingDetailView: View {
                                                     
                                                     //FIXME: quteId 수정 후 해당 로직 수정
                                                     viewModel.cards[idx].isBookrmark.toggle()
-                                                    viewModel.userPrefRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
+                                                    Task {
+                                                    await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
+                                                    }
                                                 }
                                             }
                                     }

@@ -15,7 +15,7 @@ public enum MyPageService {
     case myPageUsePref(userId: String)
     case myPageEditUserPref(userId: String, userPrefId: String, flavors: [String], sources: [String])
     case myPageLikes(userId: String)
-    case deleteLike(likeId: String)
+    case deleteLike(likeId: Int)
 }
 
 extension MyPageService: BaseTargetType {

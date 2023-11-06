@@ -72,7 +72,6 @@ public class HomeViewViewModel: ObservableObject {
 
     }
     
-    //MARK: -  홈  좋아요  및  스크램 api
     public func homeBaseToViewModel(_ list: BaseModel) {
         self.homeBaseModel = list
     }

@@ -100,7 +100,8 @@ public class CommonViewViewModel: ObservableObject {
     
     var homeLikeCancellable: AnyCancellable?
     
-    var homeBakeCancellbale: AnyCancellable?
+    @Published public var deleteModel: DeleteModel?
+    var deleteLikeCancellbale: AnyCancellable?
     
     public  func generateParameter(searchType: SearchType) -> [String] {
         let searchArray: [SearchOption] = searchViewButtonInfoArray.filter{ $0.title == searchType }[0].options.filter { $0.isCheck }
@@ -125,7 +126,7 @@ public class CommonViewViewModel: ObservableObject {
         self.homeBaseModel = list
     }
 
-    public func userPrefRequest(userID: String, quoteId: Int) {
+    public func quoteLikeRequest(userID: String, quoteId: Int) async {
         if let cancellable = homeLikeCancellable {
             cancellable.cancel()
         }
@@ -152,6 +153,39 @@ public class CommonViewViewModel: ObservableObject {
                 }
             })
     }
+    
+    public func deleteToViewModel(_ list: DeleteModel){
+        self.deleteModel = list
+    }
+    
+    //MARK: -  좋아요 취소
+    public func deleteLikeQuote(likeID: Int, completion: @escaping () -> Void) async {
+        if let cancellable = deleteLikeCancellbale {
+            cancellable.cancel()
+        }
+        let provider = MoyaProvider<MyPageService>(plugins: [MoyaLoggingPlugin()])
+        deleteLikeCancellbale = provider.requestWithProgressPublisher(.deleteLike(likeId: likeID))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: DeleteModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.success.status {
+                    self?.deleteToViewModel(model)
+                    print("좋아요 삭제", model)
+                } else {
+                    self?.deleteToViewModel(model)
+                    print("좋아요 삭제", model)
+                }
+            })
+    }
+    
     
     public func searchPostIndex(cardInfomation: CardInfomation) -> Int {
         for index in cards.indices {
