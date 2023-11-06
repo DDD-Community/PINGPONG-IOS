@@ -26,8 +26,6 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var selectedTab: Tab = .home
     @Published public var customTabs: [CustomTab] = []
     
-    @Published public var likeYn: Bool = false
-    
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30
     public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {

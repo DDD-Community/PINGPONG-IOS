@@ -182,12 +182,11 @@ public struct FamousSayingDetailView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                             .foregroundColor(viewModel.selectedCard.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
-                                                self.viewModel.likeYn.toggle()
-                                                
                                                 if let idx = viewModel.cards.firstIndex(of: viewModel.selectedCard) {
                                                     
                                                     //FIXME: quteId 수정 후 해당 로직 수정
                                                     viewModel.cards[idx].isBookrmark.toggle()
+                                                    viewModel.selectedCard = viewModel.cards[idx]
                                                     Task {
                                                     await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
                                                     }

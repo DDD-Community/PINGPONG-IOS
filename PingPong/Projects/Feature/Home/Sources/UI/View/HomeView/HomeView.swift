@@ -48,7 +48,7 @@ public struct HomeView: View {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
-                            self.homeViewModel.likeYn = quoteContent.likeID != nil
+                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
                             
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                                       hashtags: hashTags, image: "",
@@ -66,7 +66,7 @@ public struct HomeView: View {
                     homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
-                            self.homeViewModel.likeYn = quoteContent.likeID != nil
+                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
@@ -79,8 +79,11 @@ public struct HomeView: View {
                     }
                 }
             }
-            .onChange(of: homeViewModel.likeYn, perform: { newValue in
+            .onChange(of: viewModel.selectedCard.isBookrmark , perform: { newValue in
+                
                 homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
+                    // 종아요일 때
+                    
                     for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                         let hashTags = viewModel.getHashtags(post: quoteContent)
                         viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
@@ -298,7 +301,7 @@ public struct HomeView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                 .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                 .onTapGesture {
-                    self.homeViewModel.likeYn.toggle()
+                    self.homeViewModel.selecteLikeYn.toggle()
                     
                     if let idx = viewModel.cards.firstIndex(of: card) {
                         
