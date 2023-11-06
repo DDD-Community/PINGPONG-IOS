@@ -5,14 +5,16 @@
 //  Created by Byeon jinha on 2023/07/02.
 //
 
-import SwiftUI
 import DesignSystem
+import SwiftUI
+
 
 public struct StatusBarView: View {
     public var goProfileSettingView: () -> Void = {}
-    
-    public init(goProfileSettingView: @escaping () -> Void) {
+    @Binding var isGoToProfileView: Bool
+    public init(goProfileSettingView: @escaping () -> Void, isGoToProfileView: Binding<Bool>) {
         self.goProfileSettingView = goProfileSettingView
+        self._isGoToProfileView = isGoToProfileView
     }
     
     public var body: some View {
@@ -32,6 +34,7 @@ public struct StatusBarView: View {
                 .foregroundColor(.primaryOrangeDark)
                 .onTapGesture {
                     goProfileSettingView()
+                    self.isGoToProfileView = true
                 }
         }
         .padding(.horizontal, 20)

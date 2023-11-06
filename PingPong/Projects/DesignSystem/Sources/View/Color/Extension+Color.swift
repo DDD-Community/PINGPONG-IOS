@@ -22,7 +22,8 @@ public extension Color {
     static let basicGray7 = Color(hex: "#666564")
     static let basicGray8 = Color(hex: "#333332")
     static let basicGray9 = Color(hex: "#232320")
-
+    static let logoutBorder = Color(hex: "#EBE3E3")
+    static let logoutText = Color(hex: "#8C9097")
     // 상태 색상
     static let statusWarning = Color(hex: "#FF717D")
     static let statusSuccess = Color(hex: "#3CC882")

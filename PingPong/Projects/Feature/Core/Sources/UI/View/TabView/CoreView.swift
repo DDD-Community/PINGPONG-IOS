@@ -13,6 +13,7 @@ import Archive
 //import Authorization
 import Model
 import Home
+import Profile
 
 public struct CoreView: View {
     @EnvironmentObject var sheetManager: SheetManager
@@ -87,9 +88,13 @@ public struct CoreView: View {
         VStack {
             StatusBarView(goProfileSettingView: {
                 appState.goToProfileSettingView.toggle()
-            })
+            }, isGoToProfileView: $appState.isGoToProfileView)
             .frame(height: 40)
             .findNavigator(isPresented: $appState.goToProfileSettingView)
+        }  .navigationDestination(isPresented: $appState.isGoToProfileView) {
+            ProfileView(viewModel: viewModel, appState: appState, backAction: {
+                appState.goToBackingView = false
+            })
         }
     }
     

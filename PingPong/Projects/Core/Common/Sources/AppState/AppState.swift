@@ -22,6 +22,9 @@ public class AppState: ObservableObject {
     @Published public var isChoicedTopping: Bool = false
     @Published public var isCompleteBake: Bool = false
     
+    // MARK: 프로필 뷰 State
+    @Published public var isGoToProfileView: Bool = false
+    
     public init() {
         // 초기화 로직을 여기에 추가할 수 있습니다.
     }
