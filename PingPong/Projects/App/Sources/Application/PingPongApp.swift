@@ -29,8 +29,9 @@ struct PingPongProjectApp: App {
         WindowGroup {
            
             ZStack {
-                if viewModel.isLoginCheck {
+                if authViewModel.isLoginCheck {
                     CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                        .environmentObject(authViewModel)
                         .environmentObject(sheetManager)
                         .navigationBarHidden(true)
                         .onAppear {

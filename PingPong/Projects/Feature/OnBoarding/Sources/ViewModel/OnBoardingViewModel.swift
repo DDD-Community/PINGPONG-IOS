@@ -61,12 +61,6 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectedFavoriteFlavor: String = ""
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
-    @Published public var isLoginCheck: Bool = false
-    @AppStorage("isLogin") public var isLogin: Bool = false {
-        didSet {
-            self.isLoginCheck = isLogin
-        }
-    }
     @AppStorage("isFirstUser") public var isFirstUser: Bool = false
     @AppStorage("completdSignUP") public var completdSignUP: Bool = false
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
@@ -104,7 +98,6 @@ public class OnBoardingViewModel: ObservableObject {
     
     public init() {
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
-        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         isFirstUser = UserDefaults.standard.bool(forKey: "isFirstUser")
         completdSignUP = UserDefaults.standard.bool(forKey: "completdSignUP")
     }

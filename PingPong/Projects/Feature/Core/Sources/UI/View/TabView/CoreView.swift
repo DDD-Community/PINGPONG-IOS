@@ -10,7 +10,7 @@ import SwiftUI
 import DesignSystem
 import PopupView
 import Archive
-//import Authorization
+import Authorization
 import Model
 import Home
 import Profile
@@ -20,7 +20,7 @@ public struct CoreView: View {
     @StateObject var appState: AppState = AppState()
     @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool
-    
+    @EnvironmentObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: CommonViewViewModel
     
     public init(viewModel: CommonViewViewModel, isFistUserPOPUP: Binding<Bool>) {
@@ -70,7 +70,6 @@ public struct CoreView: View {
             }
         }
         .navigationBarHidden(true)
-        .ignoresSafeArea()
         .onAppear {
             self.viewModel.setupCustomTabs()
         }

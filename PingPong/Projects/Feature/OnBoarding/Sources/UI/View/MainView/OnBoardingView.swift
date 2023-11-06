@@ -43,12 +43,19 @@ public struct OnBoardingView: View {
                     .environmentObject(viewModel)
             }
             
+//            .fullScreenCover(isPresented: $appState.goToMainHomeView, content: {
+//                CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+//                    .environmentObject(sheetManager)
+//                    .navigationBarHidden(true)
+//            })
+            
             .navigationDestination(isPresented: $appState.goToMainHomeView) {
                 CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                     .environmentObject(sheetManager)
-                    .navigationBarHidden(true)
+                    .environmentObject(authViewModel)
             }
         }
+         
         
         .popup(isPresented: $appState.signUPFaillPOPUP) {
             FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "애플로그인에 오류가 생겼습니다. 다시 시도해주세요")
@@ -160,6 +167,7 @@ public struct OnBoardingView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if viewModel.completdSignUP {
                         appState.goToMainHomeView.toggle()
+                        authViewModel.isLogin = true
                     } else {
                         if !viewModel.isFirstUser {
                             appState.serviceUseAgmentView.toggle()

@@ -11,6 +11,7 @@ product: .staticFramework,
 setting:  .appBaseSetting,
 dependencies: [
         .core(implements: .Common),
+        .core(implements: .Authorization),
         .design(implements: .DesignSystem),
         .domain(implements: .Model),
         .domain(implements: .Service)

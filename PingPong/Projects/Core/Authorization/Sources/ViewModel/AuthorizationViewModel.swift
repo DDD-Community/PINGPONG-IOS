@@ -29,7 +29,12 @@ public class AuthorizationViewModel: ObservableObject {
     @AppStorage("Uid") public var uid: String = ""
     @AppStorage("userUid") public var userUid: String = ""
     @AppStorage("userEmail") public var userEmail: String = ""
-    
+    @Published public var isLoginCheck: Bool = false
+    @AppStorage("isLogin") public var isLogin: Bool = false {
+        didSet {
+            self.isLoginCheck = isLogin
+        }
+    }
    
     @Published public var loginStatus: Bool = false
     @Published var deleteUser: Bool = false
@@ -49,6 +54,7 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var userRmk: String = ""
     
     public init() {
+        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         userid = UserDefaults.standard.integer(forKey: "userId")

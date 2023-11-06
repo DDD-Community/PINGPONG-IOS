@@ -9,12 +9,14 @@
 import Common
 import DesignSystem
 import Model
+import Authorization
 import SwiftUI
 
 public struct ProfileView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
+    @EnvironmentObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -85,6 +87,9 @@ public struct ProfileView: View {
                             Text("로그아웃")
                                 .pretendardFont(family: .Medium, size: 14)
                                 .foregroundColor(.logoutText)
+                        }
+                        .onTapGesture {
+                            authViewModel.isLogin = false
                         }
                 }
                 .navigationBarHidden(true)
