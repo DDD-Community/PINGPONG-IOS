@@ -137,12 +137,13 @@ public struct ArchiveView: View {
                 for quoteContent in archiveViewViewModel.archiveModel?.data ?? [] {
                     let hashTags = archiveViewViewModel.getHashtags(post: quoteContent)
                     //FIXME: archive api 수정 요청
-//                    self.viewModel.likeYn = quoteContent.likeYn ?? false
                     let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                               hashtags: hashTags, image: "",
                                               title: quoteContent.content ?? "",
                                               sources: quoteContent.author ?? "",
-                                              isBookrmark: quoteContent.likeID != nil )
+                                              isBookrmark: quoteContent.likeID != nil,
+                                              likeId: quoteContent.likeID
+                    )
                     archiveViewViewModel.bookmarkCards.append(card)
                 }
             }

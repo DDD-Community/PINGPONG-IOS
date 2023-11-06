@@ -11,9 +11,11 @@ import DesignSystem
 import Model
 import SwiftUI
 import Authorization
+import Home
 
 public struct FamousSayingDetailView: View {
     let shareManager = SharedManger.shared
+    @StateObject private var homeViewModel: HomeViewViewModel = HomeViewViewModel()
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     let colorSet: FlavorColor
@@ -125,7 +127,7 @@ public struct FamousSayingDetailView: View {
                                         RoundedRectangle(cornerRadius: 16)
                                             .foregroundColor(.basicGray1BG)
                                         )
-                                        
+
                                         HStack {
                                             Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
                                             Text(viewModel.selectedCard.hashtags.source.type.korean)
@@ -183,13 +185,20 @@ public struct FamousSayingDetailView: View {
                                             .foregroundColor(viewModel.selectedCard.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
                                                 if let idx = viewModel.cards.firstIndex(of: viewModel.selectedCard) {
-                                                    
-                                                    //FIXME: quteId 수정 후 해당 로직 수정
-                                                    viewModel.cards[idx].isBookrmark.toggle()
-                                                    viewModel.selectedCard = viewModel.cards[idx]
-                                                    Task {
-                                                    await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
+                                                    if viewModel.selectedCard.isBookrmark {
+                                                        Task {
+                                                            if let likeId = viewModel.selectedCard.likeId {
+                                                                await viewModel.deleteLikeQuote(likeID: likeId)
+                                                                viewModel.selectedCard.isBookrmark = false
+                                                            }
+                                                        }
+                                                    } else {
+                                                        Task {
+                                                            await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
+                                                            viewModel.selectedCard.isBookrmark = true
+                                                        }
                                                     }
+                                                    viewModel.cards[idx] = viewModel.selectedCard
                                                 }
                                             }
                                     }
@@ -197,7 +206,19 @@ public struct FamousSayingDetailView: View {
                             }
                         }
                     )
-            } .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.8)
+            }.frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.8)
+                .onChange(of: viewModel.selectedCard.isBookrmark , perform: { newValue in
+                    
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
+                        // 종아요일 때
+                        
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
+                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
+                            
+                        }
+                    }
+                })
         }
     }
 }

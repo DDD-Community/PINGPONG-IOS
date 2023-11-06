@@ -98,7 +98,7 @@ public class BakeViewModel: ObservableObject {
                         self?.bakequoteCodeToViewModel(model)
                         print("홈화면 랜덤 명언 굽기", model)
                         if let hashtags = self?.getHashtags(post: model) {
-                            self?.bakeCard = CardInfomation(qouteId: model.data?.quoteID ?? .zero, hashtags: hashtags, image: "", title: model.data?.content ?? "", sources: model.data?.author ?? "", isBookrmark: false)
+                            self?.bakeCard = CardInfomation(qouteId: model.data?.quoteID ?? .zero, hashtags: hashtags, image: "", title: model.data?.content ?? "", sources: model.data?.author ?? "", isBookrmark: false, likeId: model.data?.likeID)
                         } else {
                             
                         }

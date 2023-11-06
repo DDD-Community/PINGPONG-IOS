@@ -36,7 +36,7 @@ public class CommonViewViewModel: ObservableObject {
         return count > 0
     }
     
-    @Published public var selectedCard: CardInfomation = CardInfomation(qouteId: 0, hashtags: Hashtags(flavor: .light, source: .anime, mood: .motivation), image: "", title: "", sources: "", isBookrmark: false)
+    @Published public var selectedCard: CardInfomation = CardInfomation(qouteId: 0, hashtags: Hashtags(flavor: .light, source: .anime, mood: .motivation), image: "", title: "", sources: "", isBookrmark: false, likeId: nil)
     
     
     @Published public var isShowDetailView:Bool = false
@@ -157,7 +157,7 @@ public class CommonViewViewModel: ObservableObject {
     }
     
     //MARK: -  좋아요 취소
-    public func deleteLikeQuote(likeID: Int, completion: @escaping () -> Void) async {
+    public func deleteLikeQuote(likeID: Int) async {
         if let cancellable = deleteLikeCancellbale {
             cancellable.cancel()
         }
@@ -199,7 +199,7 @@ public class CommonViewViewModel: ObservableObject {
             .filter{ choicedBread == nil || $0.hashtags.source.type.bread == choicedBread }
             .filter{ choicedIngredent == nil || $0.hashtags.flavor.type.ingredent == choicedIngredent }
             .filter{ choicedTopping == nil || $0.hashtags.mood.type.topping == choicedTopping}
-        guard let ramdomIndex = (0..<filteredPosts.count).randomElement() else { return CardInfomation(qouteId: 0, hashtags: Hashtags(flavor: .light, source: .anime, mood: .motivation), image: "", title: "", sources: "", isBookrmark: false) }
+        guard let ramdomIndex = (0..<filteredPosts.count).randomElement() else { return CardInfomation(qouteId: 0, hashtags: Hashtags(flavor: .light, source: .anime, mood: .motivation), image: "", title: "", sources: "", isBookrmark: false, likeId: nil) }
         
         return filteredPosts[ramdomIndex]
     }

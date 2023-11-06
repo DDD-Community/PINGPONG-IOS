@@ -54,7 +54,9 @@ public struct HomeView: View {
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
                                                       sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeID != nil )
+                                                      isBookrmark: quoteContent.likeID != nil,
+                                                      likeId: quoteContent.likeID
+                            )
                             if !viewModel.cards.contains(card) {
                                 viewModel.cards.append(card)
                             }
@@ -71,7 +73,9 @@ public struct HomeView: View {
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
                                                       sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeID != nil )
+                                                      isBookrmark: quoteContent.likeID != nil,
+                                                      likeId: quoteContent.likeID
+                            )
                             if !viewModel.cards.contains(card) {
                                 viewModel.cards.append(card)
                             }
@@ -86,7 +90,7 @@ public struct HomeView: View {
                     
                     for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
                         let hashTags = viewModel.getHashtags(post: quoteContent)
-                        viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue))
+                        viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
                         
                     }
                 }
@@ -301,14 +305,19 @@ public struct HomeView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                 .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                 .onTapGesture {
-                    self.homeViewModel.selecteLikeYn.toggle()
-                    
                     if let idx = viewModel.cards.firstIndex(of: card) {
-                        
-                        //FIXME: quteId 수정 후 해당 로직 수정
-                        viewModel.cards[idx].isBookrmark.toggle()
-                        Task {
-                            await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId)
+                        if viewModel.cards[idx].isBookrmark {
+                            Task {
+                                if let likeId = viewModel.cards[idx].likeId {
+                                    await viewModel.deleteLikeQuote(likeID: likeId)
+                                    viewModel.cards[idx].isBookrmark = false
+                                }
+                            }
+                        } else {
+                            Task {
+                                await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId)
+                                viewModel.cards[idx].isBookrmark = true
+                            }
                         }
                     }
                 }

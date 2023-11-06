@@ -190,7 +190,9 @@ private extension ModalView {
                                                       hashtags: hashTags, image: "",
                                                       title: quoteContent.content ?? "",
                                                       sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeID != nil )
+                                                      isBookrmark: quoteContent.likeID != nil,
+                                                      likeId: quoteContent.likeID
+                            )
                             viewModel.searchedCards.append(card)
                         }
                     }
