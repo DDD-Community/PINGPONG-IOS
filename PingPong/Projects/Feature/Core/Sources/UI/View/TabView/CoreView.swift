@@ -42,7 +42,7 @@ public struct CoreView: View {
                     }
                     
                     mainTabBar()
-                        .keyboardAdaptive()
+//                        .keyboardAdaptive()
                     
                 }
                 .modal(with: sheetManager, viewModel: viewModel)

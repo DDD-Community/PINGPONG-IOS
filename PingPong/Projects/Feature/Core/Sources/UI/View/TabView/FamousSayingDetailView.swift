@@ -190,12 +190,14 @@ public struct FamousSayingDetailView: View {
                                                             if let likeId = viewModel.selectedCard.likeId {
                                                                 await viewModel.deleteLikeQuote(likeID: likeId)
                                                                 viewModel.selectedCard.isBookrmark = false
+                                                                viewModel.removeLike(card: viewModel.selectedCard)
                                                             }
                                                         }
                                                     } else {
                                                         Task {
                                                             await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
                                                             viewModel.selectedCard.isBookrmark = true
+                                                            viewModel.addLike(card: viewModel.selectedCard)
                                                         }
                                                     }
                                                     viewModel.cards[idx] = viewModel.selectedCard

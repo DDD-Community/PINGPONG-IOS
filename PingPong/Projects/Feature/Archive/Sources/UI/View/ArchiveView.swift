@@ -36,12 +36,12 @@ public struct ArchiveView: View {
         VStack(){
             archiveHeader()
             
-            staticsView(count: archiveViewViewModel.bookmarkCards.count)
+            staticsView(count: viewModel.bookmarkCards.count)
             
-            if !archiveViewViewModel.bookmarkCards.isEmpty {
+            if !viewModel.bookmarkCards.isEmpty {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {
-                        ForEach(archiveViewViewModel.bookmarkCards) { card in
+                        ForEach(viewModel.bookmarkCards) { card in
                             let colorSet = viewModel.createColorSet(flavor: card.hashtags.flavor)
                             VStack {
                                 HStack {
@@ -132,10 +132,10 @@ public struct ArchiveView: View {
             })
         }
         .task {
-            await archiveViewViewModel.archiveRequest(userId: "\(authViewViewModel.userid)") {
-                archiveViewViewModel.bookmarkCards = []
-                for quoteContent in archiveViewViewModel.archiveModel?.data ?? [] {
-                    let hashTags = archiveViewViewModel.getHashtags(post: quoteContent)
+            await viewModel.archiveRequest(userId: "\(authViewViewModel.userid)") {
+                viewModel.bookmarkCards = []
+                for quoteContent in viewModel.archiveModel?.data ?? [] {
+                    let hashTags = viewModel.getHashtags(post: quoteContent)
                     //FIXME: archive api 수정 요청
                     let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
                                               hashtags: hashTags, image: "",
@@ -144,7 +144,7 @@ public struct ArchiveView: View {
                                               isBookrmark: quoteContent.likeID != nil,
                                               likeId: quoteContent.likeID
                     )
-                    archiveViewViewModel.bookmarkCards.append(card)
+                    viewModel.bookmarkCards.append(card)
                 }
             }
         }
@@ -186,9 +186,9 @@ public struct ArchiveView: View {
             .pretendardFont(family: .Medium, size: 14)
             .onTapGesture {
                 if archiveViewViewModel.isAscendingOrder {
-                    archiveViewViewModel.bookmarkCards.sort { $0.title < $1.title }
+                    viewModel.bookmarkCards.sort { $0.title < $1.title }
                 } else {
-                    archiveViewViewModel.bookmarkCards.sort { $0.title > $1.title }
+                    viewModel.bookmarkCards.sort { $0.title > $1.title }
                 }
                 archiveViewViewModel.isAscendingOrder.toggle()
             }

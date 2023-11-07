@@ -309,7 +309,7 @@ struct FamousSayingBakeCardView: View {
                                     .onTapGesture {
 //                                                let postIndex = viewModel.searchPostIndex(post: post)
 //                                                viewModel.homePosts[postIndex].isBookrmark.toggle()
-                                        
+                                        //TODO: 좋아요되도록 수정
                                         post.isBookrmark.toggle()
                                     }
                             }
