@@ -1,0 +1,12 @@
+//
+//  release.xcconfig
+//  Bake
+//
+//  Created by Byeon jinha on 2023/11/08.
+//  Copyright © 2023 Wonji Suh. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+url

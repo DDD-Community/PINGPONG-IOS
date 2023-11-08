@@ -25,25 +25,30 @@ struct PingPongProjectApp: App {
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     
+    let appState = AppState()
+    
     var body: some Scene {
         WindowGroup {
            
             ZStack {
-                if authViewModel.isLoginCheck {
-                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
-                        .environmentObject(authViewModel)
-                        .environmentObject(sheetManager)
-                        .navigationBarHidden(true)
-                        .onAppear {
-                            authViewModel.getRefreshToken()
-                        }
-                    
-                } else {
-                    OnBoardingView(viewModel: self.viewModel)
-                        .onAppear {
-                            authViewModel.getRefreshToken()
-                        }
-                }
+                ProfileView(viewModel: commonViewViewModel, appState: appState, backAction:  {
+                    appState.goToBackingView = false
+                })
+//                if authViewModel.isLoginCheck {
+//                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+//                        .environmentObject(authViewModel)
+//                        .environmentObject(sheetManager)
+//                        .navigationBarHidden(true)
+//                        .onAppear {
+//                            authViewModel.getRefreshToken()
+//                        }
+//                    
+//                } else {
+//                    OnBoardingView(viewModel: self.viewModel)
+//                        .onAppear {
+//                            authViewModel.getRefreshToken()
+//                        }
+//                }
                 
 //                HomeMainView()
 //                    .environmentObject(sheetManager)

@@ -39,58 +39,13 @@ public struct ProfileView: View {
                 
                 Spacer()
                 ScrollView {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.basicWhite)
-                        .frame(height: 80)
-                        .overlay {
-                            VStack {
-                                HStack {
-                                    Circle()
-                                        .frame(width: 57, height: 57)
-                                        .foregroundColor(.sweetFilter)
-                                    Text("임닉네임니니니아미801")
-                                        .pretendardFont(family: .SemiBold, size: 18)
-                                }
-                            }
-                        }
-                        .padding(EdgeInsets(top: 22, leading: 20, bottom: 0, trailing: 20))
+                    userProfileList()
                     
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.basicWhite)
-                        .frame(height: 148)
-                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
-                    //                .overlay {
-                    //                }
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.basicWhite)
-                        .frame(height: 336)
-                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
-                                    .overlay {
-                                        
-                                        Rectangle()
-                                            .frame(width: UIScreen.main.bounds.width - 80, height: 1)
-                                            .foregroundColor(.basicGray4)
-                                        Rectangle()
-                                            .frame(width: UIScreen.main.bounds.width - 80, height: 1)
-                                            .foregroundColor(.basicGray4)
-                                        Rectangle()
-                                            .frame(width: UIScreen.main.bounds.width - 80, height: 1)
-                                            .foregroundColor(.basicGray4)
-                                        
-                                    }
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.logoutBorder, style: .init(lineWidth: 2))
-                    //                .fill(Color.basicWhite)
-                        .frame(height: 48)
-                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20))
-                        .overlay {
-                            Text("로그아웃")
-                                .pretendardFont(family: .Medium, size: 14)
-                                .foregroundColor(.logoutText)
-                        }
-                        .onTapGesture {
-                            authViewModel.isLogin = false
-                        }
+                    userManagementList()
+
+                    appManagementList()
+                    
+                    logoutButton()
                 }
                 .navigationBarHidden(true)
                 
@@ -106,6 +61,7 @@ public struct ProfileView: View {
             .ignoresSafeArea()
         }
     }
+    
     @ViewBuilder
     private func topHeaderBackButton() -> some View {
         HStack {
@@ -124,5 +80,91 @@ public struct ProfileView: View {
         }
         .frame(height: 40)
         .padding(EdgeInsets(top: 60, leading: 20, bottom: 0, trailing: 20))
+    }
+    
+    @ViewBuilder
+    private func userProfileList() -> some View {
+        RoundedRectangle(cornerRadius: 12)
+            .fill(Color.basicWhite)
+            .frame(height: 80)
+            .overlay {
+                VStack {
+                    HStack {
+                        Circle()
+                            .frame(width: 57, height: 57)
+                            .foregroundColor(.sweetFilter)
+                        Text("임닉네임니니니아미801")
+                            .pretendardFont(family: .SemiBold, size: 18)
+                    }
+                }
+            }
+            .padding(EdgeInsets(top: 22, leading: 20, bottom: 0, trailing: 20))
+        
+    }
+    
+    @ViewBuilder
+    private func userManagementList() -> some View {
+        RoundedRectangle(cornerRadius: 16)
+            .fill(Color.basicWhite)
+            .frame(height: 148)
+            .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
+    }
+    
+    @ViewBuilder
+    private func appManagementList() -> some View {
+        RoundedRectangle(cornerRadius: 16)
+            .fill(Color.basicWhite)
+            .frame(height: 336)
+            
+                        .overlay {
+                            VStack {
+                                ForEach(profileViewModel.profileViewListArray) { profileViewComponent in
+                                    HStack {
+                                        Image(assetName: profileViewComponent.imageName)
+                                            .resizable()
+                                            .frame(width: 40,height: 40)
+                                            .padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 10))
+                                        VStack(alignment: .leading) {
+                                            Text(profileViewComponent.content)
+                                                .pretendardFont(family: .Medium, size: 16)
+                                                .foregroundColor(.basicGray8)
+                                            Spacer()
+                                                .frame(height: 2)
+                                            Text(profileViewComponent.detail)
+                                                .pretendardFont(family: .Regular, size: 12)
+                                                .foregroundColor(.basicGray6)
+                                        }
+                                        
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .padding(.trailing, 16)
+                                    }
+                                    if profileViewComponent.isDevider {
+                                        Rectangle()
+                                            .frame(width: UIScreen.main.bounds.width - 80, height: 1)
+                                            .foregroundColor(.basicGray4)
+                                    }
+                                }
+                                
+                            }
+                        }
+                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
+    }
+    
+    @ViewBuilder
+    private func logoutButton() -> some View {
+        RoundedRectangle(cornerRadius: 8)
+            .stroke(Color.logoutBorder, style: .init(lineWidth: 2))
+        //                .fill(Color.basicWhite)
+            .frame(height: 48)
+            .padding(EdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20))
+            .overlay {
+                Text("로그아웃")
+                    .pretendardFont(family: .Medium, size: 14)
+                    .foregroundColor(.logoutText)
+            }
+            .onTapGesture {
+                authViewModel.isLogin = false
+            }
     }
 }
