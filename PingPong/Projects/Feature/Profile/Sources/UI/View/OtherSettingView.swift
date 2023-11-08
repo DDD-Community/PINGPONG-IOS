@@ -50,17 +50,22 @@ public struct OtherSettingView: View {
             .frame(height: 16)
         
         HStack {
-            Image(systemName: "chevron.left")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 10, height: 18)
-                .foregroundColor(.basicGray8)
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            Text("설정")
-                .pretendardFont(family: .SemiBold, size: 18)
-                .foregroundColor(.basicBlack)
+            HStack {
+                Image(systemName: "chevron.left")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 10, height: 18)
+                    .foregroundColor(.basicGray8)
+                
+                Text("기타 설정")
+                    .pretendardFont(family: .SemiBold, size: 18)
+                    .foregroundColor(.basicBlack)
+            }
+            .onTapGesture {
+                presentationMode.wrappedValue.dismiss()
+            }
+            
+           
             Spacer()
         }
         .padding(.horizontal, 20)

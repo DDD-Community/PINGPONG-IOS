@@ -19,7 +19,6 @@ public struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
-    @State var gotoOtherSettingView: Bool = false
     
     var backAction: () -> Void
     
@@ -55,7 +54,7 @@ public struct ProfileView: View {
         }
         .navigationBarBackButtonHidden()
         
-        .navigationDestination(isPresented: $gotoOtherSettingView) {
+        .navigationDestination(isPresented: $profileViewModel.gotoOtherSettingView) {
             OtherSettingView(viewModel: viewModel, appState: appState)
                 .environmentObject(appState)
                 .environmentObject(authViewModel)
@@ -116,40 +115,45 @@ public struct ProfileView: View {
         RoundedRectangle(cornerRadius: 16)
             .fill(Color.basicWhite)
             .frame(height: 336)
-            
-                        .overlay {
-                            VStack {
-                                ForEach(profileViewModel.profileViewListArray) { profileViewComponent in
-                                    HStack {
-                                        Image(assetName: profileViewComponent.imageName)
-                                            .resizable()
-                                            .frame(width: 40,height: 40)
-                                            .padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 10))
-                                        VStack(alignment: .leading) {
-                                            Text(profileViewComponent.content)
-                                                .pretendardFont(family: .Medium, size: 16)
-                                                .foregroundColor(.basicGray8)
-                                            Spacer()
-                                                .frame(height: 2)
-                                            Text(profileViewComponent.detail)
-                                                .pretendardFont(family: .Regular, size: 12)
-                                                .foregroundColor(.basicGray6)
-                                        }
-                                        
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .padding(.trailing, 16)
-                                    }
-                                    if profileViewComponent.isDevider {
-                                        Rectangle()
-                                            .frame(width: UIScreen.main.bounds.width - 80, height: 1)
-                                            .foregroundColor(.basicGray4)
-                                    }
-                                }
-                                
+            .overlay {
+                VStack {
+                    ForEach(profileViewModel.profileViewListArray) { profileViewComponent in
+                        HStack {
+                            Image(assetName: profileViewComponent.imageName)
+                                .resizable()
+                                .frame(width: 40,height: 40)
+                                .padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 10))
+                            VStack(alignment: .leading) {
+                                Text(profileViewComponent.content)
+                                    .pretendardFont(family: .Medium, size: 16)
+                                    .foregroundColor(.basicGray8)
+                                Spacer()
+                                    .frame(height: 2)
+                                Text(profileViewComponent.detail)
+                                    .pretendardFont(family: .Regular, size: 12)
+                                    .foregroundColor(.basicGray6)
+                            }
+                            
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .padding(.trailing, 16)
+                        }
+                        .onTapGesture {
+                            if profileViewComponent.imageName == "settingImage" {
+                                profileViewModel.gotoOtherSettingView.toggle()
                             }
                         }
-                        .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
+                        if profileViewComponent.isDevider {
+                            Rectangle()
+                                .frame(width: UIScreen.main.bounds.width - 80, height: 1)
+                                .foregroundColor(.basicGray4)
+                        }
+                    }
+                    
+                }
+                
+            }
+            .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
     }
     
     @ViewBuilder
