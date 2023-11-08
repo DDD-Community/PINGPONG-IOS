@@ -39,6 +39,7 @@ public struct ProfileView: View {
                 topHeaderBackButton()
                 
                 Spacer()
+                
                 ScrollView {
                     userProfileList()
                     
@@ -54,6 +55,10 @@ public struct ProfileView: View {
         }
         .navigationBarBackButtonHidden()
         
+        .task {
+            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+        }
+        
         .navigationDestination(isPresented: $profileViewModel.gotoOtherSettingView) {
             OtherSettingView(viewModel: viewModel, appState: appState)
                 .environmentObject(appState)
@@ -65,17 +70,22 @@ public struct ProfileView: View {
     @ViewBuilder
     private func topHeaderBackButton() -> some View {
         HStack {
-            Image(systemName: "chevron.left")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 10, height: 18)
-                .foregroundColor(.basicGray8)
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            Text("설정")
-                .pretendardFont(family: .SemiBold, size: 18)
-                .foregroundColor(.basicBlack)
+            HStack {
+                Image(systemName: "chevron.left")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 10, height: 18)
+                    .foregroundColor(.basicGray8)
+                   
+                Text("설정")
+                    .pretendardFont(family: .SemiBold, size: 18)
+                    .foregroundColor(.basicBlack)
+            }
+            .onTapGesture {
+                presentationMode.wrappedValue.dismiss()
+            }
+            
+            
             Spacer()
         }
         .frame(height: 40)
@@ -93,10 +103,13 @@ public struct ProfileView: View {
                         Circle()
                             .frame(width: 57, height: 57)
                             .foregroundColor(.sweetFilter)
-                        Text("임닉네임니니니아미801")
+                        Text("\(authViewModel.signupModel?.data?.nickname ?? "")")
                             .pretendardFont(family: .SemiBold, size: 18)
+                        
+                        Spacer()
                     }
                 }
+                .padding(.horizontal, 16)
             }
             .padding(EdgeInsets(top: 22, leading: 20, bottom: 0, trailing: 20))
         
