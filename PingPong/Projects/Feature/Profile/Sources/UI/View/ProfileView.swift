@@ -19,6 +19,7 @@ public struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
+    @State var gotoOtherSettingView: Bool = false
     
     var backAction: () -> Void
     
@@ -34,6 +35,7 @@ public struct ProfileView: View {
         ZStack {
             Color.basicGray2
                 .edgesIgnoringSafeArea(.all)
+            
             VStack {
                 topHeaderBackButton()
                 
@@ -52,6 +54,9 @@ public struct ProfileView: View {
                                         .pretendardFont(family: .SemiBold, size: 18)
                                 }
                             }
+                        }
+                        .onTapGesture {
+                            gotoOtherSettingView.toggle()
                         }
                         .padding(EdgeInsets(top: 22, leading: 20, bottom: 0, trailing: 20))
                     
@@ -92,18 +97,17 @@ public struct ProfileView: View {
                             authViewModel.isLogin = false
                         }
                 }
-                .navigationBarHidden(true)
                 
-                .navigationDestination(isPresented: $appState.isChoicedBread) {
-                    //            ChoiceIngredentView(viewModel: viewModel,
-                    //                                appState: appState,
-                    //                                backAction: backAction,
-                    //                                rebakeAction: {
-                    //                appState.isChoicedBread = false
-                    //            })
-                }
             }
             .ignoresSafeArea()
+        }
+        .navigationBarBackButtonHidden()
+        
+        .navigationDestination(isPresented: $gotoOtherSettingView) {
+            OtherSettingView(viewModel: viewModel, appState: appState)
+                .environmentObject(appState)
+                .environmentObject(authViewModel)
+                .navigationBarBackButtonHidden()
         }
     }
     @ViewBuilder
@@ -125,4 +129,6 @@ public struct ProfileView: View {
         .frame(height: 40)
         .padding(EdgeInsets(top: 60, leading: 20, bottom: 0, trailing: 20))
     }
+    
+    
 }

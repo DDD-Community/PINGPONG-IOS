@@ -83,11 +83,9 @@ public struct SelectCharacterView: View {
                 .onTapGesture {
                     viewModel.isSkipSelectedFlavor.toggle()
                     
-                    if !viewModel.isSkipSelectedCategory &&  !viewModel.isSkipSelectedFlavor {
-                        viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "OTHER", "anime", "film" , "celeb"]) {
-                            appState.failRegisterFlavorPOPUP.toggle()
-                        }
-                    }
+                    viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "OTHER", "anime", "film" , "celeb"]) {
+                        appState.failRegisterFlavorPOPUP.toggle()
+                    } 
                     
                     appState.goToSettingPushNotifcationView.toggle()
                 }

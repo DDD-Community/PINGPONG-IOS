@@ -39,7 +39,7 @@ struct PingPongProjectApp: App {
                         }
                     
                 } else {
-                    OnBoardingView(viewModel: self.viewModel)
+                    LoginView(viewModel: self.viewModel)
                         .onAppear {
                             authViewModel.getRefreshToken()
                         }

@@ -168,8 +168,13 @@ public struct OnBoardingView: View {
                     if viewModel.completdSignUP {
                         appState.goToMainHomeView.toggle()
                         authViewModel.isLogin = true
+                    } else if viewModel.alreadySignUP {
+                        //MARK: - 이미 회원가입 한 사람이고  차후에  로그인  api  태우기
+                        appState.goToMainHomeView.toggle()
+                        authViewModel.isLogin = true
+                        
                     } else {
-                        if !viewModel.isFirstUser {
+                        if !viewModel.isSignUP {
                             appState.serviceUseAgmentView.toggle()
                         }
                     }

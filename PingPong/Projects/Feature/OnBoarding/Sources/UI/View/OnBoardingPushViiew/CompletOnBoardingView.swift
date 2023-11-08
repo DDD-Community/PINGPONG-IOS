@@ -116,7 +116,8 @@ public struct CompletOnBoardingView: View {
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
                     authViewModel.isLogin = true
-                    viewModel.isFirstUser = true
+                    authViewModel.isLoginCheck = true
+                    viewModel.isSignUP = true
                 }
         }
     }

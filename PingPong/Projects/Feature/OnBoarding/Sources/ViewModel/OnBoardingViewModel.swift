@@ -42,6 +42,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var isSkipSelectedCategory: Bool = false
     @Published var isSkipSelectedFlavor: Bool = false
     @Published var isSelectedCharacter: Bool = false
+    @Published var goToLoginView: Bool = false
     @Published public var inviteMainView: Bool = false
     
     
@@ -61,8 +62,9 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectedFavoriteFlavor: String = ""
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
-    @AppStorage("isFirstUser") public var isFirstUser: Bool = false
+    @AppStorage("isSignUP") public var isSignUP: Bool = false
     @AppStorage("completdSignUP") public var completdSignUP: Bool = false
+    @AppStorage("alreadySignUP") public var alreadySignUP: Bool = false
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
@@ -98,8 +100,9 @@ public class OnBoardingViewModel: ObservableObject {
     
     public init() {
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
-        isFirstUser = UserDefaults.standard.bool(forKey: "isFirstUser")
+        isSignUP = UserDefaults.standard.bool(forKey: "isSignUP")
         completdSignUP = UserDefaults.standard.bool(forKey: "completdSignUP")
+        alreadySignUP = UserDefaults.standard.bool(forKey: "alreadySignUP")
     }
     //MARK: -  동의 하는 관련  함수
     func updateAgreementStatus() {

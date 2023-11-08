@@ -17,6 +17,8 @@ import API
 import DesignSystem
 
 public class ProfileViewViewModel: ObservableObject {
+    @State var selectOtherSettingItem: OhterSettingItem = .privacyPolicy
+     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
     public init() {
         
