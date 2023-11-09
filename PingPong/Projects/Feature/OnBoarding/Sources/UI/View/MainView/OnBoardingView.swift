@@ -170,9 +170,16 @@ public struct OnBoardingView: View {
                         authViewModel.isLogin = true
                     } else if viewModel.alreadySignUP {
                         //MARK: - 이미 회원가입 한 사람이고  차후에  로그인  api  태우기
-                        appState.goToMainHomeView.toggle()
-                        authViewModel.isLogin = true
-                        
+                        Task {
+                            await authViewModel.loginWithEmail(
+                                email: authViewModel.userEmail, 
+                                succesCompletion: {
+                                    appState.goToMainHomeView.toggle()
+                                    authViewModel.isLogin = true
+                                }, failLoginCompletion:  {
+                                    appState.signUPFaillPOPUP.toggle()
+                                })
+                        }
                     } else {
                         if !viewModel.isSignUP {
                             appState.serviceUseAgmentView.toggle()

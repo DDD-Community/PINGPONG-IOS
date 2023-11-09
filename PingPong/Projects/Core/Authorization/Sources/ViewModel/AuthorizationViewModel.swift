@@ -49,6 +49,8 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var signupModel: SignUPModel?
     
     var searchUserIdCancellable: AnyCancellable?
+    
+    var loginEmailCancellable: AnyCancellable?
     @AppStorage("userId") public var userid: Int = .zero
     @Published public var userNickName: String = ""
     @Published public var userRmk: String = ""
@@ -305,6 +307,42 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.searchUserIdToViewModel(model)
                     print("아이디 조회 성공", model)
                     self?.userNickName = model.data?.nickname ?? ""
+                }
+            })
+    }
+    
+    
+    public func loginWithEmail(email: String, 
+                               succesCompletion : @escaping () -> Void,
+                               failLoginCompletion: @escaping () -> Void) async {
+        if let cancellable = loginEmailCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
+        loginEmailCancellable = provider.requestWithProgressPublisher(.loginWithEmail(email: email))
+            .compactMap {$0.response?.data}
+            .decode(type: SignUPModel.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("네트 워크 에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.success.status {
+                    self?.signupToViewModel(model)
+                    self?.userid = model.data?.id ?? .zero
+                    self?.userUid = model.data?.uid ?? ""
+                    print("로그인 성공", model)
+                    succesCompletion()
+                } else {
+                    self?.signupToViewModel(model)
+                    self?.userid = model.data?.id ?? .zero
+                    print("로그인 실패", model)
+                    failLoginCompletion()
                 }
             })
     }

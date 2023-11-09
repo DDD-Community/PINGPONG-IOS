@@ -17,6 +17,7 @@ public enum AuthorizationService {
     case searchUserByUid(uid: String)
     case searchUserByid(id: String)
     case changeUserInfo(userId: String)
+    case loginWithEmail(email: String)
 }
 
 extension AuthorizationService: BaseTargetType {
@@ -34,6 +35,8 @@ extension AuthorizationService: BaseTargetType {
             return "\(PingPongAPIAuthorization.searchUserByidURL)/\(id)"
         case .changeUserInfo(let userId):
             return "\(PingPongAPIAuthorization.userInfoURL)\(userId)"
+        case .loginWithEmail(let email):
+            return "\(PingPongAPIAuthorization.loginEmailURL)\(email)"
         }
     }
     
@@ -51,6 +54,8 @@ extension AuthorizationService: BaseTargetType {
             return .get
         case .changeUserInfo:
             return .put
+        case .loginWithEmail:
+            return .get
         }
     }
     
@@ -92,6 +97,13 @@ extension AuthorizationService: BaseTargetType {
                 "userId": userId
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+        case .loginWithEmail(_):
+            let parameters : [String : Any] = [
+//                "email": email
+                :
+            ]
+            return .requestParameters(parameters: parameters, encoding:  URLEncoding.queryString)
         }
     }
 }

@@ -16,4 +16,5 @@ public enum PingPongAPIAuthorization {
     public static let searchUserByidURL = String("search-user-by-id")
     public static let withdrawalURL = String("withdrawal")
     public static let userInfoURL = String("user-info/")
+    public static let loginEmailURL = String("search-user-by-email/")
 }
