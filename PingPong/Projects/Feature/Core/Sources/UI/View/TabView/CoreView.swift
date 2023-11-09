@@ -96,6 +96,7 @@ public struct CoreView: View {
             ProfileView(viewModel: viewModel, appState: appState, backAction: {
                 appState.goToBackingView = false
             })
+            .environmentObject(authViewModel)
         }
     }
     

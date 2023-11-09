@@ -40,7 +40,9 @@ public struct LoginView: View {
             }
             
             .navigationDestination(isPresented: $viewModel.goToLoginView) {
-                OnBoardingView(viewModel: viewModel)
+                OnBoardingView(viewModel: viewModel,
+                               isSignUP: $viewModel.isSignUP,
+                               loginWithEmail: $viewModel.alreadySignUP)
                     .navigationBarBackButtonHidden()
             }
         }
@@ -134,7 +136,7 @@ public struct LoginView: View {
                 }
                 .onTapGesture {
                     viewModel.goToLoginView = true
-                    viewModel.isSignUP = true
+                    viewModel.isSignUP = false
                 }
             
             

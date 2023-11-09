@@ -22,8 +22,19 @@ public struct OnBoardingView: View {
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
-    public init(viewModel: OnBoardingViewModel) {
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var isSignUP: Bool
+    @Binding var loginWithEmail: Bool
+    
+    public init(
+        viewModel: OnBoardingViewModel,
+        isSignUP: Binding<Bool>,
+        loginWithEmail: Binding<Bool>
+    
+    ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._isSignUP = isSignUP
+        self._loginWithEmail = loginWithEmail
     }
     public var body: some View {
         NavigationStack {
@@ -168,7 +179,7 @@ public struct OnBoardingView: View {
                     if viewModel.completdSignUP {
                         appState.goToMainHomeView.toggle()
                         authViewModel.isLogin = true
-                    } else if viewModel.alreadySignUP {
+                    } else if loginWithEmail {
                         //MARK: - 이미 회원가입 한 사람이고  차후에  로그인  api  태우기
                         Task {
                             await authViewModel.loginWithEmail(
@@ -178,12 +189,12 @@ public struct OnBoardingView: View {
                                     authViewModel.isLogin = true
                                 }, failLoginCompletion:  {
                                     appState.signUPFaillPOPUP.toggle()
+                                    
+                                    presentationMode.wrappedValue.dismiss()
                                 })
                         }
                     } else {
-                        if !viewModel.isSignUP {
-                            appState.serviceUseAgmentView.toggle()
-                        }
+                        appState.serviceUseAgmentView.toggle()
                     }
                 }
                 

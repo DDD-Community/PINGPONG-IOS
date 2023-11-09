@@ -33,8 +33,8 @@ public struct ProfileMainView: View {
     }
 }
 
-public struct ProfileMainView_Previews: PreviewProvider {
-    public static var previews: some View {
-        ProfileView(backProfileViewAction: {})
-    }
-}
+//public struct ProfileMainView_Previews: PreviewProvider {
+//    public static var previews: some View {
+//        ProfileView(backProfileViewAction: {})
+//    }
+//}

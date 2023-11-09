@@ -46,7 +46,6 @@ public class OnBoardingViewModel: ObservableObject {
     @Published public var inviteMainView: Bool = false
     
     
-    
     @Published var goToFavoriteViseView: Bool = false
     
     
@@ -62,9 +61,9 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectedFavoriteFlavor: String = ""
     @Published var selectedFavorite: [Favorite] = []
     @Published var selectedCharacter: [String] = []
-    @AppStorage("isSignUP") public var isSignUP: Bool = false
+    @Published public var isSignUP: Bool = false
     @AppStorage("completdSignUP") public var completdSignUP: Bool = false
-    @AppStorage("alreadySignUP") public var alreadySignUP: Bool = false
+    @Published public var alreadySignUP: Bool = false
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
