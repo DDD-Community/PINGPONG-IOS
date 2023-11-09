@@ -136,7 +136,8 @@ public struct LoginView: View {
                 }
                 .onTapGesture {
                     viewModel.goToLoginView = true
-                    viewModel.isSignUP = false
+                    viewModel.isSignUP = true
+                    viewModel.alreadySignUP = false
                 }
             
             

@@ -193,7 +193,7 @@ public struct OnBoardingView: View {
                                     presentationMode.wrappedValue.dismiss()
                                 })
                         }
-                    } else {
+                    } else if isSignUP{
                         appState.serviceUseAgmentView.toggle()
                     }
                 }
