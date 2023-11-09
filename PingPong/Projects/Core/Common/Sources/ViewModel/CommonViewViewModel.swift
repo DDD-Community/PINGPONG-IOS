@@ -289,6 +289,14 @@ public class CommonViewViewModel: ObservableObject {
     }
     
     public func removeLike(card: CardInfomation) {
+        for index in cards.indices {
+            if card == cards[index] {
+                cards[index].isBookrmark = false
+                break
+            }
+        }
+        
+        
         for index in searchedCards.indices {
             if card == searchedCards[index] {
                 searchedCards[index] .isBookrmark = false
@@ -305,6 +313,13 @@ public class CommonViewViewModel: ObservableObject {
     }
     
     public func addLike(card: CardInfomation) {
+        for index in cards.indices {
+            if card == cards[index] {
+                cards[index].isBookrmark = true
+                break
+            }
+        }
+        
         for index in searchedCards.indices {
             if card == searchedCards[index] {
                 searchedCards[index] .isBookrmark = true
