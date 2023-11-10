@@ -144,12 +144,24 @@ public class CommonViewViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
                     self?.homeBaseToViewModel(model)
+                    if let likeId = model.data {
+                        self?.addLike(qouteId: quoteId, likeId: likeId)
+                    }
                     print("홈 취향", model)
+                    
                 } else {
                     self?.homeBaseToViewModel(model)
                     print("홈 취향", model)
                 }
             })
+    }
+    
+    func addLike(qouteId: Int, likeId: Int) {
+        for index in cards.indices {
+            if cards[index].qouteId == qouteId {
+                cards[index].likeId = likeId
+            }
+        }
     }
     
     public func deleteToViewModel(_ list: DeleteModel){
