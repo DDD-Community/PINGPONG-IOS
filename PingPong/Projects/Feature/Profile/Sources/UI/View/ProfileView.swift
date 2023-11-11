@@ -183,7 +183,8 @@ public struct ProfileView: View {
             }
             .onTapGesture {
                 authViewModel.isLogin = false
-//                presentationMode.wrappedValue.dismiss()
+                authViewModel.isLoginCheck = false
+                presentationMode.wrappedValue.dismiss()
                 
             }
     }

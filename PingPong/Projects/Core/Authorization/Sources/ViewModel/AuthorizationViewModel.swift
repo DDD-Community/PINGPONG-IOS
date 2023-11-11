@@ -146,6 +146,7 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     public func getRefreshToken() {
+        APIHeaderManger.shared.firebaseUid = ""
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
           if let error = error {
