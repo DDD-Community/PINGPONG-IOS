@@ -41,15 +41,20 @@ struct FamousSayingBakeView: View {
         }
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $appState.isCompleteBake) {
-            FamousSayingBakeCardView(viewModel: self.viewModel, backAction: backAction, rebakeAction: rebakeAction)
+            FamousSayingBakeCardView(viewModel: self.viewModel,
+                                     bakeViewModel: bakeViewModel,
+                                     backAction: backAction,
+                                     rebakeAction: rebakeAction)
         }
         .task {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                Task {
+                    await bakeViewModel.bakeQuoteRequest(userId: "\(authViewModel.userid)", flavor: viewModel.selectFlavor?.type.english ?? "", source: viewModel.selectSource?.type.english ?? "", mood: viewModel.selectMood?.type.english ?? "")
+                }
+                
                 appState.isCompleteBake.toggle()
                 
-                Task {
-                    await bakeViewModel.bakeQuoteRequest(userId: "\(authViewModel.userid)", flavor: viewModel.selectFlavor?.type.english ?? "", source: viewModel.selectSource?.type.english ?? "", mood: viewModel.selectMood?.type.english ?? "") 
-                }
+                
             }
         }
     }
