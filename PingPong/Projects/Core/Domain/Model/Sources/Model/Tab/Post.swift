@@ -19,7 +19,11 @@ public struct CardInfomation: Identifiable, Equatable {
     public var image: String
     public var title: String
     public var author: String
-    public var isBookrmark: Bool
+    public var isBookrmark: Bool {
+        didSet {
+            print(isBookrmark, "변경")
+        }
+    }
     public var likeId: Int?
     
     public init(qouteId: Int, hashtags: Hashtags, image: String, title: String, sources: String, isBookrmark: Bool, likeId: Int?) {
