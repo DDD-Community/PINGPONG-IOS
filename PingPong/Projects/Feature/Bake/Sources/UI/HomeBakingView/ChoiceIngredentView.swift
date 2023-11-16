@@ -51,6 +51,7 @@ public struct ChoiceIngredentView: View {
             
         }
         .task {
+            viewModel.choicedIngredent = nil
             bakeViewModel.commCodeRequest(commCdTpCd: .flavor)
            
         }

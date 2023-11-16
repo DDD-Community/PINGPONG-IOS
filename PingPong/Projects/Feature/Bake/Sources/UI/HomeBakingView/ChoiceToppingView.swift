@@ -46,6 +46,7 @@ public struct ChoiceToppingView: View {
             
         }
         .task {
+            self.viewModel.tmpChoicedTopping = nil
             bakeViewModel.commCodeRequest(commCdTpCd: .mood)
         }
         

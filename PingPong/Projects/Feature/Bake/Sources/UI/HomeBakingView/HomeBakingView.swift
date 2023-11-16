@@ -35,6 +35,7 @@ public struct HomeBakingView: View {
                     .frame(width: 200, height: 200)
                 
                 Spacer()
+                
                 startButtonView()
                     .padding(.bottom, 30)
             }
@@ -93,6 +94,9 @@ public struct HomeBakingView: View {
                     Text("시작하기")
                         .foregroundColor(.basicWhite)
                         .onTapGesture {
+                            viewModel.choicedBread = nil
+                            viewModel.choicedIngredent = nil
+                            viewModel.tmpChoicedIngredent = nil
                             appState.isStartBake.toggle()
                         }
                 }
@@ -105,6 +109,10 @@ public struct HomeBakingView: View {
                         .font(.system(size: 16))
                 }
                 .onTapGesture {
+                    viewModel.choicedBread = nil
+                    viewModel.choicedIngredent = nil
+                    viewModel.tmpChoicedIngredent = nil
+                    
                     backAction()
                 }
         }   .pretendardFont(family: .SemiBold, size: 16)

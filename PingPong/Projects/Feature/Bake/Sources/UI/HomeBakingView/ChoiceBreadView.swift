@@ -44,6 +44,7 @@ public struct ChoiceBreadView: View {
             }
             .frame(height: UIScreen.screenHeight * 0.9)
             .task {
+                viewModel.choicedBread = nil
                 bakeViewModel.commCodeRequest(commCdTpCd: .source)
             }
             
