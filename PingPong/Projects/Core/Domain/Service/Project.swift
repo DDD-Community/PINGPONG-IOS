@@ -19,6 +19,7 @@ let project = Project.makeAppModule(
     dependencies: [
         .SPM.CombineMoya,
         .SPM.Moya,
+        .sdk(name: "OSLog", type: .framework),
         .domain(implements: .API)
         
             
