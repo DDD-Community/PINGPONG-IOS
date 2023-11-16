@@ -85,6 +85,7 @@ public class BakeViewModel: ObservableObject {
             .compactMap { $0.response?.data}
             .receive(on: DispatchQueue.main)
             .decode(type: BakeModel.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:
