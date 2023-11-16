@@ -35,9 +35,14 @@ public struct HomeView: View {
         ZStack{
             VStack{
                 
-                carouselRandomQuoteView()
-                
-                bakeBreadButton
+                if homeViewModel.homeViewLoading {
+                    LoadingView()
+                    
+                } else {
+                    carouselRandomQuoteView()
+                    
+                    bakeBreadButton
+                }
                 
             }
             .navigationBarHidden(true)
@@ -315,7 +320,7 @@ public struct HomeView: View {
                             }
                         } else {
                             Task {
-                                await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId)
+                                await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId, completion: {})
                                 viewModel.cards[idx].isBookrmark = true
                             }
                         }

@@ -143,14 +143,15 @@ public class CommonViewViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
-                    completion()
                     self?.homeBaseToViewModel(model)
                     if let likeId = model.data {
                         self?.addLike(qouteId: quoteId, likeId: likeId)
+                    } else {
+                        self?.addLike(qouteId: quoteId, likeId: model.data ?? .zero)
                     }
                     
-                    print("홈 취향", model)
-                    
+                    Log.network("홈 취향", model)
+                    completion()
                 } else {
                     self?.homeBaseToViewModel(model)
                     print("홈 취향", model)

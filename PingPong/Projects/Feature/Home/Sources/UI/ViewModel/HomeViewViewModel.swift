@@ -31,6 +31,7 @@ public class HomeViewViewModel: ObservableObject {
     var homeLikeCancellable: AnyCancellable?
     
     var homeBakeCancellbale: AnyCancellable?
+    @Published public var homeViewLoading: Bool = false
     
     public init () {
         
@@ -51,22 +52,25 @@ public class HomeViewViewModel: ObservableObject {
             .compactMap { $0.response?.data }
             .receive(on: DispatchQueue.main)
             .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())
+            .handleEvents(receiveSubscription: { [weak self] _ in
+                self?.homeViewLoading = true
+            })
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:
                     break
                 case .failure(let error):
-                    print("네트워크에러", error.localizedDescription)
+                    Log.network("네트워크에러", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
                     self?.randomQuoteToViewModel(model)
+                    self?.homeViewLoading = false
                     completion()
-                    print("홈 핸덤 명언 조회", model)
-                    
+                    Log.network("홈 핸덤 명언 조회", model)
                 } else {
                     self?.randomQuoteToViewModel(model)
-                    print("홈 핸덤 명언 조회 실패", model)
+                    Log.network("홈 핸덤 명언 조회 실패", model)
                 }
             })
 

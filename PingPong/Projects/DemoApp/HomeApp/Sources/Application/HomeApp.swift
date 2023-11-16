@@ -7,15 +7,18 @@
 
 import Home
 import SwiftUI
+import DesignSystem
 
 @main
 struct HomeApp: App {
-    @StateObject var sheetManager = SheetManager()
+//    @StateObject var sheetManager = SheetManager()
     @StateObject var viewModel: HomeViewViewModel = HomeViewViewModel()
     var body: some Scene {
         WindowGroup {
-            HomeMainView(viewModel: viewModel, isFistUserPOPUP: .constant(false))
-                .environmentObject(sheetManager)
+//            HomeMainView(viewModel: viewModel, isFistUserPOPUP: .constant(false))
+//                .environmentObject(sheetManager)
+            LoadingView()
+            
         }
     }
 }

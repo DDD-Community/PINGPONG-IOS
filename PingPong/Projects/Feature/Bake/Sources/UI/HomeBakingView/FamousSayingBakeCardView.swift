@@ -322,7 +322,11 @@ struct FamousSayingBakeCardView: View {
                                         } else {
                                             Task {
                                                 await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: bakeViewModel.bakeCard!.qouteId) {
-                                                    bakeViewModel.bakeCard?.likeId = likeId
+                                                    if let likeid = viewModel.homeBaseModel?.data {
+                                                        bakeViewModel.addLike(qouteId: bakeViewModel.bakeCard!.qouteId, likeId: likeid)
+                                                        bakeViewModel.bakeCard?.likeId = likeid
+                                                        print("likeid \(likeid)")
+                                                    }
                                                 }
                                                 bakeViewModel.bakeCard!.isBookrmark = true
                                                 

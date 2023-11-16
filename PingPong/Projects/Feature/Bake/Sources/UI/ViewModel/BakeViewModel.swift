@@ -109,6 +109,12 @@ public class BakeViewModel: ObservableObject {
             })
     }
     
+    func addLike(qouteId: Int, likeId: Int) {
+        if bakeCard?.qouteId == qouteId {
+            bakeCard?.likeId = likeId
+        }
+    }
+    
     public func getHashtags(post: BakeModel) -> Hashtags? {
         guard let flavor = Flavor(rawValue: post.data?.flavor ?? ""),
                 let source = Source(rawValue: post.data?.source ?? ""),

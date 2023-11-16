@@ -195,7 +195,7 @@ public struct FamousSayingDetailView: View {
                                                         }
                                                     } else {
                                                         Task {
-                                                            await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId)
+                                                            await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId, completion: {})
                                                             viewModel.selectedCard.isBookrmark = true
                                                             viewModel.addLike(card: viewModel.selectedCard)
                                                         }

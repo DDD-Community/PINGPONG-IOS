@@ -15,6 +15,7 @@ import Authorization
 import Archive
 import Search
 import Profile
+import DesignSystem
 
 @main
 struct PingPongProjectApp: App {
