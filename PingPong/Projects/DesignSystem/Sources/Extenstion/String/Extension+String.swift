@@ -25,5 +25,16 @@ extension String {
         formatter.dateFormat = "h:mm"
         return formatter.string(from: date)
     }
+    
+    public static func formattedHourTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"  // "a" will add AM/PM to the time
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+
+        return formatter.string(from: date)
+    }
+
+
 
 }

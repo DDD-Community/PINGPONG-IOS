@@ -21,12 +21,21 @@ public class ProfileViewViewModel: ObservableObject {
     
     @Published var loadingWebView: Bool = false
     @Published var gotoOtherSettingView: Bool = false
+    @Published var gotoNotificationQuoteView: Bool = false
     @Published var gotoPrivacyPolicyView: Bool = false
     @Published var gotoTermsOfServiceView: Bool = false
     @Published var gotoWithDrawView: Bool = false
+    @Published public var selectedTime = Date()
+    
+    @AppStorage("selectedChangeTimeView") public var selectedChangeTimeView: Bool = false
+    @AppStorage("saveDate") public var saveDate: String = ""
+    @AppStorage("saveDateHour") public var saveDateHour: String = ""
+    @Published public var selectTimeBottomView: Bool = false
     
     public init() {
-        
+        saveDate = UserDefaults.standard.string(forKey: "saveDate") ?? ""
+        saveDateHour = UserDefaults.standard.string(forKey: "saveDateHour") ?? ""
+        selectedChangeTimeView = UserDefaults.standard.bool(forKey: "selectedChangeTimeView")
     }
     
     var signupCancellable: AnyCancellable?
