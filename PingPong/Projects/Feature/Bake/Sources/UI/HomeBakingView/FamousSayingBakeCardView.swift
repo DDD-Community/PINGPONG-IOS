@@ -45,7 +45,6 @@ struct FamousSayingBakeCardView: View {
                 Spacer()
                     .frame(height: 17)
                 
-                // FIXME: Swagger 수정 후 추천 받은 명언으로 카드를 바꿔야합니다 :)
                 if let card = bakeViewModel.bakeCard {
                     bakeCardView()
                 }
@@ -69,9 +68,15 @@ struct FamousSayingBakeCardView: View {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
         }
         .onDisappear {
-            self.viewModel.choicedBread = nil
-            self.viewModel.choicedIngredent = nil
-            self.viewModel.choicedTopping = nil
+            viewModel.tmpChoicedBread = nil
+            viewModel.tmpChoicedIngredent = nil
+            viewModel.tmpChoicedTopping = nil
+            viewModel.choicedBread = nil
+            viewModel.choicedIngredent = nil
+            viewModel.choicedTopping = nil
+            viewModel.selectSource = nil
+            viewModel.selectMood = nil
+            viewModel.selectFlavor = nil
         }
         
     }
@@ -325,7 +330,6 @@ struct FamousSayingBakeCardView: View {
                                                     if let likeid = viewModel.homeBaseModel?.data {
                                                         bakeViewModel.addLike(qouteId: bakeViewModel.bakeCard!.qouteId, likeId: likeid)
                                                         bakeViewModel.bakeCard?.likeId = likeid
-                                                        print("likeid \(likeid)")
                                                     }
                                                 }
                                                 bakeViewModel.bakeCard!.isBookrmark = true

@@ -39,6 +39,17 @@ public struct HomeBakingView: View {
                 startButtonView()
                     .padding(.bottom, 30)
             }
+            .onAppear {
+                viewModel.tmpChoicedBread = nil
+                viewModel.tmpChoicedIngredent = nil
+                viewModel.tmpChoicedTopping = nil
+                viewModel.choicedBread = nil
+                viewModel.choicedIngredent = nil
+                viewModel.choicedTopping = nil
+                viewModel.selectSource = nil
+                viewModel.selectMood = nil
+                viewModel.selectFlavor = nil
+            }
             .navigationBarHidden(true)
             .navigationDestination(isPresented: $appState.isStartBake) {
                 ChoiceBreadView(viewModel: self.viewModel, appState: self.appState, backAction: {
