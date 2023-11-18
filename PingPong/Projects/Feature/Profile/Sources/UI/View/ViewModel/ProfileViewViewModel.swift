@@ -18,7 +18,12 @@ import DesignSystem
 
 public class ProfileViewViewModel: ObservableObject {
      let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    
+    @Published var loadingWebView: Bool = false
     @Published var gotoOtherSettingView: Bool = false
+    @Published var gotoPrivacyPolicyView: Bool = false
+    @Published var gotoTermsOfServiceView: Bool = false
+    @Published var gotoWithDrawView: Bool = false
     
     public init() {
         
