@@ -30,6 +30,8 @@ struct WithDrawView: View {
             VStack {
                 topHeaderBackButton()
                 
+                withDrawText
+                
                 Spacer()
             }
         }
@@ -63,6 +65,22 @@ struct WithDrawView: View {
         
         Spacer()
             .frame(height: 16)
+    }
+    
+    private var withDrawText: some View {
+        VStack {
+            Spacer()
+                .frame(height: 20)
+            
+            HStack {
+                Text("어떤 점이 불편하셨는지\n 말씀해 주실 수 있을까요?")
+                    .pretendardFont(family: .Medium, size: 18)
+                    .foregroundColor(Color.basicGray9)
+                
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+        }
     }
 }
 

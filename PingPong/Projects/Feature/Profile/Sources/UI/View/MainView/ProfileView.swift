@@ -152,8 +152,19 @@ public struct ProfileView: View {
                                 .padding(.trailing, 16)
                         }
                         .onTapGesture {
-                            if profileViewComponent.imageName == "settingImage" {
+                            switch profileViewComponent.imageName {
+                            case "settingImage":
                                 profileViewModel.gotoOtherSettingView.toggle()
+                                
+                            case "bugImage":
+                                guard let url = URL(string: "mailto:suhwj81@gmail.com") else {
+                                    return
+                                }
+                                if UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            default:
+                                break
                             }
                         }
                         if profileViewComponent.isDevider {
