@@ -25,7 +25,11 @@ public class ProfileViewViewModel: ObservableObject {
     @Published var gotoPrivacyPolicyView: Bool = false
     @Published var gotoTermsOfServiceView: Bool = false
     @Published var gotoWithDrawView: Bool = false
+    @Published var isSelectDropDownMenu: Bool = false
+    @Published var selectWithDrawReason: String = "이런 점이 불편했어요."
     @Published public var selectedTime = Date()
+    @Published var selectWithDrawPOPUP: Bool = false
+    
     
     @AppStorage("selectedChangeTimeView") public var selectedChangeTimeView: Bool = false
     @AppStorage("saveDate") public var saveDate: String = ""
@@ -38,12 +42,13 @@ public class ProfileViewViewModel: ObservableObject {
         selectedChangeTimeView = UserDefaults.standard.bool(forKey: "selectedChangeTimeView")
     }
     
-    var signupCancellable: AnyCancellable?
+    var withDrawCancellable: AnyCancellable?
     
-    @Published public var signupModel: SignUPModel?
+    @Published public var withDrawModel: WithDrawModel?
     
-    public func signupToViewModel(_ list: SignUPModel) {
-        self.signupModel = list
+    
+    public func withDrawToViewModel(_ list: WithDrawModel) {
+        self.withDrawModel = list
     }
     
     let profileViewListArray: [ProfileViewComponentModel] = [
@@ -54,34 +59,41 @@ public class ProfileViewViewModel: ObservableObject {
     ]
     
     //MARK: -  회원가입
-    public func signupPost(token: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping () -> Void, failSignUPAction: @escaping () -> Void) {
-        if let cancellable = signupCancellable {
+    public func withDrawPost(
+        userID: String,
+        reason: String,
+        successCompletion: @escaping () -> Void
+    ) async {
+        if let cancellable = withDrawCancellable {
             cancellable.cancel()
         }
         
         let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
-        signupCancellable = provider.requestWithProgressPublisher(.signup(token: token, fcm: fcm, email: email, nickname: nickname, jobCd: jobCd))
-            .compactMap{ $0.response?.data}
-            .decode(type: SignUPModel.self, decoder: JSONDecoder())
+        withDrawCancellable = provider.requestWithProgressPublisher(.withDraw(userId: userID, reason: reason))
+            .compactMap{$0.response?.data}
             .receive(on: DispatchQueue.main)
+            .decode(type: WithDrawModel.self, decoder: JSONDecoder())
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:
                     break
+                    
                 case .failure(let error):
-                    print("네트 워크 에러", error.localizedDescription)
+                    Log.network("네트워크 에러", error.localizedDescription)
                 }
             }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.success.status {
-                    self?.signupToViewModel(model)
-                    print("회원가입 성공", model)
-                    signupSuccessAction()
-                } else {
-                    self?.signupToViewModel(model)
-                    print("회원가입 실패", model)
-                    failSignUPAction()
+                if let status = model.status {
+                    if status == NetworkCode.success.status {
+                        self?.withDrawToViewModel(model)
+                        Log.network("회원탈퇴 성공", model)
+                        successCompletion()
+                    } else {
+                        self?.withDrawToViewModel(model)
+                        Log.network("회원탈퇴 실패", model)
+                    }
                 }
             })
+        
     }
 }
 

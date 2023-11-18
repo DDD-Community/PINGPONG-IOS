@@ -43,6 +43,13 @@ public class AuthorizationViewModel: ObservableObject {
         }
     }
    
+    @Published public var isDeletAuth: Bool = false
+    @AppStorage("deleteAuth") public var deleteAuth : Bool = false {
+        didSet {
+            self.isDeletAuth = deleteAuth
+        }
+    }
+    
     @Published public var loginStatus: Bool = false
     @Published var deleteUser: Bool = false
     
@@ -69,6 +76,7 @@ public class AuthorizationViewModel: ObservableObject {
         userid = UserDefaults.standard.integer(forKey: "userId")
         userUid = UserDefaults.standard.string(forKey: "userUid") ?? ""
         isNotification = UserDefaults.standard.bool(forKey: "isNotification")
+        deleteAuth = UserDefaults.standard.bool(forKey: "deleteAuth")
        
     }
     

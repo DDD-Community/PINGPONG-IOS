@@ -14,9 +14,17 @@ import SwiftUI
 
 
 struct CustomDropdownMenu: View {
-    @State var isSelecting = false
-    @State var selectionTitle = "이런 점이 불편했어요."
+    @Binding var isSelecting: Bool
+    @Binding var selectionTitle: String
     @State var selectedRowId = 0
+//    "이런 점이 불편했어요."
+    public init(
+        isSelecting: Binding<Bool>,
+        selectionTitle: Binding<String>
+    ) {
+        self._isSelecting = isSelecting
+        self._selectionTitle = selectionTitle
+    }
     
     var body: some View {
         VStack {

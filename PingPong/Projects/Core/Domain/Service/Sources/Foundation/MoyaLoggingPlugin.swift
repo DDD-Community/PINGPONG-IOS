@@ -21,7 +21,7 @@ public class MoyaLoggingPlugin: PluginType {
     // Request를 보낼 때 호출
     public func willSend(_ request: RequestType, target: TargetType) {
         guard let httpRequest = request.request else {
-            print("--> 유효하지 않은 요청")
+            Log.network("--> 유효하지 않은 요청")
             return
         }
         
@@ -40,7 +40,7 @@ public class MoyaLoggingPlugin: PluginType {
         }
         
         log.append("⎣------------------ Request END  -------------------------⎦")
-        print(log)
+        Log.network(log)
     }
     // Response가 왔을 때
     public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
@@ -68,7 +68,7 @@ public class MoyaLoggingPlugin: PluginType {
             log.append("Data: \n  \(responseData)\n")
         }
         log.append("⎣------------------ END HTTP (\(response.data.count)-byte body) ------------------⎦")
-        print(log)
+        Log.network(log)
         
     }
     
@@ -81,6 +81,6 @@ public class MoyaLoggingPlugin: PluginType {
         log.append("<-- \(error.errorCode) \(target)\n")
         log.append("\(error.failureReason ?? error.errorDescription ?? "unknown error")\n")
         log.append("<-- END HTTP")
-        print(log)
+        Log.network(log)
     }
 }

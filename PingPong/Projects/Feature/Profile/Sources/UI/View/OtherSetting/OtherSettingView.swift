@@ -58,7 +58,7 @@ public struct OtherSettingView: View {
         }
         
         .navigationDestination(isPresented: $profileViewModel.gotoWithDrawView) {
-            WithDrawView(authViewModel: authViewModel)
+            WithDrawView(authViewModel: authViewModel, viewModel: viewModel)
                 .navigationBarBackButtonHidden()
         }
     }

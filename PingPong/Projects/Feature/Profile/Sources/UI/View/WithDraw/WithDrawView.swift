@@ -11,15 +11,21 @@ import DesignSystem
 import Model
 import Authorization
 import SwiftUI
+import PopupView
 
 
 struct WithDrawView: View {
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
+    @ObservedObject var viewModel: CommonViewViewModel
     @ObservedObject var authViewModel: AuthorizationViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    public init(authViewModel: AuthorizationViewModel) {
+    public init(
+        authViewModel: AuthorizationViewModel,
+        viewModel: CommonViewViewModel
+    ) {
         self._authViewModel = ObservedObject(wrappedValue: authViewModel)
+        self._viewModel = ObservedObject(wrappedValue: viewModel)
     }
     
     var body: some View {
@@ -29,11 +35,50 @@ struct WithDrawView: View {
             
             VStack {
                 topHeaderBackButton()
+                
                 withDrawViewTitle()
-                CustomDropdownMenu()
+                
+                CustomDropdownMenu(
+                    isSelecting: $profileViewModel.isSelectDropDownMenu,
+                    selectionTitle: $profileViewModel.selectWithDrawReason
+                )
+                
+            selectWithDrawButton()
+                
                 Spacer()
             }
         }
+        
+        
+        .popup(isPresented: $profileViewModel.selectWithDrawPOPUP) {
+            WithDrawPOPUP(
+                image: .errorCircle_rounded,
+                title: "정말로 탈퇴 하시겠습니까?",
+                subTitle: "탈퇴하시면 명언제과점을 이용하실수 없어요!",
+                confirmAction: {
+                    Task {
+                        await profileViewModel.withDrawPost(userID: authViewModel.userEmail, reason: profileViewModel.selectWithDrawReason,  successCompletion: {
+                            authViewModel.deleteAuth = true
+                            authViewModel.isDeletAuth = true
+                            authViewModel.isLoginCheck = false
+                        })
+                    }
+                    
+                },
+                cancelAction: {
+                    profileViewModel.selectWithDrawPOPUP = false
+                })
+            
+        } customize: { popup in
+            popup
+                .type(.default)
+                .position(.bottom)
+                .animation(.easeIn)
+                .closeOnTap(true)
+                .closeOnTapOutside(true)
+                .backgroundColor(.basicBlackDimmed)
+        }
+
     }
     
     @ViewBuilder
@@ -61,29 +106,51 @@ struct WithDrawView: View {
         Spacer()
             .frame(height: 16)
         
-        HStack {
             HStack {
-                Image(systemName: "chevron.left")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 10, height: 18)
-                    .foregroundColor(.basicGray8)
+                HStack {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 10, height: 18)
+                        .foregroundColor(.basicGray8)
+                    
+                    Text("회원 탈퇴")
+                        .pretendardFont(family: .SemiBold, size: 18)
+                        .foregroundColor(.basicBlack)
+                }
+                .onTapGesture {
+                    presentationMode.wrappedValue.dismiss()
+                }
                 
-                Text("회원 탈퇴")
-                    .pretendardFont(family: .SemiBold, size: 18)
-                    .foregroundColor(.basicBlack)
+                
+                Spacer()
             }
-            .onTapGesture {
-                presentationMode.wrappedValue.dismiss()
-            }
-            
+            .padding(.horizontal, 20)
             
             Spacer()
-        }
-        .padding(.horizontal, 20)
-        
+                .frame(height: 16)
+    }
+    
+    @ViewBuilder
+    private func selectWithDrawButton() -> some View {
         Spacer()
-            .frame(height: 16)
+            .frame(height: 28)
+        
+        if !profileViewModel.isSelectDropDownMenu {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.basicGray3)
+                .frame(height: 56)
+                .padding(.horizontal, 20)
+                .overlay {
+                    Text("탈퇴하기")
+                        .foregroundStyle(Color.basicGray5)
+                        .pretendardFont(family: .Medium, size: 14)
+                    
+                }
+                .onTapGesture {
+                    profileViewModel.selectWithDrawPOPUP.toggle()
+                }
+        }
     }
 }
 
