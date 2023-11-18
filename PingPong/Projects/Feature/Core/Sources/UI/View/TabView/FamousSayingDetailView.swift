@@ -80,7 +80,7 @@ public struct FamousSayingDetailView: View {
                     }
                 )
         } .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.8)
-
+        
         ZStack {
             VStack {
                 RoundedRectangle(cornerRadius: 12)
@@ -124,10 +124,10 @@ public struct FamousSayingDetailView: View {
                                         .frame(minWidth: 41, maxHeight: 26)
                                         .padding(.horizontal, 10)
                                         .background (
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .foregroundColor(.basicGray1BG)
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .foregroundColor(.basicGray1BG)
                                         )
-
+                                        
                                         HStack {
                                             Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
                                             Text(viewModel.selectedCard.hashtags.source.type.korean)
@@ -137,8 +137,8 @@ public struct FamousSayingDetailView: View {
                                         .frame(minWidth: 41, maxHeight: 26)
                                         .padding(.horizontal, 10)
                                         .background(
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .foregroundColor(.basicGray1BG)
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .foregroundColor(.basicGray1BG)
                                         )
                                     }
                                     .padding()
@@ -184,23 +184,20 @@ public struct FamousSayingDetailView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                             .foregroundColor(viewModel.selectedCard.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
-                                                if let idx = viewModel.cards.firstIndex(of: viewModel.selectedCard) {
-                                                    if viewModel.selectedCard.isBookrmark {
-                                                        Task {
-                                                            if let likeId = viewModel.selectedCard.likeId {
-                                                                await viewModel.deleteLikeQuote(likeID: likeId)
-                                                                viewModel.selectedCard.isBookrmark = false
-                                                                viewModel.removeLike(card: viewModel.selectedCard)
-                                                            }
-                                                        }
-                                                    } else {
-                                                        Task {
-                                                            await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId, completion: {})
-                                                            viewModel.selectedCard.isBookrmark = true
-                                                            viewModel.addLike(card: viewModel.selectedCard)
+                                                if viewModel.selectedCard.isBookrmark {
+                                                    Task {
+                                                        if let likeId = viewModel.selectedCard.likeId {
+                                                            await viewModel.deleteLikeQuote(likeID: likeId)
+                                                            viewModel.selectedCard.isBookrmark = false
+                                                            viewModel.removeLike(card: viewModel.selectedCard)
                                                         }
                                                     }
-                                                    viewModel.cards[idx] = viewModel.selectedCard
+                                                } else {
+                                                    Task {
+                                                        await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId, completion: {})
+                                                        viewModel.selectedCard.isBookrmark = true
+                                                        viewModel.addLike(card: viewModel.selectedCard)
+                                                    }
                                                 }
                                             }
                                     }
