@@ -124,7 +124,117 @@ public struct ProfileView: View {
     private func userManagementList() -> some View {
         RoundedRectangle(cornerRadius: 16)
             .fill(Color.basicWhite)
-            .frame(height: 148)
+            .frame(height: 158)
+            .overlay(
+                VStack {
+                    HStack {
+                        Text("명언 취향 관리")
+                            .pretendardFont(family: .SemiBold, size: 16)
+                            .foregroundColor(.basicGray8)
+                            .padding(EdgeInsets(top: 16, leading: 16, bottom: 12, trailing: 0))
+                        Spacer()
+                        Image(assetName: "editImage")
+                            .frame(width: 24.62, height: 24)
+                            .padding(.trailing, 16)
+                    }
+                    .frame(width: UIScreen.screenWidth - 40, height: 52)
+                    
+                    HStack {
+                        Text("명언 유형")
+                            .pretendardFont(family: .Medium, size: 14)
+                            .foregroundColor(.basicGray7)
+                            .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 0))
+                        Spacer()
+                        HStack{
+                            HStack {
+                                Image(assetName: viewModel.selectedCard.hashtags.flavor.type.smallIconImageName)
+                                Text(viewModel.selectedCard.hashtags.flavor.type.korean)
+                                    .pretendardFont(family: .SemiBold, size: 12)
+                            }
+                            .foregroundColor(.mildIconText)
+                            .frame(minWidth: 41, maxHeight: 26)
+                            .padding(.horizontal, 10)
+                            .background (
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(.basicGray1BG)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(lineWidth: 1)
+                                            .foregroundColor(.basicGray3)
+                                    )
+                            )
+                            
+                            HStack {
+                                Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
+                                Text(viewModel.selectedCard.hashtags.source.type.korean)
+                                    .pretendardFont(family: .SemiBold, size: 12)
+                                    .foregroundColor(.animation)
+                            }
+                            .frame(minWidth: 41, maxHeight: 26)
+                            .padding(.horizontal, 10)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(.basicGray1BG)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(lineWidth: 1)
+                                            .foregroundColor(.basicGray3)
+                                    )
+                            )
+                        }
+                        .padding(.trailing, 16)
+                    }
+                    .frame(width: UIScreen.screenWidth - 40, height: 42)
+                    
+                    HStack {
+                        Text("명언 성향")
+                            .pretendardFont(family: .Medium, size: 14)
+                            .foregroundColor(.basicGray7)
+                            .padding(EdgeInsets(top: 10, leading: 16, bottom: 18, trailing: 0))
+                        
+                        Spacer()
+                        HStack{
+                            HStack {
+                                Image(assetName: viewModel.selectedCard.hashtags.flavor.type.smallIconImageName)
+                                Text(viewModel.selectedCard.hashtags.flavor.type.korean)
+                                    .pretendardFont(family: .SemiBold, size: 12)
+                            }
+                            .foregroundColor(.mildIconText)
+                            .frame(minWidth: 41, maxHeight: 26)
+                            .padding(.horizontal, 10)
+                            .background (
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(.basicGray1BG)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(lineWidth: 1)
+                                            .foregroundColor(.basicGray3)
+                                    )
+                            )
+                            
+                            HStack {
+                                Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
+                                Text(viewModel.selectedCard.hashtags.source.type.korean)
+                                    .pretendardFont(family: .SemiBold, size: 12)
+                                    .foregroundColor(.animation)
+                            }
+                            .frame(minWidth: 41, maxHeight: 26)
+                            .padding(.horizontal, 10)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundColor(.basicGray1BG)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(lineWidth: 1)
+                                            .foregroundColor(.basicGray3)
+                                    )
+                            )
+                        }
+                        .padding(.trailing, 16)
+                    }
+                    .frame(width: UIScreen.screenWidth - 40, height: 50)
+                }
+            )
             .padding(EdgeInsets(top: 16, leading: 20, bottom: 0, trailing: 20))
     }
     
@@ -154,7 +264,7 @@ public struct ProfileView: View {
                             
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .padding(.trailing, 16)
+                                .padding(.trailing, 25)
                         }
                         .onTapGesture {
                             switch profileViewComponent.imageName {

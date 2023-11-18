@@ -69,6 +69,12 @@ public extension Color {
     static let consolationIcon = Color(hex: "#D1F1ED")
     static let wisdomIcon = Color(hex: "#FFF3B6")
     
+    // 아이콘 색상
+    static let greatMan = Color(hex: "#EE987D")
+    static let famous = Color(hex: "#83AE7B")
+    static let drama = Color(hex: "#708C95")
+    static let animation = Color(hex: "#6B6B95")
+    static let book = Color(hex: "#C194D0")
 }
 
 
