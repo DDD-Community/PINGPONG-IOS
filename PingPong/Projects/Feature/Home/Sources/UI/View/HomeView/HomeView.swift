@@ -178,8 +178,6 @@ public struct HomeView: View {
             }
             .onTapGesture {
                 appState.goToBackingView = true
-                print("버튼 \(appState.goToBackingView)")
-                
             }
     }
     
