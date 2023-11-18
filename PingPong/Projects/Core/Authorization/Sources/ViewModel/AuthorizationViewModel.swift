@@ -30,6 +30,13 @@ public class AuthorizationViewModel: ObservableObject {
     @AppStorage("userUid") public var userUid: String = ""
     @AppStorage("userEmail") public var userEmail: String = ""
     @Published public var isLoginCheck: Bool = false
+    @Published public var isActiveNotification: Bool = false
+    @AppStorage("isNotification") public var isNotification : Bool = false {
+        didSet {
+            self.isActiveNotification = isNotification
+        }
+    }
+    
     @AppStorage("isLogin") public var isLogin: Bool = false {
         didSet {
             self.isLoginCheck = isLogin
@@ -61,6 +68,7 @@ public class AuthorizationViewModel: ObservableObject {
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         userid = UserDefaults.standard.integer(forKey: "userId")
         userUid = UserDefaults.standard.string(forKey: "userUid") ?? ""
+        isNotification = UserDefaults.standard.bool(forKey: "isNotification")
        
     }
     

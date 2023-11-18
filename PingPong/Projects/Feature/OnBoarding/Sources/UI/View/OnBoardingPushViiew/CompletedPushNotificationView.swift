@@ -132,6 +132,8 @@ public struct CompletedPushNotificationView: View {
                 .disabled(appState.isActivePushNotifcation)
                 .onTapGesture {
                     appState.isActivePushNotifcation.toggle()
+                    authViewModel.isNotification.toggle()
+                    authViewModel.isActiveNotification.toggle()
                     
                     if appState.isActivePushNotifcation {
                         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]

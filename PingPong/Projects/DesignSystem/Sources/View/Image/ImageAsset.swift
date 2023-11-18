@@ -40,6 +40,8 @@ public enum ImageAsset: String {
     case cloud1
     case cloud2
     case cloud3
+    case selectClock
+    case selectTimeAdd
     
     
     

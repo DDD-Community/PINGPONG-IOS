@@ -65,6 +65,11 @@ public struct ProfileView: View {
                 .environmentObject(authViewModel)
                 .navigationBarBackButtonHidden()
         }
+        
+        .navigationDestination(isPresented: $profileViewModel.gotoNotificationQuoteView) {
+            NotificationQuoteView(authViewModel: authViewModel)
+                .navigationBarBackButtonHidden()
+        }
     }
     
     @ViewBuilder
@@ -263,6 +268,18 @@ public struct ProfileView: View {
                         }
                         .onTapGesture {
                             switch profileViewComponent.imageName {
+                            case "notificationImage":
+                                profileViewModel.gotoNotificationQuoteView.toggle()
+                                
+                            case "reviewImage":
+//                                if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\()?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) { // 유효한 URL인지 검사합니다.
+//                                    if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+//                                        UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+//                                    } else {
+//                                        UIApplication.shared.openURL(reviewURL)
+//                                    }
+//                                }
+                                break
                             case "settingImage":
                                 profileViewModel.gotoOtherSettingView.toggle()
                                 
