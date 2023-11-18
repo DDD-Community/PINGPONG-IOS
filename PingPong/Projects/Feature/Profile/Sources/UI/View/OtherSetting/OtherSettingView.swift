@@ -85,7 +85,7 @@ public struct OtherSettingView: View {
                 presentationMode.wrappedValue.dismiss()
             }
             
-           
+            
             Spacer()
         }
         .padding(.horizontal, 20)
@@ -121,7 +121,7 @@ public struct OtherSettingView: View {
                     }
                 }
             }
-
+        
     }
     
     @ViewBuilder
@@ -142,7 +142,7 @@ public struct OtherSettingView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 6, height: 12)
-                        
+                    
                 }
                 else {
                     Text(versionText)
@@ -156,7 +156,7 @@ public struct OtherSettingView: View {
                     goToDeatilView()
                 }
             }
-           
+            
             Spacer()
                 .frame(height: 20)
             

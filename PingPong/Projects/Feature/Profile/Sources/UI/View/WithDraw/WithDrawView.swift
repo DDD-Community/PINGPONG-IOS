@@ -29,12 +29,31 @@ struct WithDrawView: View {
             
             VStack {
                 topHeaderBackButton()
-                
-                withDrawText
-                
+                withDrawViewTitle()
+                CustomDropdownMenu()
                 Spacer()
             }
         }
+    }
+    
+    @ViewBuilder
+    private func withDrawViewTitle() -> some View {
+        VStack {
+            HStack {
+                Text("어떤 점이 불편하셨는지")
+                    .padding(.leading, 20)
+                Spacer()
+            }
+            HStack {
+                Text("말씀해 주실 수 있을까요?")
+                    .padding(.leading, 20)
+                Spacer()
+            }
+        }
+        .frame(width: UIScreen.screenWidth, height: 96, alignment: .leading)
+        .foregroundColor(.basicGray9)
+        
+        .pretendardFont(family: .Medium, size: 18)
     }
     
     @ViewBuilder
@@ -58,29 +77,13 @@ struct WithDrawView: View {
                 presentationMode.wrappedValue.dismiss()
             }
             
-           
+            
             Spacer()
         }
         .padding(.horizontal, 20)
         
         Spacer()
             .frame(height: 16)
-    }
-    
-    private var withDrawText: some View {
-        VStack {
-            Spacer()
-                .frame(height: 20)
-            
-            HStack {
-                Text("어떤 점이 불편하셨는지\n 말씀해 주실 수 있을까요?")
-                    .pretendardFont(family: .Medium, size: 18)
-                    .foregroundColor(Color.basicGray9)
-                
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-        }
     }
 }
 
