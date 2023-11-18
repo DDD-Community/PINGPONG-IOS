@@ -12,19 +12,30 @@ import SafariServices
 public struct AgreeMentListView: View {
     
     @Binding var checkAgreeButton: Bool
+    @Binding var webViewLoading: Bool
+    
     var showleft: Bool
     var title: String
     var agreeAllService: Bool
     var essential: TermsEssential
-    let safariURL: URL
+    let safariURL: String
     
-    public init(checkAgreeButton: Binding<Bool>, showleft: Bool, title: String, agreeAllService: Bool, essential: TermsEssential, safariURL: URL = URL(string: "https://zircon-throne-197.notion.site/c339bd214a4f43d3babcbe4781c4230e?pvs=4")!) {
+    public init(
+        checkAgreeButton: Binding<Bool>,
+        showleft: Bool, 
+        title: String,
+        agreeAllService: Bool, 
+        essential: TermsEssential,
+        safariURL: String,
+        webViewLoading: Binding<Bool>
+    ) {
         self._checkAgreeButton = checkAgreeButton
         self.showleft = showleft
         self.title = title
         self.agreeAllService = agreeAllService
         self.essential = essential
         self.safariURL = safariURL
+        self._webViewLoading = webViewLoading
     }
     
     
@@ -65,12 +76,15 @@ public struct AgreeMentListView: View {
                     Spacer()
                     
                     if showleft {
-                        Link(destination: safariURL) {
-                             Image(systemName: "chevron.right")
-                                 .resizable()
-                                 .scaledToFit()
-                                 .frame(width: 15, height: 15)
-                                 .foregroundColor(.basicGray5)
+                        NavigationLink {
+                            WebViews(url: safariURL, loading: $webViewLoading)
+                            
+                        } label: {
+                            Image(systemName: "chevron.right")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(.basicGray5)
                         }
                         
                     } else {

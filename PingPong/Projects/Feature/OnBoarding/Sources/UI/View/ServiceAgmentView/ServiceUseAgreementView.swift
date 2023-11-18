@@ -10,6 +10,7 @@ import SwiftUI
 import Inject
 import DesignSystem
 import SafariServices
+import API
 
 public struct ServiceUseAgreementView: View {
     public init() { }
@@ -84,7 +85,9 @@ public struct ServiceUseAgreementView: View {
                                   showleft: false,
                                   title: "전체 약관에 동의합니다",
                                   agreeAllService: true,
-                                  essential: .essential)
+                                  essential: .essential, 
+                                  safariURL: "", 
+                                  webViewLoading: .constant(false))
                 .onTapGesture {
                     viewModel.updateAgreementStatus()
                 }
@@ -100,7 +103,8 @@ public struct ServiceUseAgreementView: View {
                                   title: "서비스 이용약관 동의",
                                   agreeAllService: false,
                                   essential: .essential,
-                                  safariURL: URL(string: "https://zircon-throne-197.notion.site/fe86e02d0dce4e01a7f4d1795b8afd6d?pvs=4")!
+                                  safariURL: APIManger.shared.serviceAgreeMentURL,
+                                  webViewLoading: $viewModel.checkServiceLoading
                 )
                 .onTapGesture {
                     viewModel.checkTermsService.toggle()
@@ -112,7 +116,8 @@ public struct ServiceUseAgreementView: View {
                                   title: "개인정보 수집 및 이용 동의",
                                   agreeAllService: false,
                                   essential: .essential,
-                                  safariURL: URL(string: "https://zircon-throne-197.notion.site/efb487f2e8ac49938034b3c32114e754?pvs=4")!
+                                  safariURL: APIManger.shared.privacyPolicyURL, 
+                                  webViewLoading: $viewModel.checkServiceLoading
                 )
                 .onTapGesture {
                     viewModel.checkPesonalInformation.toggle()
@@ -124,7 +129,8 @@ public struct ServiceUseAgreementView: View {
                                   title: "마케팅 정보 수신동의",
                                   agreeAllService: false,
                                   essential: .choice,
-                                  safariURL: URL(string: "https://zircon-throne-197.notion.site/c339bd214a4f43d3babcbe4781c4230e?pvs=4")!
+                                  safariURL: APIManger.shared.marketAgreeMentURL,
+                                  webViewLoading: $viewModel.checkServiceLoading
                 )
                 .onTapGesture {
                     viewModel.checkReciveMarketingInformation.toggle()

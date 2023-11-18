@@ -29,6 +29,7 @@ public class OnBoardingViewModel: ObservableObject {
     
     @Published var allAgreeCheckButton: Bool = false
     @Published var checkTermsService: Bool = false
+    @Published var checkServiceLoading: Bool = false
     @Published var checkPesonalInformation: Bool = false
     @Published var checkReciveMarketingInformation: Bool = false
     @Published var allConfirmAgreeView: Bool = false

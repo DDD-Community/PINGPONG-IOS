@@ -11,6 +11,7 @@ import Common
 import DesignSystem
 import Model
 import Authorization
+import API
 
 public struct OtherSettingView: View {
     @StateObject private var appState: AppState
@@ -38,8 +39,27 @@ public struct OtherSettingView: View {
                 Spacer()
                 
             }
-            
-            
+        }
+        
+        .navigationDestination(isPresented: $profileViewModel.gotoPrivacyPolicyView) {
+            WebViews(
+                url: APIManger.shared.privacyPolicyURL ,
+                loading: $profileViewModel.loadingWebView
+            )
+            .navigationBarBackButtonHidden()
+        }
+        
+        .navigationDestination(isPresented: $profileViewModel.gotoTermsOfServiceView) {
+            WebViews(
+                url: APIManger.shared.serviceAgreeMentURL,
+                loading: $profileViewModel.loadingWebView
+            )
+            .navigationBarBackButtonHidden()
+        }
+        
+        .navigationDestination(isPresented: $profileViewModel.gotoWithDrawView) {
+            WithDrawView(authViewModel: authViewModel)
+                .navigationBarBackButtonHidden()
         }
     }
     
@@ -84,6 +104,17 @@ public struct OtherSettingView: View {
                 VStack {
                     ForEach(OhterSettingItem.allCases, id: \.self){ item in
                         listItemView(showArrow: item != .appVersion ? true : false, showLine: item == .privacyPolicy || item == .withDraw ? true : false , text: item.description, versionText: item == .appVersion ? "v.\(profileViewModel.appVersion )": "") {
+                            switch item  {
+                                
+                            case .privacyPolicy:
+                                profileViewModel.gotoPrivacyPolicyView.toggle()
+                            case .termsOfService:
+                                profileViewModel.gotoTermsOfServiceView.toggle()
+                            case .withDraw:
+                                profileViewModel.gotoWithDrawView.toggle()
+                            case .appVersion:
+                                break
+                            }
                             
                         }
                         .padding(.horizontal, 16)

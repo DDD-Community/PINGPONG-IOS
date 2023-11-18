@@ -11,6 +11,7 @@ import SwiftUI
 public struct AgreeMentListView: View {
     
     @Binding var checkAgreeButton: Bool
+    
     var showleft: Bool
     var title: String
     var showBold: Bool
