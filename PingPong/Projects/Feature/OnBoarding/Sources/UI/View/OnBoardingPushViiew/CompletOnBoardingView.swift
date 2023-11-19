@@ -26,21 +26,29 @@ public struct CompletOnBoardingView: View {
     }
     
     public var body: some View {
-        NavigationStack {
-            VStack {
-                favoriteRegistrationTitle()
-                
-                favoriteRegistrationImage()
-                
-                completedOnBoardingButton()
-                
-                Spacer()
-            }
+        VStack {
+            favoriteRegistrationTitle()
+            
+            favoriteRegistrationImage()
+            
+            completedOnBoardingButton()
+            
+            Spacer()
         }
         
         .task {
             //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+        }
+        
+        .navigationDestination(isPresented: $commonViewViewModel.goToMainView) {
+            CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
+                .environmentObject(authViewModel)
+                .environmentObject(sheetManger)
+                .onAppear {
+                    authViewModel.getRefreshToken()
+                }
+                .navigationBarBackButtonHidden()
         }
     }
     
@@ -115,6 +123,7 @@ public struct CompletOnBoardingView: View {
                 }
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
+                    commonViewViewModel.goToMainView.toggle()
                     authViewModel.isLogin = true
                     authViewModel.isLoginCheck = true
                 }

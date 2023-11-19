@@ -16,16 +16,23 @@ public struct ProfileView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
-    @EnvironmentObject var authViewModel: AuthorizationViewModel
+    @ObservedObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
     var backAction: () -> Void
     
-    public init(viewModel: CommonViewViewModel, appState: AppState, backAction: @escaping () -> Void) {
+    public init(
+        viewModel: CommonViewViewModel,
+        appState: AppState,
+        backAction: @escaping () -> Void,
+        authViewModel: AuthorizationViewModel
+        
+    ) {
         self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
+        self._authViewModel = ObservedObject(wrappedValue: authViewModel)
     }
     
     
@@ -87,7 +94,7 @@ public struct ProfileView: View {
                     .foregroundColor(.basicBlack)
             }
             .onTapGesture {
-                presentationMode.wrappedValue.dismiss()
+                backAction()
             }
             
             

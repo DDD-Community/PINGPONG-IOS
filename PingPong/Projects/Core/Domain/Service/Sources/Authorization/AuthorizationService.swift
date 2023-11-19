@@ -38,7 +38,7 @@ extension AuthorizationService: BaseTargetType {
             return "\(PingPongAPIAuthorization.userInfoURL)\(userId)"
         case .loginWithEmail(let email):
             return "\(PingPongAPIAuthorization.loginEmailURL)\(email)"
-        case .withDraw(let userId):
+        case .withDraw(let userId, _):
             return "\(PingPongAPIAuthorization.withdrawalURL)\(userId)"
         }
     }
@@ -110,7 +110,7 @@ extension AuthorizationService: BaseTargetType {
             ]
             return .requestParameters(parameters: parameters, encoding:  URLEncoding.queryString)
             
-        case .withDraw(_, let reason):
+        case .withDraw(_ ,let reason):
             let parameters : [String : Any] = [
 //                "email": email
                 "reason": reason

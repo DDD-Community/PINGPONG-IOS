@@ -1,8 +1,9 @@
 //
-//  OnBoardingView.swift
-//  PingPongProject
+//  OnBoardingLoginView.swift
+//  OnBoarding
 //
-//  Created by Byeon jinha on 2023/06/01.
+//  Created by 서원지 on 11/19/23.
+//  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
 import Common
@@ -10,27 +11,29 @@ import SwiftUI
 import DesignSystem
 import Authorization
 import AuthenticationServices
-import PopupView
 import Home
 import Core
-//import GoogleSignInSwift
 
-public struct OnBoardingView: View {
+struct OnBoardingLoginView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
-    @StateObject var viewModel: OnBoardingViewModel
+    @ObservedObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
+    
     @Environment(\.presentationMode) var presentationMode
+    
+    
     
     public init(
         viewModel: OnBoardingViewModel
-    
+        
     ) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._viewModel = ObservedObject(wrappedValue: viewModel)
     }
-    public var body: some View {
+    
+    var body: some View {
         NavigationStack {
             VStack(spacing: .zero) {
                
@@ -43,13 +46,14 @@ public struct OnBoardingView: View {
                 
             }
             
-            .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
-                ServiceUseAgreementView()
-                    .environmentObject(viewModel)
-            }
             
+            
+            .navigationDestination(isPresented: $appState.goToMainHomeView) {
+                CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                    .environmentObject(sheetManager)
+                    .environmentObject(authViewModel)
+            }
         }
-         
         
         .popup(isPresented: $appState.signUPFaillPOPUP) {
             FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "애플로그인에 오류가 생겼습니다. 다시 시도해주세요")
@@ -62,8 +66,6 @@ public struct OnBoardingView: View {
                 .closeOnTapOutside(true)
             
         }
-
-        
     }
     
     @ViewBuilder
@@ -159,7 +161,17 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    appState.serviceUseAgmentView.toggle()
+                    Task {
+                        await authViewModel.loginWithEmail(
+                            email: authViewModel.userEmail,
+                            succesCompletion: {
+                                appState.goToMainHomeView.toggle()
+                                authViewModel.isLogin = true
+                            }, failLoginCompletion:  {
+                                appState.signUPFaillPOPUP.toggle()
+                                presentationMode.wrappedValue.dismiss()
+                            })
+                    }
                 }
                 
             case .failure(let error):

@@ -38,13 +38,43 @@ public struct LoginView: View {
                 authButton()
                 
             }
+            .onAppear{
+                if authViewModel.isDeletAuth {
+                    authViewModel.deleteAuth = true
+                }
+            }
             
-            .navigationDestination(isPresented: $viewModel.goToLoginView) {
-                OnBoardingView(viewModel: viewModel,
-                               isSignUP: $viewModel.isSignUP,
-                               loginWithEmail: $viewModel.alreadySignUP)
+            .navigationDestination(isPresented: $viewModel.goToLoginRegisterView) {
+                OnBoardingView(viewModel: viewModel)
                     .navigationBarBackButtonHidden()
             }
+            
+            .navigationDestination(isPresented: $viewModel.goToLoginView){
+                OnBoardingLoginView(viewModel: viewModel)
+                    .navigationBarBackButtonHidden()
+            }
+            
+            .popup(isPresented: $authViewModel.deleteAuth) {
+                WithDrawPOPUP(
+                    image: .empty,
+                    title: "이용해 주셔서 감사합니다",
+                    subTitle: "주신 의견에 반영하여\n 더나은 명언 제과점이 되겠습니다",
+                    confirmAction: {},
+                    cancelAction: {
+                        authViewModel.deleteAuth = false
+                        viewModel.isSignUP = false
+                        viewModel.alreadySignUP = false
+                    }, noImage: true)
+            } customize: { popup in
+                popup
+                    .type(.default)
+                    .position(.bottom)
+                    .animation(.easeIn)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .backgroundColor(.basicBlackDimmed)
+            }
+
         }
     }
     
@@ -119,8 +149,7 @@ public struct LoginView: View {
                         .pretendardFont(family: .SemiBold, size: 16)
                 }
                 .onTapGesture {
-                    viewModel.goToLoginView = true
-                    viewModel.alreadySignUP = true
+                    viewModel.goToLoginView.toggle()
                 }
             
             Spacer()
@@ -135,9 +164,9 @@ public struct LoginView: View {
                         .pretendardFont(family: .SemiBold, size: 16)
                 }
                 .onTapGesture {
-                    viewModel.goToLoginView = true
                     viewModel.isSignUP = true
                     viewModel.alreadySignUP = false
+                    viewModel.goToLoginRegisterView.toggle()
                 }
             
             

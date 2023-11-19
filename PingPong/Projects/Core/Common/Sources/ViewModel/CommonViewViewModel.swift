@@ -21,9 +21,16 @@ public class CommonViewViewModel: ObservableObject {
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
 
     }
-    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
+    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false {
+        didSet {
+            self.firstUserPOPUP = isFirstUserPOPUP
+        }
+    }
+    
+    @Published public var firstUserPOPUP: Bool = false
 
     @Published public var selectedTab: Tab = .home
+    @Published public var goToMainView: Bool = false
     @Published public var customTabs: [CustomTab] = []
     
     //MARK: 모달 관련

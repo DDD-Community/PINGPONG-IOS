@@ -57,7 +57,7 @@ struct WithDrawView: View {
                 subTitle: "탈퇴하시면 명언제과점을 이용하실수 없어요!",
                 confirmAction: {
                     Task {
-                        await profileViewModel.withDrawPost(userID: authViewModel.userEmail, reason: profileViewModel.selectWithDrawReason,  successCompletion: {
+                        await profileViewModel.withDrawPost(userID: "\(authViewModel.userid)", reason: profileViewModel.selectWithDrawReason,  successCompletion: {
                             authViewModel.deleteAuth = true
                             authViewModel.isDeletAuth = true
                             authViewModel.isLoginCheck = false
@@ -67,7 +67,7 @@ struct WithDrawView: View {
                 },
                 cancelAction: {
                     profileViewModel.selectWithDrawPOPUP = false
-                })
+                }, noImage: false)
             
         } customize: { popup in
             popup

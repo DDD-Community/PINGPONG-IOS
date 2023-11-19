@@ -12,6 +12,7 @@ public struct WithDrawPOPUP: View {
     var image: ImageAsset
     var title: String
     var subTitle: String
+    var noImage: Bool
     
     var confirmAction: () -> Void
     var cancelAction: () -> Void
@@ -21,13 +22,15 @@ public struct WithDrawPOPUP: View {
         title: String,
         subTitle: String,
         confirmAction: @escaping () -> Void,
-        cancelAction: @escaping () -> Void
+        cancelAction: @escaping () -> Void,
+        noImage: Bool
     ) {
         self.image = image
         self.title = title
         self.subTitle = subTitle
         self.confirmAction = confirmAction
         self.cancelAction = cancelAction
+        self.noImage = noImage
     }
     
     public var body: some View {
@@ -55,10 +58,12 @@ public struct WithDrawPOPUP: View {
             Spacer()
                 .frame(height: 16)
             
-            Image(asset: image)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 36, height: 36)
+            if !noImage {
+                Image(asset: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
+            }
         }
     }
     
@@ -85,14 +90,14 @@ public struct WithDrawPOPUP: View {
     private func popupButton() -> some View {
         
         
-        VStack(spacing: .zero) {
-            HStack {
+        if noImage {
+            VStack(spacing: .zero) {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color.basicGray4)
                     .frame(width: UIScreen.screenWidth/3, height: 48)
                     .overlay {
                         VStack(alignment: .center) {
-                            Text("취소")
+                            Text("닫기")
                                 .pretendardFont(family: .SemiBold, size: 16)
                                 .foregroundColor(.basicWhite)
                         }
@@ -102,27 +107,48 @@ public struct WithDrawPOPUP: View {
                     }
                 
                 Spacer()
-                    .frame(width: 12)
-                
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.basicBlack)
-                    .frame(width: UIScreen.screenWidth/3, height: 48)
-                    .overlay {
-                        VStack(alignment: .center) {
-                            Text("탈퇴하기")
-                                .pretendardFont(family: .SemiBold, size: 16)
-                                .foregroundColor(.basicWhite)
-                        }
-                    }
-                    .onTapGesture {
-                        confirmAction()
-                    }
-                
-                
+                    .frame(height: 16)
             }
-            
-            Spacer()
-                .frame(height: 16)
+        } else {
+            VStack(spacing: .zero) {
+                HStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.basicGray4)
+                        .frame(width: UIScreen.screenWidth/3, height: 48)
+                        .overlay {
+                            VStack(alignment: .center) {
+                                Text("취소")
+                                    .pretendardFont(family: .SemiBold, size: 16)
+                                    .foregroundColor(.basicWhite)
+                            }
+                        }
+                        .onTapGesture {
+                            cancelAction()
+                        }
+                    
+                    Spacer()
+                        .frame(width: 12)
+                    
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.basicBlack)
+                        .frame(width: UIScreen.screenWidth/3, height: 48)
+                        .overlay {
+                            VStack(alignment: .center) {
+                                Text("탈퇴하기")
+                                    .pretendardFont(family: .SemiBold, size: 16)
+                                    .foregroundColor(.basicWhite)
+                            }
+                        }
+                        .onTapGesture {
+                            confirmAction()
+                        }
+                    
+                    
+                }
+                
+                Spacer()
+                    .frame(height: 16)
+            }
         }
     }
 }

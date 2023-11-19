@@ -48,14 +48,18 @@ public struct CoreView: View {
                 .modal(with: sheetManager, viewModel: viewModel)
                 .onAppear {
                     if viewModel.isFirstUserPOPUP {
-                        isFistUserPOPUP = true
+                        self.viewModel.isFirstUserPOPUP = true
                     } else {
-                        isFistUserPOPUP = false
+                        self.viewModel.isFirstUserPOPUP = false
                         
                     }
                 }
-                .popup(isPresented: $isFistUserPOPUP) {
-                    CustomPOPUP(image: .empty, title: "좌우를 넘기며", title1: "명언을 확인해보세요", subTitle: "", useGif: true, confirmAction: {
+                .popup(isPresented: $viewModel.isFirstUserPOPUP) {
+                    CustomPOPUP(
+                        image: .empty,
+                        title: "좌우를 넘기며",
+                        title1: "명언을 확인해보세요",
+                        subTitle: "", useGif: true, confirmAction: {
                         isFistUserPOPUP = false
                         viewModel.isFirstUserPOPUP = true
                     })
@@ -92,11 +96,17 @@ public struct CoreView: View {
             }, isGoToProfileView: $appState.isGoToProfileView)
             .frame(height: 40)
             .findNavigator(isPresented: $appState.goToProfileSettingView)
+            
         }  .navigationDestination(isPresented: $appState.isGoToProfileView) {
-            ProfileView(viewModel: viewModel, appState: appState, backAction: {
-                appState.goToBackingView = false
-            })
-            .environmentObject(authViewModel)
+            ProfileView(
+                viewModel: viewModel,
+                appState: appState,
+                backAction: {
+                appState.isGoToProfileView = false
+                }, 
+                authViewModel: authViewModel)
+//
+            
         }
     }
     

@@ -44,6 +44,7 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var isSkipSelectedFlavor: Bool = false
     @Published var isSelectedCharacter: Bool = false
     @Published var goToLoginView: Bool = false
+    @Published var goToLoginRegisterView: Bool = false
     @Published public var inviteMainView: Bool = false
     
     
