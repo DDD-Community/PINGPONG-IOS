@@ -64,7 +64,9 @@ public struct LoginView: View {
                         authViewModel.deleteAuth = false
                         viewModel.isSignUP = false
                         viewModel.alreadySignUP = false
-                    }, noImage: true)
+                    }, noImage: true,
+                    noImageButton: true
+                )
             } customize: { popup in
                 popup
                     .type(.default)

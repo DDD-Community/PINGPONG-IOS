@@ -164,6 +164,7 @@ public struct OnBoardingView: View {
                 
             case .failure(let error):
                 appState.signUPFaillPOPUP.toggle()
+                presentationMode.wrappedValue.dismiss()
             }
             
         }

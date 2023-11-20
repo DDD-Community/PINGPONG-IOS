@@ -13,6 +13,7 @@ public struct WithDrawPOPUP: View {
     var title: String
     var subTitle: String
     var noImage: Bool
+    var noImageButton: Bool
     
     var confirmAction: () -> Void
     var cancelAction: () -> Void
@@ -23,7 +24,8 @@ public struct WithDrawPOPUP: View {
         subTitle: String,
         confirmAction: @escaping () -> Void,
         cancelAction: @escaping () -> Void,
-        noImage: Bool
+        noImage: Bool,
+        noImageButton: Bool
     ) {
         self.image = image
         self.title = title
@@ -31,6 +33,7 @@ public struct WithDrawPOPUP: View {
         self.confirmAction = confirmAction
         self.cancelAction = cancelAction
         self.noImage = noImage
+        self.noImageButton = noImageButton
     }
     
     public var body: some View {
@@ -90,7 +93,7 @@ public struct WithDrawPOPUP: View {
     private func popupButton() -> some View {
         
         
-        if noImage {
+        if noImageButton {
             VStack(spacing: .zero) {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color.basicGray4)

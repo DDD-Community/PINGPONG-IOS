@@ -61,13 +61,14 @@ struct WithDrawView: View {
                             authViewModel.deleteAuth = true
                             authViewModel.isDeletAuth = true
                             authViewModel.isLoginCheck = false
+                            presentationMode.wrappedValue.dismiss()
                         })
                     }
                     
                 },
                 cancelAction: {
                     profileViewModel.selectWithDrawPOPUP = false
-                }, noImage: false)
+                }, noImage: false, noImageButton: false)
             
         } customize: { popup in
             popup
