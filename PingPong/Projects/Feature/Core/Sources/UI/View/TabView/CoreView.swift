@@ -42,8 +42,7 @@ public struct CoreView: View {
                     }
                     
                     mainTabBar()
-//                        .keyboardAdaptive()
-                    
+                        .ignoresSafeArea(.keyboard)
                 }
                 .modal(with: sheetManager, viewModel: viewModel)
                 .onAppear {
@@ -105,8 +104,6 @@ public struct CoreView: View {
                 appState.isGoToProfileView = false
                 }, 
                 authViewModel: authViewModel)
-//
-            
         }
     }
     

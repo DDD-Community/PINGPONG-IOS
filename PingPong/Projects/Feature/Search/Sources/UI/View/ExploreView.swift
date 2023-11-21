@@ -57,7 +57,6 @@ public struct ExploreView: View {
                     }
                     .frame(height: UIScreen.main.bounds.height * 0.6)
                 }
-                
             }
         }
         .task {
@@ -99,7 +98,6 @@ public struct ExploreView: View {
                 }
             }
         })
-        
     }
     
     
@@ -119,7 +117,6 @@ public struct ExploreView: View {
                         .frame(width: 17, height: 17)
                         .padding(15)
                         .onTapGesture {
-                            //                            viewModel.filterPostsByText()
                         }
                 }
             )
