@@ -12,6 +12,7 @@ public enum CommonType: CaseIterable , CustomStringConvertible {
     case flavor
     case source
     case mood
+    case userDesc
     
     public var description: String {
         switch self {
@@ -21,6 +22,8 @@ public enum CommonType: CaseIterable , CustomStringConvertible {
             return "source"
         case .mood:
             return "mood"
+        case .userDesc:
+            return "user_desc"
         }
     }
 }

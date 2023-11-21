@@ -29,22 +29,39 @@ public class ProfileViewViewModel: ObservableObject {
     @Published var selectWithDrawReason: String = "이런 점이 불편했어요."
     @Published public var selectedTime = Date()
     @Published var selectWithDrawPOPUP: Bool = false
-    
-    
+    @Published var changeNickNameView: Bool = false
+    @Published var changeNickNameSuccessPOPUP: Bool = false
+    @Published public var changeNickName: String = " "
+   
     @AppStorage("selectedChangeTimeView") public var selectedChangeTimeView: Bool = false
     @AppStorage("saveDate") public var saveDate: String = ""
     @AppStorage("saveDateHour") public var saveDateHour: String = ""
+    
     @Published public var selectTimeBottomView: Bool = false
+    
+    @Published public var commonCodeModel: CommonCdModel?
+    var randomNameCancellable: AnyCancellable?
+    
+    @Published var isFirstRequestCompleted = false
+    @AppStorage("randomNickName") var randomNickName: String = ""
+    let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
+    
+    var withDrawCancellable: AnyCancellable?
+    
+    @Published public var withDrawModel: WithDrawModel?
+    var changeNickNameCancellable: AnyCancellable?
+    
     
     public init() {
         saveDate = UserDefaults.standard.string(forKey: "saveDate") ?? ""
         saveDateHour = UserDefaults.standard.string(forKey: "saveDateHour") ?? ""
         selectedChangeTimeView = UserDefaults.standard.bool(forKey: "selectedChangeTimeView")
+        randomNickName = UserDefaults.standard.string(forKey: "randomNickName") ?? ""
+        
     }
     
-    var withDrawCancellable: AnyCancellable?
     
-    @Published public var withDrawModel: WithDrawModel?
+    
     
     
     public func withDrawToViewModel(_ list: WithDrawModel) {
@@ -58,7 +75,7 @@ public class ProfileViewViewModel: ObservableObject {
         ProfileViewComponentModel(isDevider: false, imageName: "settingImage", content: "기타 설정", detail: "각종 설정들을 관리해요."),
     ]
     
-    //MARK: -  회원가입
+    //MARK: -  회원탈퇴
     public func withDrawPost(
         userID: String,
         reason: String,
@@ -94,6 +111,78 @@ public class ProfileViewViewModel: ObservableObject {
                 }
             })
         
+    }
+    
+    public func changeNickName(
+        userID: String,
+        nickName: String,
+        completion: @escaping () -> Void
+    ) async {
+        if let cancellable = changeNickNameCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<AuthorizationService>(plugins: [MoyaLoggingPlugin()])
+        changeNickNameCancellable = provider.requestWithProgressPublisher(.changeUserInfo(userId: userID, nickname: nickName))
+            .compactMap{$0.response?.data}
+            .receive(on: DispatchQueue.main)
+            .decode(type: WithDrawModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                    
+                case .failure(let error):
+                    Log.network("네트워크 에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if let status = model.status {
+                    if status == NetworkCode.success.status {
+                        self?.withDrawToViewModel(model)
+                        Log.network("이름 변경 성공", model)
+                        completion()
+                    } else {
+                        self?.withDrawToViewModel(model)
+                        Log.network("이름 변경 성공", model)
+                    }
+                }
+            })
+    }
+    
+    public func commCodeToViewModel(_ list: CommonCdModel) {
+        self.commonCodeModel = list
+    }
+    
+    public func randomNameRequest(commCdTpCd: CommonType) async {
+        if let cancellable = randomNameCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<SearchService>(plugins: [MoyaLoggingPlugin()])
+        randomNameCancellable = provider.requestWithProgressPublisher(.searchCommCode(commCdTpCd: commCdTpCd.description))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: CommonCdModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    Log.network("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.success.status {
+                    self?.commCodeToViewModel(model)
+                    
+                    if let randomCommNm = model.data.commCds.randomElement()?.commNm {
+                        self?.randomNickName = randomCommNm
+                        Log.network("랜덤 이름", randomCommNm)
+                    }
+                } else {
+                    self?.commCodeToViewModel(model)
+                    Log.network("유저 코드", model)
+                }
+            })
     }
 }
 

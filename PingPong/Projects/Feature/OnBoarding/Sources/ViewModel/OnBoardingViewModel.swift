@@ -54,9 +54,9 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var nickname: String = ""
     
     @Published var nicknameValidation: NicknameValidationType = .notValidated
-    @Published var validationText: String = " "
-    @Published var validationColor: Color = .basicGray4
-    @Published var validationImageName: String?
+    @Published public var validationText: String = " "
+    @Published public var validationColor: Color = .basicGray4
+    @Published public var validationImageName: String?
     @Published var selectedJob: String? = nil
     @Published var selectJobCode: Int = .zero
     @Published var selectedFavoriteCategory: String = ""

@@ -19,9 +19,7 @@ let project = Project.makeAppModule(
     product: .app,
     packages: [ // packages를 추가하여 Amplify 라이브러리 추가
         
-              ],
-    
-    
+    ],
     setting: .appMainSetting,
     dependencies: [
         .SPM.Inject,

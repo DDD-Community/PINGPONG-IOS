@@ -54,9 +54,7 @@ public class BakeViewModel: ObservableObject {
                 if model.status == NetworkCode.success.status {
                     self?.commCodeToViewModel(model)
                     os_log("유저 코드")
-                  
                     print("유저 코드", model)
-                 
                 } else {
                     self?.commCodeToViewModel(model)
                    
@@ -65,6 +63,8 @@ public class BakeViewModel: ObservableObject {
                 }
             })
     }
+    
+    
     
     public func bakequoteCodeToViewModel(_ list: BakeModel) {
         self.bakeQuoteModel = list

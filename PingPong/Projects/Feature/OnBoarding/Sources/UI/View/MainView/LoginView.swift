@@ -43,7 +43,7 @@ public struct LoginView: View {
                     authViewModel.deleteAuth = true
                 }
             }
-            
+        
             .navigationDestination(isPresented: $viewModel.goToLoginRegisterView) {
                 OnBoardingView(viewModel: viewModel)
                     .navigationBarBackButtonHidden()

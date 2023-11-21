@@ -11,6 +11,7 @@ import DesignSystem
 import Model
 import Authorization
 import SwiftUI
+import PopupView
 
 public struct ProfileView: View {
     @StateObject private var appState: AppState
@@ -64,6 +65,13 @@ public struct ProfileView: View {
         
         .task {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+            
+            if profileViewModel.randomNickName == "" {
+                await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
+            }
+            
+            
+            print("\(profileViewModel.randomNickName)")
         }
         
         .navigationDestination(isPresented: $profileViewModel.gotoOtherSettingView) {
@@ -76,6 +84,40 @@ public struct ProfileView: View {
         .navigationDestination(isPresented: $profileViewModel.gotoNotificationQuoteView) {
             NotificationQuoteView(authViewModel: authViewModel)
                 .navigationBarBackButtonHidden()
+        }
+        
+        .sheet(isPresented: $profileViewModel.changeNickNameView, content: {
+            ChangeNickNameView(viewModel: profileViewModel, authViewModel: authViewModel) {
+                profileViewModel.changeNickNameView = false
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    profileViewModel.changeNickNameSuccessPOPUP.toggle()
+                }
+            }
+            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.2) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.2)])
+            .presentationCornerRadius(20)
+        })
+        
+        .popup(isPresented: $profileViewModel.changeNickNameSuccessPOPUP) {
+            WithDrawPOPUP(
+                image: .empty,
+                title: "성공",
+                subTitle: "닉네임이 변경이 되었습니다",
+                confirmAction: {},
+                cancelAction: {
+                    profileViewModel.changeNickNameSuccessPOPUP = false
+                },
+                noImage: true,
+                noImageButton: true)
+        } customize: { popup in
+            popup
+                .type(.default)
+                .position(.bottom)
+                .animation(.easeIn)
+                .closeOnTap(true)
+                .closeOnTapOutside(true)
+                .backgroundColor(.basicBlackDimmed)
+        
         }
     }
     
@@ -109,21 +151,53 @@ public struct ProfileView: View {
         RoundedRectangle(cornerRadius: 12)
             .fill(Color.basicWhite)
             .frame(height: 80)
+            .padding(.horizontal, 20)
             .overlay {
                 VStack {
-                    HStack {
+                    HStack(spacing: .zero) {
+                        Spacer()
+                            .frame(width: 16)
+                        
                         Circle()
                             .frame(width: 57, height: 57)
                             .foregroundColor(.sweetFilter)
-                        Text("\(authViewModel.signupModel?.data?.nickname ?? "")")
-                            .pretendardFont(family: .SemiBold, size: 18)
                         
                         Spacer()
+                            .frame(width: 16)
+                        
+                        VStack(spacing: .zero) {
+                            HStack {
+                                Text("\(authViewModel.signupModel?.data?.nickname ?? "")")
+                                    .pretendardFont(family: .SemiBold, size: 18)
+                                    .foregroundColor(Color.basicGray9)
+                                Spacer()
+                                
+                            }
+                            
+                            HStack {
+                                Text(profileViewModel.randomNickName)
+                                    .pretendardFont(family: .Medium, size: 14)
+                                    .foregroundColor(Color.basicGray7)
+                                
+                                Spacer()
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        Image(assetName: "editImage")
+                            .frame(width: 24.62, height: 24)
+                            .onTapGesture {
+                                profileViewModel.changeNickNameView.toggle()
+                            }
+                        
+                        Spacer()
+                            .frame(width: 16)
                     }
                 }
                 .padding(.horizontal, 16)
             }
-            .padding(EdgeInsets(top: 22, leading: 20, bottom: 0, trailing: 20))
+            
         
     }
     
