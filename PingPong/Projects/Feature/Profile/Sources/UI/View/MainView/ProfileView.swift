@@ -66,6 +66,7 @@ public struct ProfileView: View {
         .task {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
+            profileViewModel.chnageImage()
             if profileViewModel.randomNickName == "" {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
@@ -94,7 +95,8 @@ public struct ProfileView: View {
                     profileViewModel.changeNickNameSuccessPOPUP.toggle()
                 }
             }
-            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.2) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.2)])
+            .ignoresSafeArea(.keyboard)
+            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.7) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.7)])
             .presentationCornerRadius(20)
         })
         
@@ -161,6 +163,12 @@ public struct ProfileView: View {
                         Circle()
                             .frame(width: 57, height: 57)
                             .foregroundColor(.sweetFilter)
+                            .overlay {
+                                Image(assetName: profileViewModel.changeNickImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 57, height: 57)
+                            }
                         
                         Spacer()
                             .frame(width: 16)

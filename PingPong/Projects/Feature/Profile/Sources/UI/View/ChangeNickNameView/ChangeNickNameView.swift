@@ -91,6 +91,9 @@ struct ChangeNickNameView: View {
             
             
         }
+        .task {
+            viewModel.changeNickName = ""
+        }
         
         
 

@@ -31,7 +31,8 @@ public class ProfileViewViewModel: ObservableObject {
     @Published var selectWithDrawPOPUP: Bool = false
     @Published var changeNickNameView: Bool = false
     @Published var changeNickNameSuccessPOPUP: Bool = false
-    @Published public var changeNickName: String = " "
+    @Published public var changeNickName: String = ""
+    @Published public var changeNickImage: String = ""
    
     @AppStorage("selectedChangeTimeView") public var selectedChangeTimeView: Bool = false
     @AppStorage("saveDate") public var saveDate: String = ""
@@ -147,6 +148,24 @@ public class ProfileViewViewModel: ObservableObject {
                     }
                 }
             })
+    }
+    
+    public func chnageImage() {
+        switch self.randomNickName {
+        case "바삭바삭 명언제과":
+            changeNickImage = "crunchyNickname"
+        case "포근포근 명언베이커리":
+            changeNickImage = "cozyNickName"
+        case "퐁실퐁실 명언빵집":
+            changeNickImage = "pomsilNickname"
+        case "모락모락 명언빵공장":
+            changeNickImage = "morakNickname"
+        case "보들보들 명언제빵소":
+            changeNickImage = "softNickName"
+            
+        default:
+            break
+        }
     }
     
     public func commCodeToViewModel(_ list: CommonCdModel) {
