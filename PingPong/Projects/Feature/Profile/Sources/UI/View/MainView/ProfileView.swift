@@ -54,7 +54,7 @@ public struct ProfileView: View {
                     userProfileList()
                     
                     userManagementList()
-
+                    
                     appManagementList()
                     
                     logoutButton()
@@ -77,7 +77,17 @@ public struct ProfileView: View {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
             
-            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {})
+            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {
+                for userFlavor in profileViewModel.profileUserPrefModel?.data?.flavors ?? [] {
+                    guard let flavor = Flavor(rawValue: userFlavor) else { continue }
+                    viewModel.selectedCharacter.append(flavor)
+                }
+                for userSource in profileViewModel.profileUserPrefModel?.data?.sources ?? [] {
+                    print(userSource)
+                    guard let source = Source(rawValue: userSource) else { continue }
+                    viewModel.selectedSource.append(source)
+                }
+            })
             
             print("\(profileViewModel.randomNickName)")
         }
@@ -94,18 +104,18 @@ public struct ProfileView: View {
                 .navigationBarBackButtonHidden()
         }
         
-//        .sheet(isPresented: $profileViewModel.changeNickNameView, content: {
-//            ChangeNickNameView(viewModel: profileViewModel, authViewModel: authViewModel) {
-//                profileViewModel.changeNickNameView = false
-//                
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    profileViewModel.changeNickNameSuccessPOPUP.toggle()
-//                }
-//            }
-//            .ignoresSafeArea(.keyboard)
-//            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.7) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.7)])
-//            .presentationCornerRadius(20)
-//        })
+        //        .sheet(isPresented: $profileViewModel.changeNickNameView, content: {
+        //            ChangeNickNameView(viewModel: profileViewModel, authViewModel: authViewModel) {
+        //                profileViewModel.changeNickNameView = false
+        //
+        //                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        //                    profileViewModel.changeNickNameSuccessPOPUP.toggle()
+        //                }
+        //            }
+        //            .ignoresSafeArea(.keyboard)
+        //            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.7) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.7)])
+        //            .presentationCornerRadius(20)
+        //        })
         
         .popup(isPresented: $profileViewModel.changeNickNameSuccessPOPUP) {
             WithDrawPOPUP(
@@ -126,7 +136,7 @@ public struct ProfileView: View {
                 .closeOnTap(true)
                 .closeOnTapOutside(true)
                 .backgroundColor(.basicBlackDimmed)
-        
+            
         }
     }
     
@@ -139,7 +149,7 @@ public struct ProfileView: View {
                     .scaledToFit()
                     .frame(width: 10, height: 18)
                     .foregroundColor(.basicGray8)
-                   
+                
                 Text("설정")
                     .pretendardFont(family: .SemiBold, size: 18)
                     .foregroundColor(.basicBlack)
@@ -212,7 +222,7 @@ public struct ProfileView: View {
                 }
                 .padding(.horizontal, 16)
             }
-            
+        
         
     }
     
@@ -241,57 +251,65 @@ public struct ProfileView: View {
                             .foregroundColor(.basicGray7)
                             .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 0))
                         Spacer()
-                        HStack{
-                            HStack {
-                                Image(assetName: viewModel.selectedCard.hashtags.flavor.type.smallIconImageName)
-                                Text(viewModel.selectedCard.hashtags.flavor.type.korean)
-                                    .pretendardFont(family: .SemiBold, size: 12)
+                        
+                        if viewModel.selectedSource.count > 2 || viewModel.selectedSource.count == 0{
+                            HStack{
+                                HStack {
+                                    Text("유형 전체")
+                                        .pretendardFont(family: .SemiBold, size: 12)
+                                }
+                                .foregroundColor(.basicGray7)
+                                .frame(minWidth: 41, maxHeight: 26)
+                                .padding(.horizontal, 10)
+                                .background (
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .foregroundColor(.basicGray1BG)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .stroke(lineWidth: 1)
+                                                .foregroundColor(.basicGray3)
+                                        )
+                                )
+                                .onTapGesture {
+                                    withAnimation {
+                                        sheetManager.present(with: .init(idx: 1))
+                                        sheetManager.isPopup = true
+                                    }
+                                }
+                                .padding(.trailing, 16)
+                                
                             }
-                            .foregroundColor(.mildIconText)
-                            .frame(minWidth: 41, maxHeight: 26)
-                            .padding(.horizontal, 10)
-                            .background (
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(.basicGray1BG)
-                                    .overlay(
+                        } else {
+                            ForEach(viewModel.selectedSource, id: \.self) { source in
+                                
+                                HStack{
+                                    HStack {
+                                        Image(assetName: source.type.smallIconImageName)
+                                        Text(source.type.korean)
+                                            .pretendardFont(family: .SemiBold, size: 12)
+                                    }
+                                    .foregroundColor(.mildIconText)
+                                    .frame(minWidth: 41, maxHeight: 26)
+                                    .padding(.horizontal, 10)
+                                    .background (
                                         RoundedRectangle(cornerRadius: 16)
-                                            .stroke(lineWidth: 1)
-                                            .foregroundColor(.basicGray3)
+                                            .foregroundColor(.basicGray1BG)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 16)
+                                                    .stroke(lineWidth: 1)
+                                                    .foregroundColor(.basicGray3)
+                                            )
                                     )
-                            )
-                            .onTapGesture {
-                                withAnimation {
-                                    sheetManager.present(with: .init(idx: 1))
-                                    sheetManager.isPopup = true
-                                } 
-                            }
-                            
-                            HStack {
-                                Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
-                                Text(viewModel.selectedCard.hashtags.source.type.korean)
-                                    .pretendardFont(family: .SemiBold, size: 12)
-                                    .foregroundColor(.animation)
-                            }
-                            .frame(minWidth: 41, maxHeight: 26)
-                            .padding(.horizontal, 10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(.basicGray1BG)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .stroke(lineWidth: 1)
-                                            .foregroundColor(.basicGray3)
-                                    )
-                            )
-                            .onTapGesture {
-                                withAnimation {
-                                    sheetManager.present(with: .init(idx: 2))
-                                    sheetManager.isPopup = true
+                                    .onTapGesture {
+                                        withAnimation {
+                                            sheetManager.present(with: .init(idx: 1))
+                                            sheetManager.isPopup = true
+                                        }
+                                    }
                                 }
                             }
-                            
+                            .padding(.trailing, 16)
                         }
-                        .padding(.trailing, 16)
                     }
                     .frame(width: UIScreen.screenWidth - 40, height: 42)
                     
@@ -302,44 +320,66 @@ public struct ProfileView: View {
                             .padding(EdgeInsets(top: 10, leading: 16, bottom: 18, trailing: 0))
                         
                         Spacer()
-                        HStack{
-                            HStack {
-                                Image(assetName: viewModel.selectedCard.hashtags.flavor.type.smallIconImageName)
-                                Text(viewModel.selectedCard.hashtags.flavor.type.korean)
-                                    .pretendardFont(family: .SemiBold, size: 12)
+                        
+                        if viewModel.selectedCharacter.count > 2  || viewModel.selectedCharacter.count == 0 {
+                            HStack{
+                                HStack {
+                                    Text("성향 전체")
+                                        .pretendardFont(family: .SemiBold, size: 12)
+                                }
+                                .foregroundColor(.basicGray7)
+                                .frame(minWidth: 41, maxHeight: 26)
+                                .padding(.horizontal, 10)
+                                .background (
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .foregroundColor(.basicGray1BG)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .stroke(lineWidth: 1)
+                                                .foregroundColor(.basicGray3)
+                                        )
+                                )
+                                .onTapGesture {
+                                    withAnimation {
+                                        sheetManager.present(with: .init(idx: 1))
+                                        sheetManager.isPopup = true
+                                    }
+                                }
+                                .padding(.trailing, 16)
+
                             }
-                            .foregroundColor(.mildIconText)
-                            .frame(minWidth: 41, maxHeight: 26)
-                            .padding(.horizontal, 10)
-                            .background (
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(.basicGray1BG)
-                                    .overlay(
+                        } else {
+                            ForEach(viewModel.selectedCharacter, id: \.self) { character in
+                                
+                                HStack{
+                                    HStack {
+                                        Image(assetName: character.type.smallIconImageName)
+                                        Text(character.type.korean)
+                                            .pretendardFont(family: .SemiBold, size: 12)
+                                    }
+                                    .foregroundColor(.mildIconText)
+                                    .frame(minWidth: 41, maxHeight: 26)
+                                    .padding(.horizontal, 10)
+                                    .background (
                                         RoundedRectangle(cornerRadius: 16)
-                                            .stroke(lineWidth: 1)
-                                            .foregroundColor(.basicGray3)
+                                            .foregroundColor(.basicGray1BG)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 16)
+                                                    .stroke(lineWidth: 1)
+                                                    .foregroundColor(.basicGray3)
+                                            )
                                     )
-                            )
-                            
-                            HStack {
-                                Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
-                                Text(viewModel.selectedCard.hashtags.source.type.korean)
-                                    .pretendardFont(family: .SemiBold, size: 12)
-                                    .foregroundColor(.animation)
+                                    .onTapGesture {
+                                        withAnimation {
+                                            sheetManager.present(with: .init(idx: 1))
+                                            sheetManager.isPopup = true
+                                        }
+                                    }
+                                }
                             }
-                            .frame(minWidth: 41, maxHeight: 26)
-                            .padding(.horizontal, 10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .foregroundColor(.basicGray1BG)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .stroke(lineWidth: 1)
-                                            .foregroundColor(.basicGray3)
-                                    )
-                            )
+                            .padding(.trailing, 16)
                         }
-                        .padding(.trailing, 16)
+                        
                     }
                     .frame(width: UIScreen.screenWidth - 40, height: 50)
                 }
@@ -381,13 +421,13 @@ public struct ProfileView: View {
                                 profileViewModel.gotoNotificationQuoteView.toggle()
                                 
                             case "reviewImage":
-//                                if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\()?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) { // 유효한 URL인지 검사합니다.
-//                                    if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-//                                        UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
-//                                    } else {
-//                                        UIApplication.shared.openURL(reviewURL)
-//                                    }
-//                                }
+                                //                                if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\()?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) { // 유효한 URL인지 검사합니다.
+                                //                                    if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+                                //                                        UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                                //                                    } else {
+                                //                                        UIApplication.shared.openURL(reviewURL)
+                                //                                    }
+                                //                                }
                                 break
                             case "settingImage":
                                 profileViewModel.gotoOtherSettingView.toggle()
@@ -398,7 +438,7 @@ public struct ProfileView: View {
                                       let url = URL(string: "mailto:suhwj81@gmail.com?subject=\(subject)&body=\(body)") else {
                                     return
                                 }
-
+                                
                                 if UIApplication.shared.canOpenURL(url) {
                                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                 }

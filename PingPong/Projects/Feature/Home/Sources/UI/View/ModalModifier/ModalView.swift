@@ -24,7 +24,8 @@ public struct ModalView: View {
     
     let didClose: () -> Void
     
-    let height:CGFloat = UIScreen.screenHeight * 0.7
+    let height:CGFloat = UIScreen.screenHeight == 667 ? UIScreen.screenHeight * 0.8 : UIScreen.screenHeight * 0.7
+    
     
     public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, defaultYoffset: CGFloat, didClose: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)

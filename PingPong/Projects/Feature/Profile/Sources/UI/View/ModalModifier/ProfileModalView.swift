@@ -24,7 +24,7 @@ public struct ProfileModalView: View {
     
     let didClose: () -> Void
     
-    let height:CGFloat = UIScreen.screenHeight == 667 ? UIScreen.screenHeight * 0.8 : UIScreen.screenHeight * 0.7 
+    let height:CGFloat = UIScreen.screenHeight == 667 ? UIScreen.screenHeight * 0.8 : UIScreen.screenHeight * 0.7
     
     public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, defaultYoffset: CGFloat, didClose: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -146,6 +146,7 @@ private extension ProfileModalView {
                             }
                             Spacer()
                             Button(action: {
+                                viewModel.appendAndPopFavorite(favorite: .anime)
                                 viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
                             }) {
                                 Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
@@ -181,29 +182,29 @@ private extension ProfileModalView {
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
-                let moodParameter: [String] = viewModel.generateParameter(searchType: .situation)
-                let flavorParameter: [String] = viewModel.generateParameter(searchType: .flavor)
-                let sourceParameter: [String] = viewModel.generateParameter(searchType: .source)
+//                let moodParameter: [String] = viewModel.generateParameter(searchType: .situation)
+//                let flavorParameter: [String] = viewModel.generateParameter(searchType: .flavor)
+//                let sourceParameter: [String] = viewModel.generateParameter(searchType: .source)
                 
-                Task {
-                    await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: moodParameter, orderBy: "") {
-                        viewModel.searchedCards = []
-                        
-                        for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
-                            let hashTags = viewModel.getHashtags(post: quoteContent)
-                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
-                                                      hashtags: hashTags, image: "",
-                                                      title: quoteContent.content ?? "",
-                                                      sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeID != nil,
-                                                      likeId: quoteContent.likeID
-                            )
-                            viewModel.searchedCards.append(card)
-                        }
-                    }
-                }
-                
-                didClose()
+//                Task {
+//                    await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: moodParameter, orderBy: "") {
+//                        viewModel.searchedCards = []
+//                        
+//                        for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
+//                            let hashTags = viewModel.getHashtags(post: quoteContent)
+//                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+//                                                      hashtags: hashTags, image: "",
+//                                                      title: quoteContent.content ?? "",
+//                                                      sources: quoteContent.author ?? "",
+//                                                      isBookrmark: quoteContent.likeID != nil,
+//                                                      likeId: quoteContent.likeID
+//                            )
+//                            viewModel.searchedCards.append(card)
+//                        }
+//                    }
+//                }
+//                
+//                didClose()
             }
     }
 }

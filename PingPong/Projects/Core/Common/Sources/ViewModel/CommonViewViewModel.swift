@@ -33,8 +33,16 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var goToMainView: Bool = false
     @Published public var customTabs: [CustomTab] = []
     
-    @Published var selectedFavorite: [Favorite] = []
-    @Published var selectedCharacter: [String] = []
+    @Published public var selectedSource: [Source] = [] {
+        didSet {
+            print(selectedSource)
+        }
+    }
+    @Published public var selectedCharacter: [Flavor] = [] {
+        didSet {
+            print(selectedCharacter)
+        }
+    }
     
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30
@@ -357,18 +365,19 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
-    func appendAndPopFavorite(favorite: Favorite) {
-        guard self.selectedFavorite.count < 2 || self.selectedFavorite.contains(favorite) else { return }
+    public func appendAndPopFavorite(favorite: Source) {
+        if selectedSource.count > 2 { selectedSource = [] }
+        guard self.selectedSource.count < 2 || self.selectedSource.contains(favorite) else { return }
         
-        if self.selectedFavorite.contains(favorite) {
-            guard let index = self.selectedFavorite.firstIndex(of: favorite) else { return }
-            self.selectedFavorite.remove(at: index)
+        if self.selectedSource.contains(favorite) {
+            guard let index = self.selectedSource.firstIndex(of: favorite) else { return }
+            self.selectedSource.remove(at: index)
         } else {
-            self.selectedFavorite.append(favorite)
+            self.selectedSource.append(favorite)
         }
     }
     
-    func appendAndPopCharacter(character: String, index: Int) {
+    public func appendAndPopCharacter(character: Flavor, index: Int) {
         guard self.selectedCharacter.count < 2 || self.selectedCharacter.contains(character) else { return }
         
         if self.selectedCharacter.contains(character) {

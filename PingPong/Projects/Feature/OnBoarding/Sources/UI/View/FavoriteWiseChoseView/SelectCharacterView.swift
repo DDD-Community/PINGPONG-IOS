@@ -217,7 +217,8 @@ public struct SelectCharacterView: View {
                         }
                     )
                     .onTapGesture {
-                        self.viewModel.appendAndPopCharacter(character: viewModel.flavorArray.options[flavorIndex].korean, index: flavorIndex)
+                        guard let flavor = Flavor(rawValue: viewModel.flavorArray.options[flavorIndex].korean) else { return }
+                        self.viewModel.appendAndPopCharacter(character: flavor, index: flavorIndex)
                         self.viewModel.selectedFavoriteFlavor = commCDItem.commCD
                     }
             }

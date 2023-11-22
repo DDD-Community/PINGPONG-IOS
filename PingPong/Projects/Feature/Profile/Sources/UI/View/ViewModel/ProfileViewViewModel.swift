@@ -268,7 +268,7 @@ public class ProfileViewViewModel: ObservableObject {
         return true
     }
     
-    public func chnageImage() {
+    public func changeImage() {
         switch self.randomNickName {
         case "바삭바삭 명언제과":
             changeNickImage = "crunchyNickname"

@@ -61,16 +61,15 @@ public class OnBoardingViewModel: ObservableObject {
     @Published var selectJobCode: Int = .zero
     @Published var selectedFavoriteCategory: String = ""
     @Published var selectedFavoriteFlavor: String = ""
-    @Published var selectedFavorite: [Favorite] = []
-    @Published var selectedCharacter: [String] = []
+    @Published var selectedFavorite: [Source] = []
+    @Published var selectedCharacter: [Flavor] = []
     @Published public var isSignUP: Bool = false
     @AppStorage("completdSignUP") public var completdSignUP: Bool = false
     @Published public var alreadySignUP: Bool = false
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
-    
-    @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
+        @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
         SearchOption(korean: "달콤한 맛", english: "sweet", iconImageName: "🍰", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
         SearchOption(korean: "짭잘한 맛", english: "salty", iconImageName: "😭", detail: "울컥하게 만드는 감동적인 명언"),
         SearchOption(korean: "매콤한 맛", english: "spicy", iconImageName: "🔥", detail: "따끔한 조언의 자극적인 명언"),
@@ -198,7 +197,7 @@ public class OnBoardingViewModel: ObservableObject {
     
     
     //MARK: favorite 관련
-    func appendAndPopFavorite(favorite: Favorite) {
+    func appendAndPopFavorite(favorite: Source) {
         guard self.selectedFavorite.count < 2 || self.selectedFavorite.contains(favorite) else { return }
         
         if self.selectedFavorite.contains(favorite) {
@@ -230,7 +229,7 @@ public class OnBoardingViewModel: ObservableObject {
     }
     
     //MARK: favorite character 관련
-    func appendAndPopCharacter(character: String, index: Int) {
+    func appendAndPopCharacter(character: Flavor, index: Int) {
         guard self.selectedCharacter.count < 2 || self.selectedCharacter.contains(character) else { return }
         
         if self.selectedCharacter.contains(character) {

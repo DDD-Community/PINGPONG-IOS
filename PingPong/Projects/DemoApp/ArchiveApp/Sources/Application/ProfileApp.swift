@@ -12,7 +12,7 @@ import Profile
 struct ProfileApp: App {
     var body: some Scene {
         WindowGroup {
-            ProfileView(backProfileViewAction: {})
+//            ProfileView(backProfileViewAction: {})
         }
     }
 }

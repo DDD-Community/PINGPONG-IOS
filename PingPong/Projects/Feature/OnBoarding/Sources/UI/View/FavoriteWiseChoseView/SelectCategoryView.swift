@@ -120,9 +120,9 @@ public struct SelectCategoryView: View {
                         
                         ForEach(sortedCommCds, id: \.self) { item in
                             VStack {
-                                let favoirte = Favorite(rawValue: item.commCD)
+                                let favoirte = Source(rawValue: item.commCD)
                                 
-                                if viewModel.selectedFavorite.contains(Favorite(rawValue: (favoirte ?? .anime).rawValue) ?? .anime){
+                                if viewModel.selectedFavorite.contains(Source(rawValue: (favoirte ?? .anime).rawValue) ?? .anime){
                                     Circle()
                                         .frame(width: 96, height: 96)
                                         .foregroundColor(.basicGray3)
@@ -143,8 +143,8 @@ public struct SelectCategoryView: View {
                             }
                             .onTapGesture {
                                 
-                                let favoirte = Favorite(rawValue: item.commCD)
-                                if let favorite = favoirte {
+                                let source = Source(rawValue: item.commCD)
+                                if let favorite = source {
                                     self.viewModel.appendAndPopFavorite(favorite: favorite)
 
                                 }
