@@ -38,14 +38,10 @@ struct ChangeNickNameView: View {
             
             changeNicknameTextField()
             
-            
             Spacer()
             
             changeNickNameButton()
             
-        }
-        .task {
-            viewModel.changeNickName = ""
         }
         
         
@@ -64,11 +60,19 @@ struct ChangeNickNameView: View {
                             .foregroundColor(Color.black)
                             .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 34))
                             .preferredColorScheme(.light)
+                            .onAppear{
+                                viewModel.changeNickName = authViewModel.signupModel?.data?.nickname ?? ""
+                            }
+                        
                             .onChange(of: viewModel.changeNickName, perform: { newValue in
+                                if viewModel.changeNickName != authViewModel.signupModel?.data?.nickname {
+//                                    viewModel.changeNickName = newValue
+                                    authViewModel.userNickNameValidateRequest(nickname: newValue)
+                                    let nicknamdValidaion = viewModel.validateNickname(nickname: newValue)
+                                    viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: authViewModel.nickNameInvalid)
+                                }
                                 viewModel.changeNickName = newValue
-                                authViewModel.userNickNameValidateRequest(nickname: newValue)
-                                let nicknamdValidaion = viewModel.validateNickname(nickname: newValue)
-                                viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: authViewModel.nickNameInvalid)
+                                
                                 
                             })
                         

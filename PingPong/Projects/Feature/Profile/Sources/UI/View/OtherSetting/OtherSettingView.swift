@@ -103,7 +103,7 @@ public struct OtherSettingView: View {
             .overlay {
                 VStack {
                     ForEach(OhterSettingItem.allCases, id: \.self){ item in
-                        listItemView(showArrow: item != .appVersion ? true : false, showLine: item == .privacyPolicy || item == .withDraw ? true : false , text: item.description, versionText: item == .appVersion ? "v.\(profileViewModel.appVersion )": "") {
+                        listItemView(showArrow: item != .appVersion ? true : false, showLine: item == .privacyPolicy || item == .withDraw  || item == .termsOfService ? true : false , text: item.description, versionText: item == .appVersion ? "v.\(profileViewModel.appVersion )": "") {
                             switch item  {
                                 
                             case .privacyPolicy:
