@@ -36,6 +36,21 @@ struct ChangeNickNameView: View {
             Spacer()
                 .frame(height: 32)
             
+            changeNicknameTextField()
+            
+            Spacer()
+            
+            changeNickNameButton()
+            
+        }
+        
+        
+
+    }
+    
+    @ViewBuilder
+    private func changeNicknameTextField() -> some View {
+        VStack {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.basicGray4, lineWidth: 1)
                 .frame(width: UIScreen.screenWidth - 40, height: 52)
@@ -45,8 +60,20 @@ struct ChangeNickNameView: View {
                             .foregroundColor(Color.black)
                             .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 34))
                             .preferredColorScheme(.light)
+                            .onAppear{
+                                viewModel.changeNickName = authViewModel.signupModel?.data?.nickname ?? ""
+                            }
+                        
                             .onChange(of: viewModel.changeNickName, perform: { newValue in
+                                if viewModel.changeNickName != authViewModel.signupModel?.data?.nickname {
+//                                    viewModel.changeNickName = newValue
+                                    authViewModel.userNickNameValidateRequest(nickname: newValue)
+                                    let nicknamdValidaion = viewModel.validateNickname(nickname: newValue)
+                                    viewModel.allValidateNikname(nicknameValidate: nicknamdValidaion, duplicateValidate: authViewModel.nickNameInvalid)
+                                }
                                 viewModel.changeNickName = newValue
+                                
+                                
                             })
                         
                         HStack {
@@ -62,41 +89,53 @@ struct ChangeNickNameView: View {
                     }
                 )
             
-            
-            
-            Spacer()
-            
-            
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.primaryOrange)
-                .frame(width: UIScreen.screenWidth - 40, height: 52)
-                .overlay {
-                    Text("변경하기")
-                        .pretendardFont(family: .Medium, size: 18)
-                        .foregroundColor(Color.basicWhite)
-                }
-                .onTapGesture {
-                    Task {
-                        await viewModel.changeNickName(
-                            userID: "\(authViewModel.userid)",
-                            nickName: viewModel.changeNickName) {
-                                authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
-                        }
+            HStack {
+                validateImageView(imageName: viewModel.changeValidationImageName)
+                Text(viewModel.changeValidationText)
+                    .foregroundColor(viewModel.changeValidationColor)
+                    .pretendardFont(family: .Medium, size: 12)
+                Spacer()
+            }
+            .padding(.leading, 20)
+        }
+    }
+    
+    @ViewBuilder
+    private func changeNickNameButton() -> some View {
+        RoundedRectangle(cornerRadius: 12)
+            .fill(Color.primaryOrange)
+            .frame(width: UIScreen.screenWidth - 40, height: 52)
+            .overlay {
+                Text("변경하기")
+                    .pretendardFont(family: .Medium, size: 18)
+                    .foregroundColor(Color.basicWhite)
+            }
+            .onTapGesture {
+                Task {
+                    await viewModel.changeNickName(
+                        userID: "\(authViewModel.userid)",
+                        nickName: viewModel.changeNickName) {
+                            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
                     }
-                    closeSheet()
                 }
-            
-            Spacer()
-                .frame(height: 32)
-            
-            
-        }
-        .task {
-            viewModel.changeNickName = ""
-        }
+                closeSheet()
+            }
         
-        
-
+        Spacer()
+            .frame(height: 32)
+    }
+    
+    @ViewBuilder
+    private func validateImageView(imageName: String?) -> some View {
+        HStack {
+            if let imageName = imageName {
+                Image(systemName: imageName)
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .foregroundColor(viewModel.changeValidationColor)
+            }
+            EmptyView()
+        }
     }
 }
 

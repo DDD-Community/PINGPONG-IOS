@@ -13,7 +13,7 @@ import Moya
 
 public enum MyPageService {
     case myPageUsePref(userId: String)
-    case myPageEditUserPref(userId: String, userPrefId: String, flavors: [String], sources: [String])
+    case myPageEditUserPref(userPrefId: String, flavors: [String], sources: [String])
     case myPageLikes(userId: String)
     case deleteLike(likeId: Int)
 }
@@ -23,8 +23,8 @@ extension MyPageService: BaseTargetType {
         switch self {
         case .myPageUsePref(let userId):
             return "\(PingPongAPIMyPage.myPageEditUserPrefURL)\(userId)"
-        case .myPageEditUserPref(let userId, _, _, _):
-            return "\(PingPongAPIMyPage.myPageEditUserPrefURL)\(userId)"
+        case .myPageEditUserPref(let userPrefId, _, _):
+            return "\(PingPongAPIMyPage.myPageEditUserPrefURL)\(userPrefId)"
         case .myPageLikes(let userId):
             return "\(PingPongAPIMyPage.myPageLikeURL)\(userId)"
         case .deleteLike(let likeId):
@@ -47,16 +47,14 @@ extension MyPageService: BaseTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .myPageUsePref(let userId):
+        case .myPageUsePref(_):
             let parameters : [String : Any] = [
-                "userId": userId
+                :
             ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
             
-        case .myPageEditUserPref(let userId, let userPrefId, let flavors, let sources):
+        case .myPageEditUserPref(_, let flavors, let sources):
             let parameters : [String : Any] = [
-                "userId": userId,
-                "userPrefId": userPrefId,
                 "flavors": flavors,
                 "sources" : sources
             ]

@@ -77,6 +77,7 @@ public struct ProfileView: View {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
             
+            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {})
             
             print("\(profileViewModel.randomNickName)")
         }
@@ -392,9 +393,12 @@ public struct ProfileView: View {
                                 profileViewModel.gotoOtherSettingView.toggle()
                                 
                             case "bugImage":
-                                guard let url = URL(string: "mailto:suhwj81@gmail.com") else {
+                                guard let subject = "이런 버그가 있어요!".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                                      let body = "Your email body goes here.".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                                      let url = URL(string: "mailto:suhwj81@gmail.com?subject=\(subject)&body=\(body)") else {
                                     return
                                 }
+
                                 if UIApplication.shared.canOpenURL(url) {
                                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                 }
