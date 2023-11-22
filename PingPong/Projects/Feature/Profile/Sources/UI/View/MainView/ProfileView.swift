@@ -20,6 +20,7 @@ public struct ProfileView: View {
     @ObservedObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var sheetManager: SheetManager
     
     var backAction: () -> Void
     
@@ -40,6 +41,7 @@ public struct ProfileView: View {
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     public var body: some View {
         ZStack {
+            
             Color.basicGray2
                 .edgesIgnoringSafeArea(.all)
             
@@ -60,13 +62,17 @@ public struct ProfileView: View {
                 
             }
             .ignoresSafeArea()
+            Rectangle()
+                .foregroundColor(sheetManager.isPopup ? Color.basicBlackDimmed : .clear)
         }
+        .profileModal(with: sheetManager, viewModel: viewModel)
+        .ignoresSafeArea()
         .navigationBarBackButtonHidden()
         
         .task {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
-            profileViewModel.chnageImage()
+            profileViewModel.changeImage()
             if profileViewModel.randomNickName == "" {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
@@ -87,18 +93,18 @@ public struct ProfileView: View {
                 .navigationBarBackButtonHidden()
         }
         
-        .sheet(isPresented: $profileViewModel.changeNickNameView, content: {
-            ChangeNickNameView(viewModel: profileViewModel, authViewModel: authViewModel) {
-                profileViewModel.changeNickNameView = false
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    profileViewModel.changeNickNameSuccessPOPUP.toggle()
-                }
-            }
-            .ignoresSafeArea(.keyboard)
-            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.7) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.7)])
-            .presentationCornerRadius(20)
-        })
+//        .sheet(isPresented: $profileViewModel.changeNickNameView, content: {
+//            ChangeNickNameView(viewModel: profileViewModel, authViewModel: authViewModel) {
+//                profileViewModel.changeNickNameView = false
+//                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    profileViewModel.changeNickNameSuccessPOPUP.toggle()
+//                }
+//            }
+//            .ignoresSafeArea(.keyboard)
+//            .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.7) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.7)])
+//            .presentationCornerRadius(20)
+//        })
         
         .popup(isPresented: $profileViewModel.changeNickNameSuccessPOPUP) {
             WithDrawPOPUP(
@@ -252,6 +258,12 @@ public struct ProfileView: View {
                                             .foregroundColor(.basicGray3)
                                     )
                             )
+                            .onTapGesture {
+                                withAnimation {
+                                    sheetManager.present(with: .init(idx: 1))
+                                    sheetManager.isPopup = true
+                                } 
+                            }
                             
                             HStack {
                                 Image(assetName: viewModel.selectedCard.hashtags.source.type.smallIconImageName)
@@ -270,6 +282,13 @@ public struct ProfileView: View {
                                             .foregroundColor(.basicGray3)
                                     )
                             )
+                            .onTapGesture {
+                                withAnimation {
+                                    sheetManager.present(with: .init(idx: 2))
+                                    sheetManager.isPopup = true
+                                }
+                            }
+                            
                         }
                         .padding(.trailing, 16)
                     }

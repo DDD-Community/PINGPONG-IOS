@@ -1,6 +1,6 @@
 //
-//  ModalView.swift
-//  Home
+//  ProfileModalView.swift
+//  Profile
 //
 //  Created by Byeon jinha on 2023/09/05.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
@@ -24,7 +24,7 @@ public struct ProfileModalView: View {
     
     let didClose: () -> Void
     
-    let height:CGFloat = UIScreen.screenHeight * 0.7
+    let height:CGFloat = UIScreen.screenHeight == 667 ? UIScreen.screenHeight * 0.8 : UIScreen.screenHeight * 0.7 
     
     public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, defaultYoffset: CGFloat, didClose: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -48,7 +48,7 @@ public struct ProfileModalView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: height)
         .padding(.horizontal, 24)
-        .padding(.bottom, 50)
+        .padding(.bottom, 80)
         .multilineTextAlignment(.leading)
         .background(background)
         .drawingGroup()
@@ -92,6 +92,11 @@ private extension ProfileModalView {
             Text("\(viewModel.searchViewButtonInfoArray[config.idx].title.rawValue)")
                 .pretendardFont(family: .SemiBold, size: 18)
                 .foregroundColor(.cardTextMain)
+            
+            Text("최대 2개 선택 가능")
+                .pretendardFont(family: .Medium, size: 14)
+                .foregroundColor(.basicGray6)
+                .padding(.leading, 16)
             Spacer()
             Button(action: {
                 for idx in viewModel.searchViewButtonInfoArray[config.idx].options.indices {

@@ -33,6 +33,9 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var goToMainView: Bool = false
     @Published public var customTabs: [CustomTab] = []
     
+    @Published var selectedFavorite: [Favorite] = []
+    @Published var selectedCharacter: [String] = []
+    
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30
     public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {
@@ -353,4 +356,27 @@ public class CommonViewViewModel: ObservableObject {
             bookmarkCards.append(card)
         }
     }
+    
+    func appendAndPopFavorite(favorite: Favorite) {
+        guard self.selectedFavorite.count < 2 || self.selectedFavorite.contains(favorite) else { return }
+        
+        if self.selectedFavorite.contains(favorite) {
+            guard let index = self.selectedFavorite.firstIndex(of: favorite) else { return }
+            self.selectedFavorite.remove(at: index)
+        } else {
+            self.selectedFavorite.append(favorite)
+        }
+    }
+    
+    func appendAndPopCharacter(character: String, index: Int) {
+        guard self.selectedCharacter.count < 2 || self.selectedCharacter.contains(character) else { return }
+        
+        if self.selectedCharacter.contains(character) {
+            guard let arrayIndex = self.selectedCharacter.firstIndex(of: character) else { return }
+            self.selectedCharacter.remove(at: arrayIndex)
+        } else {
+            self.selectedCharacter.append(character)
+        }
+    }
+    
 }

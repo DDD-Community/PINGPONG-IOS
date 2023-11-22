@@ -104,6 +104,7 @@ public struct CoreView: View {
                 appState.isGoToProfileView = false
                 }, 
                 authViewModel: authViewModel)
+            .environmentObject(sheetManager)
         }
     }
     
@@ -134,6 +135,7 @@ public struct CoreView: View {
         }
         Rectangle()
             .foregroundColor(sheetManager.isPopup ? Color.basicBlackDimmed : .clear)
+            .ignoresSafeArea()
         ZStack {
             Rectangle()
                 .foregroundColor(viewModel.isShowDetailView ? Color.basicBlackDimmed : .clear)
