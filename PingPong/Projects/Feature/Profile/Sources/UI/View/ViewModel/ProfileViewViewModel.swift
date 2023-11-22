@@ -46,7 +46,10 @@ public class ProfileViewViewModel: ObservableObject {
     @Published var isFirstRequestCompleted = false
     @AppStorage("randomNickName") var randomNickName: String = ""
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
-    
+    @Published var nicknameValidation: NicknameValidationType = .notValidated
+    @Published public var changeValidationColor: Color = .basicGray4
+    @Published public var changeValidationImageName: String?
+    @Published public var changeValidationText: String = " "
     var withDrawCancellable: AnyCancellable?
     
     @Published public var withDrawModel: WithDrawModel?
@@ -148,6 +151,29 @@ public class ProfileViewViewModel: ObservableObject {
                     }
                 }
             })
+    }
+    
+    //MARK: - 닉네임 유효성 검증
+    public func allValidateNikname(nicknameValidate: Bool, duplicateValidate: Bool){
+        if !nicknameValidate {
+            self.nicknameValidation = .invalid
+        } else if !duplicateValidate {
+            self.nicknameValidation = .duplicate
+        } else {
+            self.nicknameValidation = .valid
+        }
+        
+        self.changeValidationText = CheckRegister.generateValidationText(validation: self.nicknameValidation)
+        self.changeValidationColor = CheckRegister.generateValidationColor(validation: self.nicknameValidation)
+        self.changeValidationImageName = CheckRegister.generateValidationImage(validation: self.nicknameValidation)
+    }
+    
+    public func validateNickname(nickname: String) -> Bool {
+        if nickname.count < 1 || nickname.count > 12 { return false }
+        for character in nickname {
+            if !self.unicodeArray.contains(character) { return false }
+        }
+        return true
     }
     
     public func chnageImage() {
