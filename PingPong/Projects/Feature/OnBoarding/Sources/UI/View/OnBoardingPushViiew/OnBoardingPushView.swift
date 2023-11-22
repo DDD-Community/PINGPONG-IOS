@@ -28,6 +28,7 @@ public struct OnBoardingPushView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 onboardingBackButton()
+                
                 ScrollView(showsIndicators: false) {
                     exampleWiseSayingView()
                     

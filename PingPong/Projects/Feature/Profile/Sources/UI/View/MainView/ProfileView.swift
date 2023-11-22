@@ -71,6 +71,7 @@ public struct ProfileView: View {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
             
+            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {})
             
             print("\(profileViewModel.randomNickName)")
         }
