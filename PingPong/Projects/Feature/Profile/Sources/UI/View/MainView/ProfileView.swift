@@ -430,9 +430,14 @@ public struct ProfileView: View {
                                 profileViewModel.gotoOtherSettingView.toggle()
                                 
                             case "bugImage":
-                                guard let subject = "이런 버그가 있어요!".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                                      let body = "Your email body goes here.".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                                      let url = URL(string: "mailto:suhwj81@gmail.com?subject=\(subject)&body=\(body)") else {
+                                guard let subject = "문의/제휴".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                                      let body = """
+                                    아래 내용을 적어주세요. 빠르게 답변 드리겠습니다.\n
+                                    • 이용 중인 기기/OS 버전:\n
+                                    • 닉네임: \n
+                                    • 문의 내용:
+                                    """.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                                      let url = URL(string: "mailto:myungeon.bakery.app@gmail.com?subject=\(subject)&body=\(body)") else {
                                     return
                                 }
                                 
