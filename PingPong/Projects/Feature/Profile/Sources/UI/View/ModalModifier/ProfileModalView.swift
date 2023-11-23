@@ -77,38 +77,26 @@ public struct ProfileModalView: View {
                 }
         )
         .task {
-            await profileViewModel.profileUserPrefRequset(userid: String(authViewModel.userid)) { userInfo in
-                
-                
-                guard let flavors = userInfo.data?.flavors else { return }
-                if flavors.count > 2 
-                for stringFlavor in flavors {
-                    guard let flavor = Flavor(rawValue: stringFlavor) else { continue }
-                    let isToggle: Bool = viewModel.appendAndPopFlavor(flavor: flavor)
-                    
-                    guard let buttonInfo = viewModel.profileButtonInfoArray[config.idx].options.filter({ $0.english == stringFlavor }).first,
-                    let idx = viewModel.profileButtonInfoArray[config.idx].options.firstIndex(of: buttonInfo)
-                    else { continue }
-                    if isToggle {
-                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+            if viewModel.selectedSourceArray.count < 3 && config.idx == 0 {
+                for (idx, option) in viewModel.profileButtonInfoArray[config.idx].options.enumerated() {
+                    guard let source = Source(rawValue: option.english) else { continue }
+                    if viewModel.selectedSourceArray.contains(source) {
+                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck = true
+                    } else {
+                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck = false
                     }
                 }
-                
-                guard let sources = userInfo.data?.sources else { return }
-                for stringSource in sources {
-                    guard let source = Source(rawValue: stringSource) else { continue }
-                    let isToggle: Bool = viewModel.appendAndPopSource(source: source)
-                    
-                    guard let buttonInfo = viewModel.profileButtonInfoArray[config.idx].options.filter({ $0.english == stringSource }).first,
-                    let idx = viewModel.profileButtonInfoArray[config.idx].options.firstIndex(of: buttonInfo)
-                    else { continue }
-                    if isToggle {
-                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+            } else if viewModel.selectedFlavorArray.count < 3 && config.idx == 1 {
+                for (idx, option) in viewModel.profileButtonInfoArray[config.idx].options.enumerated() {
+                    guard let flavor = Flavor(rawValue: option.english) else { continue }
+                    if viewModel.selectedFlavorArray.contains(flavor) {
+                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck = true
+                    } else {
+                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck = false
                     }
                 }
             }
         }
-        
     }
 }
 
@@ -230,7 +218,13 @@ private extension ProfileModalView {
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
-//          이부분이 설정완료 후 눌리는 탭입니다.
+                let flavorStringArray = viewModel.selectedFlavorArray.map { $0.rawValue }
+                let sourceStringArray = viewModel.selectedSourceArray.map { $0.rawValue }
+                Task {
+                    await profileViewModel.profileUserPrefEditPUT(userPrefId: profileViewModel.userPrefId, flavors: flavorStringArray, sources: sourceStringArray) {
+                    }
+                }
+                
                 didClose()
             }
     }

@@ -33,14 +33,14 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var goToMainView: Bool = false
     @Published public var customTabs: [CustomTab] = []
     
-    @Published public var selectedSource: [Source] = [] {
+    @Published public var selectedSourceArray: [Source] = [] {
         didSet {
-            print(selectedSource)
+            print(selectedSourceArray)
         }
     }
-    @Published public var selectedFlavor: [Flavor] = [] {
+    @Published public var selectedFlavorArray: [Flavor] = [] {
         didSet {
-            print(selectedFlavor)
+            print(selectedFlavorArray)
         }
     }
     
@@ -386,27 +386,27 @@ public class CommonViewViewModel: ObservableObject {
     }
     
     public func appendAndPopSource(source: Source) -> Bool {
-        if selectedSource.count > 2 { selectedSource = [] }
-        guard self.selectedSource.count < 2 || self.selectedSource.contains(source) else { return false }
+        if selectedSourceArray.count > 2 { selectedSourceArray = [] }
+        guard self.selectedSourceArray.count < 2 || self.selectedSourceArray.contains(source) else { return false }
         
-        if self.selectedSource.contains(source) {
-            guard let index = self.selectedSource.firstIndex(of: source) else { return false }
-            self.selectedSource.remove(at: index)
+        if self.selectedSourceArray.contains(source) {
+            guard let index = self.selectedSourceArray.firstIndex(of: source) else { return false }
+            self.selectedSourceArray.remove(at: index)
         } else {
-            self.selectedSource.append(source)
+            self.selectedSourceArray.append(source)
         }
         return true
     }
     
     public func appendAndPopFlavor(flavor: Flavor) -> Bool {
-        if selectedFlavor.count > 2 { selectedFlavor = [] }
-        guard self.selectedFlavor.count < 2 || self.selectedFlavor.contains(flavor) else { return false }
+        if selectedFlavorArray.count > 2 { selectedFlavorArray = [] }
+        guard self.selectedFlavorArray.count < 2 || self.selectedFlavorArray.contains(flavor) else { return false }
         
-        if self.selectedFlavor.contains(flavor) {
-            guard let index = self.selectedFlavor.firstIndex(of: flavor) else { return false }
-            self.selectedFlavor.remove(at: index)
+        if self.selectedFlavorArray.contains(flavor) {
+            guard let index = self.selectedFlavorArray.firstIndex(of: flavor) else { return false }
+            self.selectedFlavorArray.remove(at: index)
         } else {
-            self.selectedFlavor.append(flavor)
+            self.selectedFlavorArray.append(flavor)
         }
         return true
     }

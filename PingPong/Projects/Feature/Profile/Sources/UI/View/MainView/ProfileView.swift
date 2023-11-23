@@ -80,12 +80,15 @@ public struct ProfileView: View {
             await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {_ in 
                 for userFlavor in profileViewModel.profileUserPrefModel?.data?.flavors ?? [] {
                     guard let flavor = Flavor(rawValue: userFlavor) else { continue }
-                    viewModel.selectedFlavor.append(flavor)
+                    if !viewModel.selectedFlavorArray.contains(flavor) {
+                        viewModel.selectedFlavorArray.append(flavor)
+                    }
                 }
                 for userSource in profileViewModel.profileUserPrefModel?.data?.sources ?? [] {
-                    print(userSource)
                     guard let source = Source(rawValue: userSource) else { continue }
-                    viewModel.selectedSource.append(source)
+                    if !viewModel.selectedSourceArray.contains(source) {
+                        viewModel.selectedSourceArray.append(source)
+                    }
                 }
             })
             
@@ -249,7 +252,7 @@ public struct ProfileView: View {
                             .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 0))
                         Spacer()
                         
-                        if viewModel.selectedSource.count > 2 || viewModel.selectedSource.count == 0{
+                        if viewModel.selectedSourceArray.count > 2 || viewModel.selectedSourceArray.count == 0{
                             HStack{
                                 HStack {
                                     Text("유형 전체")
@@ -277,7 +280,7 @@ public struct ProfileView: View {
                                 
                             }
                         } else {
-                            ForEach(viewModel.selectedSource, id: \.self) { source in
+                            ForEach(viewModel.selectedSourceArray, id: \.self) { source in
                                 
                                 HStack{
                                     HStack {
@@ -318,7 +321,7 @@ public struct ProfileView: View {
                         
                         Spacer()
                         
-                        if viewModel.selectedFlavor.count > 2  || viewModel.selectedFlavor.count == 0 {
+                        if viewModel.selectedFlavorArray.count > 2  || viewModel.selectedFlavorArray.count == 0 {
                             HStack{
                                 HStack {
                                     Text("성향 전체")
@@ -346,7 +349,7 @@ public struct ProfileView: View {
 
                             }
                         } else {
-                            ForEach(viewModel.selectedFlavor, id: \.self) { character in
+                            ForEach(viewModel.selectedFlavorArray, id: \.self) { character in
                                 
                                 HStack{
                                     HStack {
