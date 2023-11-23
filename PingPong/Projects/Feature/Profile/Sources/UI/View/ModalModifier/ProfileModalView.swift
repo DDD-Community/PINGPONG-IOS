@@ -6,6 +6,7 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Authorization
 import Common
 import DesignSystem
 import Foundation
@@ -17,7 +18,10 @@ public struct ProfileModalView: View {
     let config: SheetManager.Config
     let isPopup: Bool
     let defaultYoffset: CGFloat
+    let hashtagsTitleArray: [String] = ["유형", "성향"]
     
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    let profileViewModel = ProfileViewViewModel()
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject var exploreViewViewModel: ExploreViewModel = ExploreViewModel()
     
@@ -44,7 +48,7 @@ public struct ProfileModalView: View {
             
             contents
             
-            filterBox(isButtonAble: viewModel.generateIsButtonAble(situationFlavorSourceTitle: viewModel.searchViewButtonInfoArray[config.idx].title))
+            filterBox(isButtonAble: viewModel.generateIsButtonAble(situationFlavorSourceTitle: viewModel.profileButtonInfoArray[config.idx].title))
         }
         .frame(maxWidth: .infinity, maxHeight: height)
         .padding(.horizontal, 24)
@@ -72,6 +76,38 @@ public struct ProfileModalView: View {
                     }
                 }
         )
+        .task {
+            await profileViewModel.profileUserPrefRequset(userid: String(authViewModel.userid)) { userInfo in
+                
+                
+                guard let flavors = userInfo.data?.flavors else { return }
+                if flavors.count > 2 
+                for stringFlavor in flavors {
+                    guard let flavor = Flavor(rawValue: stringFlavor) else { continue }
+                    let isToggle: Bool = viewModel.appendAndPopFlavor(flavor: flavor)
+                    
+                    guard let buttonInfo = viewModel.profileButtonInfoArray[config.idx].options.filter({ $0.english == stringFlavor }).first,
+                    let idx = viewModel.profileButtonInfoArray[config.idx].options.firstIndex(of: buttonInfo)
+                    else { continue }
+                    if isToggle {
+                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                    }
+                }
+                
+                guard let sources = userInfo.data?.sources else { return }
+                for stringSource in sources {
+                    guard let source = Source(rawValue: stringSource) else { continue }
+                    let isToggle: Bool = viewModel.appendAndPopSource(source: source)
+                    
+                    guard let buttonInfo = viewModel.profileButtonInfoArray[config.idx].options.filter({ $0.english == stringSource }).first,
+                    let idx = viewModel.profileButtonInfoArray[config.idx].options.firstIndex(of: buttonInfo)
+                    else { continue }
+                    if isToggle {
+                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                    }
+                }
+            }
+        }
         
     }
 }
@@ -89,7 +125,7 @@ private extension ProfileModalView {
 private extension ProfileModalView {
     var headLine: some View {
         HStack {
-            Text("\(viewModel.searchViewButtonInfoArray[config.idx].title.rawValue)")
+            Text("\(viewModel.profileButtonInfoArray[config.idx].title.rawValue)")
                 .pretendardFont(family: .SemiBold, size: 18)
                 .foregroundColor(.cardTextMain)
             
@@ -99,8 +135,8 @@ private extension ProfileModalView {
                 .padding(.leading, 16)
             Spacer()
             Button(action: {
-                for idx in viewModel.searchViewButtonInfoArray[config.idx].options.indices {
-                    viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck = false
+                for idx in viewModel.profileButtonInfoArray[config.idx].options.indices {
+                    viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck = false
                 }
                 
             }) {
@@ -113,14 +149,14 @@ private extension ProfileModalView {
     
     var contents: some View {
         VStack {
-            ForEach(viewModel.searchViewButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
-                let option = viewModel.searchViewButtonInfoArray[config.idx].options[idx]
+            ForEach(viewModel.profileButtonInfoArray[config.idx].options.indices, id: \.self) { idx in
+                let option = viewModel.profileButtonInfoArray[config.idx].options[idx]
                 let situationFlavorSource = SituationFlavorSource(rawValue: option.korean)!
                 let colorSet = generateSituationFlavorSourceColor(situationFlavorSource: situationFlavorSource)
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
+                    .stroke(viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray3, style: .init(lineWidth: 1))
                     .frame(width: 336, height: 68)
-                    .background(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
+                    .background(viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.background : .basicGray2)
                     .overlay(
                         HStack {
                             Circle()
@@ -132,13 +168,13 @@ private extension ProfileModalView {
                                 )
                             VStack {
                                 HStack {
-                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].korean)
+                                    Text(viewModel.profileButtonInfoArray[config.idx].options[idx].korean)
                                         .pretendardFont(family: .Medium, size: 16)
                                         .foregroundColor(.basicGray8)
                                     Spacer()
                                 }
                                 HStack {
-                                    Text(viewModel.searchViewButtonInfoArray[config.idx].options[idx].detail)
+                                    Text(viewModel.profileButtonInfoArray[config.idx].options[idx].detail)
                                         .pretendardFont(family: .Medium, size: 12)
                                         .foregroundColor(.basicGray6)
                                     Spacer()
@@ -146,11 +182,23 @@ private extension ProfileModalView {
                             }
                             Spacer()
                             Button(action: {
-                                viewModel.appendAndPopFavorite(favorite: .anime)
-                                viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                                if config.idx == 0 {
+                                    guard let source = Source(rawValue: viewModel.profileButtonInfoArray[config.idx].options[idx].english) else { return }
+                                    let isToggle: Bool = viewModel.appendAndPopSource(source: source)
+                                    if isToggle {
+                                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                                    }
+                                } else if config.idx == 1 {
+                                    guard let flavor = Flavor(rawValue: viewModel.profileButtonInfoArray[config.idx].options[idx].english) else { return }
+                                    let isToggle: Bool = viewModel.appendAndPopFlavor(flavor: flavor)
+                                    if isToggle {
+                                        viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck.toggle()
+                                    }
+                                }
+                                
                             }) {
-                                Image(systemName: viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
-                                    .foregroundColor(viewModel.searchViewButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
+                                Image(systemName: viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck ? "checkmark.circle.fill" : "checkmark.circle")
+                                    .foregroundColor(viewModel.profileButtonInfoArray[config.idx].options[idx].isCheck ? colorSet.iconBackground : .basicGray4)
                                     .padding()
                             }
                         }
@@ -178,33 +226,12 @@ private extension ProfileModalView {
             .frame(width: 336, height: 68)
             .foregroundColor(.primaryOrange)
             .overlay(
-                Text("필터 적용")
+                Text("\(hashtagsTitleArray[config.idx]) 설정 완료")
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
-//                let moodParameter: [String] = viewModel.generateParameter(searchType: .situation)
-//                let flavorParameter: [String] = viewModel.generateParameter(searchType: .flavor)
-//                let sourceParameter: [String] = viewModel.generateParameter(searchType: .source)
-                
-//                Task {
-//                    await exploreViewViewModel.searchRequest(keyword: viewModel.exploreViewSearchBarText, flavors: flavorParameter, sources: sourceParameter, mood: moodParameter, orderBy: "") {
-//                        viewModel.searchedCards = []
-//                        
-//                        for quoteContent in exploreViewViewModel.searchModel?.data?.content ?? [] {
-//                            let hashTags = viewModel.getHashtags(post: quoteContent)
-//                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
-//                                                      hashtags: hashTags, image: "",
-//                                                      title: quoteContent.content ?? "",
-//                                                      sources: quoteContent.author ?? "",
-//                                                      isBookrmark: quoteContent.likeID != nil,
-//                                                      likeId: quoteContent.likeID
-//                            )
-//                            viewModel.searchedCards.append(card)
-//                        }
-//                    }
-//                }
-//                
-//                didClose()
+//          이부분이 설정완료 후 눌리는 탭입니다.
+                didClose()
             }
     }
 }

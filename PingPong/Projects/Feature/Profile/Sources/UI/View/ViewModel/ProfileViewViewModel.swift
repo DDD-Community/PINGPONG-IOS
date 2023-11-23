@@ -90,7 +90,7 @@ public class ProfileViewViewModel: ObservableObject {
     }
     
     
-    public func profileUserPrefRequset(userid: String, completion: @escaping () -> Void) async {
+    public func profileUserPrefRequset(userid: String, completion: @escaping (ProfileUserPrefModel) -> Void) async {
         if let cancellable = profileUserPrefCancellable {
             cancellable.cancel()
         }
@@ -113,7 +113,7 @@ public class ProfileViewViewModel: ObservableObject {
                         self?.profileUserPrefToViewModel(model)
                         Log.network("회원정보 조회", model)
                         self?.userPrefId = model.data?.userPrefID ?? .zero
-                        completion()
+                        completion(model)
                     } else {
                         self?.profileUserPrefToViewModel(model)
                         Log.network("회원정보 조회", model)

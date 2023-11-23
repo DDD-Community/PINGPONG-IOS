@@ -77,10 +77,10 @@ public struct ProfileView: View {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
             
-            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {
+            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {_ in 
                 for userFlavor in profileViewModel.profileUserPrefModel?.data?.flavors ?? [] {
                     guard let flavor = Flavor(rawValue: userFlavor) else { continue }
-                    viewModel.selectedCharacter.append(flavor)
+                    viewModel.selectedFlavor.append(flavor)
                 }
                 for userSource in profileViewModel.profileUserPrefModel?.data?.sources ?? [] {
                     print(userSource)
@@ -239,9 +239,6 @@ public struct ProfileView: View {
                             .foregroundColor(.basicGray8)
                             .padding(EdgeInsets(top: 16, leading: 16, bottom: 12, trailing: 0))
                         Spacer()
-                        Image(assetName: "editImage")
-                            .frame(width: 24.62, height: 24)
-                            .padding(.trailing, 16)
                     }
                     .frame(width: UIScreen.screenWidth - 40, height: 52)
                     
@@ -272,7 +269,7 @@ public struct ProfileView: View {
                                 )
                                 .onTapGesture {
                                     withAnimation {
-                                        sheetManager.present(with: .init(idx: 1))
+                                        sheetManager.present(with: .init(idx: 0))
                                         sheetManager.isPopup = true
                                     }
                                 }
@@ -302,7 +299,7 @@ public struct ProfileView: View {
                                     )
                                     .onTapGesture {
                                         withAnimation {
-                                            sheetManager.present(with: .init(idx: 1))
+                                            sheetManager.present(with: .init(idx: 0))
                                             sheetManager.isPopup = true
                                         }
                                     }
@@ -321,7 +318,7 @@ public struct ProfileView: View {
                         
                         Spacer()
                         
-                        if viewModel.selectedCharacter.count > 2  || viewModel.selectedCharacter.count == 0 {
+                        if viewModel.selectedFlavor.count > 2  || viewModel.selectedFlavor.count == 0 {
                             HStack{
                                 HStack {
                                     Text("성향 전체")
@@ -349,7 +346,7 @@ public struct ProfileView: View {
 
                             }
                         } else {
-                            ForEach(viewModel.selectedCharacter, id: \.self) { character in
+                            ForEach(viewModel.selectedFlavor, id: \.self) { character in
                                 
                                 HStack{
                                     HStack {

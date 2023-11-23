@@ -32,6 +32,7 @@ public struct CoreView: View {
         NavigationStack {
             ZStack{
                 Color.basicGray1BG
+                    .ignoresSafeArea()
                 ZStack {
                     VStack {
                         if self.viewModel.selectedTab == .home {

@@ -38,9 +38,9 @@ public class CommonViewViewModel: ObservableObject {
             print(selectedSource)
         }
     }
-    @Published public var selectedCharacter: [Flavor] = [] {
+    @Published public var selectedFlavor: [Flavor] = [] {
         didSet {
-            print(selectedCharacter)
+            print(selectedFlavor)
         }
     }
     
@@ -107,9 +107,29 @@ public class CommonViewViewModel: ObservableObject {
             SearchOption(korean: "위인", english: "greatman", iconImageName: "", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
             SearchOption(korean: "유명인", english: "celeb", iconImageName: "", detail: "영향력있는 인물들의 인상적인 명언"),
             SearchOption(korean: "드라마/영화", english: "film", iconImageName: "", detail: "감성을 자극하는 감수성 풍부한 명언"),
-            SearchOption(korean: "애니메이션", english: "animation", iconImageName: "", detail: "순수함과 동심을 살려주는 따스한 명언"),
+            SearchOption(korean: "애니메이션", english: "anime", iconImageName: "", detail: "순수함과 동심을 살려주는 따스한 명언"),
             SearchOption(korean: "책", english: "book", iconImageName: "", detail: "정신적 성장을 도와주는 현명한 명언")
         ]),
+    ]
+    
+    @Published public var profileButtonInfoArray: [SearchViewButtonInfo] = [
+        SearchViewButtonInfo(title: .source, options:  [
+            SearchOption(korean: "위인", english: "greatman", iconImageName: "", detail: "시간이 흘러도 바래지 않는 묵직한 명언"),
+            SearchOption(korean: "유명인", english: "celeb", iconImageName: "", detail: "영향력있는 인물들의 인상적인 명언"),
+            SearchOption(korean: "드라마/영화", english: "film", iconImageName: "", detail: "감성을 자극하는 감수성 풍부한 명언"),
+            SearchOption(korean: "애니메이션", english: "anime", iconImageName: "", detail: "순수함과 동심을 살려주는 따스한 명언"),
+            SearchOption(korean: "책", english: "book", iconImageName: "", detail: "정신적 성장을 도와주는 현명한 명언")
+        ]),
+        
+        SearchViewButtonInfo(title: .flavor, options:  [
+            SearchOption(korean: "달콤한 맛", english: "sweet", iconImageName: "", detail: "지친 삶의 위로, 기쁨을 주는 명언"),
+            SearchOption(korean: "짭짤한 맛", english: "salty", iconImageName: "", detail: "울컥하게 만드는 감동적인 명언"),
+            SearchOption(korean: "매콤한 맛", english: "spicy", iconImageName: "", detail: "따끔한 조언의 자극적인 명언"),
+            SearchOption(korean: "고소한 맛", english: "nutty", iconImageName: "", detail: "재치있고 유희적인 명언"),
+            SearchOption(korean: "담백한 맛", english: "light", iconImageName: "", detail: "지친 삶의 위로, 기쁨을 주는 명언")
+        ]),
+        
+        
     ]
     
     @Published public var homeBaseModel: BaseModel?
@@ -365,27 +385,30 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
-    public func appendAndPopFavorite(favorite: Source) {
+    public func appendAndPopSource(source: Source) -> Bool {
         if selectedSource.count > 2 { selectedSource = [] }
-        guard self.selectedSource.count < 2 || self.selectedSource.contains(favorite) else { return }
+        guard self.selectedSource.count < 2 || self.selectedSource.contains(source) else { return false }
         
-        if self.selectedSource.contains(favorite) {
-            guard let index = self.selectedSource.firstIndex(of: favorite) else { return }
+        if self.selectedSource.contains(source) {
+            guard let index = self.selectedSource.firstIndex(of: source) else { return false }
             self.selectedSource.remove(at: index)
         } else {
-            self.selectedSource.append(favorite)
+            self.selectedSource.append(source)
         }
+        return true
     }
     
-    public func appendAndPopCharacter(character: Flavor, index: Int) {
-        guard self.selectedCharacter.count < 2 || self.selectedCharacter.contains(character) else { return }
+    public func appendAndPopFlavor(flavor: Flavor) -> Bool {
+        if selectedFlavor.count > 2 { selectedFlavor = [] }
+        guard self.selectedFlavor.count < 2 || self.selectedFlavor.contains(flavor) else { return false }
         
-        if self.selectedCharacter.contains(character) {
-            guard let arrayIndex = self.selectedCharacter.firstIndex(of: character) else { return }
-            self.selectedCharacter.remove(at: arrayIndex)
+        if self.selectedFlavor.contains(flavor) {
+            guard let index = self.selectedFlavor.firstIndex(of: flavor) else { return false }
+            self.selectedFlavor.remove(at: index)
         } else {
-            self.selectedCharacter.append(character)
+            self.selectedFlavor.append(flavor)
         }
+        return true
     }
     
 }
