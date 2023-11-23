@@ -11,7 +11,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeAppModule(
+let project = Project.makeFramsWorkModule(
     name: "DesignSystem",
     bundleId: .appBundleID(name: "DesignSystem"),
     product: .staticFramework,
@@ -21,7 +21,7 @@ let project = Project.makeAppModule(
         .domain(implements: .Model)
             
     ],
-    sources: ["Sources/**"],
+    sources: ["Sources/**", "Resources/FontAsset/**", "Resources/**"],
     resources: ["Resources/**"]
 )
 

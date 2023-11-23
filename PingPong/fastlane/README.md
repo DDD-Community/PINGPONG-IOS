@@ -31,14 +31,6 @@ Incrementing Build Number
 
 Unit test
 
-### ios build_App
-
-```sh
-[bundle exec] fastlane ios build_App
-```
-
-build App
-
 ### ios build_ipa
 
 ```sh

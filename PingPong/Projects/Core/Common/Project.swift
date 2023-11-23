@@ -10,7 +10,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeAppModule(
+let project = Project.makeFramsWorkModule(
     name: "Common",
     bundleId: .appBundleID(name: ".Common"),
     product: .staticFramework,
@@ -21,7 +21,7 @@ let project = Project.makeAppModule(
     dependencies: [
         .domain(implements: .Service),
         .domain(implements: .Model),
-        
+        .design(implements: .DesignSystem),
         .SPM.CombineMoya,
         .SPM.Moya,
     ],

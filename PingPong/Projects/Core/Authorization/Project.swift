@@ -10,7 +10,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeAppModule(
+let project = Project.makeFramsWorkModule(
     name: "Authorization",
     bundleId: .appBundleID(name: ".Authorization"),
     product: .staticFramework,
@@ -26,8 +26,7 @@ let project = Project.makeAppModule(
         .SPM.CombineMoya,
         .SPM.Moya,
         .SPM.FirebaseAuth,
-        .SPM.FirebaseFirestore,
-        .SPM.FirebaseDatabase,
+        .SPM.FirebaseFirestore
 //        .SPM.GoogleSignIn,
 //        .SPM.GoogleSignInSwift
 

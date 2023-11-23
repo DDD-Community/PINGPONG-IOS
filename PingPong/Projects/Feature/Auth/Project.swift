@@ -11,7 +11,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeAppModule(
+let project = Project.makeFramsWorkModule(
     name: "Auth",
     bundleId: .appBundleID(name: "Auth"),
     product: .staticFramework,

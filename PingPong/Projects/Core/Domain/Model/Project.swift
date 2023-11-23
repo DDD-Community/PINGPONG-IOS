@@ -12,7 +12,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeAppModule(
+let project = Project.makeFramsWorkModule(
     name: "Model",
     bundleId: .appBundleID(name: ".Model"),
     product: .staticFramework,

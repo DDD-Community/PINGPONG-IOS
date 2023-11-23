@@ -22,7 +22,6 @@ let project = Project.makeAppModule(
     ],
     setting: .appMainSetting,
     dependencies: [
-        .SPM.Inject,
         .SPM.FirebaseMessaging,
         .feature(implements: .OnBoarding)
 //        .SPM.GoogleSignIn,
@@ -35,7 +34,7 @@ let project = Project.makeAppModule(
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],
     resources: ["Resources/**", "Sources/**"],
     infoPlist: .file(path: "Support/Info.plist"),
-    entitlements: .relativeToCurrentFile("Entitlements/PingPong.entitlements")
+    entitlements: .file(path: "Entitlements/PingPong.entitlements")
 //    scheme: [realseScheme, debugScheme]
 )
 

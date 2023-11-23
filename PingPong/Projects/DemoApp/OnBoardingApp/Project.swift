@@ -30,7 +30,7 @@ let project = Project.makeAppModule(
     sources: ["Sources/**", "Resources/**", "Resources/Font/**"],
     resources: ["Resources/**", "Sources/**"],
     infoPlist: .file(path: "Support/OnBoardingInfo.plist"),
-    entitlements: .relativeToCurrentFile("Entitlements/OnBoardingApp.entitlements")
+    entitlements: .file(path: "Entitlements/OnBoardingApp.entitlements")
 //    scheme: [realseScheme, debugScheme]
 )
 

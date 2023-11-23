@@ -17,7 +17,7 @@
 #require 'fastlane/plugin/spaceship'
 
 # Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+update_fastlane
 require 'spaceship'
 Spaceship::ConnectAPI::App.const_set('ESSENTIAL_INCLUDES', 'appStoreVersions')
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
@@ -55,60 +55,40 @@ platform :ios do
      end
    end
 
- desc "build App"
-  lane:build_App do
-   clear_derived_data
-    
-      scan
-      sh "bash ./Script/buldApp.sh"
-       slack(
-      message: "Unit test  성공",
-      slack_url: ENV["SLACK_URL_TEST"],
-      payload: { "Build Date" => Time.new.to_s }
-    )
-
- # ✅ 에러 처리.
-   error do |lane, exception, options|
-    slack(
-      message: "에러 발생 : #{exception}",
-      success: false,
-      slack_url: ENV["SLACK_URL_TEST"]
-    )
-     end
-   end
+ 
 
  desc "Install Profiles and Build My App"
   lane :build_ipa do
    clear_derived_data
-   	unit_Test
       get_certificates
-     get_provisioning_profile
-   # resolve_packages
-     gym(
+     get_provisioning_profile(
+     app_identifier: "com.pingpong.co",
+     filename: "Pingpong.mobileprovision",
+     output_path: "./fastlane/Signing/")
+      gym(
       configuration: "Release",
       workspace: "PingPong.xcworkspace",
       output_name: "PingPong.ipa",
-      scheme: "PingPong",
-     export_method: "app-store",
-      xcodebuild_command: "xcodebuild",
-       include_bitcode: false,
-     # skip_build_archive: false,
+      scheme: "ChaeviUS",
+      export_method: "app-store",
+    # xcodebuild_command: "xcodebuild",
+     # include_bitcode: false,
+     skip_build_archive: false,
       xcodebuild_formatter: "xcpretty",
       output_directory: "./fastlane/output/",
       clean: true,
       silent: true,
-      include_symbols: false,
-      xcargs: "ARCHIVE=YES",
+     # include_symbols: false,
+     # xcargs: "-allowProvisioningUpdates",
      disable_package_automatic_updates: false,
-     skip_package_ipa: false,
-    skip_package_dependencies_resolution: false,
+      skip_package_ipa: false,
+     skip_package_dependencies_resolution: false,
       skip_package_pkg: false,
         export_options: {
          signingStyle: "automatic",
          uploadBitcode: false,
           provisioningProfiles: {
-            "com.pingpong.co" => "PngPong",
-           # "com.shoping.MarketApps" => "com.shoping.MarketApps AppStore"
+            "com.pingpong.co" => "PngPong"
              }
            }
        )
@@ -130,18 +110,17 @@ platform :ios do
 
   desc "Description of what the lane does"
    lane :upload_testflight do
-    version = get_version_number(
-        xcodeproj: "PingPong.xcodeproj",
-        target: "PingPong"
-       )
-     build = get_build_number
-    #get_certificates
-   # get_provisioning_profile
-    increment_build_number(
-        build_number: latest_testflight_build_number + 1
-    )
-    lint
-    build_ipa
+    clear_derived_data
+get_certificates
+     get_provisioning_profile(
+     app_identifier: "com.pingpong.co",
+     filename: "Pingpong.mobileprovision",
+     output_path: "./fastlane/Signing/")
+      build_app(
+    workspace: "PingPong.xcworkspace",
+    scheme: "PingPong",
+    export_method: "app-store"
+  )
     upload_to_testflight(
     demo_account_required: true,
     beta_app_description:"PingPong",

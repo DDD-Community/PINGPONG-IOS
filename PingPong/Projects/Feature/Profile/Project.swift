@@ -4,7 +4,7 @@ import MyPlugin
 
 let localHelper = LocalHelper(name: "MyPlugin")
 
-let project = Project.makeAppModule(
+let project = Project.makeFramsWorkModule(
 name: "Profile",
 bundleId: .appBundleID(name: ".Profile"),
 product: .staticFramework,
@@ -13,6 +13,7 @@ dependencies: [
         .core(implements: .Common),
         .core(implements: .Authorization),
         .design(implements: .DesignSystem),
+        .feature(implements: .Search),
         .domain(implements: .Model),
         .domain(implements: .Service)
         

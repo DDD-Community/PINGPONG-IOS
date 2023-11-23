@@ -358,7 +358,7 @@ public struct ProfileView: View {
                                             .pretendardFont(family: .SemiBold, size: 12)
                                     }
                                     .foregroundColor(.mildIconText)
-                                    .frame(minWidth: 41, maxHeight: 26)
+                                    .frame(minWidth: 71, maxHeight: 28)
                                     .padding(.horizontal, 10)
                                     .background (
                                         RoundedRectangle(cornerRadius: 16)

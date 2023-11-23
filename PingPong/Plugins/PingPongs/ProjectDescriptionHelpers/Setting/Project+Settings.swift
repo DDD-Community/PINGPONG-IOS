@@ -28,30 +28,39 @@ extension Settings {
         ,configurations: [
             .debug(name: .debug, settings: [
                 "PRODUCT_NAME" : "PingPong",
-                "DISPLAY_NAME" : "PingPong",  "OTHER_LDFLAGS": [
-                    "-Xlinker", "-interposable",  "-all_load", "-ObjC"],
-                "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
-                "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
-                       "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+                "DISPLAY_NAME" : "PingPong",
+                "OTHER_LDFLAGS": [
+                    "-Xlinker", "-interposable", "-all_load", // Set the strip style to non-global symbols
+                ],
+                "STRIP_STYLE": [
+                    "non-global"
+                ],
             ]),
             .debug(name: "Dev", settings: [
                 "PRODUCT_NAME" : "PingPong-Dev",
                 "DISPLAY_NAME" : "PingPong",
                 "OTHER_LDFLAGS": [
-                    "-Xlinker", "-interposable", "-all_load", "-ObjC"], "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: "$(APP_PROVISIONING_PROFILE)"),
-                "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
-                "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
-                       "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+                    "-Xlinker", "-interposable", "-all_load", // Set the strip style to non-global symbols
+                ],
+                "STRIP_STYLE": [
+                    "non-global"
+                ],
                 
             ]),
             .release(name: .release, settings: [
                 "DEVELOPMENT_ASSET_PATHS": "\"Resources/Preview Content\"",
                 "PRODUCT_NAME" :"PingPongs" ,
                 "DISPLAY_NAME" : "PingPong" ,
-                "OTHER_LDFLAGS": ["-Xlinker", "-interposable", "-all_load", "-ObjC"],
                 "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "NO",
                 "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
-                       "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module"
+                "OTHER_SWIFT_FLAGS": "-Xcc -Wno-error=non-modular-include-in-framework-module",
+                "OTHER_LDFLAGS": [
+                     "-all_load",
+                ],
+                "STRIP_STYLE": [
+                    "non-global"
+                ],
+                
             ])], defaultSettings: .recommended)
                                                                            
                                                                            
