@@ -18,10 +18,13 @@ let project = Project.makeAppModule(
     platform: .iOS,
     product: .app,
     packages: [ // packages를 추가하여 Amplify 라이브러리 추가
-        
+
     ],
     setting: .appMainSetting,
     dependencies: [
+//        .package(product: "FirebaseMessaging"),
+//        .package(product: "FirebaseMessaging", type: .plugin),
+        
         .SPM.FirebaseMessaging,
         .feature(implements: .OnBoarding)
 //        .SPM.GoogleSignIn,

@@ -15,7 +15,6 @@ let project = Project.makeFramsWorkModule(
     bundleId: .appBundleID(name: ".Authorization"),
     product: .staticFramework,
     packages: [
-        
     ],
     setting:  .appBaseSetting,
     dependencies: [
@@ -25,6 +24,10 @@ let project = Project.makeFramsWorkModule(
         
         .SPM.CombineMoya,
         .SPM.Moya,
+//        .package(product: "FirebaseAuth"),
+//        .package(product: "FirebaseFirestore"),
+//        .package(product: "FirebaseAuth", type: .plugin),
+//        .package(product: "FirebaseFirestore", type: .macro)
         .SPM.FirebaseAuth,
         .SPM.FirebaseFirestore
 //        .SPM.GoogleSignIn,
