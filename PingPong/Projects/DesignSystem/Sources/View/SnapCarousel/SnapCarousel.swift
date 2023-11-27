@@ -1,8 +1,8 @@
 //
 //  SnapCarousel.swift
-//  HomeApp
+//  DesignSystem
 //
-//  Created by Byeon jinha on 2023/09/03.
+//  Created by 서원지 on 11/27/23.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 

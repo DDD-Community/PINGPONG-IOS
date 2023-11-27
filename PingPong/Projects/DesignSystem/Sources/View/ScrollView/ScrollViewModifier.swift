@@ -2,7 +2,7 @@
 //  ScrollViewModifier.swift
 //  DesignSystem
 //
-//  Created by 서원지 on 2023/06/25.
+//  Created by 서원지 on 11/27/23.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
