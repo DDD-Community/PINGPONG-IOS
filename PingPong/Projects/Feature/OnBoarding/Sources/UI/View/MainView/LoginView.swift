@@ -39,6 +39,7 @@ public struct LoginView: View {
                 
             }
             .onAppear{
+                print("\(authViewModel.isDeletAuth) , \(authViewModel.deleteAuth)")
                 if authViewModel.isDeletAuth {
                     authViewModel.deleteAuth = true
                 }

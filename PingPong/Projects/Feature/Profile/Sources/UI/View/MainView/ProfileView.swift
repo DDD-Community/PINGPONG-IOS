@@ -73,6 +73,7 @@ public struct ProfileView: View {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
             profileViewModel.changeImage()
+            print(profileViewModel.randomNickName)
             if profileViewModel.randomNickName == "" {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
@@ -482,6 +483,7 @@ public struct ProfileView: View {
             .onTapGesture {
                 authViewModel.isLogin = false
                 authViewModel.isLoginCheck = false
+                
                 presentationMode.wrappedValue.dismiss()
                 
             }

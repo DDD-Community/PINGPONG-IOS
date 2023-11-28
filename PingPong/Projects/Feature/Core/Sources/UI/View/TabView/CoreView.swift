@@ -95,7 +95,7 @@ public struct CoreView: View {
                 appState.goToProfileSettingView.toggle()
             }, isGoToProfileView: $appState.isGoToProfileView)
             .frame(height: 40)
-            .findNavigator(isPresented: $appState.goToProfileSettingView)
+            
             
         }  .navigationDestination(isPresented: $appState.isGoToProfileView) {
             ProfileView(
