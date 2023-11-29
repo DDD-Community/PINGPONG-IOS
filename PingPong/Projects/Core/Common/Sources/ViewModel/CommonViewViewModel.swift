@@ -44,6 +44,8 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
+    @Published public var viewPath: NavigationPath = NavigationPath()
+
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30
     public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {
@@ -79,7 +81,6 @@ public class CommonViewViewModel: ObservableObject {
     
     @Published public var cards: [CardInfomation] = [] {
         didSet {
-            print("card count: \(cards.count)")
             isOn  = Array(repeating: false, count: cards.count)
         }
     }

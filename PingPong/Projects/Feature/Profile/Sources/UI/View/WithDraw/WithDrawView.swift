@@ -62,7 +62,12 @@ struct WithDrawView: View {
                             authViewModel.isDeletAuth = true
                             authViewModel.isLoginCheck = false
                             profileViewModel.randomNickName = ""
+                            print("viewModelviewPath", viewModel.viewPath.count)
+                            while !viewModel.viewPath.isEmpty {
+                                viewModel.viewPath.removeLast()
+                            }
                             presentationMode.wrappedValue.dismiss()
+                            
                         })
                     }
                     

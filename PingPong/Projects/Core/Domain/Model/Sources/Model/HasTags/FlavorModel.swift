@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Flavor: String {
+public enum Flavor: String, CaseIterable {
     case sweet
     case salty
     case spicy

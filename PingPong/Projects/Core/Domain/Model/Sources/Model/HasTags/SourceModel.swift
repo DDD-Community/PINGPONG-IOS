@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Source: String {
+public enum Source: String, CaseIterable {
     case anime
     case celeb
     case book

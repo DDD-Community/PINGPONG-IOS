@@ -218,8 +218,17 @@ private extension ProfileModalView {
                     .foregroundColor(.basicWhite)
             )
             .onTapGesture {
-                let flavorStringArray = viewModel.selectedFlavorArray.map { $0.rawValue }
-                let sourceStringArray = viewModel.selectedSourceArray.map { $0.rawValue }
+                var flavorStringArray: [String] = viewModel.selectedFlavorArray.map { $0.rawValue }
+                var sourceStringArray: [String] = viewModel.selectedSourceArray.map { $0.rawValue }
+                
+                if flavorStringArray.isEmpty {
+                    Flavor.allCases.forEach { flavorStringArray.append($0.rawValue) }
+                }
+                
+                if sourceStringArray.isEmpty {
+                    Source.allCases.forEach { sourceStringArray.append($0.rawValue) }
+                }
+                
                 Task {
                     await profileViewModel.profileUserPrefEditPUT(userPrefId: profileViewModel.userPrefId, flavors: flavorStringArray, sources: sourceStringArray) {
                     }

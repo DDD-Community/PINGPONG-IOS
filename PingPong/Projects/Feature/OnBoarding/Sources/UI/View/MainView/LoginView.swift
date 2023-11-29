@@ -39,6 +39,7 @@ public struct LoginView: View {
                 
             }
             .onAppear{
+                authViewModel.getRefreshToken()
                 if authViewModel.isDeletAuth {
                     authViewModel.deleteAuth = true
                 }
@@ -177,3 +178,9 @@ public struct LoginView: View {
     }
 }
 
+// MARK: - Layout Metrics
+extension LoginView {
+    public enum Label {
+        public static let viewStringKey: String = "LoginView"
+    }
+}
