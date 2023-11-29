@@ -13,10 +13,12 @@ import SafariServices
 import API
 
 public struct ServiceUseAgreementView: View {
-    public init() { }
+    public init(path: Binding<[String]>) { self._path = path}
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: OnBoardingViewModel
+    
+    @Binding var path: [String]
     
     public var body: some View {
         ZStack (alignment: .bottom) {
@@ -158,10 +160,3 @@ public struct ServiceUseAgreementView: View {
         }
     }
 }
-
-struct ServiceUseAgmentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ServiceUseAgreementView()
-    }
-}
-

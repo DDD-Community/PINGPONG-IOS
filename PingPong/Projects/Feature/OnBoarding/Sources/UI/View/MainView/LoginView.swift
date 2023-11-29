@@ -22,13 +22,14 @@ public struct LoginView: View {
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
+    @State var path: [String] = []
     
     public init(viewModel: OnBoardingViewModel){
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     public var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack(spacing: .zero) {
                
                 loadingAnimationView()
@@ -38,23 +39,25 @@ public struct LoginView: View {
                 authButton()
                 
             }
+            .navigationDestination(for: String.self) { state in
+                switch state {
+                case "isLogin":
+                    OnBoardingLoginView(viewModel: viewModel, path: $path)
+                        .navigationBarBackButtonHidden()
+                case "isLoginSuccess":
+                    ServiceUseAgreementView(path: $path)
+                        .environmentObject(viewModel)
+                default:
+                    OnBoardingView(viewModel: viewModel, path: $path)
+                        .navigationBarBackButtonHidden()
+                }
+            }
             .onAppear{
                 authViewModel.getRefreshToken()
                 if authViewModel.isDeletAuth {
                     authViewModel.deleteAuth = true
                 }
             }
-        
-            .navigationDestination(isPresented: $viewModel.goToLoginRegisterView) {
-                OnBoardingView(viewModel: viewModel)
-                    .navigationBarBackButtonHidden()
-            }
-            
-            .navigationDestination(isPresented: $viewModel.goToLoginView){
-                OnBoardingLoginView(viewModel: viewModel)
-                    .navigationBarBackButtonHidden()
-            }
-            
             .popup(isPresented: $authViewModel.deleteAuth) {
                 WithDrawPOPUP(
                     image: .empty,
@@ -143,18 +146,19 @@ public struct LoginView: View {
             .frame(height: UIScreen.screenHeight*0.1)
         
         VStack(spacing: .zero) {
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.primaryOrange, style: .init(lineWidth: 2))
-                .frame(height: 56)
-                .overlay {
-                    Text("로그인하기")
-                        .foregroundStyle(Color.primaryOrangeText)
-                        .pretendardFont(family: .SemiBold, size: 16)
-                }
-                .onTapGesture {
-                    viewModel.goToLoginView.toggle()
-                }
-            
+//            RoundedRectangle(cornerRadius: 12)
+//                .stroke(Color.primaryOrange, style: .init(lineWidth: 2))
+//                .frame(height: 56)
+//                .overlay {
+//                    Text("로그인하기")
+//                        .foregroundStyle(Color.primaryOrangeText)
+//                        .pretendardFont(family: .SemiBold, size: 16)
+//                }
+//                .onTapGesture {
+//                    viewModel.goToLoginView.toggle()
+//                    path.append(LoginViewPageState.isLogin.rawValue)
+//                }
+                
             Spacer()
                 .frame(height: 8)
             
@@ -170,9 +174,8 @@ public struct LoginView: View {
                     viewModel.isSignUP = true
                     viewModel.alreadySignUP = false
                     viewModel.goToLoginRegisterView.toggle()
+                    path.append(LoginViewPageState.isEnter.rawValue)
                 }
-            
-            
         }
         .padding(.horizontal, 20)
     }
@@ -183,4 +186,9 @@ extension LoginView {
     public enum Label {
         public static let viewStringKey: String = "LoginView"
     }
+}
+
+enum LoginViewPageState:String, Hashable {
+    case isLogin
+    case isEnter
 }

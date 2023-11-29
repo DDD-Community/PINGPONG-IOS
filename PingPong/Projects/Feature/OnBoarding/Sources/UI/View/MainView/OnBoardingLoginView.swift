@@ -21,20 +21,21 @@ struct OnBoardingLoginView: View {
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
+    @Binding var path: [String]
     
     @Environment(\.presentationMode) var presentationMode
     
     
     
     public init(
-        viewModel: OnBoardingViewModel
-        
+        viewModel: OnBoardingViewModel,
+        path: Binding<[String]>
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
+        self._path = path
     }
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: .zero) {
                
                 loadingAnimationView()
@@ -42,11 +43,6 @@ struct OnBoardingLoginView: View {
                 cookeWiseSayingView()
                 
                 socialLoginButtonView()
-                
-                
-            }
-            
-            
             
             .navigationDestination(isPresented: $appState.goToMainHomeView) {
                 CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)

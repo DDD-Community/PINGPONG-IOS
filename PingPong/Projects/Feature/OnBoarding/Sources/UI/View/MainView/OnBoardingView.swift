@@ -21,35 +21,28 @@ public struct OnBoardingView: View {
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
+    @Binding var path: [String]
     
     @Environment(\.presentationMode) var presentationMode
     
     public init(
-        viewModel: OnBoardingViewModel
-    
+        viewModel: OnBoardingViewModel,
+        path: Binding<[String]>
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._path = path
     }
     public var body: some View {
-        NavigationStack {
-            VStack(spacing: .zero) {
-               
-                loadingAnimationView()
-                
-                cookeWiseSayingView()
-                
-                socialLoginButtonView()
-                
-                
-            }
+        VStack(spacing: .zero) {
             
-            .navigationDestination(isPresented: $appState.serviceUseAgmentView) {
-                ServiceUseAgreementView()
-                    .environmentObject(viewModel)
-            }
+            loadingAnimationView()
+            
+            cookeWiseSayingView()
+            
+            socialLoginButtonView()
+            
             
         }
-         
         
         .popup(isPresented: $appState.signUPFaillPOPUP) {
             FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "애플로그인에 오류가 생겼습니다. 다시 시도해주세요")
@@ -62,7 +55,7 @@ public struct OnBoardingView: View {
                 .closeOnTapOutside(true)
             
         }
-
+        
         
     }
     
@@ -116,8 +109,6 @@ public struct OnBoardingView: View {
                 Spacer()
             }
             .offset(x: -10)
-            
-           
         }
         .padding(.horizontal, 20)
     }
@@ -132,17 +123,13 @@ public struct OnBoardingView: View {
                 .frame(height: 12)
             
             loginWithApple()
-            
         }
     }
-
+    
     @ViewBuilder
     private func loginWithApple() -> some View {
         Spacer()
             .frame(height: 20)
-       //mark:
-        
-        
         
         SignInWithAppleButton(.signIn) { request in
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
@@ -159,10 +146,12 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    appState.serviceUseAgmentView.toggle()
+                    path.append(OnboardingViewPageState.isLoginSuccess.rawValue)
+                    print(path)
                 }
                 
-            case .failure(let error):
+                
+            case .failure:
                 appState.signUPFaillPOPUP.toggle()
                 presentationMode.wrappedValue.dismiss()
             }
@@ -182,4 +171,6 @@ public struct OnBoardingView: View {
     }
 }
 
-
+enum OnboardingViewPageState: String, Hashable {
+    case isLoginSuccess
+}

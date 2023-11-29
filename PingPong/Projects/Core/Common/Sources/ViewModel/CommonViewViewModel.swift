@@ -43,8 +43,6 @@ public class CommonViewViewModel: ObservableObject {
             print(selectedFlavorArray)
         }
     }
-    
-    @Published public var viewPath: NavigationPath = NavigationPath()
 
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30
