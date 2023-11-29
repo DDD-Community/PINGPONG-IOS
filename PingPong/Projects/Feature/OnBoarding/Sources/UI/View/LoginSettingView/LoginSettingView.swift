@@ -38,10 +38,6 @@ public struct LoginSettingView: View {
                 
             }
             .navigationBarHidden(true)
-            
-            .navigationDestination(isPresented: $appState.allConfirmAgreeView) {
-                LoginJobSettingView(viewModel: self.viewModel)
-            }
     }
     
     @ViewBuilder
@@ -135,8 +131,7 @@ public struct LoginSettingView: View {
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            appState.allConfirmAgreeView.toggle()
-
+                            viewModel.viewPath.append(ViewState.isNickNameComplete)
                         }
                 }
                 .disabled(viewModel.nicknameValidation != .valid)

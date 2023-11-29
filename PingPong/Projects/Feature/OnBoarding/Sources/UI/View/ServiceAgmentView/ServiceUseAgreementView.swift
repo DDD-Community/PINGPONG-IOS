@@ -13,12 +13,12 @@ import SafariServices
 import API
 
 public struct ServiceUseAgreementView: View {
-    public init(path: Binding<[String]>) { self._path = path}
+    public init(path: Binding<[ViewState]>) { self._path = path}
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: OnBoardingViewModel
     
-    @Binding var path: [String]
+    @Binding var path: [ViewState]
     
     public var body: some View {
         ZStack (alignment: .bottom) {
@@ -35,9 +35,6 @@ public struct ServiceUseAgreementView: View {
             
         }
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.allConfirmAgreeView) {
-            LoginSettingView(viewModel: self.viewModel)
-        }
     }
     
     @ViewBuilder
@@ -153,7 +150,7 @@ public struct ServiceUseAgreementView: View {
                         .foregroundColor(viewModel.checkAgreementStatus ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.allConfirmAgreeView.toggle()
+                            viewModel.viewPath.append(ViewState.isServiceAgreeComplete)
                         }
                 }
                 .disabled(!(viewModel.checkAgreementStatus)) // 버튼 비활성화 조건 추가

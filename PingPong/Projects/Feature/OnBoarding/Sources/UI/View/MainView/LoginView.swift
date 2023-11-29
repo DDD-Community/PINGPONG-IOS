@@ -22,14 +22,14 @@ public struct LoginView: View {
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
-    @State var path: [String] = []
+
     
     public init(viewModel: OnBoardingViewModel){
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     public var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $viewModel.viewPath) {
             VStack(spacing: .zero) {
                
                 loadingAnimationView()
@@ -39,17 +39,21 @@ public struct LoginView: View {
                 authButton()
                 
             }
-            .navigationDestination(for: String.self) { state in
+            .navigationDestination(for: ViewState.self) { state in
                 switch state {
-                case "isLogin":
-                    OnBoardingLoginView(viewModel: viewModel, path: $path)
+                case .isLogin:
+                    OnBoardingLoginView(viewModel: viewModel)
                         .navigationBarBackButtonHidden()
-                case "isLoginSuccess":
-                    ServiceUseAgreementView(path: $path)
+                case .isEnter:
+                    OnBoardingView(viewModel: viewModel)
+                        .navigationBarBackButtonHidden()
+                case .isLoginComplete:
+                    ServiceUseAgreementView(path: $viewModel.viewPath)
                         .environmentObject(viewModel)
-                default:
-                    OnBoardingView(viewModel: viewModel, path: $path)
-                        .navigationBarBackButtonHidden()
+                case .isServiceAgreeComplete:
+                    LoginSettingView(viewModel: self.viewModel)
+                case .isNickNameComplete:
+                    LoginJobSettingView(viewModel: self.viewModel)
                 }
             }
             .onAppear{
@@ -174,7 +178,7 @@ public struct LoginView: View {
                     viewModel.isSignUP = true
                     viewModel.alreadySignUP = false
                     viewModel.goToLoginRegisterView.toggle()
-                    path.append(LoginViewPageState.isEnter.rawValue)
+                    viewModel.viewPath.append(ViewState.isEnter)
                 }
         }
         .padding(.horizontal, 20)
@@ -188,7 +192,10 @@ extension LoginView {
     }
 }
 
-enum LoginViewPageState:String, Hashable {
+public enum ViewState:String, Hashable {
     case isLogin
     case isEnter
+    case isLoginComplete
+    case isServiceAgreeComplete
+    case isNickNameComplete
 }

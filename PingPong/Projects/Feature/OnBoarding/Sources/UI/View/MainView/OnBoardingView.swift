@@ -21,16 +21,13 @@ public struct OnBoardingView: View {
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
-    @Binding var path: [String]
     
     @Environment(\.presentationMode) var presentationMode
     
     public init(
-        viewModel: OnBoardingViewModel,
-        path: Binding<[String]>
+        viewModel: OnBoardingViewModel
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
-        self._path = path
     }
     public var body: some View {
         VStack(spacing: .zero) {
@@ -146,8 +143,7 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    path.append(OnboardingViewPageState.isLoginSuccess.rawValue)
-                    print(path)
+                    viewModel.viewPath.append(ViewState.isLoginComplete)
                 }
                 
                 

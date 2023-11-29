@@ -21,18 +21,14 @@ struct OnBoardingLoginView: View {
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
-    @Binding var path: [String]
-    
     @Environment(\.presentationMode) var presentationMode
     
     
     
     public init(
-        viewModel: OnBoardingViewModel,
-        path: Binding<[String]>
+        viewModel: OnBoardingViewModel
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
-        self._path = path
     }
     
     var body: some View {
@@ -161,8 +157,10 @@ struct OnBoardingLoginView: View {
                         await authViewModel.loginWithEmail(
                             email: authViewModel.userEmail,
                             succesCompletion: {
-                                appState.goToMainHomeView.toggle()
+                                
                                 authViewModel.isLogin = true
+//                                viewModel.viewPath.append(ViewState.isServiceAgreeComplete)
+                                
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()
                                 presentationMode.wrappedValue.dismiss()
