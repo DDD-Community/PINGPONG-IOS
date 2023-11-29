@@ -83,7 +83,7 @@ public struct SelectCharacterView: View {
                 .onTapGesture {
                     viewModel.isSkipSelectedFlavor.toggle()
                     
-                    viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "OTHER", "anime", "film" , "celeb"]) {
+                    viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "anime", "film" , "celeb"]) {
                         appState.failRegisterFlavorPOPUP.toggle()
                     } 
                     

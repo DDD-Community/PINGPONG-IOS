@@ -73,6 +73,7 @@ public struct ProfileView: View {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
             profileViewModel.changeImage()
+            print(profileViewModel.randomNickName)
             if profileViewModel.randomNickName == "" {
                 await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
@@ -421,13 +422,16 @@ public struct ProfileView: View {
                                 profileViewModel.gotoNotificationQuoteView.toggle()
                                 
                             case "reviewImage":
-                                //                                if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\()?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) { // 유효한 URL인지 검사합니다.
-                                //                                    if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-                                //                                        UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
-                                //                                    } else {
-                                //                                        UIApplication.shared.openURL(reviewURL)
-                                //                                    }
-                                //                                }
+                                if let appstoreUrl = URL(string: "https://apps.apple.com/app/id6472920141") {
+                                    var urlComp = URLComponents(url: appstoreUrl, resolvingAgainstBaseURL: false)
+                                    urlComp?.queryItems = [
+                                        URLQueryItem(name: "action", value: "write-review")
+                                    ]
+                                    guard let reviewUrl = urlComp?.url else {
+                                        return
+                                    }
+                                    UIApplication.shared.open(reviewUrl, options: [:], completionHandler: nil)
+                                }
                                 break
                             case "settingImage":
                                 profileViewModel.gotoOtherSettingView.toggle()
@@ -479,6 +483,7 @@ public struct ProfileView: View {
             .onTapGesture {
                 authViewModel.isLogin = false
                 authViewModel.isLoginCheck = false
+                
                 presentationMode.wrappedValue.dismiss()
                 
             }

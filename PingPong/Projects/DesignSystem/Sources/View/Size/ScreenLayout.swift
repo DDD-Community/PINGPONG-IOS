@@ -1,13 +1,13 @@
 //
 //  ScreenLayout.swift
-//  Component
+//  DesignSystem
 //
-//  Created by 서원지 on 2023/06/03.
+//  Created by 서원지 on 11/27/23.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import SwiftUI
 
 public enum ScreenLayout {
     public static let LayoutMargin: CGFloat = 20
@@ -26,4 +26,6 @@ public enum ScreenLayout {
     public static let TitleBarHeight: CGFloat = 44
 
 }
+
+
 

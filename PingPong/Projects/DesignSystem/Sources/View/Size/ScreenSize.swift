@@ -1,8 +1,8 @@
 //
 //  ScreenSize.swift
-//  Component
+//  DesignSystem
 //
-//  Created by 서원지 on 2023/06/03.
+//  Created by 서원지 on 11/27/23.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
@@ -62,5 +62,3 @@ public class ScreenSize {
         return Int((Int(bounds.width)/2) - (widthtmp/2))
     }
 }
-
-

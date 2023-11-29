@@ -22,6 +22,6 @@ let project = Project.makeFramsWorkModule(
             
     ],
     sources: ["Sources/**", "Resources/FontAsset/**", "Resources/**"],
-    resources: ["Resources/**"]
+    resources: ["Resources/**", "Sources/**"]
 )
 

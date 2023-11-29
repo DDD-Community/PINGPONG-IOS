@@ -2,7 +2,7 @@
 //  WebView.swift
 //  DesignSystem
 //
-//  Created by 서원지 on 11/18/23.
+//  Created by 서원지 on 11/27/23.
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
@@ -57,3 +57,5 @@ public struct WebView: UIViewRepresentable {
         
     }
 }
+
+
