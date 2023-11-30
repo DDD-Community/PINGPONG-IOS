@@ -45,12 +45,6 @@ struct PingPongProjectApp: App {
                             authViewModel.getRefreshToken()
                         }
                 }
-                
-//                HomeMainView()
-//                    .environmentObject(sheetManager)
-                
-//
-                
 
                 ZStack {
                     if showlanch {

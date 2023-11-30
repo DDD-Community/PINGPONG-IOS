@@ -29,54 +29,53 @@ public struct CoreView: View {
     }
     
     public var body: some View {
-        NavigationStack {
-            ZStack{
-                Color.basicGray1BG
-                    .ignoresSafeArea()
-                ZStack {
-                    VStack {
-                        if self.viewModel.selectedTab == .home {
-                            navigationTopHeaderView()
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-                        }
-                        selectTabView()
+        ZStack{
+            Color.basicGray1BG
+                .ignoresSafeArea()
+            ZStack {
+                VStack {
+                    if self.viewModel.selectedTab == .home {
+                        navigationTopHeaderView()
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
                     }
+                    selectTabView()
+                }
+                
+                mainTabBar()
+                    .ignoresSafeArea(.keyboard)
+            }
+            .modal(with: sheetManager, viewModel: viewModel)
+            .onAppear {
+                if viewModel.isFirstUserPOPUP {
+                    self.viewModel.isFirstUserPOPUP = true
+                } else {
+                    self.viewModel.isFirstUserPOPUP = false
                     
-                    mainTabBar()
-                        .ignoresSafeArea(.keyboard)
                 }
-                .modal(with: sheetManager, viewModel: viewModel)
-                .onAppear {
-                    if viewModel.isFirstUserPOPUP {
-                        self.viewModel.isFirstUserPOPUP = true
-                    } else {
-                        self.viewModel.isFirstUserPOPUP = false
-                        
-                    }
-                }
-                .popup(isPresented: $viewModel.isFirstUserPOPUP) {
-                    CustomPOPUP(
-                        image: .empty,
-                        title: "좌우를 넘기며",
-                        title1: "명언을 확인해보세요",
-                        subTitle: "", useGif: true, confirmAction: {
+            }
+            .popup(isPresented: $viewModel.isFirstUserPOPUP) {
+                CustomPOPUP(
+                    image: .empty,
+                    title: "좌우를 넘기며",
+                    title1: "명언을 확인해보세요",
+                    subTitle: "", useGif: true, confirmAction: {
                         isFistUserPOPUP = false
                         viewModel.isFirstUserPOPUP = true
                     })
-                } customize: { popup in
-                    popup
-                        .type(.default)
-                        .position(.bottom)
-                        .animation(.easeIn)
-                        .closeOnTap(true)
-                        .closeOnTapOutside(true)
-                        .backgroundColor(.basicBlackDimmed)
-                }
-                
+            } customize: { popup in
+                popup
+                    .type(.default)
+                    .position(.bottom)
+                    .animation(.easeIn)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .backgroundColor(.basicBlackDimmed)
             }
+            
         }
-        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden()
         .onAppear {
+            authViewModel.getRefreshToken()
             self.viewModel.setupCustomTabs()
         }
     }
@@ -97,12 +96,13 @@ public struct CoreView: View {
             .frame(height: 40)
             
             
-        }  .navigationDestination(isPresented: $appState.isGoToProfileView) {
+        }  
+        .navigationDestination(isPresented: $appState.isGoToProfileView) {
             ProfileView(
                 viewModel: viewModel,
                 appState: appState,
                 backAction: {
-                appState.isGoToProfileView = false
+                    appState.isGoToProfileView = false
                 }, 
                 authViewModel: authViewModel)
             .environmentObject(sheetManager)
@@ -145,7 +145,7 @@ public struct CoreView: View {
                     viewModel.isShowDetailView.toggle()
                 }
             if viewModel.isShowDetailView {
-                    FamousSayingDetailView(viewModel: self.viewModel)
+                FamousSayingDetailView(viewModel: self.viewModel)
             }
         }
     }

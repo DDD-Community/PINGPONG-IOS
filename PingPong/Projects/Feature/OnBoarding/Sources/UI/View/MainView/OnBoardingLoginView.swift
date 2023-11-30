@@ -134,9 +134,6 @@ struct OnBoardingLoginView: View {
     private func loginWithApple() -> some View {
         Spacer()
             .frame(height: 20)
-       //mark:
-        
-        
         
         SignInWithAppleButton(.signIn) { request in
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
@@ -159,7 +156,7 @@ struct OnBoardingLoginView: View {
                             succesCompletion: {
                                 
                                 authViewModel.isLogin = true
-//                                viewModel.viewPath.append(ViewState.isServiceAgreeComplete)
+                                viewModel.viewPath.append(ViewState.isLoginned)
                                 
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()

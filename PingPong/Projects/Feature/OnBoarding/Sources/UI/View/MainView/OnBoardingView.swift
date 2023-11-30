@@ -52,8 +52,6 @@ public struct OnBoardingView: View {
                 .closeOnTapOutside(true)
             
         }
-        
-        
     }
     
     @ViewBuilder
@@ -132,7 +130,9 @@ public struct OnBoardingView: View {
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
             request.requestedScopes = [.fullName, .email]
             request.nonce =  AppleLoginManger.shared.sha256(authViewModel.nonce)
+            print("requestNonce",request.nonce)
         } onCompletion: { result in
+            print(result, "result")
             switch result {
             case .success(let authResult):
                 guard let credential =  authResult.credential as?
@@ -143,7 +143,7 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    viewModel.viewPath.append(ViewState.isLoginComplete)
+                    viewModel.viewPath.append(ViewState.isStartServiceAgreement)
                 }
                 
                 
@@ -165,8 +165,4 @@ public struct OnBoardingView: View {
         Spacer()
             .frame(height: 48)
     }
-}
-
-enum OnboardingViewPageState: String, Hashable {
-    case isLoginSuccess
 }

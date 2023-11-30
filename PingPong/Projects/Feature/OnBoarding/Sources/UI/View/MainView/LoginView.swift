@@ -22,7 +22,8 @@ public struct LoginView: View {
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
-
+    
+    @StateObject var sheetManger: SheetManager = SheetManager()
     
     public init(viewModel: OnBoardingViewModel){
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -34,32 +35,57 @@ public struct LoginView: View {
                
                 loadingAnimationView()
                 
-                cookeWiseSayingView()
+                cookWiseSayingView()
                 
                 authButton()
                 
             }
             .navigationDestination(for: ViewState.self) { state in
                 switch state {
-                case .isLogin:
+                    
+                case .isStartLogin:
                     OnBoardingLoginView(viewModel: viewModel)
                         .navigationBarBackButtonHidden()
-                case .isEnter:
+                case .isStartEnter:
                     OnBoardingView(viewModel: viewModel)
                         .navigationBarBackButtonHidden()
-                case .isLoginComplete:
+                case .isStartServiceAgreement:
                     ServiceUseAgreementView(path: $viewModel.viewPath)
                         .environmentObject(viewModel)
                 case .isServiceAgreeComplete:
                     LoginSettingView(viewModel: self.viewModel)
                 case .isNickNameComplete:
                     LoginJobSettingView(viewModel: self.viewModel)
+                 case .isJobSettingComplete:
+                    CompleteLoginView(viewModel: self.viewModel)
+                case .isCompleteLogin:
+                    FavoriteWiseChooseView(viewModel: self.viewModel)
+                case .isStartChoiceFavorite:
+                    SelectCategoryView(viewModel: self.viewModel)
+                case .isSelectedCategory:
+                    SelectCharacterView(viewModel: self.viewModel)
+                case .isSelectedCharacter:
+                    OnBoardingPushView(viewModel: self.viewModel)
+
+                case .isCompleteOnboarding:
+                    CompletOnBoardingView(viewModel: viewModel)
+                        .environmentObject(authViewModel)
+                case .isDeniedNoti:
+                    RecomandPushNotificationView(viewModel: self.viewModel)
+                case .isLoginned:
+                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
+                        .environmentObject(authViewModel)
+                        .environmentObject(sheetManger)
                 }
             }
             .onAppear{
                 authViewModel.getRefreshToken()
                 if authViewModel.isDeletAuth {
                     authViewModel.deleteAuth = true
+                }
+                
+                if authViewModel.isLoginCheck {
+                    viewModel.viewPath.append(ViewState.isLoginned)
                 }
             }
             .popup(isPresented: $authViewModel.deleteAuth) {
@@ -107,7 +133,7 @@ public struct LoginView: View {
     
     
     @ViewBuilder
-    private func cookeWiseSayingView() -> some View {
+    private func cookWiseSayingView() -> some View {
         VStack(alignment: .leading, spacing: .zero) {
             Spacer()
                 .frame(height: 12)
@@ -150,18 +176,17 @@ public struct LoginView: View {
             .frame(height: UIScreen.screenHeight*0.1)
         
         VStack(spacing: .zero) {
-//            RoundedRectangle(cornerRadius: 12)
-//                .stroke(Color.primaryOrange, style: .init(lineWidth: 2))
-//                .frame(height: 56)
-//                .overlay {
-//                    Text("로그인하기")
-//                        .foregroundStyle(Color.primaryOrangeText)
-//                        .pretendardFont(family: .SemiBold, size: 16)
-//                }
-//                .onTapGesture {
-//                    viewModel.goToLoginView.toggle()
-//                    path.append(LoginViewPageState.isLogin.rawValue)
-//                }
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.primaryOrange, style: .init(lineWidth: 2))
+                .frame(height: 56)
+                .overlay {
+                    Text("로그인하기")
+                        .foregroundStyle(Color.primaryOrangeText)
+                        .pretendardFont(family: .SemiBold, size: 16)
+                }
+                .onTapGesture {
+                    viewModel.viewPath.append(ViewState.isStartLogin)
+                }
                 
             Spacer()
                 .frame(height: 8)
@@ -178,7 +203,7 @@ public struct LoginView: View {
                     viewModel.isSignUP = true
                     viewModel.alreadySignUP = false
                     viewModel.goToLoginRegisterView.toggle()
-                    viewModel.viewPath.append(ViewState.isEnter)
+                    viewModel.viewPath.append(ViewState.isStartEnter)
                 }
         }
         .padding(.horizontal, 20)
@@ -193,9 +218,17 @@ extension LoginView {
 }
 
 public enum ViewState:String, Hashable {
-    case isLogin
-    case isEnter
-    case isLoginComplete
+    case isStartLogin
+    case isStartEnter
+    case isStartServiceAgreement
     case isServiceAgreeComplete
     case isNickNameComplete
+    case isJobSettingComplete
+    case isCompleteLogin
+    case isStartChoiceFavorite
+    case isSelectedCategory
+    case isSelectedCharacter
+    case isCompleteOnboarding
+    case isDeniedNoti
+    case isLoginned
 }

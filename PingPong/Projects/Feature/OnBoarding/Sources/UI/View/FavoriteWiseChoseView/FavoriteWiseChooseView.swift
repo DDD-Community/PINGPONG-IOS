@@ -9,7 +9,7 @@
 import SwiftUI
 import DesignSystem
 
-public struct FavoriteWiseChoseView: View {
+public struct FavoriteWiseChooseView: View {
     @StateObject private var viewModel: OnBoardingViewModel
        
        public init(viewModel: OnBoardingViewModel) {
@@ -27,9 +27,6 @@ public struct FavoriteWiseChoseView: View {
                     .padding(.bottom, 30)
             }
             .navigationBarHidden(true)
-            .navigationDestination(isPresented: $viewModel.isStartChoiceFavoritedView) {
-                SelectCategoryView(viewModel: self.viewModel)
-            }
     }
     
     @ViewBuilder
@@ -66,7 +63,7 @@ public struct FavoriteWiseChoseView: View {
                         .foregroundColor(.basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isStartChoiceFavoritedView.toggle()
+                            viewModel.viewPath.append(ViewState.isStartChoiceFavorite)
                         }
                 }
         }

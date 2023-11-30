@@ -1,5 +1,5 @@
 //
-//  CompletedPushNotificationView.swift
+//  RecomandPushNotificationView.swift
 //  OnBoarding
 //
 //  Created by 서원지 on 2023/09/03.
@@ -11,7 +11,7 @@ import DesignSystem
 import SwiftUI
 import Authorization
 
-public struct CompletedPushNotificationView: View {
+public struct RecomandPushNotificationView: View {
     @Environment(\.presentationMode)  var presentationMode
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
@@ -34,15 +34,16 @@ public struct CompletedPushNotificationView: View {
             
             Spacer()
         }
-            
-            .navigationDestination(isPresented: $appState.completOnBoardingView) {
-                CompletOnBoardingView(viewModel: self.viewModel)
-                    .environmentObject(authViewModel)
-                    .navigationBarHidden(true)
-            }
-
+        
+        .navigationDestination(isPresented: $appState.completOnBoardingView) {
+            CompletOnBoardingView(viewModel: self.viewModel)
+                .environmentObject(authViewModel)
+                .navigationBarHidden(true)
+        }
+        .navigationBarBackButtonHidden()
+        
     }
- 
+    
     @ViewBuilder
     private func completedPushBackButton() -> some View {
         VStack {
@@ -173,11 +174,11 @@ public struct CompletedPushNotificationView: View {
                 .frame(height: 8)
             
             Text("다음에 할께요")
-                 .pretendardFont(family: .SemiBold, size: 16)
-                 .foregroundColor(Color.basicGray5)
-                 .onTapGesture {
-                     appState.completOnBoardingView.toggle()
-                 }
+                .pretendardFont(family: .SemiBold, size: 16)
+                .foregroundColor(Color.basicGray5)
+                .onTapGesture {
+                    appState.completOnBoardingView.toggle()
+                }
             
             
             

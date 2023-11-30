@@ -37,10 +37,6 @@ public struct LoginJobSettingView: View {
             
         }
         .navigationBarHidden(true)
-        
-        .navigationDestination(isPresented: $appState.goToCompleteLoginView) {
-            CompleteLoginView(viewModel: self.viewModel)
-        }
         .task {
             viewModel.onBoardingSearchUserRequest()
             
@@ -149,7 +145,7 @@ public struct LoginJobSettingView: View {
                         .foregroundColor(viewModel.selectedJob != nil ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            appState.goToCompleteLoginView.toggle()
+                            viewModel.viewPath.append(ViewState.isJobSettingComplete)
                         }
                 }
                 .disabled(viewModel.selectedJob == nil)

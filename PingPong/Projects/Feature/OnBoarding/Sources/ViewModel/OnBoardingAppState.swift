@@ -19,7 +19,7 @@ class OnBoardingAppState: ObservableObject {
     @Published public var selectedTime = Date()
     @Published public var isPickerPresented = false
     @Published public var ishiddenRectangle: Bool = false
-    @Published public var isOnOFFToggle: Bool = false
+    @Published public var isOnOffToggle: Bool = false
     @Published public var completPushNotificationView: Bool = false
     @Published public var completOnBoardingView: Bool = false
     @Published public var allConfirmAgreeView: Bool = false

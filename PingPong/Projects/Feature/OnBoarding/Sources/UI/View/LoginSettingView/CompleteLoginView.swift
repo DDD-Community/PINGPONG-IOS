@@ -38,10 +38,6 @@ public struct CompleteLoginView: View {
                 
             }
             .navigationBarHidden(true)
-            
-            .navigationDestination(isPresented: $viewModel.isCompleteSignupView) {
-                FavoriteWiseChoseView(viewModel: self.viewModel)
-            }
         
             .popup(isPresented: $authViewModel.isSignupFail) {
                 FloaterPOPUP(image: .errorCircle_rounded, floaterTitle: "알림", floaterSubTitle: "회원가입에 실패하였습니다. 다시 시도해주세요")
@@ -125,9 +121,8 @@ public struct CompleteLoginView: View {
                         .foregroundColor(.basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isCompleteSignupView.toggle()
-                            
-                            //MARK: - 임시로  하드 코딩 나중에 로그인 성공하면  successaction에  추가
+                            viewModel.viewPath.append(ViewState.isCompleteLogin)
+                            //MARK: - 임시로  하드 코딩 나중에 로그인 성공하면  success action에  추가
                             //TODO: 회원가입 중간에 나가면 뷰깨지는 문제 해결
                             viewModel.completdSignUP = true
                             authViewModel.signupPost(token: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {

@@ -42,18 +42,8 @@ public struct OnBoardingPushView: View {
                 }
                 .bounce(false)
             }
-            .navigationDestination(isPresented: $appState.completPushNotificationView) {
-                CompletedPushNotificationView(viewModel: self.viewModel)
-                    .navigationBarHidden(true)
-            }
-            
-            .navigationDestination(isPresented: $appState.completOnBoardingView) {
-                CompletOnBoardingView(viewModel: viewModel)
-                    .environmentObject(authViewModel)
-                    .navigationBarHidden(true)
-            }
-            
         }
+        .navigationBarHidden(true)
     }
     
     @ViewBuilder
@@ -81,7 +71,7 @@ public struct OnBoardingPushView: View {
                     .pretendardFont(family: .Regular, size: 14)
                     .foregroundColor(.basicGray6)
                     .onTapGesture {
-                        appState.completOnBoardingView.toggle()
+                        viewModel.viewPath.append(ViewState.isCompleteOnboarding)
                     }
                 
                 Spacer()
@@ -196,13 +186,13 @@ public struct OnBoardingPushView: View {
                         .overlay(
                             HStack {
                                 Text(String.formattedTime(appState.selectedTime))
-                                    .foregroundColor(appState.isOnOFFToggle ? Color.basicGray9 : Color.basicGray6)
+                                    .foregroundColor(appState.isOnOffToggle ? Color.basicGray9 : Color.basicGray6)
                                     .pretendardFont(family: .Bold, size: 18)
                                 
                                 Spacer()
                                 
                                 Text(String.formattedTimeWithoutAmPm(appState.selectedTime))
-                                    .foregroundColor(appState.isOnOFFToggle ? Color.basicGray9 : Color.basicGray6)
+                                    .foregroundColor(appState.isOnOffToggle ? Color.basicGray9 : Color.basicGray6)
                                     .pretendardFont(family: .Bold, size: 18)
                             }
                                 .padding(.horizontal)
@@ -231,8 +221,8 @@ public struct OnBoardingPushView: View {
             Spacer()
                 .frame(width: 24)
             
-            Toggle("", isOn: $appState.isOnOFFToggle)
-                .toggleStyle(CustomToggle(activeColor: Color.primaryOrange, activeCircle: appState.isOnOFFToggle, height: 31, width: 51, noActiveColor: Color.basicGray4))
+            Toggle("", isOn: $appState.isOnOffToggle)
+                .toggleStyle(CustomToggle(activeColor: Color.primaryOrange, activeCircle: appState.isOnOffToggle, height: 31, width: 51, noActiveColor: Color.basicGray4))
                 .padding(.trailing, 20)
             //                .offset(x: -50)
             
@@ -252,16 +242,16 @@ public struct OnBoardingPushView: View {
         
         VStack(spacing: 8) {
             RoundedRectangle(cornerRadius: 12)
-                .fill(appState.isOnOFFToggle ? Color.primaryOrange : Color.basicGray3)
+                .fill(appState.isOnOffToggle ? Color.primaryOrange : Color.basicGray3)
                 .frame(width: UIScreen.screenWidth - 40 , height: 56)
                 .overlay {
                     Text("허용 및 저장")
                         .pretendardFont(family: .SemiBold, size: 16)
-                        .foregroundColor(appState.isOnOFFToggle ? Color.basicWhite : Color.basicGray5)
+                        .foregroundColor(appState.isOnOffToggle ? Color.basicWhite : Color.basicGray5)
                 }
-                .disabled(appState.isOnOFFToggle)
+                .disabled(appState.isOnOffToggle)
                 .onTapGesture {
-                    if appState.isOnOFFToggle {
+                    if appState.isOnOffToggle {
                         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
                         UNUserNotificationCenter.current().requestAuthorization(
                             options: authOptions,
@@ -276,7 +266,7 @@ public struct OnBoardingPushView: View {
                                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                                         
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-                                            appState.completOnBoardingView.toggle()
+                                            viewModel.viewPath.append(ViewState.isCompleteOnboarding)
                                         }
                                     }
                                 } else {
@@ -304,7 +294,7 @@ public struct OnBoardingPushView: View {
                 .pretendardFont(family: .SemiBold, size: 16)
                 .foregroundColor(Color.basicGray5)
                 .onTapGesture {
-                    appState.completPushNotificationView.toggle()
+                    viewModel.viewPath.append(ViewState.isDeniedNoti)
                 }
             
             if UIScreen.main.bounds.height == 667 {

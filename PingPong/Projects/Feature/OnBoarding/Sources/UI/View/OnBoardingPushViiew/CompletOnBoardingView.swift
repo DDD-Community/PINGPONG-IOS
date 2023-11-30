@@ -18,7 +18,6 @@ public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: OnBoardingViewModel
-    @StateObject var sheetManger: SheetManager = SheetManager()
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     
     public init(viewModel: OnBoardingViewModel) {
@@ -35,20 +34,11 @@ public struct CompletOnBoardingView: View {
             
             Spacer()
         }
+        .navigationBarBackButtonHidden()
         
         .task {
             //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
-        }
-        
-        .navigationDestination(isPresented: $commonViewViewModel.goToMainView) {
-            CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
-                .environmentObject(authViewModel)
-                .environmentObject(sheetManger)
-                .onAppear {
-                    authViewModel.getRefreshToken()
-                }
-                .navigationBarBackButtonHidden()
         }
     }
     
@@ -123,7 +113,9 @@ public struct CompletOnBoardingView: View {
                 }
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
-                    commonViewViewModel.goToMainView.toggle()
+                    
+                    viewModel.viewPath.removeAll()
+                    viewModel.viewPath.append(ViewState.isLoginned)
                     authViewModel.isLogin = true
                     authViewModel.isLoginCheck = true
                 }

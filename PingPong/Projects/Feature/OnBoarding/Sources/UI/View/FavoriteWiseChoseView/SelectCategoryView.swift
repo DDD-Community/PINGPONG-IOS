@@ -45,9 +45,6 @@ public struct SelectCategoryView: View {
         
         
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $viewModel.isSelectedCategory) {
-            SelectCharacterView(viewModel: self.viewModel)
-        }
     }
     
     @ViewBuilder
@@ -66,8 +63,7 @@ public struct SelectCategoryView: View {
                 .pretendardFont(family: .Regular, size: 14)
                 .foregroundColor(.basicGray6)
                 .onTapGesture {
-                    viewModel.isSkipSelectedCategory.toggle()
-                    viewModel.isSelectedCategory.toggle()
+                    viewModel.viewPath.append(ViewState.isSelectedCategory)
                 }
         }
         .padding(.horizontal, 20)
@@ -173,8 +169,7 @@ public struct SelectCategoryView: View {
                         .foregroundColor(viewModel.selectedFavorite.count > 0 ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.isSelectedCategory.toggle()
-                            
+                            viewModel.viewPath.append(ViewState.isSelectedCategory)
                         }
                 }
                 .disabled(viewModel.selectedFavorite.count < 1)
