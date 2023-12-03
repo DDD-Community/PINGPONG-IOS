@@ -8,15 +8,19 @@
 
 import SwiftUI
 import Authorization
+import Model
+import Common
 
 public struct LoginSettingView: View {
     
+    @StateObject private var commonViewViewModel: CommonViewViewModel
     @StateObject private var viewModel: OnBoardingViewModel
     @StateObject private var authviewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     
-       public init(viewModel: OnBoardingViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
+           self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
        }
     
     @Environment(\.presentationMode) var presentationMode
@@ -131,7 +135,7 @@ public struct LoginSettingView: View {
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.viewPath.append(ViewState.isNickNameComplete)
+                            commonViewViewModel.viewPath.append(ViewState.isNickNameComplete)
                         }
                 }
                 .disabled(viewModel.nicknameValidation != .valid)

@@ -7,15 +7,19 @@
 //
 
 import DesignSystem
+import Model
 import SwiftUI
+import Common
 
 public struct LoginJobSettingView: View {
+    
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
-    @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     @Environment(\.presentationMode) var presentationMode
     
-       public init(viewModel: OnBoardingViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
        }
     
     
@@ -145,7 +149,7 @@ public struct LoginJobSettingView: View {
                         .foregroundColor(viewModel.selectedJob != nil ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.viewPath.append(ViewState.isJobSettingComplete)
+                            commonViewViewModel.viewPath.append(ViewState.isJobSettingComplete)
                         }
                 }
                 .disabled(viewModel.selectedJob == nil)

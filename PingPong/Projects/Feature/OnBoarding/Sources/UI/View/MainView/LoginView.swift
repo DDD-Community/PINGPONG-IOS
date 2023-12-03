@@ -15,22 +15,21 @@ import AuthenticationServices
 import PopupView
 import Home
 import Core
+import Model
 
 
 public struct LoginView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
-    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel
     
-    @StateObject var sheetManger: SheetManager = SheetManager()
-    
-    public init(viewModel: OnBoardingViewModel){
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel){
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     
     public var body: some View {
-        NavigationStack(path: $viewModel.viewPath) {
             VStack(spacing: .zero) {
                
                 loadingAnimationView()
@@ -40,44 +39,6 @@ public struct LoginView: View {
                 authButton()
                 
             }
-            .navigationDestination(for: ViewState.self) { state in
-                switch state {
-                    
-                case .isStartLogin:
-                    OnBoardingLoginView(viewModel: viewModel)
-                        .navigationBarBackButtonHidden()
-                case .isStartEnter:
-                    OnBoardingView(viewModel: viewModel)
-                        .navigationBarBackButtonHidden()
-                case .isStartServiceAgreement:
-                    ServiceUseAgreementView(path: $viewModel.viewPath)
-                        .environmentObject(viewModel)
-                case .isServiceAgreeComplete:
-                    LoginSettingView(viewModel: self.viewModel)
-                case .isNickNameComplete:
-                    LoginJobSettingView(viewModel: self.viewModel)
-                 case .isJobSettingComplete:
-                    CompleteLoginView(viewModel: self.viewModel)
-                case .isCompleteLogin:
-                    FavoriteWiseChooseView(viewModel: self.viewModel)
-                case .isStartChoiceFavorite:
-                    SelectCategoryView(viewModel: self.viewModel)
-                case .isSelectedCategory:
-                    SelectCharacterView(viewModel: self.viewModel)
-                case .isSelectedCharacter:
-                    OnBoardingPushView(viewModel: self.viewModel)
-
-                case .isCompleteOnboarding:
-                    CompletOnBoardingView(viewModel: viewModel)
-                        .environmentObject(authViewModel)
-                case .isDeniedNoti:
-                    RecomandPushNotificationView(viewModel: self.viewModel)
-                case .isLoginned:
-                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
-                        .environmentObject(authViewModel)
-                        .environmentObject(sheetManger)
-                }
-            }
             .onAppear{
                 authViewModel.getRefreshToken()
                 if authViewModel.isDeletAuth {
@@ -85,7 +46,7 @@ public struct LoginView: View {
                 }
                 
                 if authViewModel.isLoginCheck {
-                    viewModel.viewPath.append(ViewState.isLoginned)
+                    commonViewViewModel.viewPath.append(ViewState.isLoginned)
                 }
             }
             .popup(isPresented: $authViewModel.deleteAuth) {
@@ -110,8 +71,6 @@ public struct LoginView: View {
                     .closeOnTapOutside(true)
                     .backgroundColor(.basicBlackDimmed)
             }
-
-        }
     }
     
     @ViewBuilder
@@ -185,7 +144,7 @@ public struct LoginView: View {
                         .pretendardFont(family: .SemiBold, size: 16)
                 }
                 .onTapGesture {
-                    viewModel.viewPath.append(ViewState.isStartLogin)
+                    commonViewViewModel.viewPath.append(ViewState.isStartLogin)
                 }
                 
             Spacer()
@@ -203,7 +162,7 @@ public struct LoginView: View {
                     viewModel.isSignUP = true
                     viewModel.alreadySignUP = false
                     viewModel.goToLoginRegisterView.toggle()
-                    viewModel.viewPath.append(ViewState.isStartEnter)
+                    commonViewViewModel.viewPath.append(ViewState.isStartEnter)
                 }
         }
         .padding(.horizontal, 20)
@@ -215,20 +174,4 @@ extension LoginView {
     public enum Label {
         public static let viewStringKey: String = "LoginView"
     }
-}
-
-public enum ViewState:String, Hashable {
-    case isStartLogin
-    case isStartEnter
-    case isStartServiceAgreement
-    case isServiceAgreeComplete
-    case isNickNameComplete
-    case isJobSettingComplete
-    case isCompleteLogin
-    case isStartChoiceFavorite
-    case isSelectedCategory
-    case isSelectedCharacter
-    case isCompleteOnboarding
-    case isDeniedNoti
-    case isLoginned
 }

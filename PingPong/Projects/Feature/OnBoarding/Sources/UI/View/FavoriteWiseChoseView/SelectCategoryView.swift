@@ -9,12 +9,15 @@
 import SwiftUI
 import DesignSystem
 import Model
+import Common
 
 public struct SelectCategoryView: View {
     @StateObject private var viewModel: OnBoardingViewModel
+    @StateObject private var commonViewViewModel: CommonViewViewModel
     
-    public init(viewModel: OnBoardingViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     
     @Environment(\.presentationMode) var presentationMode
@@ -63,7 +66,7 @@ public struct SelectCategoryView: View {
                 .pretendardFont(family: .Regular, size: 14)
                 .foregroundColor(.basicGray6)
                 .onTapGesture {
-                    viewModel.viewPath.append(ViewState.isSelectedCategory)
+                    commonViewViewModel.viewPath.append(ViewState.isSelectedCategory)
                 }
         }
         .padding(.horizontal, 20)
@@ -169,7 +172,7 @@ public struct SelectCategoryView: View {
                         .foregroundColor(viewModel.selectedFavorite.count > 0 ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.viewPath.append(ViewState.isSelectedCategory)
+                            commonViewViewModel.viewPath.append(ViewState.isSelectedCategory)
                         }
                 }
                 .disabled(viewModel.selectedFavorite.count < 1)

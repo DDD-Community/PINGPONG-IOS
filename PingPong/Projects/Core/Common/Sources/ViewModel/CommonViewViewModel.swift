@@ -27,6 +27,8 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
+    @Published public var viewPath: [ViewState] = []
+    
     @Published public var firstUserPOPUP: Bool = false
 
     @Published public var selectedTab: Tab = .home

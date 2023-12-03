@@ -13,8 +13,9 @@ import Authorization
 import AuthenticationServices
 import Home
 import Core
+import Model
 
-struct OnBoardingLoginView: View {
+public struct OnBoardingLoginView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @ObservedObject var viewModel: OnBoardingViewModel
@@ -23,15 +24,13 @@ struct OnBoardingLoginView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    
-    
     public init(
         viewModel: OnBoardingViewModel
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
     }
     
-    var body: some View {
+    public var body: some View {
             VStack(spacing: .zero) {
                
                 loadingAnimationView()
@@ -156,7 +155,7 @@ struct OnBoardingLoginView: View {
                             succesCompletion: {
                                 
                                 authViewModel.isLogin = true
-                                viewModel.viewPath.append(ViewState.isLoginned)
+                                commonViewViewModel.viewPath.append(ViewState.isLoginned)
                                 
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()

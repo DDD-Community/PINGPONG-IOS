@@ -8,12 +8,15 @@
 
 import SwiftUI
 import DesignSystem
+import Model
+import Common
 
 public struct FavoriteWiseChooseView: View {
     @StateObject private var viewModel: OnBoardingViewModel
-       
-       public init(viewModel: OnBoardingViewModel) {
+    @StateObject private var commonViewViewModel: CommonViewViewModel
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
+           self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
        }
     
     public var body: some View {
@@ -63,7 +66,7 @@ public struct FavoriteWiseChooseView: View {
                         .foregroundColor(.basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.viewPath.append(ViewState.isStartChoiceFavorite)
+                            commonViewViewModel.viewPath.append(ViewState.isStartChoiceFavorite)
                         }
                 }
         }

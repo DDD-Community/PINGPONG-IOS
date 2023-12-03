@@ -13,6 +13,7 @@ import AuthenticationServices
 import PopupView
 import Home
 import Core
+import Model
 //import GoogleSignInSwift
 
 public struct OnBoardingView: View {
@@ -143,7 +144,7 @@ public struct OnBoardingView: View {
                 authViewModel.appleLogin(credential: credential)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    viewModel.viewPath.append(ViewState.isStartServiceAgreement)
+                    commonViewViewModel.viewPath.append(ViewState.isStartServiceAgreement)
                 }
                 
                 

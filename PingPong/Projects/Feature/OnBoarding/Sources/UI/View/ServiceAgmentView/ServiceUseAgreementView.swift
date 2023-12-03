@@ -6,17 +6,20 @@
 //  Copyright © 2023 Wonji Suh. All rights reserved.
 //
 
+import Common
 import SwiftUI
 import Inject
 import DesignSystem
 import SafariServices
 import API
+import Model
 
 public struct ServiceUseAgreementView: View {
     public init(path: Binding<[ViewState]>) { self._path = path}
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: OnBoardingViewModel
+    @EnvironmentObject var commonViewViewModel: CommonViewViewModel
     
     @Binding var path: [ViewState]
     
@@ -150,7 +153,7 @@ public struct ServiceUseAgreementView: View {
                         .foregroundColor(viewModel.checkAgreementStatus ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.viewPath.append(ViewState.isServiceAgreeComplete)
+                            commonViewViewModel.viewPath.append(ViewState.isServiceAgreeComplete)
                         }
                 }
                 .disabled(!(viewModel.checkAgreementStatus)) // 버튼 비활성화 조건 추가

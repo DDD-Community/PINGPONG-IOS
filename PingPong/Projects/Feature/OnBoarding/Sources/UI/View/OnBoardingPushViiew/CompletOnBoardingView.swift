@@ -13,15 +13,17 @@ import DesignSystem
 import Authorization
 import Home
 import Core
+import Model
 
 public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: OnBoardingViewModel
-    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel
     
-    public init(viewModel: OnBoardingViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     
     public var body: some View {
@@ -114,8 +116,8 @@ public struct CompletOnBoardingView: View {
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
                     
-                    viewModel.viewPath.removeAll()
-                    viewModel.viewPath.append(ViewState.isLoginned)
+                    commonViewViewModel.viewPath.removeAll()
+                    commonViewViewModel.viewPath.append(ViewState.isLoginned)
                     authViewModel.isLogin = true
                     authViewModel.isLoginCheck = true
                 }

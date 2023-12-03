@@ -10,16 +10,19 @@ import Foundation
 import DesignSystem
 import SwiftUI
 import Authorization
+import Common
+import Model
 
 public struct RecomandPushNotificationView: View {
     @Environment(\.presentationMode)  var presentationMode
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
+    @StateObject var commonViewViewModel: CommonViewViewModel
     
-    
-    public init( viewModel: OnBoardingViewModel) {
+    public init( viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     
     public var body: some View {
@@ -36,7 +39,7 @@ public struct RecomandPushNotificationView: View {
         }
         
         .navigationDestination(isPresented: $appState.completOnBoardingView) {
-            CompletOnBoardingView(viewModel: self.viewModel)
+            CompletOnBoardingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                 .environmentObject(authViewModel)
                 .navigationBarHidden(true)
         }

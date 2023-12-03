@@ -11,15 +11,18 @@ import SwiftUI
 import Model
 import PopupView
 import Authorization
+import Common
 
 
 public struct SelectCharacterView: View {
+    @StateObject private var commonViewViewModel: CommonViewViewModel
     @StateObject private var viewModel: OnBoardingViewModel
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
-    public init(viewModel: OnBoardingViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewModel)
     }
     
     @Environment(\.presentationMode) var presentationMode
@@ -82,7 +85,7 @@ public struct SelectCharacterView: View {
                         appState.failRegisterFlavorPOPUP.toggle()
                     } 
                     
-                    viewModel.viewPath.append(ViewState.isSelectedCharacter)
+                    commonViewViewModel.viewPath.append(ViewState.isSelectedCharacter)
                 }
             
         }
@@ -147,7 +150,7 @@ public struct SelectCharacterView: View {
                             viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: [viewModel.selectedFavoriteFlavor], sources: [viewModel.selectedFavoriteCategory], failOnBoardingRegsiterAction: {
                                 appState.failRegisterFlavorPOPUP.toggle()
                             })
-                            viewModel.viewPath.append(ViewState.isSelectedCharacter)
+                            commonViewViewModel.viewPath.append(ViewState.isSelectedCharacter)
                         }
                 }
                 .disabled(viewModel.selectedCharacter.count < 1)

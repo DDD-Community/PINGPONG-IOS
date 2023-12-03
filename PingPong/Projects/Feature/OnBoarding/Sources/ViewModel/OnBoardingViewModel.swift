@@ -19,7 +19,7 @@ import DesignSystem
 public class OnBoardingViewModel: ObservableObject {
     
     @Published var appState: OnBoardingAppState = OnBoardingAppState()
-    @Published var viewPath: [ViewState] = []
+
     //MARK: -  사용자 취향 코드 모델
     var onBoardingSearchUserCancellable: AnyCancellable?
     @Published var onBoardingSearchUserModel: CommonCodeModel?

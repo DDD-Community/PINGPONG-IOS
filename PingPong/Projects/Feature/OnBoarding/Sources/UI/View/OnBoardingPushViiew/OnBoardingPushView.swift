@@ -10,15 +10,19 @@ import Foundation
 import DesignSystem
 import SwiftUI
 import Authorization
+import Model
+import Common
 
 public struct OnBoardingPushView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appState : OnBoardingAppState = OnBoardingAppState()
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel
     
-    public init(viewModel: OnBoardingViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
         
     }
     
@@ -71,7 +75,7 @@ public struct OnBoardingPushView: View {
                     .pretendardFont(family: .Regular, size: 14)
                     .foregroundColor(.basicGray6)
                     .onTapGesture {
-                        viewModel.viewPath.append(ViewState.isCompleteOnboarding)
+                        commonViewViewModel.viewPath.append(ViewState.isCompleteOnboarding)
                     }
                 
                 Spacer()
@@ -266,7 +270,7 @@ public struct OnBoardingPushView: View {
                                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                                         
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-                                            viewModel.viewPath.append(ViewState.isCompleteOnboarding)
+                                            commonViewViewModel.viewPath.append(ViewState.isCompleteOnboarding)
                                         }
                                     }
                                 } else {
@@ -294,7 +298,7 @@ public struct OnBoardingPushView: View {
                 .pretendardFont(family: .SemiBold, size: 16)
                 .foregroundColor(Color.basicGray5)
                 .onTapGesture {
-                    viewModel.viewPath.append(ViewState.isDeniedNoti)
+                    commonViewViewModel.viewPath.append(ViewState.isDeniedNoti)
                 }
             
             if UIScreen.main.bounds.height == 667 {
