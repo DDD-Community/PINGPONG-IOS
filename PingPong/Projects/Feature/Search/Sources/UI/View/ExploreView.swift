@@ -108,7 +108,7 @@ public struct ExploreView: View {
             .frame(width: UIScreen.screenWidth - 40, height: 48)
             .overlay(
                 HStack{
-                    TextField("명언을 검색해주세요!", text: $viewModel.exploreViewSearchBarText)
+                    TextField("", text: $viewModel.exploreViewSearchBarText)
                         .pretendardFont(family: .SemiBold, size: 18)
                         .padding(.leading, 15)
                     

@@ -72,10 +72,9 @@ public struct ProfileView: View {
         .task {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
-            profileViewModel.changeImage()
-            print(profileViewModel.randomNickName)
-            if profileViewModel.randomNickName == "" {
-                await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
+            profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
+            if authViewModel.randomAuthNickName == "" {
+                await authViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
             
             await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {_ in 

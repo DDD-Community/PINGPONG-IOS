@@ -17,7 +17,7 @@ import Model
 
 public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
-    @EnvironmentObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel
     
@@ -39,8 +39,8 @@ public struct CompletOnBoardingView: View {
         .navigationBarBackButtonHidden()
         
         .task {
-            //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+            await authViewModel.randomNameRequest(commCdTpCd: .userDesc)
         }
     }
     
@@ -69,9 +69,14 @@ public struct CompletOnBoardingView: View {
                     .pretendardFont(family: .SemiBold, size: 25)
                     .foregroundColor(Color.primaryOrange)
                 
-                Text("으로")
-                    .pretendardFont(family: .SemiBold, size: 25)
-                    .foregroundColor(Color.basicGray9)
+                HStack(spacing: .zero) {
+                    Text("\(authViewModel.randomAuthNickName)")
+                        .pretendardFont(family: .SemiBold, size: 25)
+                        .foregroundColor(Color.primaryOrange)
+                    Text("으로")
+                        .pretendardFont(family: .SemiBold, size: 25)
+                        .foregroundColor(Color.basicGray9)
+                }
                 
                 Spacer()
             }

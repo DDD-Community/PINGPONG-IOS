@@ -48,6 +48,7 @@ public struct HomeView: View {
             .navigationBarHidden(true)
             
             .onAppear {
+                authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
                 if !homeViewModel.isOn.isEmpty {
                     homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
                         for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {

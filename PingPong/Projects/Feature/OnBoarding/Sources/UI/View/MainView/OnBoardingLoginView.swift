@@ -41,11 +41,6 @@ public struct OnBoardingLoginView: View {
                 
                 socialLoginButtonView()
             
-            .navigationDestination(isPresented: $appState.goToMainHomeView) {
-                CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
-                    .environmentObject(sheetManager)
-                    .environmentObject(authViewModel)
-            }
         }
         
         .popup(isPresented: $appState.signUPFaillPOPUP) {
