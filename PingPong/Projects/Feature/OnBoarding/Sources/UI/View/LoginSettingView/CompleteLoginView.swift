@@ -15,15 +15,15 @@ import Model
 import Common
 
 public struct CompleteLoginView: View {
-    @StateObject private var commonViewModel: CommonViewViewModel
+    @StateObject private var commonViewViewModel: CommonViewViewModel
     @StateObject private var viewModel: OnBoardingViewModel
     @Environment(\.presentationMode) var presentationMode
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     
-    public init(viewModel: OnBoardingViewModel, commonViewModel: CommonViewViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
            self._viewModel = StateObject(wrappedValue: viewModel)
-           self._commonViewModel = StateObject(wrappedValue: commonViewModel)
+           self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
        }
     
     
@@ -125,7 +125,7 @@ public struct CompleteLoginView: View {
                         .foregroundColor(.basicWhite)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            commonViewModel.viewPath.append(ViewState.isCompleteLogin)
+                            commonViewViewModel.viewPath.append(ViewState.isCompleteLogin)
                             //MARK: - 임시로  하드 코딩 나중에 로그인 성공하면  success action에  추가
                             //TODO: 회원가입 중간에 나가면 뷰깨지는 문제 해결
                             viewModel.completdSignUP = true

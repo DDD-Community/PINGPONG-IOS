@@ -159,7 +159,7 @@ public struct ProfileView: View {
                     .foregroundColor(.basicBlack)
             }
             .onTapGesture {
-                backAction()
+                viewModel.coreViewPath.removeLast()
             }
             
             
@@ -481,7 +481,6 @@ public struct ProfileView: View {
                     .foregroundColor(.logoutText)
             }
             .onTapGesture {
-                viewModel.coreViewPath.removeAll()
                 viewModel.isLogin = false
                 viewModel.isLoginCheck = false
                 

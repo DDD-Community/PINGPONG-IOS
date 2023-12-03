@@ -28,20 +28,21 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
-    @Published public var isLoginCheck: Bool = false
+    @Published public var isLoginCheck: Bool = false {
+        didSet {
+                coreViewPath.removeAll()
+                viewPath.removeAll()
+        }
+    }
     @AppStorage("isLogin") public var isLogin: Bool = false {
         didSet {
-            self.isLoginCheck = isLogin
+            isLoginCheck = isLogin
         }
     }
     
     
     @Published public var viewPath: [ViewState] = []
-    @Published public var coreViewPath: [CoreViewState] = [] {
-        didSet {
-            print("CoreViewPath: " ,coreViewPath)
-        }
-    }
+    @Published public var coreViewPath: [CoreViewState] = []
     
     @Published public var firstUserPOPUP: Bool = false
 
@@ -49,16 +50,8 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var goToMainView: Bool = false
     @Published public var customTabs: [CustomTab] = []
     
-    @Published public var selectedSourceArray: [Source] = [] {
-        didSet {
-            print(selectedSourceArray)
-        }
-    }
-    @Published public var selectedFlavorArray: [Flavor] = [] {
-        didSet {
-            print(selectedFlavorArray)
-        }
-    }
+    @Published public var selectedSourceArray: [Source] = []
+    @Published public var selectedFlavorArray: [Flavor] = []
 
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30

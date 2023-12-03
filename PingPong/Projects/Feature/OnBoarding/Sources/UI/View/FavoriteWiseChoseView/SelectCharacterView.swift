@@ -20,9 +20,9 @@ public struct SelectCharacterView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     
-    public init(viewModel: OnBoardingViewModel, commonViewModel: CommonViewViewModel) {
+    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
-        self._commonViewViewModel = StateObject(wrappedValue: commonViewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     
     @Environment(\.presentationMode) var presentationMode

@@ -61,7 +61,6 @@ struct WithDrawView: View {
                             authViewModel.deleteAuth = true
                             authViewModel.isDeletAuth = true
                             viewModel.isLoginCheck = false
-                            viewModel.coreViewPath.removeAll()
                             profileViewModel.randomNickName = ""
 
                             presentationMode.wrappedValue.dismiss()

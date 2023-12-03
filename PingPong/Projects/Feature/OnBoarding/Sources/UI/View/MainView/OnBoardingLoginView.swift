@@ -157,7 +157,7 @@ public struct OnBoardingLoginView: View {
                             succesCompletion: {
                                 
                                 commonViewViewModel.isLogin = true
-                                commonViewViewModel.viewPath.append(ViewState.isLoginned)
+                                commonViewViewModel.isLoginCheck = true
                                 
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()

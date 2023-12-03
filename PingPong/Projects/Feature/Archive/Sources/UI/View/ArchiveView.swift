@@ -35,9 +35,9 @@ public struct ArchiveView: View {
     public var body: some View {
         VStack(){
             archiveHeader()
-            
-            staticsView(count: viewModel.bookmarkCards.count)
-            
+            if !viewModel.bookmarkCards.isEmpty {
+                staticsView(count: viewModel.bookmarkCards.count)
+            }
             if !viewModel.bookmarkCards.isEmpty {
                 ScrollView(.vertical) {
                     LazyVGrid(columns: columns) {

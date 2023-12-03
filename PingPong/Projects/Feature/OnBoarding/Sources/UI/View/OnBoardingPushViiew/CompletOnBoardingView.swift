@@ -116,7 +116,6 @@ public struct CompletOnBoardingView: View {
                 .onTapGesture {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
                     
-                    commonViewViewModel.viewPath.removeAll()
                     commonViewViewModel.isLogin = true
                     commonViewViewModel.isLoginCheck = true
                 }

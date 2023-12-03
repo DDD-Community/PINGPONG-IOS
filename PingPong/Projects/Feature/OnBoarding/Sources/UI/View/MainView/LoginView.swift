@@ -58,13 +58,13 @@ public struct LoginView: View {
                 case .isNickNameComplete:
                     LoginJobSettingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                  case .isJobSettingComplete:
-                    CompleteLoginView(viewModel: self.viewModel, commonViewModel: self.commonViewViewModel)
+                    CompleteLoginView(viewModel: self.viewModel, commonViewViewModel: self.commonViewViewModel)
                 case .isCompleteLogin:
                     FavoriteWiseChooseView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                 case .isStartChoiceFavorite:
                     SelectCategoryView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                 case .isSelectedCategory:
-                    SelectCharacterView(viewModel: self.viewModel, commonViewModel: commonViewViewModel)
+                    SelectCharacterView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                 case .isSelectedCharacter:
                     OnBoardingPushView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
 
