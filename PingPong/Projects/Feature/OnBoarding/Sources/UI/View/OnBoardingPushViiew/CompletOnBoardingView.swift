@@ -39,16 +39,20 @@ public struct CompletOnBoardingView: View {
         .task {
             //MARK: -  임시 값
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+            await authViewModel.randomNameRequest(commCdTpCd: .userDesc)
+            
         }
         
-        .navigationDestination(isPresented: $commonViewViewModel.goToMainView) {
+        .fullScreenCover(isPresented: $commonViewViewModel.goToMainView) {
             CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
                 .environmentObject(authViewModel)
                 .environmentObject(sheetManger)
+                .transition(.move(edge: .leading))
                 .onAppear {
                     authViewModel.getRefreshToken()
                 }
                 .navigationBarBackButtonHidden()
+            
         }
     }
     
@@ -77,9 +81,14 @@ public struct CompletOnBoardingView: View {
                     .pretendardFont(family: .SemiBold, size: 25)
                     .foregroundColor(Color.primaryOrange)
                 
-                Text("으로")
-                    .pretendardFont(family: .SemiBold, size: 25)
-                    .foregroundColor(Color.basicGray9)
+                HStack(spacing: .zero) {
+                    Text("\(authViewModel.randomAuthNickName)")
+                        .pretendardFont(family: .SemiBold, size: 25)
+                        .foregroundColor(Color.primaryOrange)
+                    Text("으로")
+                        .pretendardFont(family: .SemiBold, size: 25)
+                        .foregroundColor(Color.basicGray9)
+                }
                 
                 Spacer()
             }

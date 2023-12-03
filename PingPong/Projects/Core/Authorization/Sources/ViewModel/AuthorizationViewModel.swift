@@ -31,6 +31,8 @@ public class AuthorizationViewModel: ObservableObject {
     @AppStorage("userEmail") public var userEmail: String = ""
     @Published public var isLoginCheck: Bool = false
     @Published public var isActiveNotification: Bool = false
+    @AppStorage("randomNickName") public var randomAuthNickName: String = ""
+    
     @AppStorage("isNotification") public var isNotification : Bool = false {
         didSet {
             self.isActiveNotification = isNotification
@@ -69,6 +71,9 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var userNickName: String = ""
     @Published public var userRmk: String = ""
     
+    @Published public var commonCodeModel: CommonCdModel?
+    var randomNameCancellable: AnyCancellable?
+    
     public init() {
         isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         self.userSession = Auth.auth().currentUser
@@ -77,6 +82,7 @@ public class AuthorizationViewModel: ObservableObject {
         userUid = UserDefaults.standard.string(forKey: "userUid") ?? ""
         isNotification = UserDefaults.standard.bool(forKey: "isNotification")
         deleteAuth = UserDefaults.standard.bool(forKey: "deleteAuth")
+        randomAuthNickName = UserDefaults.standard.string(forKey: "randomNickName") ?? ""
        
     }
     
@@ -329,9 +335,11 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     
-    public func loginWithEmail(email: String, 
-                               succesCompletion : @escaping () -> Void,
-                               failLoginCompletion: @escaping () -> Void) async {
+    public func loginWithEmail(
+        email: String,
+        succesCompletion : @escaping () -> Void,
+        failLoginCompletion: @escaping () -> Void
+    ) async {
         if let cancellable = loginEmailCancellable {
             cancellable.cancel()
         }
@@ -360,6 +368,43 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.userid = model.data?.id ?? .zero
                     print("로그인 실패", model)
                     failLoginCompletion()
+                }
+            })
+    }
+    
+    
+    public func commCodeToViewModel(_ list: CommonCdModel) {
+        self.commonCodeModel = list
+    }
+    
+    public func randomNameRequest(commCdTpCd: CommonType) async {
+        if let cancellable = randomNameCancellable {
+            cancellable.cancel()
+        }
+        
+        let provider = MoyaProvider<SearchService>(plugins: [MoyaLoggingPlugin()])
+        randomNameCancellable = provider.requestWithProgressPublisher(.searchCommCode(commCdTpCd: commCdTpCd.description))
+            .compactMap { $0.response?.data }
+            .receive(on: DispatchQueue.main)
+            .decode(type: CommonCdModel.self, decoder: JSONDecoder())
+            .sink(receiveCompletion: { [weak self] result in
+                switch result {
+                case .finished:
+                    break
+                case .failure(let error):
+                    Log.network("네트워크에러", error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] model in
+                if model.status == NetworkCode.success.status {
+                    self?.commCodeToViewModel(model)
+                    
+                    if let randomCommNm = model.data.commCds.randomElement()?.commNm {
+                        self?.randomAuthNickName = randomCommNm
+                        Log.network("랜덤 이름", randomCommNm)
+                    }
+                } else {
+                    self?.commCodeToViewModel(model)
+                    Log.network("유저 코드", model)
                 }
             })
     }

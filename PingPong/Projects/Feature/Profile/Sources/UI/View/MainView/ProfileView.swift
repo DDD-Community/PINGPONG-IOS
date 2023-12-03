@@ -72,10 +72,9 @@ public struct ProfileView: View {
         .task {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
-            profileViewModel.changeImage()
-            print(profileViewModel.randomNickName)
-            if profileViewModel.randomNickName == "" {
-                await profileViewModel.randomNameRequest(commCdTpCd: .userDesc)
+            profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
+            if authViewModel.randomAuthNickName == "" {
+                await authViewModel.randomNameRequest(commCdTpCd: .userDesc)
             }
             
             await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {_ in 
@@ -93,7 +92,6 @@ public struct ProfileView: View {
                 }
             })
             
-            print("\(profileViewModel.randomNickName)")
         }
         
         .navigationDestination(isPresented: $profileViewModel.gotoOtherSettingView) {
@@ -204,7 +202,7 @@ public struct ProfileView: View {
                             }
                             
                             HStack {
-                                Text(profileViewModel.randomNickName)
+                                Text(authViewModel.randomAuthNickName)
                                     .pretendardFont(family: .Medium, size: 14)
                                     .foregroundColor(Color.basicGray7)
                                 

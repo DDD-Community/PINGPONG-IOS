@@ -40,11 +40,7 @@ public class ProfileViewViewModel: ObservableObject {
     
     @Published public var selectTimeBottomView: Bool = false
     
-    @Published public var commonCodeModel: CommonCdModel?
-    var randomNameCancellable: AnyCancellable?
-    
     @Published var isFirstRequestCompleted = false
-    @AppStorage("randomNickName") var randomNickName: String = ""
    
     @Published var nicknameValidation: NicknameValidationType = .notValidated
     @Published public var changeValidationColor: Color = .basicGray4
@@ -69,7 +65,6 @@ public class ProfileViewViewModel: ObservableObject {
         saveDate = UserDefaults.standard.string(forKey: "saveDate") ?? ""
         saveDateHour = UserDefaults.standard.string(forKey: "saveDateHour") ?? ""
         selectedChangeTimeView = UserDefaults.standard.bool(forKey: "selectedChangeTimeView")
-        randomNickName = UserDefaults.standard.string(forKey: "randomNickName") ?? ""
         userPrefId = UserDefaults.standard.integer(forKey: "userPrefId")
         
     }
@@ -268,8 +263,8 @@ public class ProfileViewViewModel: ObservableObject {
         return true
     }
     
-    public func changeImage() {
-        switch self.randomNickName {
+    public func changeImage(randomNickName: String) {
+        switch randomNickName {
         case "바삭바삭 명언제과":
             changeNickImage = "crunchyNickname"
         case "포근포근 명언베이커리":
@@ -284,42 +279,6 @@ public class ProfileViewViewModel: ObservableObject {
         default:
             break
         }
-    }
-    
-    public func commCodeToViewModel(_ list: CommonCdModel) {
-        self.commonCodeModel = list
-    }
-    
-    public func randomNameRequest(commCdTpCd: CommonType) async {
-        if let cancellable = randomNameCancellable {
-            cancellable.cancel()
-        }
-        
-        let provider = MoyaProvider<SearchService>(plugins: [MoyaLoggingPlugin()])
-        randomNameCancellable = provider.requestWithProgressPublisher(.searchCommCode(commCdTpCd: commCdTpCd.description))
-            .compactMap { $0.response?.data }
-            .receive(on: DispatchQueue.main)
-            .decode(type: CommonCdModel.self, decoder: JSONDecoder())
-            .sink(receiveCompletion: { [weak self] result in
-                switch result {
-                case .finished:
-                    break
-                case .failure(let error):
-                    Log.network("네트워크에러", error.localizedDescription)
-                }
-            }, receiveValue: { [weak self] model in
-                if model.status == NetworkCode.success.status {
-                    self?.commCodeToViewModel(model)
-                    
-                    if let randomCommNm = model.data.commCds.randomElement()?.commNm {
-                        self?.randomNickName = randomCommNm
-                        Log.network("랜덤 이름", randomCommNm)
-                    }
-                } else {
-                    self?.commCodeToViewModel(model)
-                    Log.network("유저 코드", model)
-                }
-            })
     }
 }
 
