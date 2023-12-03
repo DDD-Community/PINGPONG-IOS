@@ -70,6 +70,7 @@ public struct ProfileView: View {
         .navigationBarBackButtonHidden()
         
         .task {
+           await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: {}, failLoginCompletion: {})
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
             profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)

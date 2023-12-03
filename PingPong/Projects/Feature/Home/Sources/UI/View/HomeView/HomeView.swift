@@ -46,6 +46,9 @@ public struct HomeView: View {
                 
             }
             .navigationBarHidden(true)
+            .task {
+                await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: {}, failLoginCompletion: {})
+            }
             
             .onAppear {
                 authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
