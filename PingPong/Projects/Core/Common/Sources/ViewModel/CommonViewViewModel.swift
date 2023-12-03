@@ -18,6 +18,7 @@ import Service
 public class CommonViewViewModel: ObservableObject {
     
     public init() {
+        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
 
     }
@@ -27,7 +28,20 @@ public class CommonViewViewModel: ObservableObject {
         }
     }
     
+    @Published public var isLoginCheck: Bool = false
+    @AppStorage("isLogin") public var isLogin: Bool = false {
+        didSet {
+            self.isLoginCheck = isLogin
+        }
+    }
+    
+    
     @Published public var viewPath: [ViewState] = []
+    @Published public var coreViewPath: [CoreViewState] = [] {
+        didSet {
+            print("CoreViewPath: " ,coreViewPath)
+        }
+    }
     
     @Published public var firstUserPOPUP: Bool = false
 

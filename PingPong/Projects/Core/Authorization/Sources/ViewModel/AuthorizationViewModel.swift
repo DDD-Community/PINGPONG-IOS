@@ -22,14 +22,13 @@ import Service
 
 public class AuthorizationViewModel: ObservableObject {
     
-    
     @Published var userSession: Firebase.User?
     @Published public var nonce: String  = ""
     @AppStorage("log_status") var log_Status = false
     @AppStorage("Uid") public var uid: String = ""
     @AppStorage("userUid") public var userUid: String = ""
     @AppStorage("userEmail") public var userEmail: String = ""
-    @Published public var isLoginCheck: Bool = false
+    
     @Published public var isActiveNotification: Bool = false
     @AppStorage("isNotification") public var isNotification : Bool = false {
         didSet {
@@ -37,11 +36,7 @@ public class AuthorizationViewModel: ObservableObject {
         }
     }
     
-    @AppStorage("isLogin") public var isLogin: Bool = false {
-        didSet {
-            self.isLoginCheck = isLogin
-        }
-    }
+    
    
     @Published public var isDeletAuth: Bool = false
     @AppStorage("deleteAuth") public var deleteAuth : Bool = false {
@@ -70,7 +65,6 @@ public class AuthorizationViewModel: ObservableObject {
     @Published public var userRmk: String = ""
     
     public init() {
-        isLogin = UserDefaults.standard.bool(forKey: "isLogin")
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         userid = UserDefaults.standard.integer(forKey: "userId")

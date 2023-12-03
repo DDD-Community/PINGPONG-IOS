@@ -15,13 +15,13 @@ import API
 import Model
 
 public struct ServiceUseAgreementView: View {
-    public init(path: Binding<[ViewState]>) { self._path = path}
+    public init(commonViewViewModel: CommonViewViewModel) {
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
+    }
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: OnBoardingViewModel
-    @EnvironmentObject var commonViewViewModel: CommonViewViewModel
-    
-    @Binding var path: [ViewState]
+    @StateObject var commonViewViewModel: CommonViewViewModel
     
     public var body: some View {
         ZStack (alignment: .bottom) {

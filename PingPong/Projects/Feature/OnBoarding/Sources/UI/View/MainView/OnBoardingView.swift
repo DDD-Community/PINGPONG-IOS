@@ -20,15 +20,17 @@ public struct OnBoardingView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
-    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
     @Environment(\.presentationMode) var presentationMode
     
     public init(
-        viewModel: OnBoardingViewModel
+        viewModel: OnBoardingViewModel,
+        commonViewViewModel: CommonViewViewModel
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     public var body: some View {
         VStack(spacing: .zero) {
@@ -131,7 +133,6 @@ public struct OnBoardingView: View {
             authViewModel.nonce = AppleLoginManger.shared.randomNonceString()
             request.requestedScopes = [.fullName, .email]
             request.nonce =  AppleLoginManger.shared.sha256(authViewModel.nonce)
-            print("requestNonce",request.nonce)
         } onCompletion: { result in
             print(result, "result")
             switch result {

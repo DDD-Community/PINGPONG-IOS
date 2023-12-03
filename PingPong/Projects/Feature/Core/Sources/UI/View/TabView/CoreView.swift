@@ -23,57 +23,73 @@ public struct CoreView: View {
     @EnvironmentObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: CommonViewViewModel
     
+    
     public init(viewModel: CommonViewViewModel, isFistUserPOPUP: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._isFistUserPOPUP = isFistUserPOPUP
     }
     
     public var body: some View {
-        ZStack{
-            Color.basicGray1BG
-                .ignoresSafeArea()
-            ZStack {
-                VStack {
-                    if self.viewModel.selectedTab == .home {
-                        navigationTopHeaderView()
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+        NavigationStack(path: $viewModel.coreViewPath) {
+            ZStack{
+                Color.basicGray1BG
+                    .ignoresSafeArea()
+                ZStack {
+                    VStack {
+                        if self.viewModel.selectedTab == .home {
+                            navigationTopHeaderView()
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                        }
+                        selectTabView()
                     }
-                    selectTabView()
+                    
+                    mainTabBar()
+                        .ignoresSafeArea(.keyboard)
+                }
+                .modal(with: sheetManager, viewModel: viewModel)
+                .onAppear {
+                    if viewModel.isFirstUserPOPUP {
+                        self.viewModel.isFirstUserPOPUP = true
+                    } else {
+                        self.viewModel.isFirstUserPOPUP = false
+                        
+                    }
+                }
+                .popup(isPresented: $viewModel.isFirstUserPOPUP) {
+                    CustomPOPUP(
+                        image: .empty,
+                        title: "좌우를 넘기며",
+                        title1: "명언을 확인해보세요",
+                        subTitle: "", useGif: true, confirmAction: {
+                            isFistUserPOPUP = false
+                            viewModel.isFirstUserPOPUP = true
+                        })
+                } customize: { popup in
+                    popup
+                        .type(.default)
+                        .position(.bottom)
+                        .animation(.easeIn)
+                        .closeOnTap(true)
+                        .closeOnTapOutside(true)
+                        .backgroundColor(.basicBlackDimmed)
                 }
                 
-                mainTabBar()
-                    .ignoresSafeArea(.keyboard)
             }
-            .modal(with: sheetManager, viewModel: viewModel)
-            .onAppear {
-                if viewModel.isFirstUserPOPUP {
-                    self.viewModel.isFirstUserPOPUP = true
-                } else {
-                    self.viewModel.isFirstUserPOPUP = false
-                    
+            .navigationBarBackButtonHidden()
+            .navigationDestination(for: CoreViewState.self) { state in
+                switch state {
+                case .isStartEdit:
+                    ProfileView(
+                        viewModel: viewModel,
+                        appState: appState,
+                        backAction: {
+                            appState.isGoToProfileView = false
+                        },
+                        authViewModel: authViewModel)
+                    .environmentObject(sheetManager)
                 }
             }
-            .popup(isPresented: $viewModel.isFirstUserPOPUP) {
-                CustomPOPUP(
-                    image: .empty,
-                    title: "좌우를 넘기며",
-                    title1: "명언을 확인해보세요",
-                    subTitle: "", useGif: true, confirmAction: {
-                        isFistUserPOPUP = false
-                        viewModel.isFirstUserPOPUP = true
-                    })
-            } customize: { popup in
-                popup
-                    .type(.default)
-                    .position(.bottom)
-                    .animation(.easeIn)
-                    .closeOnTap(true)
-                    .closeOnTapOutside(true)
-                    .backgroundColor(.basicBlackDimmed)
-            }
-            
         }
-        .navigationBarBackButtonHidden()
         .onAppear {
             authViewModel.getRefreshToken()
             self.viewModel.setupCustomTabs()
@@ -90,22 +106,10 @@ public struct CoreView: View {
     @ViewBuilder
     private func navigationTopHeaderView() -> some View {
         VStack {
-            StatusBarView(goProfileSettingView: {
-                appState.goToProfileSettingView.toggle()
-            }, isGoToProfileView: $appState.isGoToProfileView)
-            .frame(height: 40)
+            StatusBarView()
+                .frame(height: 40)
             
             
-        }  
-        .navigationDestination(isPresented: $appState.isGoToProfileView) {
-            ProfileView(
-                viewModel: viewModel,
-                appState: appState,
-                backAction: {
-                    appState.isGoToProfileView = false
-                }, 
-                authViewModel: authViewModel)
-            .environmentObject(sheetManager)
         }
     }
     
@@ -150,6 +154,26 @@ public struct CoreView: View {
         }
     }
     
-    
+    @ViewBuilder
+    private func StatusBarView() -> some View {
+        HStack{
+            Image(assetName: "mainHomeLogo")
+                .resizable()
+                .frame(width: 36, height: 36)
+            Text("명언제과점")
+                .gmarketSans(family: .Bold, size: 22)
+                .frame(height: 40)
+                .foregroundColor(.primaryOrange)
+            Spacer()
+            
+            Image(systemName: "person.crop.circle")
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundColor(.primaryOrangeDark)
+                .onTapGesture {
+                    viewModel.coreViewPath.append(CoreViewState.isStartEdit)
+                }
+        }
+        .padding(.horizontal, 20)
+    }
 }
-

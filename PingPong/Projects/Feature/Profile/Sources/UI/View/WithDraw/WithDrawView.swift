@@ -60,7 +60,8 @@ struct WithDrawView: View {
                         await profileViewModel.withDrawPost(userID: "\(authViewModel.userid)", reason: profileViewModel.selectWithDrawReason,  successCompletion: {
                             authViewModel.deleteAuth = true
                             authViewModel.isDeletAuth = true
-                            authViewModel.isLoginCheck = false
+                            viewModel.isLoginCheck = false
+                            viewModel.coreViewPath.removeAll()
                             profileViewModel.randomNickName = ""
 
                             presentationMode.wrappedValue.dismiss()

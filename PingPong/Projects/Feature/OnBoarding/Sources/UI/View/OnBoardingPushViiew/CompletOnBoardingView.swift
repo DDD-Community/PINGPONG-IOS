@@ -117,9 +117,8 @@ public struct CompletOnBoardingView: View {
                     //MARK: -  취향 등록 api  성공 후 mainview  로직
                     
                     commonViewViewModel.viewPath.removeAll()
-                    commonViewViewModel.viewPath.append(ViewState.isLoginned)
-                    authViewModel.isLogin = true
-                    authViewModel.isLoginCheck = true
+                    commonViewViewModel.isLogin = true
+                    commonViewViewModel.isLoginCheck = true
                 }
         }
     }

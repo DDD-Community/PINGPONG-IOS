@@ -22,4 +22,9 @@ public enum ViewState:String, Hashable {
     case isCompleteOnboarding
     case isDeniedNoti
     case isLoginned
+    
+}
+
+public enum CoreViewState: String {
+    case isStartEdit
 }

@@ -21,18 +21,16 @@ import Model
 @main
 struct PingPongProjectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var sheetManager = SheetManager()
     @State var showlanch: Bool = true
     @StateObject var viewModel: OnBoardingViewModel = OnBoardingViewModel()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
     
-    
+    @StateObject var sheetManager = SheetManager()
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $commonViewViewModel.viewPath) {
                 ZStack {
-                    if authViewModel.isLoginCheck {
+                    if commonViewViewModel.isLoginCheck {
                         CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                             .environmentObject(authViewModel)
                             .environmentObject(sheetManager)
@@ -54,48 +52,9 @@ struct PingPongProjectApp: App {
                         }
                     }
                 }
-                .navigationDestination(for: ViewState.self) { state in
-                    switch state {
-                        
-                    case .isStartLogin:
-                        OnBoardingLoginView(viewModel: viewModel)
-                            .navigationBarBackButtonHidden()
-                    case .isStartEnter:
-                        OnBoardingView(viewModel: viewModel)
-                            .navigationBarBackButtonHidden()
-                    case .isStartServiceAgreement:
-                        ServiceUseAgreementView(path: $commonViewViewModel.viewPath)
-                            .environmentObject(viewModel)
-                    case .isServiceAgreeComplete:
-                        LoginSettingView(viewModel: self.viewModel, commonViewViewModel: self.commonViewViewModel)
-                    case .isNickNameComplete:
-                        LoginJobSettingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
-                     case .isJobSettingComplete:
-                        CompleteLoginView(viewModel: self.viewModel, commonViewModel: self.commonViewViewModel)
-                    case .isCompleteLogin:
-                        FavoriteWiseChooseView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
-                    case .isStartChoiceFavorite:
-                        SelectCategoryView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
-                    case .isSelectedCategory:
-                        SelectCharacterView(viewModel: self.viewModel, commonViewModel: commonViewViewModel)
-                    case .isSelectedCharacter:
-                        OnBoardingPushView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
-
-                    case .isCompleteOnboarding:
-                        CompletOnBoardingView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
-                            .environmentObject(authViewModel)
-                    case .isDeniedNoti:
-                        RecomandPushNotificationView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
-                    case .isLoginned:
-                        CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
-                            .environmentObject(authViewModel)
-                            .environmentObject(sheetManager)
-                    }
-                }
                 .onAppear {
                     commonViewViewModel.setupCustomTabs()
                 }
-            }
         }
         
     }

@@ -23,6 +23,7 @@ public struct LoginView: View {
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel
+    @StateObject var sheetManager = SheetManager()
     
     public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel){
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -30,6 +31,7 @@ public struct LoginView: View {
     }
     
     public var body: some View {
+        NavigationStack(path: $commonViewViewModel.viewPath) {
             VStack(spacing: .zero) {
                
                 loadingAnimationView()
@@ -39,14 +41,48 @@ public struct LoginView: View {
                 authButton()
                 
             }
+            .navigationDestination(for: ViewState.self) { state in
+                switch state {
+                    
+                case .isStartLogin:
+                    OnBoardingLoginView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
+                        .navigationBarBackButtonHidden()
+                case .isStartEnter:
+                    OnBoardingView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
+                        .navigationBarBackButtonHidden()
+                case .isStartServiceAgreement:
+                    ServiceUseAgreementView(commonViewViewModel: commonViewViewModel)
+                        .environmentObject(viewModel)
+                case .isServiceAgreeComplete:
+                    LoginSettingView(viewModel: self.viewModel, commonViewViewModel: self.commonViewViewModel)
+                case .isNickNameComplete:
+                    LoginJobSettingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+                 case .isJobSettingComplete:
+                    CompleteLoginView(viewModel: self.viewModel, commonViewModel: self.commonViewViewModel)
+                case .isCompleteLogin:
+                    FavoriteWiseChooseView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+                case .isStartChoiceFavorite:
+                    SelectCategoryView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+                case .isSelectedCategory:
+                    SelectCharacterView(viewModel: self.viewModel, commonViewModel: commonViewViewModel)
+                case .isSelectedCharacter:
+                    OnBoardingPushView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+
+                case .isCompleteOnboarding:
+                    CompletOnBoardingView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
+                        .environmentObject(authViewModel)
+                case .isDeniedNoti:
+                    RecomandPushNotificationView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+                case .isLoginned:
+                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
+                        .environmentObject(authViewModel)
+                        .environmentObject(sheetManager)
+                }
+            }
             .onAppear{
                 authViewModel.getRefreshToken()
                 if authViewModel.isDeletAuth {
                     authViewModel.deleteAuth = true
-                }
-                
-                if authViewModel.isLoginCheck {
-                    commonViewViewModel.viewPath.append(ViewState.isLoginned)
                 }
             }
             .popup(isPresented: $authViewModel.deleteAuth) {
@@ -71,6 +107,7 @@ public struct LoginView: View {
                     .closeOnTapOutside(true)
                     .backgroundColor(.basicBlackDimmed)
             }
+        }
     }
     
     @ViewBuilder

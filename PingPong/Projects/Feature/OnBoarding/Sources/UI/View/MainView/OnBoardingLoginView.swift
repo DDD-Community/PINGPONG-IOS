@@ -19,15 +19,17 @@ public struct OnBoardingLoginView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
     @ObservedObject var viewModel: OnBoardingViewModel
-    @StateObject var commonViewViewModel: CommonViewViewModel = CommonViewViewModel()
+    @StateObject var commonViewViewModel: CommonViewViewModel
     @StateObject var sheetManager: SheetManager  = SheetManager()
     
     @Environment(\.presentationMode) var presentationMode
     
     public init(
-        viewModel: OnBoardingViewModel
+        viewModel: OnBoardingViewModel,
+        commonViewViewModel: CommonViewViewModel
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
+        self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
     }
     
     public var body: some View {
@@ -154,7 +156,7 @@ public struct OnBoardingLoginView: View {
                             email: authViewModel.userEmail,
                             succesCompletion: {
                                 
-                                authViewModel.isLogin = true
+                                commonViewViewModel.isLogin = true
                                 commonViewViewModel.viewPath.append(ViewState.isLoginned)
                                 
                             }, failLoginCompletion:  {

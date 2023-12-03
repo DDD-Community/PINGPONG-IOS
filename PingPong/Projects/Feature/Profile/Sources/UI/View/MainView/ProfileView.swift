@@ -481,8 +481,9 @@ public struct ProfileView: View {
                     .foregroundColor(.logoutText)
             }
             .onTapGesture {
-                authViewModel.isLogin = false
-                authViewModel.isLoginCheck = false
+                viewModel.coreViewPath.removeAll()
+                viewModel.isLogin = false
+                viewModel.isLoginCheck = false
                 
                 presentationMode.wrappedValue.dismiss()
                 
