@@ -40,7 +40,7 @@ public struct CompletOnBoardingView: View {
         
         .task {
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
-            await authViewModel.randomNameRequest(commCdTpCd: .userDesc)
+            await authViewModel.randomNameRequest(commCdTpCd: .userDesc, completion: {_ in })
         }
     }
     

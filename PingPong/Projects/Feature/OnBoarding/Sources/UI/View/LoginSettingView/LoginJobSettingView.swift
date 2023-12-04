@@ -81,7 +81,7 @@ public struct LoginJobSettingView: View {
                 LazyVGrid(columns: columns, spacing: 10) {
                     let searchUserJob = viewModel.onBoardingSearchUserModel?.data?.filter{$0.commCDTpID == 4}
                     if let firstSearchUserJob = searchUserJob?.first {
-                        let sortedCommCds = firstSearchUserJob.commCds?.sorted(by: { $0.commCDID < $1.commCDID }) ?? []
+                        let sortedCommCds = firstSearchUserJob.commCds?.sorted(by: { $0.commCDID ?? .zero < $1.commCDID ?? .zero }) ?? []
                         ForEach(sortedCommCds, id: \.self) { commCDItem in
                             VStack {
                                 if viewModel.selectedJob == commCDItem.commCD {
@@ -93,7 +93,7 @@ public struct LoginJobSettingView: View {
                                                 .frame(width: 96, height: 96)
                                                 .foregroundColor(.primaryOrangeOpacity40)
                                                 .overlay(
-                                                    Image(assetName:  commCDItem.commCD == "OTHER" ? "\(commCDItem.commCD)S" : commCDItem.commCD)
+                                                    Image(assetName:  (commCDItem.commCD == "OTHER" ? "\(commCDItem.commCD)S" : commCDItem.commCD) ?? "")
                                                 )
                                         )
                                 } else {
@@ -101,15 +101,15 @@ public struct LoginJobSettingView: View {
                                         .frame(width: 96, height: 96)
                                         .foregroundColor(.basicGray3)
                                         .overlay(
-                                            Image(assetName:  commCDItem.commCD == "OTHER" ? "\(commCDItem.commCD)S" : commCDItem.commCD )
+                                            Image(assetName:  (commCDItem.commCD == "OTHER" ? "\(commCDItem.commCD)S" : commCDItem.commCD) ?? "" )
                                         )
                                 }
-                                Text(commCDItem.commNm)
+                                Text(commCDItem.commNm ?? "")
                                     .pretendardFont(family: .SemiBold, size: 14)
                             }
                             .onTapGesture {
                                 self.viewModel.selectedJob = commCDItem.commCD
-                                self.viewModel.selectJobCode = commCDItem.commCDID
+                                self.viewModel.selectJobCode = commCDItem.commCDID ?? .zero
                             }
                         }
                     }

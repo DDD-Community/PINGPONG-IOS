@@ -17,7 +17,7 @@ public struct ProfileView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
-    @ObservedObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var sheetManager: SheetManager
@@ -34,7 +34,7 @@ public struct ProfileView: View {
         self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
-        self._authViewModel = ObservedObject(wrappedValue: authViewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
     }
     
     
@@ -70,15 +70,22 @@ public struct ProfileView: View {
         .navigationBarBackButtonHidden()
         
         .task {
-           await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: {}, failLoginCompletion: {})
+            if authViewModel.randomAuthNickName == "" {
+                await authViewModel.randomNameRequest(commCdTpCd: .userDesc, completion: { model  in
+                    authViewModel.randomAuthNickName = model.data?.commCds.randomElement()?.commNm ?? ""
+                    profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
+                })
+            }
+            profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
+            
+           await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: { model in
+               authViewModel.userNickName = model.data?.nickname ?? ""
+               authViewModel.userid = model.data?.id ?? .zero
+           }, failLoginCompletion: {})
+           
             authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
             
-            profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
-            if authViewModel.randomAuthNickName == "" {
-                await authViewModel.randomNameRequest(commCdTpCd: .userDesc)
-            }
-            
-            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: {_ in 
+            await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: { _ in
                 for userFlavor in profileViewModel.profileUserPrefModel?.data?.flavors ?? [] {
                     guard let flavor = Flavor(rawValue: userFlavor) else { continue }
                     if !viewModel.selectedFlavorArray.contains(flavor) {
@@ -196,7 +203,7 @@ public struct ProfileView: View {
                         
                         VStack(spacing: .zero) {
                             HStack {
-                                Text("\(authViewModel.signupModel?.data?.nickname ?? "")")
+                                Text(authViewModel.userNickName)
                                     .pretendardFont(family: .SemiBold, size: 18)
                                     .foregroundColor(Color.basicGray9)
                                 Spacer()
@@ -204,7 +211,7 @@ public struct ProfileView: View {
                             }
                             
                             HStack {
-                                Text(profileViewModel.randomNickName)
+                                Text(authViewModel.randomAuthNickName)
                                     .pretendardFont(family: .Medium, size: 14)
                                     .foregroundColor(Color.basicGray7)
                                 
@@ -483,7 +490,7 @@ public struct ProfileView: View {
             .onTapGesture {
                 viewModel.isLogin = false
                 viewModel.isLoginCheck = false
-                
+                authViewModel.randomAuthNickName = ""
                 presentationMode.wrappedValue.dismiss()
                 
             }

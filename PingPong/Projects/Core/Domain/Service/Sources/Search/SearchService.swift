@@ -49,9 +49,10 @@ extension SearchService: BaseTargetType {
             
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
-        case .searchCommCode(let commCdTpCd):
+        case .searchCommCode(_):
             let parameters : [String : Any] = [
-                "commCdTpCd": commCdTpCd
+//                "commCdTpCd": commCdTpCd
+                :
                
             ]
             

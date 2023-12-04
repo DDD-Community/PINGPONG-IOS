@@ -145,14 +145,15 @@ public struct OnBoardingLoginView: View {
                 }
                 authViewModel.appleLogin(credential: credential)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                     Task {
                         await authViewModel.loginWithEmail(
                             email: authViewModel.userEmail,
-                            succesCompletion: {
-                                
+                            succesCompletion: { model in
                                 commonViewViewModel.isLogin = true
                                 commonViewViewModel.isLoginCheck = true
+                                authViewModel.userid = model.data?.id ?? .zero
+                                authViewModel.userNickName = model.data?.nickname ?? ""
                                 
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()
@@ -162,8 +163,10 @@ public struct OnBoardingLoginView: View {
                 }
                 
             case .failure(let error):
-                appState.signUPFaillPOPUP.toggle()
-                presentationMode.wrappedValue.dismiss()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    appState.signUPFaillPOPUP.toggle()
+                    presentationMode.wrappedValue.dismiss()
+                }
             }
             
         }
