@@ -47,14 +47,7 @@ public struct CoreView: View {
                         .ignoresSafeArea(.keyboard)
                 }
                 .modal(with: sheetManager, viewModel: viewModel)
-                .onAppear {
-                    if viewModel.isFirstUserPOPUP {
-                        self.viewModel.isFirstUserPOPUP = true
-                    } else {
-                        self.viewModel.isFirstUserPOPUP = false
-                        
-                    }
-                }
+           
                 .popup(isPresented: $viewModel.isFirstUserPOPUP) {
                     CustomPOPUP(
                         image: .empty,
@@ -62,7 +55,7 @@ public struct CoreView: View {
                         title1: "명언을 확인해보세요",
                         subTitle: "", useGif: true, confirmAction: {
                             isFistUserPOPUP = false
-                            viewModel.isFirstUserPOPUP = true
+//                            viewModel.isFirstUserPOPUP = true
                         })
                 } customize: { popup in
                     popup

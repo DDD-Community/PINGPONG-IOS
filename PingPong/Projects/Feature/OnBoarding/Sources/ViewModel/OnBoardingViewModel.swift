@@ -66,7 +66,6 @@ public class OnBoardingViewModel: ObservableObject {
     @Published public var isSignUP: Bool = false
     @AppStorage("completdSignUP") public var completdSignUP: Bool = false
     @Published public var alreadySignUP: Bool = false
-    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
 
     let unicodeArray: [Character] = CheckRegister.generateUnicodeArray()
         @Published var flavorArray: SearchViewButtonInfo =  SearchViewButtonInfo(title: .flavor, options:  [
@@ -99,7 +98,6 @@ public class OnBoardingViewModel: ObservableObject {
     
     
     public init() {
-        isFirstUserPOPUP = UserDefaults.standard.bool(forKey: "isFirstUserPOPUP")
         isSignUP = UserDefaults.standard.bool(forKey: "isSignUP")
         completdSignUP = UserDefaults.standard.bool(forKey: "completdSignUP")
         alreadySignUP = UserDefaults.standard.bool(forKey: "alreadySignUP")

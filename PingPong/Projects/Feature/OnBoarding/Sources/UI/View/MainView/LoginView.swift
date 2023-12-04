@@ -81,9 +81,6 @@ public struct LoginView: View {
             }
             .onAppear{
                 authViewModel.getRefreshToken()
-                if authViewModel.isDeletAuth {
-                    authViewModel.deleteAuth = true
-                }
             }
             .popup(isPresented: $authViewModel.deleteAuth) {
                 WithDrawPOPUP(

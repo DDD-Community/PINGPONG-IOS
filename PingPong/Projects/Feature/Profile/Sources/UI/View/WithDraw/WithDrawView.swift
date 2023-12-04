@@ -59,7 +59,6 @@ struct WithDrawView: View {
                     Task {
                         await profileViewModel.withDrawPost(userID: "\(authViewModel.userid)", reason: profileViewModel.selectWithDrawReason,  successCompletion: {
                             authViewModel.deleteAuth = true
-                            authViewModel.isDeletAuth = true
                             viewModel.isLoginCheck = false
                             profileViewModel.randomNickName = ""
 

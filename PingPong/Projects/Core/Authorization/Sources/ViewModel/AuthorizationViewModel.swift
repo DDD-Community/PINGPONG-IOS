@@ -37,17 +37,14 @@ public class AuthorizationViewModel: ObservableObject {
         }
     }
     
-    
-   
-    @Published public var isDeletAuth: Bool = false
-    @AppStorage("deleteAuth") public var deleteAuth : Bool = false {
-        didSet {
-            self.isDeletAuth = deleteAuth
-        }
-    }
+    @AppStorage("deleteAuth") public var deleteAuth : Bool = false
     
     @Published public var loginStatus: Bool = false
-    @Published var deleteUser: Bool = false
+    @Published var deleteUser: Bool = false {
+        didSet {
+            print("\(deleteUser) 바뀌었어")
+        }
+    }
     
     
     var userNickNameCheckCancellable: AnyCancellable?
@@ -74,8 +71,6 @@ public class AuthorizationViewModel: ObservableObject {
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
         userid = UserDefaults.standard.integer(forKey: "userId")
         userUid = UserDefaults.standard.string(forKey: "userUid") ?? ""
-        isNotification = UserDefaults.standard.bool(forKey: "isNotification")
-        deleteAuth = UserDefaults.standard.bool(forKey: "deleteAuth")
         randomAuthNickName = UserDefaults.standard.string(forKey: "randomNickName") ?? ""
        
     }
@@ -99,7 +94,6 @@ public class AuthorizationViewModel: ObservableObject {
         let firebaseAuth = Auth.auth()
         
         firebaseAuth.currentUser?.delete(completion: { error  in
-            self.deleteUser = true
             self.userSession = nil
             print("유저가 삭제 되었습니다 \(String(describing: error?.localizedDescription))")
         })
