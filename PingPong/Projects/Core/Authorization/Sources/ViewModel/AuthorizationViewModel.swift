@@ -358,7 +358,7 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.signupToViewModel(model)
                     self?.userid = model.data?.id ?? .zero
                     print("로그인 실패", model)
-                    failLoginCompletion()
+                    succesCompletion(model)
                 }
             })
     }

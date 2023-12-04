@@ -104,9 +104,7 @@ public struct ProfileView: View {
         }
         
         .navigationDestination(isPresented: $profileViewModel.gotoOtherSettingView) {
-            OtherSettingView(viewModel: viewModel, appState: appState)
-                .environmentObject(appState)
-                .environmentObject(authViewModel)
+            OtherSettingView(viewModel: viewModel, appState: appState, authViewModel: authViewModel)
                 .navigationBarBackButtonHidden()
         }
         
@@ -491,8 +489,6 @@ public struct ProfileView: View {
                 viewModel.isLogin = false
                 viewModel.isLoginCheck = false
                 authViewModel.randomAuthNickName = ""
-                presentationMode.wrappedValue.dismiss()
-                
             }
     }
 }

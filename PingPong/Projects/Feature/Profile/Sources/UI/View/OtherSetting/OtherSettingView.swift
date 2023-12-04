@@ -17,13 +17,19 @@ public struct OtherSettingView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
-    @EnvironmentObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
-    public init(viewModel: CommonViewViewModel, appState: AppState) {
+    public init(
+        viewModel: CommonViewViewModel,
+        appState: AppState,
+        authViewModel: AuthorizationViewModel
+        
+    ) {
         self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
     }
     
     public var body: some View {
@@ -125,7 +131,13 @@ public struct OtherSettingView: View {
     }
     
     @ViewBuilder
-    private func listItemView(showArrow: Bool, showLine: Bool, text: String, versionText: String ,goToDeatilView: @escaping () -> Void) -> some View {
+    private func listItemView(
+        showArrow: Bool,
+        showLine: Bool,
+        text: String,
+        versionText: String ,
+        goToDeatilView: @escaping () -> Void
+    ) -> some View {
         VStack(spacing: .zero) {
             Spacer()
                 .frame(height: 20)

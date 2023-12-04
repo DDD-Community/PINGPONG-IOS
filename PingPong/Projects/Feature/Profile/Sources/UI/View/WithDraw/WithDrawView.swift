@@ -16,16 +16,16 @@ import PopupView
 
 struct WithDrawView: View {
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
-    @ObservedObject var viewModel: CommonViewViewModel
-    @ObservedObject var authViewModel: AuthorizationViewModel
+    @StateObject var viewModel: CommonViewViewModel
+    @StateObject var authViewModel: AuthorizationViewModel
     @Environment(\.presentationMode) var presentationMode
     
     public init(
         authViewModel: AuthorizationViewModel,
         viewModel: CommonViewViewModel
     ) {
-        self._authViewModel = ObservedObject(wrappedValue: authViewModel)
-        self._viewModel = ObservedObject(wrappedValue: viewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {

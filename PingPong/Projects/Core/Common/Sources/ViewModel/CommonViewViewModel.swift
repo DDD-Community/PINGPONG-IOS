@@ -41,6 +41,7 @@ public class CommonViewViewModel: ObservableObject {
     @Published public var coreViewPath: [CoreViewState] = []
     
     @Published public var firstUserPOPUP: Bool = false
+    @Published public var showDeleteAuthPOPUP: Bool = false
 
     @Published public var selectedTab: Tab = .home
     @Published public var goToMainView: Bool = false
