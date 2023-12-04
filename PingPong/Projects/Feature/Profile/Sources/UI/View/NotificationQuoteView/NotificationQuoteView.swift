@@ -78,7 +78,6 @@ struct NotificationQuoteView: View {
                                     let calendar = Calendar.current
                                     let hour = calendar.component(.hour, from: profileViewModel.selectedTime)
                                     let minute = calendar.component(.minute, from: profileViewModel.selectedTime)
-
                                     var dateComponents = DateComponents()
                                     dateComponents.hour = hour
                                     dateComponents.minute = minute
@@ -87,7 +86,7 @@ struct NotificationQuoteView: View {
 //                                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
 //
 //                                    let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
-                                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
                                     let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
                                     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
 
