@@ -153,9 +153,9 @@ public class AuthorizationViewModel: ObservableObject {
                             "uid" : result?.user.uid ?? ""]
                 Firestore.firestore().collection("users")
                     .document(result?.user.uid ?? "")
-                    .setData(data) { data in
-                        debugPrint("DEBUG : Upload user data : \(String(describing: data))")
-                    }
+//                    .setData(data) { data in
+//                        debugPrint("DEBUG : Upload user data : \(String(describing: data))")
+//                    }
                 print("로그인 uid", self.uid, APIHeaderManger.shared.firebaseUid)
             }
         }
@@ -333,7 +333,7 @@ public class AuthorizationViewModel: ObservableObject {
     
     public func loginWithEmail(
         email: String,
-        succesCompletion : @escaping () -> Void,
+        succesCompletion : @escaping (SignUPModel) -> Void,
         failLoginCompletion: @escaping () -> Void
     ) async {
         if let cancellable = loginEmailCancellable {
@@ -357,8 +357,9 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.signupToViewModel(model)
                     self?.userid = model.data?.id ?? .zero
                     self?.userUid = model.data?.uid ?? ""
+                    
                     print("로그인 성공", model)
-                    succesCompletion()
+                    succesCompletion(model)
                 } else {
                     self?.signupToViewModel(model)
                     self?.userid = model.data?.id ?? .zero
@@ -373,12 +374,14 @@ public class AuthorizationViewModel: ObservableObject {
            self.commonCodeModel = list
        }
        
-       public func randomNameRequest(commCdTpCd: CommonType) async {
+    public func randomNameRequest(
+        commCdTpCd: CommonType,
+        completion: @escaping (CommonCdModel) -> Void) async {
            if let cancellable = randomNameCancellable {
                cancellable.cancel()
            }
            
-           let provider = MoyaProvider<SearchService>(plugins: [MoyaLoggingPlugin()])
+           let provider = MoyaProvider<CommonService>(plugins: [MoyaLoggingPlugin()])
            randomNameCancellable = provider.requestWithProgressPublisher(.searchCommCode(commCdTpCd: commCdTpCd.description))
                .compactMap { $0.response?.data }
                .receive(on: DispatchQueue.main)
@@ -394,13 +397,20 @@ public class AuthorizationViewModel: ObservableObject {
                    if model.status == NetworkCode.success.status {
                        self?.commCodeToViewModel(model)
                        
-                       if let randomCommNm = model.data.commCds.randomElement()?.commNm {
+                       if let randomCommNm = model.data?.commCds.randomElement()?.commNm {
                            self?.randomAuthNickName = randomCommNm
                            Log.network("랜덤 이름", randomCommNm)
+                           completion(model)
                        }
+                       Log.network("랜덤 이름", model)
                    } else {
                        self?.commCodeToViewModel(model)
                        Log.network("유저 코드", model)
+                       
+                       if let randomCommNm = model.data?.commCds.randomElement()?.commNm {
+                           self?.randomAuthNickName = randomCommNm
+                           Log.network("랜덤 이름", randomCommNm)
+                       }
                    }
                })
        }

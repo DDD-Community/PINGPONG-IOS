@@ -10,10 +10,10 @@ import Foundation
 
 public struct CommonCdModel: Codable {
     public let status: Int
-    public let data: CommonCdResponseModel
+    public let data: CommonCdResponseModel?
     public let message: String?
     
-    public init(status: Int, data: CommonCdResponseModel, message: String?) {
+    public init(status: Int, data: CommonCdResponseModel?, message: String?) {
         self.status = status
         self.data = data
         self.message = message

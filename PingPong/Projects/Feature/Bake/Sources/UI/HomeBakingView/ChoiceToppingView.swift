@@ -106,7 +106,7 @@ public struct ChoiceToppingView: View {
                         
                         ForEach(commonData.commCds, id: \.self) { item in
                             
-                            let mood: Mood = Mood(rawValue: item.commCD) ?? .motivation
+                            let mood: Mood = Mood(rawValue: item.commCD ?? "") ?? .motivation
                             
                             VStack {
                                 Circle()

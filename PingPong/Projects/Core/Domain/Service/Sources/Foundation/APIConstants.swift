@@ -21,7 +21,12 @@ struct APIConstants{
 extension APIConstants {
     static var baseHeader: Dictionary<String, String> {
         [ contentType : APIHeaderManger.shared.contentType,
-            authorization : "Bearer \(APIHeaderManger.shared.firebaseUid)"
+        authorization : "Bearer \(APIHeaderManger.shared.firebaseUid)"
+        ]
+    }
+    
+    static var noAuhtHeader: Dictionary<String, String> {
+        [ contentType : APIHeaderManger.shared.contentType
         ]
     }
 }

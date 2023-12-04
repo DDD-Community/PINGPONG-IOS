@@ -106,7 +106,7 @@ public struct ChoiceBreadView: View {
                         let sortedCommCds = commonData.commCds.filter { $0.commCD != "other" && $0.commCD != "proverb" && $0.commCD != "unknown"}
                         ForEach(sortedCommCds, id: \.self) { item in
                             
-                            let source: Source = Source(rawValue: item.commCD) ?? .anime
+                            let source: Source = Source(rawValue: item.commCD ?? "") ?? .anime
                             
                             VStack {
                                 Circle()

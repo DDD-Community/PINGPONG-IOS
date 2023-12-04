@@ -112,7 +112,7 @@ public struct ChoiceIngredentView: View {
                        
                         ForEach(commonData.commCds, id: \.self) { item in
                             
-                            let flavor: Flavor = Flavor(rawValue: item.commCD) ?? .light
+                            let flavor: Flavor = Flavor(rawValue: item.commCD ?? "") ?? .light
                             
                             VStack {
                              

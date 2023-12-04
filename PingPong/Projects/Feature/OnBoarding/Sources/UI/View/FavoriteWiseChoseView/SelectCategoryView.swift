@@ -119,14 +119,14 @@ public struct SelectCategoryView: View {
                         
                         ForEach(sortedCommCds, id: \.self) { item in
                             VStack {
-                                let favoirte = Source(rawValue: item.commCD)
+                                let favoirte = Source(rawValue: item.commCD ?? "")
                                 
                                 if viewModel.selectedFavorite.contains(Source(rawValue: (favoirte ?? .anime).rawValue) ?? .anime){
                                     Circle()
                                         .frame(width: 96, height: 96)
                                         .foregroundColor(.basicGray3)
                                         .overlay(
-                                            Image(assetName: item.commCD)
+                                            Image(assetName: item.commCD ?? "")
                                         )
                                 } else {
                                     Circle()
@@ -137,17 +137,17 @@ public struct SelectCategoryView: View {
                                         )
                                 }
 
-                                Text(item.commNm)
+                                Text(item.commNm ?? "")
                                     .pretendardFont(family: .SemiBold, size: 14)
                             }
                             .onTapGesture {
                                 
-                                let source = Source(rawValue: item.commCD)
+                                let source = Source(rawValue: item.commCD ?? "")
                                 if let favorite = source {
                                     self.viewModel.appendAndPopFavorite(favorite: favorite)
 
                                 }
-                                self.viewModel.selectedFavoriteCategory = item.commCD
+                                self.viewModel.selectedFavoriteCategory = item.commCD ?? ""
                                 
                                 
                             }

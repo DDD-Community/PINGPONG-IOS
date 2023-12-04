@@ -32,7 +32,7 @@ public class ProfileViewViewModel: ObservableObject {
     @Published var changeNickNameView: Bool = false
     @Published var changeNickNameSuccessPOPUP: Bool = false
     @Published public var changeNickName: String = ""
-    @Published public var changeNickImage: String = ""
+    @Published public var changeNickImage: String = "mainHomeLogo"
    
     @AppStorage("selectedChangeTimeView") public var selectedChangeTimeView: Bool = false
     @AppStorage("saveDate") public var saveDate: String = ""
@@ -311,7 +311,7 @@ public class ProfileViewViewModel: ObservableObject {
                 if model.status == NetworkCode.success.status {
                     self?.commCodeToViewModel(model)
                     
-                    if let randomCommNm = model.data.commCds.randomElement()?.commNm {
+                    if let randomCommNm = model.data?.commCds.randomElement()?.commNm {
                         self?.randomNickName = randomCommNm
                         Log.network("랜덤 이름", randomCommNm)
                     }
