@@ -19,15 +19,15 @@ public class CommonViewViewModel: ObservableObject {
     
     public init() {
         isLogin = UserDefaults.standard.bool(forKey: "isLogin")
-   
-
+        
+        
     }
-    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = true
+    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
     
     @Published public var isLoginCheck: Bool = false {
         didSet {
-                coreViewPath.removeAll()
-                viewPath.removeAll()
+            coreViewPath.removeAll()
+            viewPath.removeAll()
         }
     }
     @AppStorage("isLogin") public var isLogin: Bool = false {
@@ -42,14 +42,14 @@ public class CommonViewViewModel: ObservableObject {
     
     @Published public var firstUserPOPUP: Bool = false
     @Published public var showDeleteAuthPOPUP: Bool = false
-
+    
     @Published public var selectedTab: Tab = .home
     @Published public var goToMainView: Bool = false
     @Published public var customTabs: [CustomTab] = []
     
     @Published public var selectedSourceArray: [Source] = []
     @Published public var selectedFlavorArray: [Flavor] = []
-
+    
     //MARK: 모달 관련
     @Published public var offsetY: CGFloat = 30
     public func generateIsButtonAble(situationFlavorSourceTitle: SearchType) -> Bool {
@@ -67,7 +67,7 @@ public class CommonViewViewModel: ObservableObject {
     
     //MARK: HomeBakeing 관련
     @Published public var exploreViewSearchBarText: String = ""
-
+    
     
     @Published public var choicedBread: Bread?
     @Published public var choicedIngredent: Ingredent?
@@ -154,19 +154,19 @@ public class CommonViewViewModel: ObservableObject {
         return searchViewButtonInfoArray[idx].options.filter { $0.isCheck }.count
     }
     
-//    func filterPostsByText() {
-//        if exploreViewSearchBarText.isEmpty {
-//            homePosts = originHomePosts
-//        } else {
-//            homePosts = originHomePosts.filter { $0.title.contains(exploreViewSearchBarText)
-//            }
-//        }
-//    }
+    //    func filterPostsByText() {
+    //        if exploreViewSearchBarText.isEmpty {
+    //            homePosts = originHomePosts
+    //        } else {
+    //            homePosts = originHomePosts.filter { $0.title.contains(exploreViewSearchBarText)
+    //            }
+    //        }
+    //    }
     //MARK: -  홈  좋아요  및  스크램 api
     public func homeBaseToViewModel(_ list: BaseModel) {
         self.homeBaseModel = list
     }
-
+    
     public func quoteLikeRequest(userID: String, quoteId: Int, completion: @escaping () -> Void ) async {
         if let cancellable = homeLikeCancellable {
             cancellable.cancel()
@@ -315,7 +315,7 @@ public class CommonViewViewModel: ObservableObject {
     public func archiveRequest(
         userId: String,
         completion: @escaping () -> Void
-    
+        
     ) async {
         if let cancellable = archiveCancellable {
             cancellable.cancel()

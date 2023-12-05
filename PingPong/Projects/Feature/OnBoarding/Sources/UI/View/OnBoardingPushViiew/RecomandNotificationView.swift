@@ -137,7 +137,7 @@ public struct RecomandPushNotificationView: View {
                 .onTapGesture {
                     appState.isActivePushNotifcation.toggle()
                     authViewModel.isNotification.toggle()
-                    authViewModel.isActiveNotification.toggle()
+//                    authViewModel.isActiveNotification.toggle()
                     
                     if appState.isActivePushNotifcation {
                         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]

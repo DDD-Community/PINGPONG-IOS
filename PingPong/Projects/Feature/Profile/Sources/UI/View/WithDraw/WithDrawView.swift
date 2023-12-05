@@ -15,17 +15,19 @@ import PopupView
 
 
 struct WithDrawView: View {
-    @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
+    @StateObject private var profileViewModel: ProfileViewViewModel
     @StateObject var viewModel: CommonViewViewModel
     @StateObject var authViewModel: AuthorizationViewModel
     @Environment(\.presentationMode) var presentationMode
     
     public init(
         authViewModel: AuthorizationViewModel,
-        viewModel: CommonViewViewModel
+        viewModel: CommonViewViewModel,
+        profileViewModel: ProfileViewViewModel
     ) {
         self._authViewModel = StateObject(wrappedValue: authViewModel)
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._profileViewModel = StateObject(wrappedValue: profileViewModel)
     }
     
     var body: some View {
@@ -58,11 +60,19 @@ struct WithDrawView: View {
                 confirmAction: {
                     Task {
                         await profileViewModel.withDrawPost(userID: "\(authViewModel.userid)", reason: profileViewModel.selectWithDrawReason,  successCompletion: {
-                            authViewModel.deleteAuth = true
+//                            authViewModel.deleteAuth = true
+                            profileViewModel.selectWithDrawPOPUP = false
                             viewModel.isLoginCheck = false
                             profileViewModel.randomNickName = ""
-
+                            authViewModel.userid = .zero
+                            authViewModel.userNickName = ""
                             presentationMode.wrappedValue.dismiss()
+                            viewModel.isFirstUserPOPUP = false
+                            
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                authViewModel.deleteAuth = true
+                            }
                             
                         })
                     }

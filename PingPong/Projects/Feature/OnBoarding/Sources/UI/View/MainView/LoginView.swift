@@ -82,28 +82,29 @@ public struct LoginView: View {
             .onAppear{
                 authViewModel.getRefreshToken()
             }
-            .popup(isPresented: $authViewModel.deleteAuth) {
-                WithDrawPOPUP(
-                    image: .empty,
-                    title: "이용해 주셔서 감사합니다",
-                    subTitle: "주신 의견에 반영하여\n 더나은 명언 제과점이 되겠습니다",
-                    confirmAction: {},
-                    cancelAction: {
-                        authViewModel.deleteAuth = false
-                        viewModel.isSignUP = false
-                        viewModel.alreadySignUP = false
-                    }, noImage: true,
-                    noImageButton: true
-                )
-            } customize: { popup in
-                popup
-                    .type(.default)
-                    .position(.bottom)
-                    .animation(.easeIn)
-                    .closeOnTap(true)
-                    .closeOnTapOutside(true)
-                    .backgroundColor(.basicBlackDimmed)
-            }
+            
+        }
+        .popup(isPresented: $authViewModel.deleteAuth) {
+            WithDrawPOPUP(
+                image: .empty,
+                title: "이용해 주셔서 감사합니다",
+                subTitle: "주신 의견에 반영하여\n 더나은 명언 제과점이 되겠습니다",
+                confirmAction: {},
+                cancelAction: {
+                    authViewModel.deleteAuth = false
+                    viewModel.isSignUP = false
+                    viewModel.alreadySignUP = false
+                }, noImage: true,
+                noImageButton: true
+            )
+        } customize: { popup in
+            popup
+                .type(.default)
+                .position(.bottom)
+                .animation(.easeIn)
+                .closeOnTap(true)
+                .closeOnTapOutside(true)
+                .backgroundColor(.basicBlackDimmed)
         }
     }
     

@@ -123,6 +123,11 @@ public struct CompletOnBoardingView: View {
                     
                     commonViewViewModel.isLogin = true
                     commonViewViewModel.isLoginCheck = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        commonViewViewModel.isFirstUserPOPUP = true
+                    }
+                    
                 }
         }
     }

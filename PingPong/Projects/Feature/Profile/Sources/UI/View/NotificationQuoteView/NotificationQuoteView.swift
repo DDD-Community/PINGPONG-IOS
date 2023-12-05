@@ -13,13 +13,13 @@ import Authorization
 
 struct NotificationQuoteView: View {
     @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
-    @ObservedObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel
     @Environment(\.presentationMode) var presentationMode
     
     public init(
         authViewModel: AuthorizationViewModel
     ) {
-        self._authViewModel = ObservedObject(wrappedValue: authViewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
     }
     
     var body: some View {
