@@ -145,10 +145,10 @@ public struct ChoiceToppingView: View {
                     Text("다음")
                         .foregroundColor(viewModel.tmpChoicedTopping == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
-                        .onTapGesture {
-                            appState.isChoicedTopping.toggle()
-                            viewModel.choicedTopping = viewModel.tmpChoicedTopping
-                        }
+                }
+                .onTapGesture {
+                    appState.isChoicedTopping.toggle()
+                    viewModel.choicedTopping = viewModel.tmpChoicedTopping
                 }
                 .disabled(viewModel.tmpChoicedTopping == nil)
         }

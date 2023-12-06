@@ -153,10 +153,10 @@ public struct ChoiceIngredentView: View {
                     Text("다음")
                         .foregroundColor(viewModel.tmpChoicedIngredent == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
-                        .onTapGesture {
-                            appState.isChoicedIngredent.toggle()
-                            viewModel.choicedIngredent = viewModel.tmpChoicedIngredent
-                        }
+                }
+                .onTapGesture {
+                    appState.isChoicedIngredent.toggle()
+                    viewModel.choicedIngredent = viewModel.tmpChoicedIngredent
                 }
                 .disabled(viewModel.tmpChoicedIngredent == nil)
         }

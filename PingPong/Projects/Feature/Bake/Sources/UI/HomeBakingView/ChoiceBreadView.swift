@@ -145,10 +145,10 @@ public struct ChoiceBreadView: View {
                     Text("다음")
                         .foregroundColor(viewModel.tmpChoicedBread == nil ? .basicGray5 : .basicWhite)
                         .font(.system(size: 16))
-                        .onTapGesture {
-                            appState.isChoicedBread.toggle()
-                            viewModel.choicedBread = viewModel.tmpChoicedBread
-                        }
+                }
+                .onTapGesture {
+                    appState.isChoicedBread.toggle()
+                    viewModel.choicedBread = viewModel.tmpChoicedBread
                 }
                 .disabled(viewModel.tmpChoicedBread == nil)
         }

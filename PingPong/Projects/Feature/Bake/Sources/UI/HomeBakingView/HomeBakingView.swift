@@ -104,12 +104,13 @@ public struct HomeBakingView: View {
                 .overlay {
                     Text("시작하기")
                         .foregroundColor(.basicWhite)
-                        .onTapGesture {
-                            viewModel.choicedBread = nil
-                            viewModel.choicedIngredent = nil
-                            viewModel.tmpChoicedIngredent = nil
-                            appState.isStartBake.toggle()
-                        }
+                        
+                }
+                .onTapGesture {
+                    viewModel.choicedBread = nil
+                    viewModel.choicedIngredent = nil
+                    viewModel.tmpChoicedIngredent = nil
+                    appState.isStartBake.toggle()
                 }
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(.clear)
