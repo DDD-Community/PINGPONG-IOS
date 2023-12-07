@@ -194,9 +194,6 @@ public struct LoginView: View {
                         .pretendardFont(family: .SemiBold, size: 16)
                 }
                 .onTapGesture {
-                    viewModel.isSignUP = true
-                    viewModel.alreadySignUP = false
-                    viewModel.goToLoginRegisterView.toggle()
                     commonViewViewModel.viewPath.append(ViewState.isStartEnter)
                 }
         }

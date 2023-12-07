@@ -134,11 +134,12 @@ public struct LoginSettingView: View {
                     Text("다음")
                         .foregroundColor(viewModel.nicknameValidation == .valid ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
-                        .onTapGesture {
-                            commonViewViewModel.viewPath.append(ViewState.isNickNameComplete)
-                        }
+                        
                 }
                 .disabled(viewModel.nicknameValidation != .valid)
+                .onTapGesture {
+                    commonViewViewModel.viewPath.append(ViewState.isNickNameComplete)
+                }
             
         }
     }

@@ -25,15 +25,6 @@ ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 default_platform(:ios)
 platform :ios do
 
-
- desc "Incrementing Build Number"
-  
-  lane :increment_build do    
-    version = get_version_number(xcodeproj: "MarketApp.xcodeproj")
-    current_build_number = latest_testflight_build_number(version: version)
-    increment_build_number(build_number: current_build_number + 1)
-  end
-
  desc "Unit test"
   lane:unit_Test do
    clear_derived_data 
@@ -69,7 +60,7 @@ platform :ios do
       configuration: "Release",
       workspace: "PingPong.xcworkspace",
       output_name: "PingPong.ipa",
-      scheme: "ChaeviUS",
+      scheme: "PingPong",
       export_method: "app-store",
     # xcodebuild_command: "xcodebuild",
      # include_bitcode: false,
@@ -152,23 +143,16 @@ get_certificates
     sign(development: true)
  end
 
- desc "Description of what the lane does"
+  desc "Description of what the lane does"
    desc "Push a new release build to the App Store"
   lane :release do |options|
   # ✅ 매개변수를 넣어서
   # fastlane release version:"2.1.0"
   # 과 같이 사용할 수 있다.
     if options[:version]
-      version = options[:version]
-      increment_version_number(version_number: options[:version])
-       version = get_version_number(
-        xcodeproj: "PingPong.xcodeproj",
-        target: "PingPong"
-       )
-     build = get_build_number
+   #increment_build_number
     #get_certificates
      #get_provisioning_profile
-        unit_Test
         build_ipa      
        upload_to_app_store(
         username: "shuwj81@daum.net",

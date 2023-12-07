@@ -23,6 +23,7 @@ extension Settings {
                 "CODE_SIGN_IDENTITY": "iPhone Developer",
                 "CODE_SIGN_STYLE": "Automatic",
                 "DEVELOPMENT_TEAM": "N94CS4N6VR",
+                "VERSIONING_SYSTEM": "apple-generic",
                 "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File",
                 "DEVELOPMENT_ASSET_PATH" : "\"Resources/Preview Content\""]
         ,configurations: [

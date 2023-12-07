@@ -269,7 +269,7 @@ struct NotificationQuoteView: View {
 //                                                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
 //
 //                                                    let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
-                                                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                                                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
                                                     let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
                                                     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                                                     

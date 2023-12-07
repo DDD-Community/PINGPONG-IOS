@@ -349,7 +349,7 @@ extension String {
   }
 
   public static func appBuildVersion() -> String {
-      let buildVersion: String = "10"
+      let buildVersion: String = "18"
       return buildVersion
   }
     

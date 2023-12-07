@@ -69,13 +69,18 @@ public struct ProfileView: View {
         .ignoresSafeArea()
         .navigationBarBackButtonHidden()
         
-        .task {
+        .onAppear {
             if authViewModel.randomAuthNickName == "" {
-                await authViewModel.randomNameRequest(commCdTpCd: .userDesc, completion: { model  in
-                    authViewModel.randomAuthNickName = model.data?.commCds.randomElement()?.commNm ?? ""
-                    profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
-                })
+                Task {
+                    await authViewModel.randomNameRequest(commCdTpCd: .userDesc, completion: { model  in
+                        authViewModel.randomAuthNickName = model.data?.commCds.randomElement()?.commNm ?? ""
+                        profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
+                    })
+                }
             }
+        }
+        
+        .task {
             profileViewModel.changeImage(randomNickName: authViewModel.randomAuthNickName)
             
            await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: { model in
@@ -99,8 +104,6 @@ public struct ProfileView: View {
                     }
                 }
             })
-            
-            print("\(profileViewModel.randomNickName)")
         }
         
         .navigationDestination(isPresented: $profileViewModel.gotoOtherSettingView) {
