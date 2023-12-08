@@ -44,7 +44,7 @@ public class ExploreViewModel: ObservableObject {
         }
         
         let provider = MoyaProvider<SearchService>(plugins: [MoyaLoggingPlugin()])
-        searchCancellable = provider.requestWithProgressPublisher(.searchQuote(page: 0, sizePerPage: 100, keyword: keyword, flavors: flavors, sources: sources, moods: mood, orderBy: orderBy))
+        searchCancellable = provider.requestWithProgressPublisher(.searchQuote(page: 0, sizePerPage: 1000, keyword: keyword, flavors: flavors, sources: sources, moods: mood, orderBy: orderBy))
             .compactMap { $0.response?.data }
             .receive(on: DispatchQueue.main)
             .decode(type: SearchQuoteModel.self, decoder: JSONDecoder())

@@ -284,11 +284,11 @@ public class CommonViewViewModel: ObservableObject {
     }
     
     public func getHashtags(post: QuoteContent) -> Hashtags {
-        let flavor = Flavor(rawValue: post.flavor ?? "")!
-        let source = Source(rawValue: post.source ?? "")!
-        let mood = Mood(rawValue: post.mood ?? "")!
-        
-        return Hashtags(flavor: flavor, source: source, mood: mood)
+        let flavor = Flavor(rawValue: post.flavor ?? "") ?? .light // Provide a default value
+        let source = Source(rawValue: post.source ?? "") ?? .anime // Provide a default value
+        let mood = Mood(rawValue: post.mood ?? "") ?? .motivation // Provide a default value
+
+            return Hashtags(flavor: flavor, source: source, mood: mood)
     }
     
     
