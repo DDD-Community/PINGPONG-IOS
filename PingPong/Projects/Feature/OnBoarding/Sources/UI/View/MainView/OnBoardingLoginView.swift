@@ -144,7 +144,6 @@ public struct OnBoardingLoginView: View {
                     return
                 }
                 authViewModel.appleLogin(credential: credential)
-                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                     Task {
                         await authViewModel.loginWithEmail(
