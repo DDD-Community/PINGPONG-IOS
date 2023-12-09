@@ -14,6 +14,7 @@ import SwiftUI
 import Model
 import Collections
 import Authorization
+import PopupView
 
 
 public struct HomeView: View {
@@ -54,6 +55,28 @@ public struct HomeView: View {
                 authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
                 
             }
+            
+            .popup(isPresented: $viewModel.isLoginExplore, view: {
+                isExPlorePOPUP(
+                    image: .mainHomeLogo,
+                    title: "로그인 하세요!",
+                    subTitle: "로그인을  하시면  더 많을걸 사용하실수 있어요!",
+                    confirmAction: {
+                        viewModel.isExploreApp = false
+                    },
+                    cancelAction: {
+                        viewModel.isLoginExplore = false
+                    },
+                    noImage: false, noImageButton: false)
+            }, customize: { popup in
+                popup
+                    .type(.default)
+                    .position(.bottom)
+                    .animation(.easeIn)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .backgroundColor(.basicBlackDimmed)
+            })
             
             .onAppear {
                 if !homeViewModel.isOn.isEmpty {

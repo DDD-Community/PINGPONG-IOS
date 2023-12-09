@@ -22,7 +22,7 @@ public class HomeViewViewModel: ObservableObject {
     public var homeRandomQuoteCancellable: AnyCancellable?
     @State var isOn: [Bool] = []
     @Published public var selecteLikeYn: Bool = false
-    
+    @Published public var currentPage = 0
     @Published public var homeUserPrefModel: UserPrefModel?
     public var homeUserPrefCancellable: AnyCancellable?
     
@@ -48,7 +48,7 @@ public class HomeViewViewModel: ObservableObject {
         }
 
         let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: 0, sizePerPage: 1000, userId: userID))
+        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: currentPage, sizePerPage: 100, userId: userID))
             .compactMap { $0.response?.data }
             .receive(on: DispatchQueue.main)
             .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())
@@ -58,6 +58,7 @@ public class HomeViewViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .finished:
+                    self?.currentPage += 1
                     break
                 case .failure(let error):
                     Log.network("네트워크에러", error.localizedDescription)

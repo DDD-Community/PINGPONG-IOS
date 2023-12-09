@@ -164,7 +164,11 @@ public struct CoreView: View {
                 .frame(width: 24, height: 24)
                 .foregroundColor(.primaryOrangeDark)
                 .onTapGesture {
-                    viewModel.coreViewPath.append(CoreViewState.isStartEdit)
+                    if viewModel.isLoginCheck {
+                        viewModel.coreViewPath.append(CoreViewState.isStartEdit)
+                    } else {
+                        viewModel.isLoginExplore.toggle()
+                    }
                 }
         }
         .padding(.horizontal, 20)

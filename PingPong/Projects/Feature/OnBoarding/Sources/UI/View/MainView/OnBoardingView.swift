@@ -143,7 +143,7 @@ public struct OnBoardingView: View {
                     return
                 }
                 authViewModel.appleLogin(credential: credential)
-                
+                commonViewViewModel.isExploreApp = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     commonViewViewModel.viewPath.append(ViewState.isStartServiceAgreement)
                 }

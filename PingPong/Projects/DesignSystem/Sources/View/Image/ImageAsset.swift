@@ -32,6 +32,7 @@ public enum ImageAsset: String {
     case pushivew
     case completOnboarding
     case profileEdit
+    case mainHomeLogo
     //MARK: -  탭바 아이콘
 
     //MARK: -  bake

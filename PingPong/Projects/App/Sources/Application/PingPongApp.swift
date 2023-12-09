@@ -39,7 +39,18 @@ struct PingPongProjectApp: App {
                                 authViewModel.getRefreshToken()
                             }
                         
-                    } else {
+                    } else if commonViewViewModel.isExploreApp {
+                        CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                            .environmentObject(authViewModel)
+                            .environmentObject(sheetManager)
+                            .navigationBarHidden(true)
+                            .onAppear {
+                                authViewModel.getRefreshToken()
+                            }
+                    }
+                    
+                    
+                    else {
                         LoginView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                             .onAppear {
                                 authViewModel.getRefreshToken()

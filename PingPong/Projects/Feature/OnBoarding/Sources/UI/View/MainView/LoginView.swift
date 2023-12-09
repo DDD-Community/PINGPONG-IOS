@@ -167,7 +167,7 @@ public struct LoginView: View {
     @ViewBuilder
     private func authButton() -> some View {
         Spacer()
-            .frame(height: UIScreen.screenHeight*0.1)
+            .frame(height: UIScreen.screenHeight*0.05)
         
         VStack(spacing: .zero) {
             RoundedRectangle(cornerRadius: 12)
@@ -196,14 +196,24 @@ public struct LoginView: View {
                 .onTapGesture {
                     commonViewViewModel.viewPath.append(ViewState.isStartEnter)
                 }
+            
+            Spacer()
+                .frame(height: 8)
+            
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.primaryOrange, style: .init(lineWidth: 2))
+                .frame(height: 56)
+                .overlay {
+                    Text("둘라보기")
+                        .foregroundStyle(Color.primaryOrangeText)
+                        .pretendardFont(family: .SemiBold, size: 16)
+                }
+                .onTapGesture {
+                    commonViewViewModel.isExploreApp = true
+//                    commonViewViewModel.viewPath.append(ViewState.isLoginned)
+                }
+            
         }
         .padding(.horizontal, 20)
-    }
-}
-
-// MARK: - Layout Metrics
-extension LoginView {
-    public enum Label {
-        public static let viewStringKey: String = "LoginView"
     }
 }
