@@ -184,25 +184,24 @@ public struct FamousSayingDetailView: View {
                                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                                             .foregroundColor(viewModel.selectedCard.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                                             .onTapGesture {
-                                                print("??")
-                                                if viewModel.selectedCard.isBookrmark {
-                                                    print("isBook", viewModel.selectedCard.likeId)
-                                                    Task {
-                                                        if let likeId = viewModel.selectedCard.likeId {
-                                                            await viewModel.deleteLikeQuote(likeID: likeId)
-                                                            viewModel.selectedCard.isBookrmark = false
-                                                            print(viewModel.selectedCard.isBookrmark)
-                                                            viewModel.removeLike(card: viewModel.selectedCard)
+                                                
+                                                if viewModel.isLoginCheck {
+                                                    if viewModel.selectedCard.isBookrmark {
+                                                        Task {
+                                                            if let likeId = viewModel.selectedCard.likeId {
+                                                                await viewModel.deleteLikeQuote(likeID: likeId)
+                                                                viewModel.selectedCard.isBookrmark = false
+                                                                viewModel.removeLike(card: viewModel.selectedCard)
+                                                            }
                                                         }
-                                                    }
-                                                } else {
-                                                    print("isNotBook")
-                                                    Task {
-                                                        await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId, completion: {
-                                                            viewModel.selectedCard.likeId = viewModel.homeBaseModel?.data
-                                                        })
-                                                        viewModel.selectedCard.isBookrmark = true
-                                                        viewModel.addLike(card: viewModel.selectedCard)
+                                                    } else {
+                                                        Task {
+                                                            await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: viewModel.selectedCard.qouteId, completion: {
+                                                                viewModel.selectedCard.likeId = viewModel.homeBaseModel?.data
+                                                            })
+                                                            viewModel.selectedCard.isBookrmark = true
+                                                            viewModel.addLike(card: viewModel.selectedCard)
+                                                        }
                                                     }
                                                 }
                                             }

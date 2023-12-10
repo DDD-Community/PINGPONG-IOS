@@ -22,7 +22,7 @@ public class CommonViewViewModel: ObservableObject {
         isExplore = UserDefaults.standard.bool(forKey: "isExplore")
         
     }
-    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = false
+    @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = true
     
     @Published public var isLoginCheck: Bool = false {
         didSet {

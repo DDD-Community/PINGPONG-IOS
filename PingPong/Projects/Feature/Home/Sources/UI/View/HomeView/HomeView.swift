@@ -98,14 +98,15 @@ public struct HomeView: View {
                 }
             }
             .onChange(of: viewModel.selectedCard.isBookrmark , perform: { newValue in
-                
-                homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
-                    // 종아요일 때
-                    
-                    for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                        let hashTags = viewModel.getHashtags(post: quoteContent)
-                        viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
+                if viewModel.isLoginCheck {
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
+                        // 종아요일 때
                         
+                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
+                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
+                            
+                        }
                     }
                 }
             })
@@ -321,18 +322,20 @@ public struct HomeView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 26, trailing: 16))
                 .foregroundColor(card.isBookrmark ? colorSet.icon : colorSet.iconBackground)
                 .onTapGesture {
-                    if let idx = viewModel.cards.firstIndex(of: card) {
-                        if viewModel.cards[idx].isBookrmark {
-                            Task {
-                                if let likeId = viewModel.cards[idx].likeId {
-                                    await viewModel.deleteLikeQuote(likeID: likeId)
-                                    viewModel.cards[idx].isBookrmark = false
+                    if viewModel.isLoginCheck {
+                        if let idx = viewModel.cards.firstIndex(of: card) {
+                            if viewModel.cards[idx].isBookrmark {
+                                Task {
+                                    if let likeId = viewModel.cards[idx].likeId {
+                                        await viewModel.deleteLikeQuote(likeID: likeId)
+                                        viewModel.cards[idx].isBookrmark = false
+                                    }
                                 }
-                            }
-                        } else {
-                            Task {
-                                await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId, completion: {})
-                                viewModel.cards[idx].isBookrmark = true
+                            } else {
+                                Task {
+                                    await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: card.qouteId, completion: {})
+                                    viewModel.cards[idx].isBookrmark = true
+                                }
                             }
                         }
                     }

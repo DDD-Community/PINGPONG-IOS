@@ -312,26 +312,28 @@ struct FamousSayingBakeCardView: View {
                                     .foregroundColor(bakeViewModel.bakeCard?.isBookrmark ?? true ? colorSet.icon : colorSet.iconBackground)
                                     .onTapGesture {
                                         
-                                        if bakeViewModel.bakeCard != nil {
-                                        if bakeViewModel.bakeCard!.isBookrmark {
-                                            Task {
-                                                if let likeId = bakeViewModel.bakeCard?.likeId {
-                                                    await viewModel.deleteLikeQuote(likeID: likeId)
-                                                    bakeViewModel.bakeCard!.isBookrmark = false
-                                                }
-                                            }
-                                        } else {
-                                            Task {
-                                                await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: bakeViewModel.bakeCard!.qouteId) {
-                                                    if let likeid = viewModel.homeBaseModel?.data {
-                                                        bakeViewModel.addLike(qouteId: bakeViewModel.bakeCard!.qouteId, likeId: likeid)
-                                                        bakeViewModel.bakeCard?.likeId = likeid
+                                        if viewModel.isLoginCheck {
+                                            if bakeViewModel.bakeCard != nil {
+                                            if bakeViewModel.bakeCard!.isBookrmark {
+                                                Task {
+                                                    if let likeId = bakeViewModel.bakeCard?.likeId {
+                                                        await viewModel.deleteLikeQuote(likeID: likeId)
+                                                        bakeViewModel.bakeCard!.isBookrmark = false
                                                     }
                                                 }
-                                                bakeViewModel.bakeCard!.isBookrmark = true
-                                                
+                                            } else {
+                                                Task {
+                                                    await viewModel.quoteLikeRequest(userID: "\(authViewModel.userid)", quoteId: bakeViewModel.bakeCard!.qouteId) {
+                                                        if let likeid = viewModel.homeBaseModel?.data {
+                                                            bakeViewModel.addLike(qouteId: bakeViewModel.bakeCard!.qouteId, likeId: likeid)
+                                                            bakeViewModel.bakeCard?.likeId = likeid
+                                                        }
+                                                    }
+                                                    bakeViewModel.bakeCard!.isBookrmark = true
+                                                    
+                                                }
                                             }
-                                        }
+                                            }
                                         }
                                             //TODO: 좋아요되도록 수정
                                             //                                        post.isBookrmark.toggle()
