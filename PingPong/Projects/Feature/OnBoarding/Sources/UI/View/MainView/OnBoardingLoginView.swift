@@ -153,7 +153,7 @@ public struct OnBoardingLoginView: View {
                                 commonViewViewModel.isLoginCheck = true
                                 authViewModel.userid = model.data?.id ?? .zero
                                 authViewModel.userNickName = model.data?.nickname ?? ""
-                                commonViewViewModel.isExploreApp = false
+                                commonViewViewModel.isLoginExplore = false
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()
                                 presentationMode.wrappedValue.dismiss()

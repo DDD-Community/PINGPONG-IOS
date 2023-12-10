@@ -56,28 +56,6 @@ public struct HomeView: View {
                 
             }
             
-            .popup(isPresented: $viewModel.isLoginExplore, view: {
-                isExPlorePOPUP(
-                    image: .mainHomeLogo,
-                    title: "로그인 하세요!",
-                    subTitle: "로그인을  하시면  더 많을걸 사용하실수 있어요!",
-                    confirmAction: {
-                        viewModel.isExploreApp = false
-                    },
-                    cancelAction: {
-                        viewModel.isLoginExplore = false
-                    },
-                    noImage: false, noImageButton: false)
-            }, customize: { popup in
-                popup
-                    .type(.default)
-                    .position(.bottom)
-                    .animation(.easeIn)
-                    .closeOnTap(true)
-                    .closeOnTapOutside(true)
-                    .backgroundColor(.basicBlackDimmed)
-            })
-            
             .onAppear {
                 if !homeViewModel.isOn.isEmpty {
                     homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
@@ -208,7 +186,11 @@ public struct HomeView: View {
                 }
             }
             .onTapGesture {
-                appState.goToBackingView = true
+                if viewModel.isLoginCheck {
+                    appState.goToBackingView = true
+                } else {
+                    viewModel.isLoginExplore = true
+                }
             }
     }
     
