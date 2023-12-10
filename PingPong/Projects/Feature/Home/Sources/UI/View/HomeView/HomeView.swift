@@ -339,6 +339,9 @@ public struct HomeView: View {
                             }
                         }
                     }
+                    else {
+                        viewModel.isLoginExplore = true
+                    }
                 }
         }
     }

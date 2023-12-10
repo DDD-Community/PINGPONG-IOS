@@ -204,6 +204,9 @@ public struct FamousSayingDetailView: View {
                                                         }
                                                     }
                                                 }
+                                                else {
+                                                    viewModel.isLoginExplore = true
+                                                }
                                             }
                                     }
                                 }
@@ -211,13 +214,15 @@ public struct FamousSayingDetailView: View {
                         }
                     )
             }.frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.8)
+            
                 .onChange(of: viewModel.selectedCard.isBookrmark , perform: { newValue in
-                    
-                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
-                            let hashTags = viewModel.getHashtags(post: quoteContent)
-                            viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
-                            
+                    if viewModel.isLoginCheck {
+                        homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
+                            for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                                let hashTags = viewModel.getHashtags(post: quoteContent)
+                                viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
+                                
+                            }
                         }
                     }
                 })

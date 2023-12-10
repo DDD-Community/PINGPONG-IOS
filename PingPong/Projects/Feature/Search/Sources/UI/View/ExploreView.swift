@@ -12,6 +12,7 @@ import SwiftUI
 import Model
 import Common
 import Archive
+import PopupView
 
 
 public struct ExploreView: View {
@@ -58,6 +59,28 @@ public struct ExploreView: View {
                     .frame(height: UIScreen.main.bounds.height * 0.6)
                 }
             }
+            
+            .popup(isPresented: $viewModel.isLoginExplore, view: {
+                isExPlorePOPUP(
+                    image: .mainHomeLogo,
+                    title: "로그인 하세요!",
+                    subTitle: "로그인을  하시면  더 많을걸 사용하실수 있어요!",
+                    confirmAction: {
+                        viewModel.isExploreApp = false
+                    },
+                    cancelAction: {
+                        viewModel.isLoginExplore = false
+                    },
+                    noImage: false, noImageButton: false)
+            }, customize: { popup in
+                popup
+                    .type(.default)
+                    .position(.bottom)
+                    .animation(.easeIn)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .backgroundColor(.basicBlackDimmed)
+            })
         }
         .task {
             let moodParameter: [String] = viewModel.generateParameter(searchType: .situation)

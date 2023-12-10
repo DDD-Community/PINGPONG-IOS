@@ -335,6 +335,9 @@ struct FamousSayingBakeCardView: View {
                                             }
                                             }
                                         }
+                                        else {
+                                            viewModel.isLoginExplore = true
+                                        }
                                             //TODO: 좋아요되도록 수정
                                             //                                        post.isBookrmark.toggle()
 //                                            print("togggle ->>>> \(cardinfo.isBookrmark)")
