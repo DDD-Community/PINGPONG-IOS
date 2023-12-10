@@ -204,7 +204,7 @@ public struct LoginView: View {
                 .stroke(Color.primaryOrange, style: .init(lineWidth: 2))
                 .frame(height: 56)
                 .overlay {
-                    Text("둘라보기")
+                    Text("둘러보기")
                         .foregroundStyle(Color.primaryOrangeText)
                         .pretendardFont(family: .SemiBold, size: 16)
                 }

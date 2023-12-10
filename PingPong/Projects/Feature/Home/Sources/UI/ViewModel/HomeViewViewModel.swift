@@ -42,13 +42,13 @@ public class HomeViewViewModel: ObservableObject {
         self.homeRandomQuoteModel = list
     }
     
-    public func randomQuoteRequest(userID: String, completion: @escaping () -> Void) {
+    public func randomQuoteRequest(userID: String?, completion: @escaping () -> Void) {
         if let cancellable = homeRandomQuoteCancellable {
             cancellable.cancel()
         }
 
         let provider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
-        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: currentPage, sizePerPage: 100, userId: userID))
+        homeRandomQuoteCancellable = provider.requestWithProgressPublisher(.homeRandomQuote(page: currentPage, sizePerPage: 100, userId: (((userID?.isEmpty) != nil) ? "" : userID) ?? ""))
             .compactMap { $0.response?.data }
             .receive(on: DispatchQueue.main)
             .decode(type: HomeRandomQuoteModel.self, decoder: JSONDecoder())

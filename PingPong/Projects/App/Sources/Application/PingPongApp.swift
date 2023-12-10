@@ -17,6 +17,7 @@ import Search
 import Profile
 import DesignSystem
 import Model
+import API
 
 @main
 struct PingPongProjectApp: App {
@@ -36,7 +37,11 @@ struct PingPongProjectApp: App {
                             .environmentObject(sheetManager)
                             .navigationBarHidden(true)
                             .onAppear {
-                                authViewModel.getRefreshToken()
+                                if commonViewViewModel.isLoginCheck {
+                                    authViewModel.getRefreshToken()
+                                } else {
+                                    APIHeaderManger.shared.firebaseUid = ""
+                                }
                             }
                         
                     } else if commonViewViewModel.isExploreApp {
@@ -45,7 +50,12 @@ struct PingPongProjectApp: App {
                             .environmentObject(sheetManager)
                             .navigationBarHidden(true)
                             .onAppear {
-                                authViewModel.getRefreshToken()
+                                if commonViewViewModel.isLoginCheck {
+                                    
+                                    authViewModel.getRefreshToken()
+                                } else {
+                                    APIHeaderManger.shared.firebaseUid = ""
+                                }
                             }
                     }
                     
@@ -53,7 +63,11 @@ struct PingPongProjectApp: App {
                     else {
                         LoginView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                             .onAppear {
-                                authViewModel.getRefreshToken()
+                                if commonViewViewModel.isLoginCheck {
+                                    authViewModel.getRefreshToken()
+                                } else {
+                                    APIHeaderManger.shared.firebaseUid = ""
+                                }
                             }
                     }
                     

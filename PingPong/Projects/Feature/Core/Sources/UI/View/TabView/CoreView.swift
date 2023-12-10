@@ -84,7 +84,6 @@ public struct CoreView: View {
             }
         }
         .onAppear {
-            authViewModel.getRefreshToken()
             self.viewModel.setupCustomTabs()
         }
     }

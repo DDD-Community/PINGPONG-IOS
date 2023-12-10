@@ -18,12 +18,13 @@ let project = Project.makeAppModule(
     platform: .iOS,
     product: .app,
     packages: [ // packages를 추가하여 Amplify 라이브러리 추가
-
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0"))
     ],
     setting: .appMainSetting,
     dependencies: [
+        
 //        .package(product: "FirebaseMessaging"),
-//        .package(product: "FirebaseMessaging", type: .plugin),
+        .package(product: "FirebaseMessaging", type: .plugin),
         
         .SPM.FirebaseMessaging,
         .feature(implements: .OnBoarding)
