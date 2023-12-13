@@ -48,18 +48,22 @@ public struct HomeView: View {
             }
             .navigationBarHidden(true)
             .task {
-                await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: { model in
-                    authViewModel.userNickName = model.data?.nickname ?? ""
-                    authViewModel.userid = model.data?.id ?? .zero
-                }, failLoginCompletion: {})
-                authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+//                Task {
+//                    await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: { model in
+//                        authViewModel.userNickName = model.data?.nickname ?? ""
+//                        authViewModel.userid = String(model.data?.id ?? .zero)
+//                        print("userid \(authViewModel.userid)")
+//                    }, failLoginCompletion: {
+//                        authViewModel.userid = ""
+//                    })
+//                    authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)", failCompletion: {
+//                        authViewModel.userid = ""
+//                    })
+//                }
                 
-            }
-            
-            .onAppear {
                 if !homeViewModel.isOn.isEmpty {
-                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
+                        for quoteContent in model.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
                             self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
@@ -78,9 +82,45 @@ public struct HomeView: View {
                             
                         }
                     }
+                } else if authViewModel.userid == authViewModel.userid {
+                    viewModel.cards = []
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
+                        for quoteContent in model.data?.content ?? [] {
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
+                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
+                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                      hashtags: hashTags, image: "",
+                                                      title: quoteContent.content ?? "",
+                                                      sources: quoteContent.author ?? "",
+                                                      isBookrmark: quoteContent.likeID != nil,
+                                                      likeId: quoteContent.likeID
+                            )
+                            if !viewModel.cards.contains(card) {
+                                viewModel.cards.append(card)
+                            }
+                        }
+                    }
+                } else if authViewModel.userid == "" || authViewModel.userid == "0" || authViewModel.userid != authViewModel.userid {
+                    viewModel.cards = []
+                    homeViewModel.randomQuoteRequest(userID: "") { model in
+                        for quoteContent in model.data?.content ?? [] {
+                            let hashTags = viewModel.getHashtags(post: quoteContent)
+                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
+                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                      hashtags: hashTags, image: "",
+                                                      title: quoteContent.content ?? "",
+                                                      sources: quoteContent.author ?? "",
+                                                      isBookrmark: quoteContent.likeID != nil,
+                                                      likeId: quoteContent.likeID
+                            )
+                            if !viewModel.cards.contains(card) {
+                                viewModel.cards.append(card)
+                            }
+                        }
+                    }
                 } else {
-                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
+                        for quoteContent in model.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
                             self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
                             let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
@@ -96,13 +136,56 @@ public struct HomeView: View {
                         }
                     }
                 }
+                
+            }
+            
+            .onAppear {
+//                if !homeViewModel.isOn.isEmpty {
+//                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
+//                        for quoteContent in model.data?.content ?? [] {
+//                            let hashTags = viewModel.getHashtags(post: quoteContent)
+//                            self.homeViewModel.isOn[quoteContent.quoteID ?? .zero].toggle()
+//                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
+//                            
+//                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+//                                                      hashtags: hashTags, image: "",
+//                                                      title: quoteContent.content ?? "",
+//                                                      sources: quoteContent.author ?? "",
+//                                                      isBookrmark: quoteContent.likeID != nil,
+//                                                      likeId: quoteContent.likeID
+//                            )
+//                            if !viewModel.cards.contains(card) {
+//                                viewModel.cards.append(card)
+//                            }
+//                            
+//                            
+//                        }
+//                    }
+//                } else {
+//                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
+//                        for quoteContent in model.data?.content ?? [] {
+//                            let hashTags = viewModel.getHashtags(post: quoteContent)
+//                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
+//                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+//                                                      hashtags: hashTags, image: "",
+//                                                      title: quoteContent.content ?? "",
+//                                                      sources: quoteContent.author ?? "",
+//                                                      isBookrmark: quoteContent.likeID != nil,
+//                                                      likeId: quoteContent.likeID
+//                            )
+//                            if !viewModel.cards.contains(card) {
+//                                viewModel.cards.append(card)
+//                            }
+//                        }
+//                    }
+//                }
             }
             .onChange(of: viewModel.selectedCard.isBookrmark , perform: { newValue in
                 if viewModel.isLoginCheck {
-                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
+                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
                         // 종아요일 때
                         
-                        for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                        for quoteContent in model.data?.content ?? [] {
                             let hashTags = viewModel.getHashtags(post: quoteContent)
                             viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
                             

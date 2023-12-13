@@ -13,6 +13,7 @@ import Authorization
 import SwiftUI
 import PopupView
 
+@available(iOS 16.4, *)
 public struct ProfileView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
@@ -85,10 +86,10 @@ public struct ProfileView: View {
             
            await authViewModel.loginWithEmail(email: authViewModel.userEmail, succesCompletion: { model in
                authViewModel.userNickName = model.data?.nickname ?? ""
-               authViewModel.userid = model.data?.id ?? .zero
+               authViewModel.userid = String(model.data?.id ?? .zero)
            }, failLoginCompletion: {})
            
-            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+            authViewModel.searchUserIdRequest(uid: authViewModel.userid, failCompletion: {})
             
             await profileViewModel.profileUserPrefRequset(userid: "\(authViewModel.userid)", completion: { _ in
                 for userFlavor in profileViewModel.profileUserPrefModel?.data?.flavors ?? [] {
@@ -492,6 +493,8 @@ public struct ProfileView: View {
                 viewModel.isLogin = false
                 viewModel.isLoginCheck = false
                 authViewModel.randomAuthNickName = ""
+                authViewModel.userid = ""
+                authViewModel.userEmail = ""
             }
     }
 }

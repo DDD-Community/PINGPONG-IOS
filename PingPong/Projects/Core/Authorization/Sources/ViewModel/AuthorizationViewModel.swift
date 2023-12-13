@@ -58,7 +58,7 @@ public class AuthorizationViewModel: ObservableObject {
     var searchUserIdCancellable: AnyCancellable?
     
     var loginEmailCancellable: AnyCancellable?
-    @AppStorage("userId") public var userid: Int = .zero
+    @AppStorage("userId") public var userid: String = ""
     @Published public var userNickName: String = ""
     @Published public var userRmk: String = ""
     
@@ -69,7 +69,7 @@ public class AuthorizationViewModel: ObservableObject {
     public init() {
         self.userSession = Auth.auth().currentUser
         uid = UserDefaults.standard.string(forKey: "Uid") ?? ""
-        userid = UserDefaults.standard.integer(forKey: "userId")
+        userid = UserDefaults.standard.string(forKey: "userId") ?? ""
         userUid = UserDefaults.standard.string(forKey: "userUid") ?? ""
         randomAuthNickName = UserDefaults.standard.string(forKey: "randomNickName") ?? ""
        
@@ -273,13 +273,13 @@ public class AuthorizationViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
                     self?.signupToViewModel(model)
-                    self?.userid = model.data?.id ?? .zero
+                    self?.userid = String(model.data?.id ?? .zero)
                     self?.userUid = model.data?.uid ?? ""
                     print("회원가입 성공", model)
                     signupSuccessAction()
                 } else {
                     self?.signupToViewModel(model)
-                    self?.userid = model.data?.id ?? .zero
+                    self?.userid = String(model.data?.id ?? .zero)
                     print("회원가입 실패", model)
                     failSignUPAction()
                 }
@@ -291,7 +291,7 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     //MARK: -  uid 로 회원정보 조회
-    public func searchUserIdRequest(uid: String) {
+    public func searchUserIdRequest(uid: String, failCompletion: @escaping () -> Void) {
         if let cancellable = searchUserIdCancellable {
             cancellable.cancel()
         }
@@ -314,12 +314,11 @@ public class AuthorizationViewModel: ObservableObject {
                     print("아이디 조회 성공", model)
                     self?.userNickName = model.data?.nickname ?? ""
                     self?.userRmk = model.data?.rmk ?? ""
-                    self?.userid = model.data?.id ?? .zero
+                    self?.userid = String(model.data?.id ?? .zero)
                 } else {
                     self?.searchUserIdToViewModel(model)
-                    print("아이디 조회 성공", model)
-                    self?.userNickName = model.data?.nickname ?? ""
-                    self?.userid = model.data?.id ?? .zero
+                    print("아이디 조회 실패", model)
+                    failCompletion()
                 }
             })
     }
@@ -349,16 +348,15 @@ public class AuthorizationViewModel: ObservableObject {
             }, receiveValue: { [weak self] model in
                 if model.status == NetworkCode.success.status {
                     self?.signupToViewModel(model)
-                    self?.userid = model.data?.id ?? .zero
+                    self?.userid = String(model.data?.id ?? .zero)
                     self?.userUid = model.data?.uid ?? ""
-                    
                     print("로그인 성공", model)
                     succesCompletion(model)
                 } else {
                     self?.signupToViewModel(model)
-                    self?.userid = model.data?.id ?? .zero
+//                    self?.userid = String(model.data?.id ?? .zero)
                     print("로그인 실패", model)
-                    succesCompletion(model)
+                    failLoginCompletion()
                 }
             })
     }

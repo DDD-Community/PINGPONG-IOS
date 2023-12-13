@@ -64,7 +64,7 @@ struct WithDrawView: View {
                             profileViewModel.selectWithDrawPOPUP = false
                             viewModel.isLoginCheck = false
                             profileViewModel.randomNickName = ""
-                            authViewModel.userid = .zero
+                            authViewModel.userid = ""
                             authViewModel.userNickName = ""
                             presentationMode.wrappedValue.dismiss()
                             viewModel.isFirstUserPOPUP = false

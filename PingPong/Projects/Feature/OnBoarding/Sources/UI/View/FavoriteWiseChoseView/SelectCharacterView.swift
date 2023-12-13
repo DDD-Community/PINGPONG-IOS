@@ -81,7 +81,7 @@ public struct SelectCharacterView: View {
                 .foregroundColor(.basicGray6)
                 .onTapGesture {
                     
-                    viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "anime", "film" , "celeb"]) {
+                    viewModel.onBoardingRegisterPost(userId: Int(authViewModel.userid) ?? .zero, flavors: ["light", "salty", "spicy", "sweet" ,"nutty"], sources: ["greatman" , "book", "anime", "film" , "celeb"]) {
                         appState.failRegisterFlavorPOPUP.toggle()
                     } 
                     
@@ -147,7 +147,7 @@ public struct SelectCharacterView: View {
                         .foregroundColor(viewModel.selectedCharacter.count > 0 ? .basicWhite : .basicGray5)
                         .font(.system(size: 16))
                         .onTapGesture {
-                            viewModel.onBoardingRegisterPost(userId: authViewModel.userid, flavors: [viewModel.selectedFavoriteFlavor], sources: [viewModel.selectedFavoriteCategory], failOnBoardingRegsiterAction: {
+                            viewModel.onBoardingRegisterPost(userId: Int(authViewModel.userid) ?? .zero, flavors: [viewModel.selectedFavoriteFlavor], sources: [viewModel.selectedFavoriteCategory], failOnBoardingRegsiterAction: {
                                 appState.failRegisterFlavorPOPUP.toggle()
                             })
                             commonViewViewModel.viewPath.append(ViewState.isSelectedCharacter)

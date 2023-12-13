@@ -15,6 +15,7 @@ import Model
 import Home
 import Profile
 
+@available(iOS 16.4, *)
 public struct CoreView: View {
     @EnvironmentObject var sheetManager: SheetManager
     @StateObject var appState: AppState = AppState()

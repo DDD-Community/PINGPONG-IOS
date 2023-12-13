@@ -217,8 +217,8 @@ public struct FamousSayingDetailView: View {
             
                 .onChange(of: viewModel.selectedCard.isBookrmark , perform: { newValue in
                     if viewModel.isLoginCheck {
-                        homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") {
-                            for quoteContent in homeViewModel.homeRandomQuoteModel?.data?.content ?? [] {
+                        homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
+                            for quoteContent in model.data?.content ?? [] {
                                 let hashTags = viewModel.getHashtags(post: quoteContent)
                                 viewModel.cards.append(CardInfomation(qouteId: quoteContent.quoteID ?? .zero, hashtags: hashTags, image: "", title: quoteContent.content ?? "", sources: quoteContent.author ?? "", isBookrmark: newValue, likeId: quoteContent.likeID))
                                 

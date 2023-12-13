@@ -12,7 +12,7 @@ public extension Project {
         product: Product,
         organizationName: String = "Wonji Suh",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone]),
+        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.0", devices: [.iphone]),
         setting: Settings,
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],
@@ -244,14 +244,14 @@ public extension Project {
         
     }
     
-    public static func makeFramsWorkModule(
+    public static func makeFrameWorkModule(
         name: String,
         bundleId: String,
         platform: Platform = .iOS,
         product: Product,
         organizationName: String = "Wonji Suh",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.4", devices: [.iphone]),
+        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.0", devices: [.iphone]),
         setting: Settings,
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],

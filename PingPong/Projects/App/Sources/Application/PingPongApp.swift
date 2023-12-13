@@ -19,6 +19,7 @@ import DesignSystem
 import Model
 import API
 
+@available(iOS 16.4, *)
 @main
 struct PingPongProjectApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate

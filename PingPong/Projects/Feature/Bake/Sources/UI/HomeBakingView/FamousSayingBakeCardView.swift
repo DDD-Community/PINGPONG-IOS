@@ -61,7 +61,7 @@ struct FamousSayingBakeCardView: View {
             self.viewModel.tmpChoicedTopping = nil
         }
         .task {
-            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)", failCompletion: {})
         }
         .onDisappear {
             viewModel.tmpChoicedBread = nil

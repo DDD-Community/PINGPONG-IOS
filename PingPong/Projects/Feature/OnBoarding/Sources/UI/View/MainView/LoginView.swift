@@ -18,6 +18,7 @@ import Core
 import Model
 
 
+@available(iOS 16.4, *)
 public struct LoginView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
@@ -45,7 +46,7 @@ public struct LoginView: View {
                 switch state {
                     
                 case .isStartLogin:
-                    OnBoardingLoginView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
+                    OnBoardingLoginView(viewModel: viewModel, commonViewViewModel: commonViewViewModel, authViewModel: authViewModel)
                         .navigationBarBackButtonHidden()
                 case .isStartEnter:
                     OnBoardingView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
@@ -209,6 +210,8 @@ public struct LoginView: View {
                         .pretendardFont(family: .SemiBold, size: 16)
                 }
                 .onTapGesture {
+                    authViewModel.userid = ""
+                    authViewModel.userEmail = ""
                     commonViewViewModel.isExploreApp = true
 //                    commonViewViewModel.viewPath.append(ViewState.isLoginned)
                 }
