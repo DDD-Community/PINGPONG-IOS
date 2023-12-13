@@ -59,7 +59,7 @@ public struct LoginView: View {
                 case .isNickNameComplete:
                     LoginJobSettingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                  case .isJobSettingComplete:
-                    CompleteLoginView(viewModel: self.viewModel, commonViewViewModel: self.commonViewViewModel)
+                    CompleteLoginView(viewModel: self.viewModel, commonViewViewModel: self.commonViewViewModel, authViewModel: authViewModel)
                 case .isCompleteLogin:
                     FavoriteWiseChooseView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                 case .isStartChoiceFavorite:
@@ -70,13 +70,11 @@ public struct LoginView: View {
                     OnBoardingPushView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
 
                 case .isCompleteOnboarding:
-                    CompletOnBoardingView(viewModel: viewModel, commonViewViewModel: commonViewViewModel)
-                        .environmentObject(authViewModel)
+                    CompletOnBoardingView(viewModel: viewModel, commonViewViewModel: commonViewViewModel, authViewModel: authViewModel)
                 case .isDeniedNoti:
                     RecomandPushNotificationView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
                 case .isLoginned:
-                    CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
-                        .environmentObject(authViewModel)
+                    CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.firstUserPOPUP)
                         .environmentObject(sheetManager)
                 }
             }

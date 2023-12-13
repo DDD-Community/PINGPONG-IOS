@@ -33,8 +33,7 @@ struct PingPongProjectApp: App {
         WindowGroup {
                 ZStack {
                     if commonViewViewModel.isLoginCheck {
-                        CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
-                            .environmentObject(authViewModel)
+                        CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                             .environmentObject(sheetManager)
                             .navigationBarHidden(true)
                             .onAppear {
@@ -46,7 +45,7 @@ struct PingPongProjectApp: App {
                             }
                         
                     } else if commonViewViewModel.isExploreApp {
-                        CoreView(viewModel: commonViewViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                        CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
                             .environmentObject(authViewModel)
                             .environmentObject(sheetManager)
                             .navigationBarHidden(true)

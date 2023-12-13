@@ -156,6 +156,7 @@ public struct OnBoardingLoginView: View {
                                 authViewModel.userid = String(model.data?.id ?? .zero)
                                 authViewModel.userNickName = model.data?.nickname ?? ""
                                 commonViewViewModel.isLoginExplore = false
+                                commonViewViewModel.cards = []
                             }, failLoginCompletion:  {
                                 appState.signUPFaillPOPUP.toggle()
                                 presentationMode.wrappedValue.dismiss()

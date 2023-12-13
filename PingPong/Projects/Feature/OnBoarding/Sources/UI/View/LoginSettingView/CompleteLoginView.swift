@@ -18,12 +18,17 @@ public struct CompleteLoginView: View {
     @StateObject private var commonViewViewModel: CommonViewViewModel
     @StateObject private var viewModel: OnBoardingViewModel
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var authViewModel: AuthorizationViewModel
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     
-    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
+    public init(
+        viewModel: OnBoardingViewModel,
+        commonViewViewModel: CommonViewViewModel,
+        authViewModel: AuthorizationViewModel
+    ) {
            self._viewModel = StateObject(wrappedValue: viewModel)
            self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
        }
     
     
@@ -129,8 +134,10 @@ public struct CompleteLoginView: View {
                             //MARK: - 임시로  하드 코딩 나중에 로그인 성공하면  success action에  추가
                             //TODO: 회원가입 중간에 나가면 뷰깨지는 문제 해결
                             viewModel.completdSignUP = true
-                            authViewModel.signupPost(token: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) {
-                                
+                            authViewModel.signupPost(token: authViewModel.uid, fcm: AppManager.shared.fcmToken, email: authViewModel.userEmail, nickname: viewModel.nickname, jobCd: String(viewModel.selectJobCode)) { model in
+                                authViewModel.userid = String(model.data?.id ?? .zero)
+                                authViewModel.userEmail = model.data?.email ?? ""
+                                authViewModel.userNickName = model.data?.nickname ?? ""
                             } failSignUPAction: {
 //                                authViewModel.isSignupFail.toggle()
                             }

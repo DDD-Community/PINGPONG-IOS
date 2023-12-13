@@ -253,7 +253,7 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     //MARK: -  회원가입
-    public func signupPost(token: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping () -> Void, failSignUPAction: @escaping () -> Void) {
+    public func signupPost(token: String, fcm: String, email: String, nickname: String, jobCd: String, signupSuccessAction: @escaping (SignUPModel) -> Void, failSignUPAction: @escaping () -> Void) {
         if let cancellable = signupCancellable {
             cancellable.cancel()
         }
@@ -276,7 +276,7 @@ public class AuthorizationViewModel: ObservableObject {
                     self?.userid = String(model.data?.id ?? .zero)
                     self?.userUid = model.data?.uid ?? ""
                     print("회원가입 성공", model)
-                    signupSuccessAction()
+                    signupSuccessAction(model)
                 } else {
                     self?.signupToViewModel(model)
                     self?.userid = String(model.data?.id ?? .zero)

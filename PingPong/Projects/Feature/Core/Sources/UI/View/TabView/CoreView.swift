@@ -21,12 +21,18 @@ public struct CoreView: View {
     @StateObject var appState: AppState = AppState()
     @Environment(\.presentationMode) var presentationMode
     @Binding var isFistUserPOPUP: Bool
-    @EnvironmentObject var authViewModel: AuthorizationViewModel
+    @StateObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: CommonViewViewModel
     
     
-    public init(viewModel: CommonViewViewModel, isFistUserPOPUP: Binding<Bool>) {
+    public init(
+        viewModel: CommonViewViewModel,
+        authViewModel: AuthorizationViewModel,
+                isFistUserPOPUP: Binding<Bool>
+    ) {
+        
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
         self._isFistUserPOPUP = isFistUserPOPUP
     }
     

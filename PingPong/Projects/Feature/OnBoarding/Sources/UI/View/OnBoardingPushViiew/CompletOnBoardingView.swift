@@ -17,13 +17,18 @@ import Model
 
 public struct CompletOnBoardingView: View {
     @Environment(\.presentationMode) var  presentationMode
-    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel
     
-    public init(viewModel: OnBoardingViewModel, commonViewViewModel: CommonViewViewModel) {
+    public init(
+        viewModel: OnBoardingViewModel,
+        commonViewViewModel: CommonViewViewModel,
+        authViewModel: AuthorizationViewModel
+    ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
     }
     
     public var body: some View {

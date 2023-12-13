@@ -82,25 +82,7 @@ public struct HomeView: View {
                             
                         }
                     }
-                } else if authViewModel.userid == authViewModel.userid {
-                    viewModel.cards = []
-                    homeViewModel.randomQuoteRequest(userID: "\(authViewModel.userid)") { model in
-                        for quoteContent in model.data?.content ?? [] {
-                            let hashTags = viewModel.getHashtags(post: quoteContent)
-                            self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
-                            let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
-                                                      hashtags: hashTags, image: "",
-                                                      title: quoteContent.content ?? "",
-                                                      sources: quoteContent.author ?? "",
-                                                      isBookrmark: quoteContent.likeID != nil,
-                                                      likeId: quoteContent.likeID
-                            )
-                            if !viewModel.cards.contains(card) {
-                                viewModel.cards.append(card)
-                            }
-                        }
-                    }
-                } else if authViewModel.userid == "" || authViewModel.userid == "0" || authViewModel.userid != authViewModel.userid {
+                }  else if authViewModel.userid == "" || authViewModel.userid == "0" || authViewModel.userid != authViewModel.userid {
                     viewModel.cards = []
                     homeViewModel.randomQuoteRequest(userID: "") { model in
                         for quoteContent in model.data?.content ?? [] {
@@ -130,6 +112,7 @@ public struct HomeView: View {
                                                       isBookrmark: quoteContent.likeID != nil,
                                                       likeId: quoteContent.likeID
                             )
+                            
                             if !viewModel.cards.contains(card) {
                                 viewModel.cards.append(card)
                             }

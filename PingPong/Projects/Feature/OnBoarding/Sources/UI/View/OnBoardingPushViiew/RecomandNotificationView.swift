@@ -39,7 +39,7 @@ public struct RecomandPushNotificationView: View {
         }
         
         .navigationDestination(isPresented: $appState.completOnBoardingView) {
-            CompletOnBoardingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+            CompletOnBoardingView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel, authViewModel: authViewModel)
                 .environmentObject(authViewModel)
                 .navigationBarHidden(true)
         }
