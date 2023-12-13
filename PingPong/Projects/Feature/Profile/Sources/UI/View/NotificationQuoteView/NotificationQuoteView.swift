@@ -100,7 +100,6 @@ struct NotificationQuoteView: View {
                     
                 })
                 .presentationDetents([UIScreen.main.bounds.height.native == 667 ? .height(UIScreen.screenHeight/2 + UIScreen.screenWidth*0.2) : .height(UIScreen.screenHeight/3 + UIScreen.screenWidth*0.2)])
-                .presentationCornerRadius(20)
         }
         
     }

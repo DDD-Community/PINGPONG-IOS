@@ -17,7 +17,7 @@ import Model
 
 public struct OnBoardingLoginView: View {
     @StateObject var appState: OnBoardingAppState = OnBoardingAppState()
-    @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
+    @StateObject var authViewModel: AuthorizationViewModel
     @ObservedObject var viewModel: OnBoardingViewModel
     @StateObject var commonViewViewModel: CommonViewViewModel
     @StateObject var sheetManager: SheetManager  = SheetManager()
@@ -26,10 +26,12 @@ public struct OnBoardingLoginView: View {
     
     public init(
         viewModel: OnBoardingViewModel,
-        commonViewViewModel: CommonViewViewModel
+        commonViewViewModel: CommonViewViewModel,
+        authViewModel: AuthorizationViewModel
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
         self._commonViewViewModel = StateObject(wrappedValue: commonViewViewModel)
+        self._authViewModel = StateObject(wrappedValue: authViewModel)
     }
     
     public var body: some View {
@@ -151,7 +153,7 @@ public struct OnBoardingLoginView: View {
                             succesCompletion: { model in
                                 commonViewViewModel.isLogin = true
                                 commonViewViewModel.isLoginCheck = true
-                                authViewModel.userid = model.data?.id ?? .zero
+                                authViewModel.userid = String(model.data?.id ?? .zero)
                                 authViewModel.userNickName = model.data?.nickname ?? ""
                                 commonViewViewModel.isLoginExplore = false
                             }, failLoginCompletion:  {

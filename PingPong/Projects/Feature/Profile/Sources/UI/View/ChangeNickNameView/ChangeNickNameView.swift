@@ -43,6 +43,7 @@ struct ChangeNickNameView: View {
             changeNickNameButton()
             
         }
+        .cornerRadius(20)
         
         
 
@@ -115,7 +116,7 @@ struct ChangeNickNameView: View {
                     await viewModel.changeNickName(
                         userID: "\(authViewModel.userid)",
                         nickName: viewModel.changeNickName) {
-                            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+                            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)", failCompletion: {})
                     }
                 }
                 closeSheet()

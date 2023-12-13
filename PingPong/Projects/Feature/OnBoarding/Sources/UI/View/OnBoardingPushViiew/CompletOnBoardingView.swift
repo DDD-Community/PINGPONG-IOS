@@ -39,7 +39,7 @@ public struct CompletOnBoardingView: View {
         .navigationBarBackButtonHidden()
         
         .task {
-            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)")
+            authViewModel.searchUserIdRequest(uid: "\(authViewModel.userid)", failCompletion: {})
             await authViewModel.randomNameRequest(commCdTpCd: .userDesc, completion: {_ in })
         }
     }

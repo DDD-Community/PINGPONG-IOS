@@ -11,7 +11,7 @@ import MyPlugin
 
 
 let localHelper = LocalHelper(name: "MyPlugin")
-let project = Project.makeFramsWorkModule(
+let project = Project.makeFrameWorkModule(
     name: "OnBoarding",
     bundleId: .appBundleID(name: ".OnBoarding"),
     product: .staticFramework,
