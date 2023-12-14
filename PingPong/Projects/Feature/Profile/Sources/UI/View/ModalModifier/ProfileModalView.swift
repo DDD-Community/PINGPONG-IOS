@@ -27,14 +27,16 @@ public struct ProfileModalView: View {
     
     
     let didClose: () -> Void
+    var cardChange: () -> Void
     
     let height:CGFloat = UIScreen.screenHeight == 667 ? UIScreen.screenHeight * 0.8 : UIScreen.screenHeight * 0.7
     
-    public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, defaultYoffset: CGFloat, didClose: @escaping () -> Void) {
+    public init(viewModel: CommonViewViewModel, config: SheetManager.Config, isPopup: Bool, defaultYoffset: CGFloat, didClose: @escaping () -> Void, cardChange: @escaping () -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.config = config
         self.isPopup = isPopup
         self.didClose = didClose
+        self.cardChange = cardChange
         self.defaultYoffset = defaultYoffset
     }
     
@@ -231,6 +233,7 @@ private extension ProfileModalView {
                 
                 Task {
                     await profileViewModel.profileUserPrefEditPUT(userPrefId: profileViewModel.userPrefId, flavors: flavorStringArray, sources: sourceStringArray) {
+                        cardChange()
                     }
                 }
                 

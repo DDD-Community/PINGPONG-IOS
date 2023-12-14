@@ -23,7 +23,7 @@ public struct CoreView: View {
     @Binding var isFistUserPOPUP: Bool
     @StateObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: CommonViewViewModel
-    
+    @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
     
     public init(
         viewModel: CommonViewViewModel,
@@ -107,7 +107,29 @@ public struct CoreView: View {
                         backAction: {
                             appState.isGoToProfileView = false
                         },
-                        authViewModel: authViewModel)
+                        authViewModel: authViewModel, cardChange: {
+                            viewModel.cards = []
+                            
+                            DispatchQueue.main.async {
+                                homeViewModel.randomQuoteRequest(userID: authViewModel.userid ) {  model in
+                                    for quoteContent in model.data?.content ?? [] {
+                                        let hashTags = viewModel.getHashtags(post: quoteContent)
+                                        self.homeViewModel.selecteLikeYn = quoteContent.likeID != nil
+                                        let card = CardInfomation(qouteId: quoteContent.quoteID ?? .zero,
+                                                                  hashtags: hashTags, image: "",
+                                                                  title: quoteContent.content ?? "",
+                                                                  sources: quoteContent.author ?? "",
+                                                                  isBookrmark: quoteContent.likeID != nil,
+                                                                  likeId: quoteContent.likeID
+                                        )
+                                        if !viewModel.cards.contains(card) {
+                                            viewModel.cards.append(card)
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        })
                     .environmentObject(sheetManager)
                 }
             }

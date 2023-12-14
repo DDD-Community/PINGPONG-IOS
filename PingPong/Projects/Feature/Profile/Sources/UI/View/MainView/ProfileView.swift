@@ -24,18 +24,21 @@ public struct ProfileView: View {
     @EnvironmentObject var sheetManager: SheetManager
     
     var backAction: () -> Void
+    var cardChange: () -> Void
     
     public init(
         viewModel: CommonViewViewModel,
         appState: AppState,
         backAction: @escaping () -> Void,
-        authViewModel: AuthorizationViewModel
+        authViewModel: AuthorizationViewModel,
+        cardChange: @escaping() -> Void
         
     ) {
         self._appState = StateObject(wrappedValue: appState)
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.backAction = backAction
         self._authViewModel = StateObject(wrappedValue: authViewModel)
+        self.cardChange = cardChange
     }
     
     
@@ -66,7 +69,7 @@ public struct ProfileView: View {
             Rectangle()
                 .foregroundColor(sheetManager.isPopup ? Color.basicBlackDimmed : .clear)
         }
-        .profileModal(with: sheetManager, viewModel: viewModel)
+        .profileModal(with: sheetManager, viewModel: viewModel, cardChange: cardChange)
         .ignoresSafeArea()
         .navigationBarBackButtonHidden()
         

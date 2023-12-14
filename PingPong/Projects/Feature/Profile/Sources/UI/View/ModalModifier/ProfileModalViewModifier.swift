@@ -17,14 +17,16 @@ struct ProfileModalViewModifier: ViewModifier {
     @ObservedObject var sheetManager: SheetManager
     
     var backAction: () -> Void
+    var cardChange: () -> Void
     
     // 커스텀 모달 y offset
     let defaultYoffset: CGFloat = 30
     
-    public init(viewModel: CommonViewViewModel, sheetManager: SheetManager) {
+    public init(viewModel: CommonViewViewModel, sheetManager: SheetManager, cardChange: @escaping() -> Void) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._sheetManager = ObservedObject(wrappedValue: sheetManager)
         self.backAction = sheetManager.dismiss
+        self.cardChange = cardChange
     }
     
     func body(content: Content) -> some View {
@@ -37,9 +39,14 @@ struct ProfileModalViewModifier: ViewModifier {
                               defaultYoffset: defaultYoffset)
                     {
                         withAnimation(.spring()) {
+//                            viewModel.cards = []
                             sheetManager.dismiss()
                             viewModel.offsetY = defaultYoffset
                             sheetManager.isPopup = false
+                        }
+                    } cardChange: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                            cardChange()
                         }
                     }
                 }
@@ -48,7 +55,7 @@ struct ProfileModalViewModifier: ViewModifier {
 }
 
 extension View {
-   public func profileModal(with sheetManager: SheetManager, viewModel: CommonViewViewModel) -> some View {
-        self.modifier(ProfileModalViewModifier(viewModel: viewModel, sheetManager: sheetManager))
+    public func profileModal(with sheetManager: SheetManager, viewModel: CommonViewViewModel, cardChange: @escaping() -> Void) -> some View {
+       self.modifier(ProfileModalViewModifier(viewModel: viewModel, sheetManager: sheetManager, cardChange: cardChange))
     }
 }
