@@ -15,7 +15,7 @@ import PopupView
 
 
 struct WithDrawView: View {
-    @StateObject private var profileViewModel: ProfileViewViewModel
+    @StateObject private var profileViewModel: ProfileViewModel
     @StateObject var viewModel: CommonViewViewModel
     @StateObject var authViewModel: AuthorizationViewModel
     @Environment(\.presentationMode) var presentationMode
@@ -23,7 +23,7 @@ struct WithDrawView: View {
     public init(
         authViewModel: AuthorizationViewModel,
         viewModel: CommonViewViewModel,
-        profileViewModel: ProfileViewViewModel
+        profileViewModel: ProfileViewModel
     ) {
         self._authViewModel = StateObject(wrappedValue: authViewModel)
         self._viewModel = StateObject(wrappedValue: viewModel)

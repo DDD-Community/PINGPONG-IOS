@@ -16,7 +16,7 @@ import API
 public struct OtherSettingView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
-    @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
+    @StateObject private var profileViewModel: ProfileViewModel = ProfileViewModel()
     @StateObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode

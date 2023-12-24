@@ -21,7 +21,7 @@ public struct ProfileModalView: View {
     let hashtagsTitleArray: [String] = ["유형", "성향"]
     
     @StateObject var authViewModel: AuthorizationViewModel = AuthorizationViewModel()
-    let profileViewModel = ProfileViewViewModel()
+    let profileViewModel = ProfileViewModel()
     @StateObject private var viewModel: CommonViewViewModel
     @StateObject var exploreViewViewModel: ExploreViewModel = ExploreViewModel()
     

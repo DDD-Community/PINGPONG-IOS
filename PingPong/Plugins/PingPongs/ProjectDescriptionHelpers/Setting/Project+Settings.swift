@@ -67,7 +67,9 @@ extension Settings {
                 "MARKETING_VERSION": .string(.appVersion()),
                 "CURRENT_PROJECT_VERSION": .string(.appBuildVersion()),
                 "CODE_SIGN_STYLE": "Automatic",
-                "DEVELOPMENT_TEAM": "N94CS4N6VR", "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],configurations: [
+                "DEVELOPMENT_TEAM": "N94CS4N6VR", 
+               "DEBUG_INFORMATION_FORMAT": "DWARF with dSYM File"],
+        configurations: [
                 .debug(name: .debug, settings: [
                     "PRODUCT_NAME": "PingPong",
                     "OTHER_LDFLAGS": [

@@ -10,16 +10,30 @@ import SwiftUI
 import Common
 import DesignSystem
 import Authorization
+import Model
 
 struct NotificationQuoteView: View {
-    @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
+    @StateObject private var profileViewModel: ProfileViewModel
+    @StateObject var viewModel: CommonViewViewModel = CommonViewViewModel()
     @StateObject var authViewModel: AuthorizationViewModel
+    var notificationBodyContent: String
+    var notificationTitleContent: String
+    var notificationChange: () -> Void
     @Environment(\.presentationMode) var presentationMode
     
     public init(
-        authViewModel: AuthorizationViewModel
+        profileViewModel: ProfileViewModel,
+        authViewModel: AuthorizationViewModel,
+        notificationBodyContent: String,
+        notificationTitleContent: String,
+        notificationChange: @escaping () -> Void
     ) {
+        self._profileViewModel = StateObject(wrappedValue: profileViewModel)
         self._authViewModel = StateObject(wrappedValue: authViewModel)
+        self.notificationBodyContent = notificationBodyContent
+        self.notificationTitleContent = notificationTitleContent
+        self.notificationChange = notificationChange
+        
     }
     
     var body: some View {
@@ -71,8 +85,9 @@ struct NotificationQuoteView: View {
                             if granted {
                                 DispatchQueue.main.async {
                                     let content = UNMutableNotificationContent()
-                                    content.title = "명언"
-                                    content.body = "오늘의 새로운 명언을 확인 해주세요!"
+                                    notificationChange()
+                                    content.title = "\(notificationTitleContent)"
+                                    content.body = "\(notificationBodyContent)"
 
                                     // Extracting hour and minute from selectedTime
                                     let calendar = Calendar.current
@@ -251,9 +266,10 @@ struct NotificationQuoteView: View {
                                         completionHandler: { granted, _ in
                                             if granted {
                                                 DispatchQueue.main.async {
+                                                    notificationChange()
                                                     let content = UNMutableNotificationContent()
-                                                    content.title = "명언"
-                                                    content.body = "오늘의 새로운 명언을 확인 해주세요!"
+                                                    content.title = "\(notificationTitleContent)"
+                                                    content.body = "\(notificationBodyContent)"
 
                                                     // Extracting hour and minute from selectedTime
                                                     let calendar = Calendar.current

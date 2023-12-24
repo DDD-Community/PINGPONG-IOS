@@ -23,6 +23,8 @@ public class CommonViewViewModel: ObservableObject {
         
     }
     @AppStorage("isFirstUserPOPUP") public var isFirstUserPOPUP: Bool = true
+    @Published public var randomQuoteBodyNotification: String = ""
+    @Published public var randomQuoteTitleNotification: String = ""
     
     @Published public var isLoginCheck: Bool = false {
         didSet {

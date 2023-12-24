@@ -1,9 +1,6 @@
 import ProjectDescription
 import Foundation
 
-
-
-
 public extension Project {
     public static func makeAppModule(
         name: String,
@@ -53,7 +50,6 @@ public extension Project {
             dependencies: dependencies
             
         )
-        
         
         let testTarget = Target(
             name: "\(name)Tests",

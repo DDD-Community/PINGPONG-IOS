@@ -14,7 +14,7 @@ import SwiftUI
 import PopupView
 
 struct ChangeNickNameView: View {
-    @ObservedObject private var viewModel: ProfileViewViewModel
+    @ObservedObject private var viewModel: ProfileViewModel
     @ObservedObject private var authViewModel: AuthorizationViewModel
     
     var closeSheet: () -> Void
@@ -22,7 +22,7 @@ struct ChangeNickNameView: View {
     
     
     init(
-        viewModel: ProfileViewViewModel,
+        viewModel: ProfileViewModel,
         authViewModel: AuthorizationViewModel,
         closeSheet: @escaping () -> Void
     ) {

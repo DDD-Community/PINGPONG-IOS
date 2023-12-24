@@ -12,12 +12,12 @@ import DesignSystem
 
 
 struct SelectTimeSheetView: View {
-    @ObservedObject private var viewModel: ProfileViewViewModel
+    @ObservedObject private var viewModel: ProfileViewModel
     
     var closeSheetAction: () -> Void
     
     public init(
-        viewModel: ProfileViewViewModel,
+        viewModel: ProfileViewModel,
         closeSheetAction: @escaping () -> Void
         
     ) {

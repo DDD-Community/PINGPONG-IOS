@@ -17,7 +17,7 @@ import PopupView
 public struct ProfileView: View {
     @StateObject private var appState: AppState
     @StateObject private var viewModel: CommonViewViewModel
-    @StateObject private var profileViewModel: ProfileViewViewModel = ProfileViewViewModel()
+    @StateObject private var profileViewModel: ProfileViewModel = ProfileViewModel()
     @StateObject var authViewModel: AuthorizationViewModel
     
     @Environment(\.presentationMode) var presentationMode
@@ -25,13 +25,19 @@ public struct ProfileView: View {
     
     var backAction: () -> Void
     var cardChange: () -> Void
+    var notificationChange: () -> Void
+    var notificationBodyContent: String
+    var notificationTitleContent: String
     
     public init(
         viewModel: CommonViewViewModel,
         appState: AppState,
         backAction: @escaping () -> Void,
         authViewModel: AuthorizationViewModel,
-        cardChange: @escaping() -> Void
+        cardChange: @escaping() -> Void,
+        notificationBodyContent: String,
+        notificationTitleContent: String,
+        notificationChange: @escaping() -> Void
         
     ) {
         self._appState = StateObject(wrappedValue: appState)
@@ -39,6 +45,9 @@ public struct ProfileView: View {
         self.backAction = backAction
         self._authViewModel = StateObject(wrappedValue: authViewModel)
         self.cardChange = cardChange
+        self.notificationBodyContent = notificationBodyContent
+        self.notificationTitleContent = notificationTitleContent
+        self.notificationChange = notificationChange
     }
     
     
@@ -116,7 +125,13 @@ public struct ProfileView: View {
         }
         
         .navigationDestination(isPresented: $profileViewModel.gotoNotificationQuoteView) {
-            NotificationQuoteView(authViewModel: authViewModel)
+            NotificationQuoteView(
+                profileViewModel: profileViewModel, 
+                authViewModel: authViewModel,
+                notificationBodyContent: notificationBodyContent,
+                notificationTitleContent: notificationTitleContent,
+                notificationChange: notificationChange
+            )
                 .navigationBarBackButtonHidden()
         }
         

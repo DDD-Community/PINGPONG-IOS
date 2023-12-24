@@ -16,7 +16,7 @@ import Moya
 import API
 import DesignSystem
 
-public class ProfileViewViewModel: ObservableObject {
+public class ProfileViewModel: ObservableObject {
      let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
     @Published var loadingWebView: Bool = false

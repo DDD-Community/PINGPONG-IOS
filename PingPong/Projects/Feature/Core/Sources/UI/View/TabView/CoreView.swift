@@ -24,11 +24,12 @@ public struct CoreView: View {
     @StateObject var authViewModel: AuthorizationViewModel
     @StateObject var viewModel: CommonViewViewModel
     @StateObject var homeViewModel: HomeViewViewModel = HomeViewViewModel()
+    @StateObject var profileViewModel: ProfileViewModel = ProfileViewModel()
     
     public init(
         viewModel: CommonViewViewModel,
         authViewModel: AuthorizationViewModel,
-                isFistUserPOPUP: Binding<Bool>
+        isFistUserPOPUP: Binding<Bool>
     ) {
         
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -54,7 +55,7 @@ public struct CoreView: View {
                         .ignoresSafeArea(.keyboard)
                 }
                 .modal(with: sheetManager, viewModel: viewModel)
-           
+                
                 .popup(isPresented: $viewModel.isFirstUserPOPUP) {
                     CustomPOPUP(
                         image: .empty,
@@ -62,7 +63,7 @@ public struct CoreView: View {
                         title1: "명언을 확인해보세요",
                         subTitle: "", useGif: true, confirmAction: {
                             isFistUserPOPUP = false
-//                            viewModel.isFirstUserPOPUP = true
+                            //                            viewModel.isFirstUserPOPUP = true
                         })
                 } customize: { popup in
                     popup
@@ -129,7 +130,17 @@ public struct CoreView: View {
                                 }
                             }
                             
-                        })
+                        }, notificationBodyContent: self.viewModel.randomQuoteBodyNotification, notificationTitleContent: self.viewModel.randomQuoteTitleNotification,
+                        notificationChange: {
+                            homeViewModel.randomQuoteRequest(userID: authViewModel.userid ) { model in
+                                let randomQuote = model.data?.content.randomElement()
+                                self.viewModel.randomQuoteBodyNotification = randomQuote?.content ?? ""
+                                self.viewModel.randomQuoteTitleNotification = randomQuote?.author ?? ""
+                                print("핸덤 컨테츠, \(randomQuote?.content), \(viewModel.randomQuoteBodyNotification)")
+                                
+                            }
+                        }
+                    )
                     .environmentObject(sheetManager)
                 }
             }
