@@ -37,6 +37,7 @@ public struct ChoiceBreadView: View {
                 selectCatetoryContentView()
                 
                 Spacer()
+                
                 confirmButtonView()
                     .padding(.bottom, 30)
                 

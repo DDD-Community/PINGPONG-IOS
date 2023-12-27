@@ -185,7 +185,10 @@ public class CommonViewViewModel: ObservableObject {
         self.homeBaseModel = list
     }
     
-    public func quoteLikeRequest(userID: String, quoteId: Int, completion: @escaping () -> Void ) async {
+    public func quoteLikeRequest(
+        userID: String,
+        quoteId: Int,
+        completion: @escaping () -> Void) async {
         if let cancellable = homeLikeCancellable {
             cancellable.cancel()
         }
