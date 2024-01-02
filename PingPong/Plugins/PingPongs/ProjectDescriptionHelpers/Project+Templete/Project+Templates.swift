@@ -340,12 +340,12 @@ extension Scheme {
 
 extension String {
   public static func appVersion() -> String {
-      let version: String = "1.0.2"
+      let version: String = "1.0.3"
       return version
   }
 
   public static func appBuildVersion() -> String {
-      let buildVersion: String = "24"
+      let buildVersion: String = "25"
       return buildVersion
   }
     

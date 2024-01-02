@@ -61,10 +61,10 @@
 	<dict>
 		<key>Application requires iPhone environment</key>
 		<true/>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<true/>
 		<key>UISceneConfigurations</key>
 		<dict/>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<true/>
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
