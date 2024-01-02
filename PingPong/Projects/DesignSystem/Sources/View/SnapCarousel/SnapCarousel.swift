@@ -53,7 +53,9 @@ public struct SnapCarousel<Content: View, T: Identifiable> : View{
                     })
                     .onEnded({value in
                         let offsetX = value.translation.width
-                        let progress = -offsetX / width
+                        
+                        //MARK: - 가중치
+                        let progress = (-offsetX / width) * 1.2
                         let roundIndex = progress.rounded()
                         currentIndex = max(min(currentIndex + Int(roundIndex),list.count - 1 ), 0 )
                         currentIndex = index
