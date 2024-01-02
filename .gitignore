@@ -48,16 +48,11 @@ xcuserdata/
 *.swp
 *.json
 *.p12
-*.certSigningRequest
 *.DS_Store
 *.pbxproj
 *.resolved
 *.DS_Store/
-*.Signing/
 *.key
-*.encrypted
-*.mobileprovision
-*.pingpong.co.mobileprovision
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
