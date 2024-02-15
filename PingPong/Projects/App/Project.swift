@@ -34,7 +34,7 @@ let project = Project.makeAppModule(
 
         
     ],
-    sources: ["Sources/**", "Resources/**", "Resources/Font/**"],
+    sources: ["Sources/**", "Resources/**", "Resources/FontAsset/**"],
     resources: ["Resources/**", "Sources/**"],
     infoPlist: .file(path: "Support/Info.plist"),
     entitlements: .file(path: "Entitlements/PingPong.entitlements")

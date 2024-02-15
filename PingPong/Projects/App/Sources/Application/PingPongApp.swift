@@ -31,55 +31,55 @@ struct PingPongProjectApp: App {
     @StateObject var sheetManager = SheetManager()
     var body: some Scene {
         WindowGroup {
-                ZStack {
-                    if commonViewViewModel.isLoginCheck {
-                        CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
-                            .environmentObject(sheetManager)
-                            .navigationBarHidden(true)
-                            .onAppear {
-                                if commonViewViewModel.isLoginCheck {
-                                    authViewModel.getRefreshToken()
-                                } else {
-                                    APIHeaderManger.shared.firebaseUid = ""
-                                }
+            ZStack {
+                if commonViewViewModel.isLoginCheck {
+                    CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                        .environmentObject(sheetManager)
+                        .navigationBarHidden(true)
+                        .onAppear {
+                            if commonViewViewModel.isLoginCheck {
+                                authViewModel.getRefreshToken()
+                            } else {
+                                APIHeaderManger.shared.firebaseUid = ""
                             }
-                        
-                    } else if commonViewViewModel.isExploreApp {
-                        CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
-                            .environmentObject(authViewModel)
-                            .environmentObject(sheetManager)
-                            .navigationBarHidden(true)
-                            .onAppear {
-                                if commonViewViewModel.isLoginCheck {
-                                    
-                                    authViewModel.getRefreshToken()
-                                } else {
-                                    APIHeaderManger.shared.firebaseUid = ""
-                                }
-                            }
-                    }
-                    
-                    
-                    else {
-                        LoginView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
-                            .onAppear {
-                                if commonViewViewModel.isLoginCheck {
-                                    authViewModel.getRefreshToken()
-                                } else {
-                                    APIHeaderManger.shared.firebaseUid = ""
-                                }
-                            }
-                    }
-                    
-                    ZStack {
-                        if showlanch {
-                            LaunchView(showLanchView: $showlanch)
                         }
+                    
+                } else if commonViewViewModel.isExploreApp {
+                    CoreView(viewModel: commonViewViewModel, authViewModel: authViewModel, isFistUserPOPUP: $commonViewViewModel.isFirstUserPOPUP)
+                        .environmentObject(authViewModel)
+                        .environmentObject(sheetManager)
+                        .navigationBarHidden(true)
+                        .onAppear {
+                            if commonViewViewModel.isLoginCheck {
+                                
+                                authViewModel.getRefreshToken()
+                            } else {
+                                APIHeaderManger.shared.firebaseUid = ""
+                            }
+                        }
+                }
+                
+                
+                else {
+                    LoginView(viewModel: self.viewModel, commonViewViewModel: commonViewViewModel)
+                        .onAppear {
+                            if commonViewViewModel.isLoginCheck {
+                                authViewModel.getRefreshToken()
+                            } else {
+                                APIHeaderManger.shared.firebaseUid = ""
+                            }
+                        }
+                }
+                
+                ZStack {
+                    if showlanch {
+                        LaunchView(showLanchView: $showlanch)
                     }
                 }
-                .onAppear {
-                    commonViewViewModel.setupCustomTabs()
-                }
+            }
+            .onAppear {
+                commonViewViewModel.setupCustomTabs()
+            }
         }
         
     }
